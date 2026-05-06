@@ -13,6 +13,7 @@ import ThreeMomentsPage from './tools/ThreeMoments.jsx';
 import ReadinessPage from './tools/Readiness.jsx';
 import VisionPage from './tools/Vision.jsx';
 import LCPPage from './tools/LCP.jsx';
+import PreMortemPage from './tools/PreMortem.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
 
 // ============================================================================
@@ -41,6 +42,7 @@ export default function App() {
           <Route path={PATHS.lcp} element={<LCPPage />} />
           <Route path={PATHS.readiness} element={<ReadinessPage />} />
           <Route path={PATHS.vision} element={<VisionPage />} />
+          <Route path={PATHS.preMortem} element={<PreMortemPage />} />
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
           {/* Fallback: any unknown path → home */}
