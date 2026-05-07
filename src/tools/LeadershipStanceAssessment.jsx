@@ -2730,19 +2730,18 @@ export default function LeadershipStanceAssessmentPage() {
     // inline onclick handlers in the HTML will call.
     if (!_lsaInitialized) {
       try {
-        // Run in global scope so all the functions become window-scoped.
-        // eslint-disable-next-line no-new-func
-        (new Function(LSA_SCRIPT))();
+        // Inject as a real <script> tag so function declarations become
+        // window-scoped. (new Function() would scope them locally and the
+        // inline onclick handlers in the HTML wouldn't find them.)
+        const scriptEl = document.createElement('script');
+        scriptEl.id = 'lsa-runtime-script';
+        scriptEl.textContent = LSA_SCRIPT;
+        document.head.appendChild(scriptEl);
         _lsaInitialized = true;
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('LSA script init error:', err);
       }
-    } else {
-      // On a re-mount of this component, the script is already on window.
-      // We need to re-run any startup logic. The original script's startup
-      // is mostly DOM event wiring (none) — startAssessment() is triggered
-      // by user click. So nothing to re-run.
     }
 
     // Inject a back link at the top of pg-intro
