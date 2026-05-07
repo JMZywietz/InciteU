@@ -583,6 +583,88 @@ export default function FiveLayersDeepPage() {
               leadership is holding all five.
             </p>
           </div>
+
+          {/* How these archetypes map to the model */}
+          <h3 className="fld-reveal" style={{ fontFamily: 'var(--fld-fdisplay)', fontSize: 20, fontWeight: 700, marginTop: 36, marginBottom: 16 }}>How these archetypes map to the model</h3>
+
+          <div className="fld-reveal fld-d1" style={{ maxWidth: 580, margin: '0 auto' }}>
+            {/* Column archetype bubbles for Hedonist (Seek) and Warrior (Protect) */}
+            <div style={{ display: 'flex', marginBottom: 8 }}>
+              <div style={{ width: 70 }}></div>
+              <div style={{ width: 130 }}></div>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '6px 14px', borderRadius: 20, background: 'rgba(212,168,84,0.1)', border: '1.5px solid rgba(212,168,84,0.3)' }}>
+                  <span style={{ fontSize: 14 }}>☀</span>
+                  <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--fld-seek)' }}>Hedonist</span>
+                </div>
+              </div>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '6px 14px', borderRadius: 20, background: 'rgba(168,84,84,0.1)', border: '1.5px solid rgba(168,84,84,0.3)' }}>
+                  <span style={{ fontSize: 14 }}>⚔</span>
+                  <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--fld-protect)' }}>Warrior</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mapping table: row archetype bubbles + Layer + Seek + Protect */}
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={{ width: 70, borderBottom: '2px solid transparent' }}></th>
+                  <th style={{ width: 130, padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid #a89d8f', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-text2)' }}>Layer</th>
+                  <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid var(--fld-seek)', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-seek)', background: 'rgba(212,168,84,0.1)' }}>Seek</th>
+                  <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid var(--fld-protect)', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-protect)', background: 'rgba(168,84,84,0.1)' }}>Protect</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ padding: '12px 4px', verticalAlign: 'middle', textAlign: 'center' }}></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-present)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🦠 The Present</span></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Pleasure</td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Withdraw / escape</td>
+                </tr>
+                <tr>
+                  <td style={{ padding: '12px 4px', verticalAlign: 'middle', textAlign: 'center' }}></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-past)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🐟 The Past</span></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Anticipation</td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Fight / flight / freeze</td>
+                </tr>
+                <tr>
+                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(139,94,94,0.1)', border: '1.5px solid rgba(139,94,94,0.3)' }}>
+                      <span style={{ fontSize: 13 }}>♡</span>
+                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-others)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Lover</span>
+                    </div>
+                  </td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-others)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🐭 Others</span></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Love</td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Defend group over self</td>
+                </tr>
+                <tr>
+                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(91,107,139,0.1)', border: '1.5px solid rgba(91,107,139,0.3)' }}>
+                      <span style={{ fontSize: 13 }}>◈</span>
+                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-future)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Strategist</span>
+                    </div>
+                  </td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-future)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🦍 The Future</span></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Hope</td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Defend the future</td>
+                </tr>
+                <tr>
+                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(107,91,139,0.1)', border: '1.5px solid rgba(107,91,139,0.3)' }}>
+                      <span style={{ fontSize: 13 }}>✧</span>
+                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-enduring)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Visionary</span>
+                    </div>
+                  </td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-enduring)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🧑 The Enduring</span></td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Devotion</td>
+                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Die for / save what I believe in</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
