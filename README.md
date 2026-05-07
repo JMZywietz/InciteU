@@ -19,3 +19,5 @@ This repo houses the source code for each tool, organized for independent versio
 ---
 
 *Maintained by Jen Zywietz.*
+
+_Repo is public; site auto-deploys from `main` to Vercel._
