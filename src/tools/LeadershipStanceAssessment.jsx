@@ -2208,7 +2208,7 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
       }).join('')}
     </div>
     <div class="arch-deep-panel" id="arch-deep-panel" aria-live="polite"></div>
-  </div>\`}
+  </div>\` : ''}
 
   <div class="r-actions fade-up">
     <button class="btn btn-dark" onclick="copyShare()">Copy shareable link</button>
