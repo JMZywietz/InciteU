@@ -778,7 +778,7 @@ export default function LeadershipStanceAssessmentPage() {
           <span className={`lsa-section-pill lsa-${currentScenario.section}`}>{sectionLabel}</span>
 
           <h2 className="lsa-prompt">{currentScenario.text}</h2>
-          <p className="lsa-prompt-instructions">Click the response that feels <em>most</em> like you first. Then your second-most. Then third. (Top three only.)</p>
+          <p className="lsa-prompt-instructions">You can choose up to three. Click the response that feels <em>most</em> like you first, then your second-most, then your third.</p>
 
           <div className="lsa-options">
             {shuffled.map((opt) => {
