@@ -205,12 +205,15 @@ export default function FiveLayersDeepPage() {
             <span className="fld-creature-label">3.5 billion years ago</span>
           </div>
           <div className="fld-layer-header fld-reveal fld-d1">
+            <span className="fld-arch-badge" style={{ background: 'rgba(139,115,85,0.1)', color: 'var(--fld-present)' }}>
+              <span>⦿</span> Egoist
+            </span>
             <div className="fld-layer-name" style={{ color: 'var(--fld-present)' }}>Amoeba: The Present</div>
             <div className="fld-layer-sub">what's here now</div>
           </div>
           <p className="fld-text fld-reveal fld-d2">
-            The first living things were single-celled organisms, like amoebas. These single-celled
-            creatures had only three core abilities: they could <strong>sense</strong>,
+            It begins with <strong>sensation</strong>. The first living things were single-celled
+            organisms — like amoebas — with just three core abilities: they could <strong>sense</strong>,
             <strong> seek</strong>, and <strong>avoid</strong>. These three abilities evolved as
             organisms evolved.
           </p>
@@ -231,7 +234,7 @@ export default function FiveLayersDeepPage() {
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
               <div className="fld-drive-label">Seek</div>
-              <div className="fld-drive-value">Pleasure</div>
+              <div className="fld-drive-value">Pleasure (food)</div>
               <div className="fld-drive-desc">Move toward nutrient, warmth</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
@@ -257,14 +260,18 @@ export default function FiveLayersDeepPage() {
             <span className="fld-creature-label">500 million years ago — memory arrives</span>
           </div>
           <div className="fld-layer-header fld-reveal fld-d1">
+            <span className="fld-arch-badge" style={{ background: 'rgba(91,123,111,0.1)', color: 'var(--fld-past)' }}>
+              <span>⊠</span> Veteran
+            </span>
             <div className="fld-layer-name" style={{ color: 'var(--fld-past)' }}>Fish: The Past</div>
             <div className="fld-layer-sub">what happened before</div>
           </div>
           <p className="fld-text fld-reveal fld-d2">
-            When fish evolved, something new happened: we developed a hippocampus, which brought us
-            <strong> memory</strong>. Now, the organism doesn't just react to what is here in the present —
-            it remembers what happened in the past. It remembers when a predator struck, where the best
-            food was. And with this memory comes a new form of pain: <strong>fear</strong>.
+            The next major development was <strong>memory</strong>. We see this come online in fish,
+            who — unlike worms — have developed a hippocampus. Now the organism doesn't just react to
+            what is here in the present; it remembers what happened in the past. It remembers when a
+            predator struck, where the best food was. And with memory comes a new form of pain:
+            <strong>fear</strong> — pain remembered, pain anticipated.
           </p>
           <div className="fld-info-box fld-reveal fld-d2">
             <div className="fld-info-label">Information organism can sense</div>
@@ -307,11 +314,13 @@ export default function FiveLayersDeepPage() {
             <div className="fld-layer-sub">what others feel, think, do</div>
           </div>
           <p className="fld-text fld-reveal fld-d2">
-            The mammalian revolution. Oxytocin. Mirror neurons. Ventral vagal circuits.
-            For the first time, an organism's nervous system is coupled to other nervous systems.
-            A rat will work to free a trapped companion even when food is available nearby. That's not
-            redirected seeking — that's a genuinely new capacity. And with it comes a new pain:
-            <strong> fear for others</strong>. You can now suffer for someone else's suffering.
+            The next revolution came in the form of <strong>empathy</strong>, and our ability to
+            sense other's nervous systems. You begin to see this clearly in mammalian physiology:
+            Oxytocin. Mirror neurons. Ventral vagal circuits. For the first time, an organism's
+            nervous system is coupled to other nervous systems. A rat will work to free a trapped
+            companion even when food is available nearby. That's not redirected seeking — that's
+            a genuinely new capacity. And with it comes a new pain: <strong>fear for others</strong>.
+            You can now suffer for someone else's suffering.
           </p>
           <div className="fld-info-box fld-reveal fld-d2">
             <div className="fld-info-label">Information organism can sense</div>
@@ -354,11 +363,12 @@ export default function FiveLayersDeepPage() {
             <div className="fld-layer-sub">what could be for me</div>
           </div>
           <p className="fld-text fld-reveal fld-d2">
-            The prefrontal cortex expands. Now the organism can simulate futures that don't exist yet.
+            When <strong>imagination</strong> arrives, we see another major jump. Along with an
+            expanded prefrontal cortex comes the ability to simulate a future that doesn't exist yet.
             Causal chains. If-then reasoning. Planning. The world is no longer just what is, what was,
-            and what others feel — it's also what <strong>could be</strong>. And with imagination comes
-            a new pain: <strong>anxiety</strong> — suffering for things that haven't happened and may
-            never happen.
+            and what others feel — it's also what <strong>could be</strong>. And with imagination
+            comes a new pain: <strong>anxiety</strong> — suffering for things that haven't happened
+            and may never happen.
           </p>
           <div className="fld-info-box fld-reveal fld-d2">
             <div className="fld-info-label">Information organism can sense</div>
@@ -401,11 +411,12 @@ export default function FiveLayersDeepPage() {
             <div className="fld-layer-sub">what outlasts me</div>
           </div>
           <p className="fld-text fld-reveal fld-d2">
-            Something unprecedented. The capacity to conceive of things that transcend your own survival.
-            Justice. Legacy. Beauty. Purpose. A human can endure physical pain, override learned fear,
-            leave their group, and pursue a plan they know might fail — because they've decided something
-            <strong> matters more than they do</strong>. And with meaning comes the deepest pain:
-            <strong> existential suffering</strong> — the ache of falling short, of mortality, of meaninglessness.
+            When <strong>meaning</strong> arrives, we cross into something unprecedented — the capacity
+            to conceive of things that transcend your own survival. Justice. Legacy. Beauty. Purpose. A
+            human can endure physical pain, override learned fear, leave their group, and pursue a plan
+            they know might fail — because they've decided something <strong>matters more than they do</strong>.
+            And with meaning comes the deepest pain: <strong>existential suffering</strong> — the ache of
+            falling short, of mortality, of meaninglessness.
           </p>
           <div className="fld-info-box fld-reveal fld-d2">
             <div className="fld-info-label">Information organism can sense</div>
@@ -438,85 +449,100 @@ export default function FiveLayersDeepPage() {
         <div style={{ maxWidth: 960, width: '100%' }}>
           <h2 className="fld-h2 fld-reveal">The complete model</h2>
           <p className="fld-text fld-reveal fld-d1" style={{ color: 'var(--fld-text2)', fontSize: 15, marginBottom: 16 }}>
-            Five layers of complexity. Two drives running through them all. In each layer, new emotions arise,
-            as our seeking is successful or thwarted and if our protection strategies succeed or fail.
+            Five substrates of complexity. Two drives running through them all. The Hedonist (seek pleasure)
+            and the Warrior (avoid pain) each produce different emotional states at each substrate — when the
+            drive works, when it doesn't. The hardest case is when seeking is thwarted: the same block produces
+            either a turn <em>inward</em> (inadequacy) or a turn <em>outward</em> (anger), and which way it
+            goes is one of the most diagnostic things about a person.
           </p>
           <div className="fld-table-wrap">
-            <table className="fld-summary-table fld-reveal fld-d2">
+            <table className="fld-summary-table fld-reveal fld-d2" style={{ minWidth: 1080 }}>
               <thead>
                 <tr>
-                  <th style={{ borderBottom: '2px solid #a89d8f' }} rowSpan={2}>Layer</th>
-                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-seek)', background: 'var(--fld-seek-bg)', color: 'var(--fld-seek)', textAlign: 'center' }} colSpan={3}>Seek</th>
-                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-protect)', background: 'var(--fld-protect-bg)', color: 'var(--fld-protect)', textAlign: 'center' }} colSpan={2}>Protect</th>
-                  <th style={{ borderBottom: '2px solid var(--fld-pain)', color: 'var(--fld-pain)' }} rowSpan={2}>Pain</th>
+                  <th style={{ borderBottom: '2px solid #a89d8f' }} rowSpan={2}>Substrate</th>
+                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-seek)', background: 'var(--fld-seek-bg)', color: 'var(--fld-seek)', textAlign: 'center' }} colSpan={4}>Hedonist · seek pleasure</th>
+                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-protect)', background: 'var(--fld-protect-bg)', color: 'var(--fld-protect)', textAlign: 'center' }} colSpan={3}>Warrior · avoid pain</th>
+                  <th style={{ borderBottom: '2px solid var(--fld-pain)', color: 'var(--fld-pain)' }} rowSpan={2}>Background pain</th>
                 </tr>
                 <tr>
                   <th style={{ borderBottom: '2px solid var(--fld-seek)', color: 'var(--fld-seek)', background: 'var(--fld-seek-bg)', fontSize: 9 }}>Drive</th>
-                  <th style={{ borderBottom: '2px solid #7B8B44', color: '#7B8B44', background: 'rgba(123,139,68,0.06)', fontSize: 9 }}>Achieved</th>
-                  <th style={{ borderBottom: '2px solid #D48A54', color: '#D48A54', background: 'rgba(212,138,84,0.06)', fontSize: 9 }}>Blocked → anger</th>
+                  <th style={{ borderBottom: '2px solid #D4A854', color: '#9B7A3D', background: 'rgba(212,168,84,0.08)', fontSize: 9 }}>Achieved</th>
+                  <th style={{ borderBottom: '2px solid #B89169', color: '#8B6F4D', background: 'rgba(184,145,105,0.08)', fontSize: 9 }}>Inward · sad</th>
+                  <th style={{ borderBottom: '2px solid #C77C58', color: '#A05E3D', background: 'rgba(199,124,88,0.08)', fontSize: 9 }}>Outward · mad</th>
                   <th style={{ borderBottom: '2px solid var(--fld-protect)', color: 'var(--fld-protect)', background: 'var(--fld-protect-bg)', fontSize: 9 }}>Drive</th>
-                  <th style={{ borderBottom: '2px solid #5B6B8B', color: '#5B6B8B', background: 'rgba(91,107,139,0.06)', fontSize: 9 }}>Fails → grief</th>
+                  <th style={{ borderBottom: '2px solid #6F8B5E', color: '#516B41', background: 'rgba(111,139,94,0.08)', fontSize: 9 }}>Worked</th>
+                  <th style={{ borderBottom: '2px solid #A85454', color: 'var(--fld-protect)', background: 'rgba(168,84,84,0.08)', fontSize: 9 }}>Triggered</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="fld-layer-td" style={{ borderColor: 'var(--fld-present)' }}>
-                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🦠</span> <span className="fld-lt-name">The Present</span> <span className="fld-lt-sub">what's here now</span></div>
+                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🦠</span> <span className="fld-lt-name">Egoist</span> <span className="fld-lt-sub">the present</span></div>
                     <div className="fld-lt-info">Raw sensation: gradients, temperature, pressure</div>
                   </td>
-                  <td className="fld-seek-td">Pleasure</td>
-                  <td style={{ background: 'rgba(123,139,68,0.06)' }}>Satisfaction, relief</td>
-                  <td style={{ background: 'rgba(212,138,84,0.06)' }}>Frustration</td>
+                  <td className="fld-seek-td">Pleasure (food)</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Satisfaction</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Empty</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Tantrum</td>
                   <td className="fld-protect-td">Withdraw / escape</td>
-                  <td style={{ background: 'rgba(91,107,139,0.06)' }}>Pain itself</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Relief</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Pain itself</td>
                   <td className="fld-pain-td">Physical pain</td>
                 </tr>
                 <tr>
                   <td className="fld-layer-td" style={{ borderColor: 'var(--fld-past)' }}>
-                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🐟</span> <span className="fld-lt-name">The Past</span> <span className="fld-lt-sub">what happened before</span></div>
+                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🐟</span> <span className="fld-lt-name">Veteran</span> <span className="fld-lt-sub">the past</span></div>
                     <div className="fld-lt-info">Patterns, recognition, memory</div>
                   </td>
                   <td className="fld-seek-td">Anticipation</td>
-                  <td style={{ background: 'rgba(123,139,68,0.06)' }}>Relief — pattern completed</td>
-                  <td style={{ background: 'rgba(212,138,84,0.06)' }}>Rage</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Pattern completed</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Frustration</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Rage</td>
                   <td className="fld-protect-td">Fight / flight / freeze</td>
-                  <td style={{ background: 'rgba(91,107,139,0.06)' }}>Trauma</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Vindication</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Trauma</td>
                   <td className="fld-pain-td">Fear <div className="fld-pn">pain remembered &amp; anticipated</div></td>
                 </tr>
                 <tr>
                   <td className="fld-layer-td" style={{ borderColor: 'var(--fld-others)' }}>
-                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🐭</span> <span className="fld-lt-name">Others</span> <span className="fld-lt-sub">what others feel, think, do</span></div>
+                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🐭</span> <span className="fld-lt-name">Lover</span> <span className="fld-lt-sub">others</span></div>
                     <div className="fld-lt-info">Emotional states of others, social signals, trust</div>
                   </td>
                   <td className="fld-seek-td">Love</td>
-                  <td style={{ background: 'rgba(123,139,68,0.06)' }}>Belonging, joy</td>
-                  <td style={{ background: 'rgba(212,138,84,0.06)' }}>Betrayal</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Belonging, joy</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Lonely</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Betrayal</td>
                   <td className="fld-protect-td">Defend group over self</td>
-                  <td style={{ background: 'rgba(91,107,139,0.06)' }}>Grief</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Pride</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Grief</td>
                   <td className="fld-pain-td">Fear for others <div className="fld-pn">empathic pain</div></td>
                 </tr>
                 <tr>
                   <td className="fld-layer-td" style={{ borderColor: 'var(--fld-future)' }}>
-                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🦍</span> <span className="fld-lt-name">The Future</span> <span className="fld-lt-sub">what could be for me</span></div>
+                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🦍</span> <span className="fld-lt-name">Strategist</span> <span className="fld-lt-sub">the future</span></div>
                     <div className="fld-lt-info">Hypothetical futures, causal chains</div>
                   </td>
                   <td className="fld-seek-td">Hope</td>
-                  <td style={{ background: 'rgba(123,139,68,0.06)' }}>Fulfillment, achievement</td>
-                  <td style={{ background: 'rgba(212,138,84,0.06)' }}>Outrage</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Fulfillment, achievement</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Inferiority</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Outrage</td>
                   <td className="fld-protect-td">Defend the future</td>
-                  <td style={{ background: 'rgba(91,107,139,0.06)' }}>Despair</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Confidence</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Despair</td>
                   <td className="fld-pain-td">Anxiety <div className="fld-pn">pain about things that haven't happened</div></td>
                 </tr>
                 <tr>
                   <td className="fld-layer-td" style={{ borderColor: 'var(--fld-enduring)' }}>
-                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🧑</span> <span className="fld-lt-name">The Enduring</span> <span className="fld-lt-sub">what outlasts me</span></div>
+                    <div className="fld-lt-top"><span style={{ fontSize: 17 }}>🧑</span> <span className="fld-lt-name">Visionary</span> <span className="fld-lt-sub">the enduring</span></div>
                     <div className="fld-lt-info">Meaning, values, identity, legacy</div>
                   </td>
                   <td className="fld-seek-td">Devotion</td>
-                  <td style={{ background: 'rgba(123,139,68,0.06)' }}>Meaning, connection to a cause</td>
-                  <td style={{ background: 'rgba(212,138,84,0.06)' }}>Moral fury</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Meaning, purpose</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Hopeless</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Moral fury</td>
                   <td className="fld-protect-td">Die for / save what I believe in</td>
-                  <td style={{ background: 'rgba(91,107,139,0.06)' }}>Existential crisis</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Honor</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Existential crisis</td>
                   <td className="fld-pain-td">Existential pain <div className="fld-pn">falling short, mortality, meaninglessness</div></td>
                 </tr>
               </tbody>
@@ -530,140 +556,82 @@ export default function FiveLayersDeepPage() {
       {/* SIMPLIFIED MODEL: FIVE ARCHETYPES */}
       <section className="fld-section">
         <div className="fld-wide">
-          <h2 className="fld-h2 fld-reveal">The Simplified Model: Five Archetypes for Leading in Complexity</h2>
+          <h2 className="fld-h2 fld-reveal">Two drives. Five substrate-archetypes.</h2>
           <p className="fld-text fld-reveal fld-d1" style={{ color: 'var(--fld-text2)', fontSize: 15, marginBottom: 8 }}>
-            The full model above shows human evolution in our capacity to hold complexity.
-            But the best leaders know that great things happen when we reach the
-            <em> simplicity on the other side of complexity</em>.
+            The full model above shows the layers of complexity. The best leaders know that great
+            things happen when we reach the <em>simplicity on the other side of complexity</em>.
           </p>
           <p className="fld-text fld-reveal fld-d1" style={{ color: 'var(--fld-text2)', fontSize: 15, marginBottom: 8 }}>
-            The Five Archetypes help us do this. Each archetype represents a fundamental human capacity:
-            either a core drive, which is always active to help us survive, or a complexity-friendly
-            capacity that helps us thrive in an ever-evolving world.
+            The simpler pattern: <strong>two drives</strong> that thread through every layer, and
+            <strong> five substrate-archetypes</strong> — one per layer — that name what kind of complexity
+            is being held. Drives are always running. Substrate-archetypes come online or don't,
+            depending on who you are and what's happening.
           </p>
 
+          {/* Drives (cross-cutting): 2 cards in a row */}
+          <div className="fld-reveal fld-d2" style={{ marginBottom: 6 }}>
+            <div style={{ fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fld-text3)', textAlign: 'center', marginBottom: 12 }}>The two drives — always running</div>
+          </div>
           <div className="fld-arch-cards fld-reveal fld-d2">
             <div className="fld-arch-card" style={{ borderColor: 'rgba(212,168,84,0.35)', background: 'var(--fld-seek-bg)' }}>
               <span className="fld-ac-icon">☀</span>
               <div className="fld-ac-name" style={{ color: 'var(--fld-seek)' }}>Hedonist</div>
-              <div className="fld-ac-what">The seeking drive. Pursues what sustains — from nutrients to meaning.</div>
-              <div className="fld-ac-feels">Pleasure, anticipation, hope, devotion · Frustration, rage, outrage when blocked</div>
+              <div className="fld-ac-what">The seeking drive. Goes <em>toward</em> — at every substrate, from food to meaning.</div>
+              <div className="fld-ac-feels">Achieved: pleasure, anticipation, love, fulfillment, purpose · Thwarted: empty/tantrum, frustration/rage, lonely/betrayal, inferiority/outrage, hopeless/moral fury</div>
             </div>
             <div className="fld-arch-card" style={{ borderColor: 'rgba(168,84,84,0.35)', background: 'var(--fld-protect-bg)' }}>
               <span className="fld-ac-icon">⚔</span>
               <div className="fld-ac-name" style={{ color: 'var(--fld-protect)' }}>Warrior</div>
-              <div className="fld-ac-what">The protective drive. Defends against threats — from toxins to existential danger.</div>
-              <div className="fld-ac-feels">Vigilance, courage, sacrifice · Fear, trauma, despair when protection fails</div>
+              <div className="fld-ac-what">The protective drive. Avoids — at every substrate, from damage to meaninglessness.</div>
+              <div className="fld-ac-feels">Worked: relief, vindication, pride, confidence, honor · Triggered: pain, fear/trauma, grief, despair, existential crisis</div>
+            </div>
+          </div>
+
+          {/* Substrate-archetypes: 5 cards, one per layer */}
+          <div className="fld-reveal fld-d2" style={{ marginTop: 28, marginBottom: 6 }}>
+            <div style={{ fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fld-text3)', textAlign: 'center', marginBottom: 12 }}>The five substrate-archetypes — levels of complexity</div>
+          </div>
+          <div className="fld-arch-cards fld-reveal fld-d2">
+            <div className="fld-arch-card" style={{ borderColor: 'rgba(139,115,85,0.35)', background: 'rgba(139,115,85,0.05)' }}>
+              <span className="fld-ac-icon">⦿</span>
+              <div className="fld-ac-name" style={{ color: 'var(--fld-present)' }}>Egoist</div>
+              <div className="fld-ac-what">The body in the here and now. Raw sensation, immediate stakes.</div>
+              <div className="fld-ac-feels">Satisfaction, relief · Empty, tantrum, pain</div>
+            </div>
+            <div className="fld-arch-card" style={{ borderColor: 'rgba(91,123,111,0.35)', background: 'rgba(91,123,111,0.05)' }}>
+              <span className="fld-ac-icon">⊠</span>
+              <div className="fld-ac-name" style={{ color: 'var(--fld-past)' }}>Veteran</div>
+              <div className="fld-ac-what">What memory makes possible. Recognizes patterns, returns to safety.</div>
+              <div className="fld-ac-feels">Pattern completed, vindication · Frustration, rage, trauma</div>
             </div>
             <div className="fld-arch-card" style={{ borderColor: 'rgba(139,94,94,0.35)', background: 'rgba(139,94,94,0.05)' }}>
               <span className="fld-ac-icon">♡</span>
               <div className="fld-ac-name" style={{ color: 'var(--fld-others)' }}>Lover</div>
-              <div className="fld-ac-what">The empathy capacity. Feels what others feel and lets it shape action.</div>
-              <div className="fld-ac-feels">Love, belonging, joy, attunement · Betrayal, grief when connection breaks</div>
+              <div className="fld-ac-what">What others bring. Empathy, bond, belonging.</div>
+              <div className="fld-ac-feels">Belonging, joy, pride · Lonely, betrayal, grief</div>
             </div>
             <div className="fld-arch-card" style={{ borderColor: 'rgba(91,107,139,0.35)', background: 'rgba(91,107,139,0.05)' }}>
               <span className="fld-ac-icon">◈</span>
               <div className="fld-ac-name" style={{ color: 'var(--fld-future)' }}>Strategist</div>
-              <div className="fld-ac-what">The imagination capacity. Models futures and acts on what could be.</div>
-              <div className="fld-ac-feels">Hope, fulfillment, achievement · Anxiety, outrage, despair when futures collapse</div>
+              <div className="fld-ac-what">What imagination opens. Models futures and acts on what could be.</div>
+              <div className="fld-ac-feels">Fulfillment, achievement, confidence · Inferiority, outrage, despair</div>
             </div>
             <div className="fld-arch-card" style={{ borderColor: 'rgba(107,91,139,0.35)', background: 'rgba(107,91,139,0.05)' }}>
               <span className="fld-ac-icon">✧</span>
               <div className="fld-ac-name" style={{ color: 'var(--fld-enduring)' }}>Visionary</div>
-              <div className="fld-ac-what">The meaning capacity. Serves something larger than the self.</div>
-              <div className="fld-ac-feels">Devotion, awe, purpose · Moral fury, existential crisis when meaning collapses</div>
+              <div className="fld-ac-what">What meaning unlocks. Serves something larger than the self.</div>
+              <div className="fld-ac-feels">Meaning, purpose, honor · Hopeless, moral fury, existential crisis</div>
             </div>
           </div>
 
           <div className="fld-reveal fld-d2" style={{ background: '#f0ede8', borderLeft: '3px solid var(--fld-text3)', padding: '20px 24px', borderRadius: 4, marginTop: 28 }}>
             <p style={{ fontFamily: 'var(--fld-fdisplay)', fontSize: 16, color: 'var(--fld-text2)', lineHeight: 1.65, fontStyle: 'italic', margin: 0 }}>
-              Notice the asymmetry: the Hedonist and Warrior run through every layer — two ancient drives,
-              always active. The Lover, Strategist, and Visionary each emerge at one specific layer of evolution.
-              Two drives that have always been with us, three later capacities layered on top. The work of
-              leadership is holding all five.
+              The two drives are ancient and always active — the Hedonist seeks pleasure, the Warrior avoids
+              pain, and they run through every substrate from amoeba to human. The five substrate-archetypes
+              are levels of complexity the nervous system can hold. When we struggle, we often find we're
+              over-relying on one of these drives or archetypes. Thinking about what else we can access often
+              gives us a greater range of possibility.
             </p>
-          </div>
-
-          {/* How these archetypes map to the model */}
-          <h3 className="fld-reveal" style={{ fontFamily: 'var(--fld-fdisplay)', fontSize: 20, fontWeight: 700, marginTop: 36, marginBottom: 16 }}>How these archetypes map to the model</h3>
-
-          <div className="fld-reveal fld-d1" style={{ maxWidth: 580, margin: '0 auto' }}>
-            {/* Column archetype bubbles for Hedonist (Seek) and Warrior (Protect) */}
-            <div style={{ display: 'flex', marginBottom: 8 }}>
-              <div style={{ width: 70 }}></div>
-              <div style={{ width: 130 }}></div>
-              <div style={{ flex: 1, textAlign: 'center' }}>
-                <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '6px 14px', borderRadius: 20, background: 'rgba(212,168,84,0.1)', border: '1.5px solid rgba(212,168,84,0.3)' }}>
-                  <span style={{ fontSize: 14 }}>☀</span>
-                  <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--fld-seek)' }}>Hedonist</span>
-                </div>
-              </div>
-              <div style={{ flex: 1, textAlign: 'center' }}>
-                <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 2, padding: '6px 14px', borderRadius: 20, background: 'rgba(168,84,84,0.1)', border: '1.5px solid rgba(168,84,84,0.3)' }}>
-                  <span style={{ fontSize: 14 }}>⚔</span>
-                  <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--fld-protect)' }}>Warrior</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Mapping table: row archetype bubbles + Layer + Seek + Protect */}
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr>
-                  <th style={{ width: 70, borderBottom: '2px solid transparent' }}></th>
-                  <th style={{ width: 130, padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid #a89d8f', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-text2)' }}>Layer</th>
-                  <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid var(--fld-seek)', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-seek)', background: 'rgba(212,168,84,0.1)' }}>Seek</th>
-                  <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '2px solid var(--fld-protect)', fontFamily: 'var(--fld-fmono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--fld-protect)', background: 'rgba(168,84,84,0.1)' }}>Protect</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style={{ padding: '12px 4px', verticalAlign: 'middle', textAlign: 'center' }}></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-present)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🦠 The Present</span></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Pleasure</td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Withdraw / escape</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '12px 4px', verticalAlign: 'middle', textAlign: 'center' }}></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-past)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🐟 The Past</span></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Anticipation</td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Fight / flight / freeze</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
-                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(139,94,94,0.1)', border: '1.5px solid rgba(139,94,94,0.3)' }}>
-                      <span style={{ fontSize: 13 }}>♡</span>
-                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-others)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Lover</span>
-                    </div>
-                  </td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-others)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🐭 Others</span></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Love</td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Defend group over self</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
-                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(91,107,139,0.1)', border: '1.5px solid rgba(91,107,139,0.3)' }}>
-                      <span style={{ fontSize: 13 }}>◈</span>
-                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-future)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Strategist</span>
-                    </div>
-                  </td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-future)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🦍 The Future</span></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Hope</td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Defend the future</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '8px 4px', verticalAlign: 'middle', textAlign: 'center' }}>
-                    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 1, padding: '5px 8px', borderRadius: 16, background: 'rgba(107,91,139,0.1)', border: '1.5px solid rgba(107,91,139,0.3)' }}>
-                      <span style={{ fontSize: 13 }}>✧</span>
-                      <span style={{ fontFamily: 'var(--fld-fmono)', fontSize: 8, fontWeight: 700, color: 'var(--fld-enduring)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Visionary</span>
-                    </div>
-                  </td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', borderLeft: '3px solid var(--fld-enduring)' }}><span style={{ fontFamily: 'var(--fld-fdisplay)', fontWeight: 700, fontSize: 14 }}>🧑 The Enduring</span></td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(212,168,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Devotion</td>
-                  <td style={{ padding: '12px 12px', borderBottom: '1px solid var(--fld-border)', background: 'rgba(168,84,84,0.1)', fontFamily: 'var(--fld-fdisplay)', fontWeight: 600, fontSize: 14 }}>Die for / save what I believe in</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
@@ -720,9 +688,9 @@ export default function FiveLayersDeepPage() {
         <div className="fld-inner" style={{ textAlign: 'center' }}>
           <p className="fld-closing-text fld-reveal">
             Two ancient drives.<br />
-            Three evolutionary innovations.<br />
-            Five core capacities to lead in complexity.<br /><br />
-            The work is holding them all.
+            Five substrates they run through.<br /><br />
+            The work isn't to do all of these things at once. It's to know which patterns we tend to
+            fall into and build our capacity to do something different, when that would help us.
           </p>
         </div>
       </section>
