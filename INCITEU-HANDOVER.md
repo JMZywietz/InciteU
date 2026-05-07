@@ -1,7 +1,7 @@
 # InciteU — Handover for Future Sessions
 
 **Last updated:** May 6, 2026
-**Owner:** Jen Zywietz (jennmay@gmail.com)
+**Owner:** Jen Zywietz (jen@inciteu.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** Deployed on Vercel (custom domain pending → inciteu.com)
 
