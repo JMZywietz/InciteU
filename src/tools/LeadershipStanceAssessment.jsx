@@ -415,6 +415,35 @@ const LSA_CSS = `
   .lsa-root .tia-h4 {font-size:15.5px}
 }
 
+/* ── CHAIN: emotion as diagnostic (cross-cutting view) ── */
+.lsa-root .chain-block {margin-top:48px;padding-top:36px;border-top:1px solid var(--border)}
+.lsa-root .chain-title {font-family:var(--fd);font-size:clamp(20px,3vw,26px);font-weight:700;line-height:1.25;margin:0 0 14px;color:var(--text)}
+.lsa-root .chain-title-sub {font-weight:400;font-style:italic;color:var(--text3);font-size:0.7em;letter-spacing:0}
+.lsa-root .chain-intro {font-size:15px;color:var(--text2);line-height:1.7;margin:0 0 26px}
+.lsa-root .chain-intro strong {color:var(--text);font-weight:600}
+.lsa-root .chain-grid {display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;overflow-x:auto}
+.lsa-root .chain-grid-header {display:grid;grid-template-columns:180px repeat(5,1fr);gap:6px;padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:8px;min-width:680px}
+.lsa-root .chain-substrate {font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--sub-color);text-align:center;padding:6px 4px;border-bottom:2px solid var(--sub-color)}
+.lsa-root .chain-row {display:grid;grid-template-columns:180px repeat(5,1fr);gap:6px;align-items:stretch;min-width:680px}
+.lsa-root .chain-row-label {padding:11px 13px;border-left:3px solid var(--row-color);background:var(--surface2);border-radius:6px;display:flex;flex-direction:column;justify-content:center}
+.lsa-root .chain-row-name {font-family:var(--fd);font-size:14px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:3px}
+.lsa-root .chain-row-desc {font-family:var(--fm);font-size:9.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text3)}
+.lsa-root .chain-cell {padding:11px 10px;font-size:13px;color:var(--text2);text-align:center;background:var(--surface);border-radius:6px;border:1px solid var(--border);line-height:1.35;display:flex;align-items:center;justify-content:center}
+.lsa-root .chain-foot {font-size:13.5px;color:var(--text2);line-height:1.7;margin:24px 0 0;padding:18px 22px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--text4)}
+.lsa-root .chain-foot em {font-style:italic;color:var(--text);font-weight:600}
+
+@media (max-width:760px) {
+  .lsa-root .chain-block {margin-top:36px;padding-top:28px}
+  .lsa-root .chain-grid {padding:10px}
+  .lsa-root .chain-grid-header,
+  .lsa-root .chain-row {grid-template-columns:130px repeat(5,minmax(78px,1fr));gap:5px;min-width:590px}
+  .lsa-root .chain-row-label {padding:8px 10px}
+  .lsa-root .chain-row-name {font-size:12px}
+  .lsa-root .chain-row-desc {font-size:8.5px}
+  .lsa-root .chain-cell {padding:9px 6px;font-size:11.5px}
+  .lsa-root .chain-substrate {font-size:9px;letter-spacing:.06em}
+}
+
 /* ── FOOTER ── */
 .lsa-root .footer {text-align:center;padding:32px 20px 20px;font-size:11px;color:var(--text4);font-style:italic}
 
@@ -1234,6 +1263,111 @@ const LSA_BODY_HTML = `
           <p><strong>Spiritual Self-Transcendence</strong> is the most controversial subscale in academic psychology because it correlates with mystical experience and openness to non-rational knowing — which makes it suspicious to some researchers and central to others. It tends to correlate with creativity, openness to experience, and some forms of wisdom. It can also, untethered from grounding, drift into ungroundedness. Like every capacity, its value depends on what it's coupled with.</p>
         </div>
       </article>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- CHAIN: emotion as diagnostic (cross-cutting view) -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <div class="chain-block">
+        <h3 class="chain-title">Emotion as diagnostic <span class="chain-title-sub">— the cross-cutting view</span></h3>
+        <p class="chain-intro">The five archetypes above are the entry point. Underneath them sits a deeper structure: <strong>five evolutionary substrates</strong> — Egoist, Veteran, Lover, Strategist, Visionary — and <strong>two drives</strong> that run through every substrate: Hedonist (seeking pleasure) and Warrior (avoiding pain). The same drive feels different at each layer of the system. The grid below maps that — seven emotion families across the five substrates. Every emotion you can name is also a diagnostic: it tells you which level of the system is active and which way the drive is pointing.</p>
+
+        <div class="chain-grid">
+          <div class="chain-grid-header">
+            <div></div>
+            <div class="chain-substrate" style="--sub-color:#B89169">Egoist</div>
+            <div class="chain-substrate" style="--sub-color:#7B8189">Veteran</div>
+            <div class="chain-substrate" style="--sub-color:var(--L)">Lover</div>
+            <div class="chain-substrate" style="--sub-color:var(--S)">Strategist</div>
+            <div class="chain-substrate" style="--sub-color:var(--V)">Visionary</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#D4A854">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Hedonist achieved</div>
+              <div class="chain-row-desc">Seeking pleasure works</div>
+            </div>
+            <div class="chain-cell">Pleasure</div>
+            <div class="chain-cell">Anticipation</div>
+            <div class="chain-cell">Love</div>
+            <div class="chain-cell">Fulfillment</div>
+            <div class="chain-cell">Purpose</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#B89169">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Hedonist thwarted inward</div>
+              <div class="chain-row-desc">The inadequacy turn</div>
+            </div>
+            <div class="chain-cell">Empty</div>
+            <div class="chain-cell">Frustration</div>
+            <div class="chain-cell">Lonely</div>
+            <div class="chain-cell">Inferiority</div>
+            <div class="chain-cell">Hopeless</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#C77C58">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Hedonist thwarted outward</div>
+              <div class="chain-row-desc">The anger turn</div>
+            </div>
+            <div class="chain-cell">Tantrum</div>
+            <div class="chain-cell">Rage</div>
+            <div class="chain-cell">Betrayal</div>
+            <div class="chain-cell">Outrage</div>
+            <div class="chain-cell">Moral fury</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#6F8B5E">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Warrior succeeded</div>
+              <div class="chain-row-desc">Avoiding pain works</div>
+            </div>
+            <div class="chain-cell">Relief</div>
+            <div class="chain-cell">Vindication</div>
+            <div class="chain-cell">Pride</div>
+            <div class="chain-cell">Confidence</div>
+            <div class="chain-cell">Honor</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#A85454">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Warrior triggered</div>
+              <div class="chain-row-desc">Pain registers</div>
+            </div>
+            <div class="chain-cell">Pain</div>
+            <div class="chain-cell">Fear</div>
+            <div class="chain-cell">Grief</div>
+            <div class="chain-cell">Despair</div>
+            <div class="chain-cell">Anhedonia</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#7B7C4E">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Disgust</div>
+              <div class="chain-row-desc">Contamination signal</div>
+            </div>
+            <div class="chain-cell">Visceral disgust</div>
+            <div class="chain-cell">Aversion</div>
+            <div class="chain-cell">Contempt</div>
+            <div class="chain-cell">Repugnance</div>
+            <div class="chain-cell">Moral disgust</div>
+          </div>
+
+          <div class="chain-row" style="--row-color:#6B5B8B">
+            <div class="chain-row-label">
+              <div class="chain-row-name">Surprise</div>
+              <div class="chain-row-desc">Orientation, pre-valence</div>
+            </div>
+            <div class="chain-cell">Startle</div>
+            <div class="chain-cell">Surprise</div>
+            <div class="chain-cell">Astonishment</div>
+            <div class="chain-cell">Bewilderment</div>
+            <div class="chain-cell">Awe</div>
+          </div>
+        </div>
+
+        <p class="chain-foot">Read horizontally: the same drive-state expressed at increasing levels of the evolved nervous system. Read vertically: the emotional repertoire of one substrate across its drive-states. <em>Anxiety</em> isn't generic — it's the Strategist substrate registering Warrior alarm. <em>Moral fury</em> is the Visionary substrate registering Hedonist thwarted outward. Every emotion you feel is information about which part of you is doing what.</p>
+      </div>
     </div>
 
     </section>
