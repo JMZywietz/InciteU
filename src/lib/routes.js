@@ -1,9 +1,9 @@
-// ============================================================================
+// ===========================================================================
 // ROUTE PATHS
-// ============================================================================
+// ===========================================================================
 // Single source of truth for all route paths. Use these constants in
 // navigate() calls so renaming a route only needs one edit.
-// ============================================================================
+// ===========================================================================
 
 export const PATHS = {
   home: '/',
@@ -18,6 +18,7 @@ export const PATHS = {
   preMortem: '/tools/team/pre-mortem',
   think: '/think',
   fiveLayersDeep: '/think/five-layers-deep',
+  cynefin: '/think/cynefin',
 };
 
 // Map from old v13 page-state IDs to PATHS, so the existing
@@ -35,4 +36,5 @@ export const STATE_TO_PATH = {
   'pre-mortem': PATHS.preMortem,
   think: PATHS.think,
   'five-layers-deep': PATHS.fiveLayersDeep,
+  cynefin: PATHS.cynefin,
 };

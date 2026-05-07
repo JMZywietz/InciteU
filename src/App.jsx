@@ -16,10 +16,11 @@ import LCPPage from './tools/LCP.jsx';
 import LeadershipStancePage from './tools/LeadershipStanceAssessment.jsx';
 import PreMortemPage from './tools/PreMortem.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
+import CynefinPage from './think/CynefinScrollytelling.jsx';
 
-// ============================================================================
+// ===========================================================================
 // ROOT APP
-// ============================================================================
+// ===========================================================================
 export default function App() {
   return (
     <>
@@ -47,7 +48,8 @@ export default function App() {
           <Route path={PATHS.preMortem} element={<PreMortemPage />} />
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
-          {/* Fallback: any unknown path → home */}
+          <Route path={PATHS.cynefin} element={<CynefinPage />} />
+          {/* Fallback: any unknown path -> home */}
           <Route path="*" element={<Navigate to={PATHS.home} replace />} />
         </Routes>
         <Footer />
