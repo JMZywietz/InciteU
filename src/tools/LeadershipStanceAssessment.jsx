@@ -463,6 +463,72 @@ const LSA_CSS = `
   .lsa-root .fcard {padding:20px 18px}
   .lsa-root .radar-svg {max-width:460px}
 }
+
+/* ── HEADLINE TAKEAWAY (results page) ── */
+.lsa-root .r-headline-block {margin-bottom:36px;text-align:center;padding:0 8px}
+.lsa-root .r-headline {font-family:var(--fd);font-size:clamp(18px,3.4vw,26px);font-weight:600;line-height:1.45;color:var(--text);margin:8px 0 0;letter-spacing:-0.005em}
+.lsa-root .r-headline strong {font-weight:700}
+
+/* ── RESULTS GRAPH (bar default + radar toggle) ── */
+.lsa-root .r-graph {margin-bottom:34px;padding:24px 0}
+.lsa-root .graph-toggle {display:flex;justify-content:center;gap:6px;margin-bottom:18px;padding:4px;background:rgba(0,0,0,.025);border-radius:8px;width:fit-content;margin-left:auto;margin-right:auto}
+.lsa-root .graph-toggle-btn {font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.06em;padding:8px 16px;border:none;background:transparent;color:var(--text3);cursor:pointer;border-radius:5px;transition:all .14s}
+.lsa-root .graph-toggle-btn:hover {color:var(--text2)}
+.lsa-root .graph-toggle-btn.active {background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.lsa-root .graph-container {position:relative;min-height:240px;display:flex;justify-content:center}
+.lsa-root .graph-mode-bar, .lsa-root .graph-mode-radar {width:100%;max-width:520px}
+.lsa-root .bar-svg {width:100%;height:auto;display:block}
+.lsa-root .bar-label {font-family:var(--fb);font-size:13px}
+.lsa-root .bar-label-icon {font-size:14px}
+.lsa-root .bar-pct {font-family:var(--fm);font-size:10px;font-weight:600}
+.lsa-root .bar-gap {font-family:var(--fm);font-size:10px;font-weight:500;letter-spacing:.04em}
+.lsa-root .graph-legend {display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+
+/* ── SO WHAT block (results page) ── */
+.lsa-root .sowhat-watchfor, .lsa-root .sowhat-reflect {margin-bottom:30px}
+.lsa-root .sowhat-hdr {font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* ── WATCH-FOR cards ── */
+.lsa-root .watchfor-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.lsa-root .watchfor-card {padding:18px 20px;background:var(--wf-bg);border:1px solid var(--wf-border);border-left:3px solid var(--wf-color);border-radius:8px;display:flex;flex-direction:column}
+.lsa-root .watchfor-arch {font-family:var(--fb);font-size:14px;font-weight:700;color:var(--wf-color);margin-bottom:8px}
+.lsa-root .watchfor-body {font-family:var(--fb);font-size:14px;line-height:1.55;color:var(--text2);margin-bottom:12px;flex-grow:1}
+.lsa-root .watchfor-link {font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--wf-color);text-decoration:none;align-self:flex-start;border-bottom:1px solid transparent;transition:border-color .14s}
+.lsa-root .watchfor-link:hover {border-bottom-color:currentColor}
+
+/* ── REFLECTION PROMPTS ── */
+.lsa-root .reflect-list {list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+.lsa-root .reflect-list li {padding:14px 18px;background:rgba(0,0,0,.02);border-left:2px solid var(--border2);border-radius:0 6px 6px 0;font-family:var(--fb);font-size:14.5px;line-height:1.55;color:var(--text2)}
+.lsa-root .reflect-list li strong {font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:5px}
+
+/* ── GOING DEEPER (expandable per-capacity component scores) ── */
+.lsa-root .going-deeper-section {margin-bottom:36px}
+.lsa-root .going-deeper-content {display:flex;flex-direction:column;gap:18px;margin-top:18px}
+.lsa-root .gd-card {padding:18px 20px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gd-color);border-radius:8px}
+.lsa-root .gd-arch-hdr {font-family:var(--fb);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lsa-root .gd-icon {font-size:16px}
+.lsa-root .gd-tagline {font-family:var(--fb);font-size:12px;font-weight:400;font-style:italic;color:var(--text3);margin-left:4px}
+.lsa-root .gd-body {font-family:var(--fb);font-size:13.5px;line-height:1.55;color:var(--text2);margin:8px 0 14px}
+.lsa-root .gd-subscales {display:flex;flex-direction:column;gap:8px;padding-top:10px;border-top:1px dashed var(--border)}
+.lsa-root .gd-subscale {display:grid;grid-template-columns:1fr 100px 56px;gap:10px;align-items:center;font-family:var(--fb);font-size:12px}
+.lsa-root .gd-subscale-label {color:var(--text2);font-weight:500}
+.lsa-root .gd-subscale-bar {height:6px;background:rgba(0,0,0,.05);border-radius:3px;overflow:hidden}
+.lsa-root .gd-subscale-fill {height:100%;border-radius:3px;transition:width .3s ease}
+.lsa-root .gd-subscale-score {font-family:var(--fm);font-size:10px;font-weight:600;color:var(--text3);text-align:right}
+
+/* ── SHOW ALL CAPACITIES button ── */
+.lsa-root .show-all-wrap {text-align:center;margin-top:14px}
+.lsa-root .btn-show-all {font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:10px 22px;background:transparent;color:var(--text3);border:1px dashed var(--border2);border-radius:6px;cursor:pointer;transition:all .14s}
+.lsa-root .btn-show-all:hover {color:var(--text);border-color:var(--text2)}
+.lsa-root .arch-deep-grid-others {margin-top:14px}
+
+/* ── MOBILE adjustments ── */
+@media (max-width:520px){
+  .lsa-root .gd-subscale {grid-template-columns:1fr 70px 50px;gap:8px}
+  .lsa-root .watchfor-grid {grid-template-columns:1fr}
+  .lsa-root .r-headline {font-size:18px}
+}
+
 `;
 
 const LSA_BODY_HTML = `
@@ -1579,6 +1645,49 @@ const AD = {
   },
 };
 
+// ══════════════════════════════════════════════════════════════════
+// REFLECTION PROMPTS — used in 'Sit with this' results section
+// ══════════════════════════════════════════════════════════════════
+const REFLECTION_PROMPTS = {
+  hedonist: [
+    "When did you most recently avoid discomfort that probably needed to be faced? What was the cost?",
+    "Where in your week is your appetite for life genuinely alive — and where has it gone flat?",
+  ],
+  warrior: [
+    "When did you last see a threat where there was actually safety? What did vigilance cost in that moment?",
+    "Where are you holding the line that protects what matters — and where are you holding it out of habit?",
+  ],
+  lover: [
+    "When did you last lose yourself in someone else's need? What were you afraid would happen if you stopped?",
+    "Where in your relationships do you protect harmony at the expense of truth?",
+  ],
+  strategist: [
+    "When did you last analyze your way out of a feeling that needed to be felt?",
+    "Where have you traded clarity-in-complexity for actual movement?",
+  ],
+  visionary: [
+    "When did you last retreat to abstraction to avoid messy reality?",
+    "What would change if you took your sense of meaning seriously enough to actually do something about it?",
+  ],
+};
+
+const GAP_PROMPTS = {
+  hedonist: "What does it look like when your sense of vitality starts to drop under stress? What's the earliest signal?",
+  warrior: "When you feel your protective edge softening under pressure, what's the smallest move that brings it back online?",
+  lover: "When connection starts to slip away under stress, what does that feel like — and what brings it back?",
+  strategist: "Under pressure, when your analytical clarity drops, what's the smallest move that brings the model back online?",
+  visionary: "When stress narrows you to tactics, what reminds you of the larger why?",
+};
+
+const UNDERUSE_PROMPTS = {
+  hedonist: "If you let yourself draw on more pleasure and vitality, what would you have to set aside or stop doing?",
+  warrior: "If you let yourself protect more fiercely, who or what would you actually defend — and from what?",
+  lover: "If you let yourself feel into others more, what would you have to slow down to notice?",
+  strategist: "If you let yourself plan further ahead, what familiar reactive pattern would have to give way?",
+  visionary: "If you let meaning lead more often, what tactical comfort would you have to relinquish?",
+};
+
+
 // Subscale catalog — drawn from validated reference instruments (BIS/BAS, FFFQ, IRI, CFC/NFC, MLQ/TCI). See Foundations.
 const SUBSCALES = {
   hedonist:   { reward_responsiveness:'Reward Responsiveness', drive:'Drive', fun_seeking:'Fun Seeking' },
@@ -2254,19 +2363,67 @@ function showResults(){
 }
 
 function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap){
+  const top1 = leadTop[0];
+  const top2 = leadTop[1];
+  const gAD = AD[gapArch];
+  const top1AD = AD[top1];
+  const top2AD = AD[top2];
+  const underArch = underTop[0];
+  const underAD = AD[underArch];
+
+  const bar = buildBarSVG(scored.pct.baseline, scored.pct.pressure, gap);
   const radar = buildRadarSVG(scored.pct.baseline, scored.pct.pressure);
 
+  // ── HEADLINE TAKEAWAY ──
+  let headlineHTML;
+  if(gapVal >= 25){
+    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> going offline under pressure.\`;
+  } else if(gapVal >= 15){
+    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> weakening under pressure.\`;
+  } else if(gapVal >= 0){
+    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, holding most capacities steady across conditions.\`;
+  } else {
+    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> rising under pressure.\`;
+  }
+
+  // ── WATCH-FOR PARSER ──
+  const watchForOf = (k) => {
+    const lead = AD[k].lead;
+    const m = lead.match(/Watch for:\s*(.+?)\.?$/);
+    return m ? m[1].trim().replace(/\.$/, '') : '';
+  };
+
+  // ── HELPERS ──
   const archPill = (k) => {
     const a = AD[k];
     return \`<span class="r-archpill" style="color:\${a.color};border-color:\${a.border};background:\${a.bg}"><span class="ic">\${a.icon}</span>\${a.name}</span>\`;
   };
 
-  const leadHTML = leadTop.map(k => \`<div class="rblock-body"><strong>\${AD[k].icon} \${AD[k].name}</strong> — \${AD[k].lead}</div>\`).join('');
-  const pressHTML = pressTop.map(k => \`<div class="rblock-body"><strong>\${AD[k].icon} \${AD[k].name}</strong> — \${AD[k].pressure}</div>\`).join('');
-  const underHTML = underTop.map(k => \`<div class="rblock-body"><strong>\${AD[k].icon} \${AD[k].name}</strong> — \${AD[k].underuse}</div>\`).join('');
+  // ── WATCH-FOR CARDS ──
+  const wfArchs = [top1, top2];
+  if(!wfArchs.includes(gapArch) && gapVal >= 15) wfArchs.push(gapArch);
+  const watchForHTML = wfArchs.map(arch => {
+    const a = AD[arch];
+    const wf = watchForOf(arch);
+    return \`<div class="watchfor-card" style="--wf-color:\${a.color};--wf-bg:\${a.bg};--wf-border:\${a.border}">
+      <div class="watchfor-arch">\${a.icon} The \${a.name}</div>
+      <div class="watchfor-body">\${wf}.</div>
+      <a href="#" class="watchfor-link" onclick="event.preventDefault();openArchModal('\${arch}')">Learn more about the \${a.name} →</a>
+    </div>\`;
+  }).join('');
 
-  // Gap interpretation
-  const gAD = AD[gapArch];
+  // ── REFLECTION PROMPTS ──
+  const reflectItems = [];
+  REFLECTION_PROMPTS[top1].forEach(q => reflectItems.push(\`<li><strong style="color:\${top1AD.color}">\${top1AD.name}</strong>\${q}</li>\`.replace('</strong>', '</strong> ')));
+  REFLECTION_PROMPTS[top2].forEach(q => reflectItems.push(\`<li><strong style="color:\${top2AD.color}">\${top2AD.name}</strong> \${q}</li>\`));
+  if(GAP_PROMPTS[gapArch] && gapVal >= 15){
+    reflectItems.push(\`<li><strong style="color:\${gAD.color}">Gap (\${gAD.name})</strong> \${GAP_PROMPTS[gapArch]}</li>\`);
+  }
+  if(UNDERUSE_PROMPTS[underArch]){
+    reflectItems.push(\`<li><strong style="color:\${underAD.color}">Underuse (\${underAD.name})</strong> \${UNDERUSE_PROMPTS[underArch]}</li>\`);
+  }
+
+  // ── GAP INTERPRETATION ──
   let gapHeadline, gapBody;
   if(gapVal >= 30){
     gapHeadline = \`\${gAD.icon} \${gAD.name} drops sharply under pressure\`;
@@ -2278,78 +2435,126 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
     gapHeadline = \`Stable across baseline and pressure\`;
     gapBody = \`Your largest baseline-to-pressure gap is only \${gapVal} points (\${gAD.name}). You hold most of your capacities consistently across conditions, which is unusual. The question worth sitting with: are there capacities you might be less aware of because nothing dramatic shifts?\`;
   } else {
-    // Negative gap = something rises under pressure
     const absGap = Math.abs(gapVal);
     gapHeadline = \`\${gAD.icon} \${gAD.name} actually rises under pressure\`;
     gapBody = \`Interestingly, \${gAD.name} is \${absGap} points stronger under pressure than at baseline. This suggests \${gAD.name} is a stress response — something you reach for when things get hard, not your default mode. Worth examining whether this is adaptive or compensatory.\`;
   }
 
+  // ── GOING DEEPER (per-capacity descriptions with subscale score icons) ──
+  const goingDeeperHTML = ARCHS.map(arch => {
+    const ad = AD[arch];
+    const subData = scored.subRaw ? scored.subRaw[arch] : null;
+    let subscaleHTML = '';
+    if(subData){
+      const subEntries = Object.entries(SUBSCALES[arch]).map(([key, label]) => {
+        const sd = subData[key];
+        const userScore = sd.baseline + sd.pressure + sd.identity;
+        const counts = SUBSCALE_COUNTS[arch][key];
+        const maxScore = counts.total * 3;
+        const fill = maxScore > 0 ? Math.round((userScore / maxScore) * 100) : 0;
+        return \`<div class="gd-subscale">
+          <div class="gd-subscale-label">\${label}</div>
+          <div class="gd-subscale-bar"><div class="gd-subscale-fill" style="width:\${fill}%;background:\${ad.color}"></div></div>
+          <div class="gd-subscale-score">\${userScore} of \${maxScore}</div>
+        </div>\`;
+      }).join('');
+      subscaleHTML = \`<div class="gd-subscales">\${subEntries}</div>\`;
+    }
+    return \`<div class="gd-card" style="--gd-color:\${ad.color}">
+      <div class="gd-arch-hdr"><span class="gd-icon" style="color:\${ad.color}">\${ad.icon}</span> The \${ad.name} <span class="gd-tagline">— \${ad.tagline}</span></div>
+      <p class="gd-body">\${ad.lead}</p>
+      \${subscaleHTML}
+    </div>\`;
+  }).join('');
+
+  // ── DEEP-DIVES (filtered to relevant + show-all) ──
+  const relevantSet = new Set([top1, top2, gapArch, underArch]);
+  const relevantArchs = ARCHS.filter(a => relevantSet.has(a));
+  const otherArchs = ARCHS.filter(a => !relevantSet.has(a));
+  const archDeepBtn = (arch) => {
+    const ad = AD[arch];
+    return \`<button class="arch-deep-btn" id="arch-deep-btn-\${arch}" style="border-color:\${ad.color}40" onclick="toggleArchDeep('\${arch}')" data-arch-color="\${ad.color}">
+      <span class="arch-deep-icon" style="color:\${ad.color}">\${ad.icon}</span>
+      <span class="arch-deep-name" style="color:\${ad.color}">The \${ad.name}</span>
+      <span class="arch-deep-arrow" id="arch-deep-arrow-\${arch}">→</span>
+    </button>\`;
+  };
+
   const html = \`
-  <div class="r-header fade-up">
+  <div class="r-headline-block fade-up">
     <div class="r-eyebrow">Your Capacity Profile</div>
-    <h1 class="r-title">Five Layers Deep</h1>
-    <p class="r-sub">Baseline · Under pressure · Core identity</p>
+    <p class="r-headline">\${headlineHTML}</p>
   </div>
 
-  <div class="radar-wrap fade-up">
-    \${radar}
-    <div class="radar-legend">
+  <div class="r-graph fade-up">
+    <div class="graph-toggle" role="tablist">
+      <button class="graph-toggle-btn active" id="graph-tog-bar" onclick="setGraphMode('bar')">Bar comparison</button>
+      <button class="graph-toggle-btn" id="graph-tog-radar" onclick="setGraphMode('radar')">Radar chart</button>
+    </div>
+    <div class="graph-container">
+      <div class="graph-mode-bar" id="graph-bar">\${bar}</div>
+      <div class="graph-mode-radar" id="graph-radar" style="display:none">\${radar}</div>
+    </div>
+    <div class="graph-legend">
       <div class="rleg"><div class="rleg-swatch" style="background:#D4A854;opacity:.5"></div>Baseline</div>
       <div class="rleg"><div class="rleg-swatch" style="background:#A85454;opacity:.5"></div>Under pressure</div>
     </div>
   </div>
 
-  <div class="sec-divider">Your lead capacities</div>
-  <div class="rblock fade-up">
-    <div class="rblock-lbl">Top 2 at baseline</div>
-    <div class="rblock-archs">\${leadTop.map(archPill).join('')}</div>
-    \${leadHTML}
-  </div>
+  <div class="sec-divider">So what</div>
 
-  <div class="sec-divider">Under pressure, you shift to…</div>
-  <div class="rblock fade-up">
-    <div class="rblock-lbl">Top 2 under pressure</div>
-    <div class="rblock-archs">\${pressTop.map(archPill).join('')}</div>
-    \${pressHTML}
-  </div>
-
-  <div class="sec-divider">Your biggest gap</div>
   <div class="gapbox fade-up">
     <div class="gapbox-lbl">Largest baseline-to-pressure shift</div>
     <div class="gapbox-headline" style="color:\${gAD.color}">\${gapHeadline}</div>
     <div class="gapbox-body">\${gapBody}</div>
   </div>
 
+  <div class="sowhat-watchfor fade-up">
+    <div class="sowhat-hdr">Watch for</div>
+    <div class="watchfor-grid">
+      \${watchForHTML}
+    </div>
+  </div>
+
+  <div class="sowhat-reflect fade-up">
+    <div class="sowhat-hdr">Sit with this</div>
+    <ul class="reflect-list">
+      \${reflectItems.join('')}
+    </ul>
+  </div>
+
   <div class="sec-divider">You may underuse…</div>
   <div class="rblock fade-up" style="border-style:dashed">
     <div class="rblock-lbl">Lowest 1–2 across all sections</div>
     <div class="rblock-archs">\${underTop.map(archPill).join('')}</div>
-    \${underHTML}
+    \${underTop.map(k => \`<div class="rblock-body"><strong>\${AD[k].icon} \${AD[k].name}</strong> — \${AD[k].underuse}</div>\`).join('')}
   </div>
 
   \${scored.subRaw ? \`
-  <div class="sub-section fade-up">
+  <div class="going-deeper-section fade-up">
     <div class="sub-section-hdr">Going deeper</div>
-    <p class="sub-prompt">Each capacity is composed of multiple components, some of which can be surprising and enlightening. The breakdown below shows which patterns within each capacity contributed most to your scores.</p>
+    <p class="sub-prompt">Each capacity is composed of multiple components, some of which can be surprising and enlightening. If you want to see more, click here.</p>
     <div class="sub-toggle-wrap">
-      <button class="btn-sub-toggle" onclick="toggleSubscales()" id="subscale-toggle">Show subscales ▼</button>
+      <button class="btn-sub-toggle" onclick="toggleGoingDeeper()" id="going-deeper-toggle">Show component scores ▼</button>
     </div>
-    <div class="sub-content" id="subscale-content" style="display:none"></div>
+    <div class="going-deeper-content" id="going-deeper-content" style="display:none">
+      \${goingDeeperHTML}
+    </div>
   </div>
 
   <div class="sub-section fade-up">
     <div class="sub-section-hdr">About each capacity</div>
-    <p class="sub-prompt">\${scored.subRaw ? "Detailed descriptions of all five capacities — their components, the patterns that emerge from different combinations, and the texture of who you actually are. Where your specific scores match a documented pattern, that pattern is highlighted in your view." : "Detailed descriptions of all five capacities — their components and the patterns that emerge from different combinations."}</p>
+    <p class="sub-prompt">Detailed descriptions of the capacities most relevant to your profile.</p>
     <div class="arch-deep-grid">
-      \${ARCHS.map(arch => {
-        const ad = AD[arch];
-        return \`<button class="arch-deep-btn" id="arch-deep-btn-\${arch}" style="border-color:\${ad.color}40" onclick="toggleArchDeep('\${arch}')" data-arch-color="\${ad.color}">
-          <span class="arch-deep-icon" style="color:\${ad.color}">\${ad.icon}</span>
-          <span class="arch-deep-name" style="color:\${ad.color}">The \${ad.name}</span>
-          <span class="arch-deep-arrow" id="arch-deep-arrow-\${arch}">→</span>
-        </button>\`;
-      }).join('')}
+      \${relevantArchs.map(archDeepBtn).join('')}
     </div>
+    \${otherArchs.length > 0 ? \`
+    <div class="show-all-wrap">
+      <button class="btn-show-all" onclick="showAllCapacities()" id="show-all-btn">Show all 5 capacities ▼</button>
+    </div>
+    <div class="arch-deep-grid arch-deep-grid-others" id="arch-deep-grid-others" style="display:none">
+      \${otherArchs.map(archDeepBtn).join('')}
+    </div>\` : ''}
     <div class="arch-deep-panel" id="arch-deep-panel" aria-live="polite"></div>
   </div>\` : ''}
 
@@ -2366,15 +2571,12 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
 
   document.getElementById('results-content').innerHTML = html;
 
-  // Stash for deep-dive modal access
   _lastScored = scored;
 
-  // Always compute and store the share hash — copyShare uses this regardless of replaceState
   try{
     _lastShareHash = encodeResults(scored.pct);
   } catch(e){ _lastShareHash = ''; }
 
-  // Also try to set it in the URL bar (will fail in sandboxed iframes — that's fine)
   try{
     if(_lastShareHash) history.replaceState(null, '', '#r=' + _lastShareHash);
   } catch(e){ /* sandboxed iframe */ }
@@ -2731,6 +2933,98 @@ function subscaleNote(arch){
 // ══════════════════════════════════════════════════════════════════
 // RADAR CHART
 // ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// BAR CHART (default results graph — toggle with radar)
+// ══════════════════════════════════════════════════════════════════
+function buildBarSVG(basePct, pressPct, gap){
+  const width = 480;
+  const padTop = 20;
+  const padLeft = 110;
+  const padRight = 60;
+  const rowH = 56;
+  const barH = 14;
+  const barGap = 4;
+  const maxBarW = width - padLeft - padRight;
+  const height = padTop + ARCHS.length * rowH + 8;
+
+  let body = '';
+  ARCHS.forEach((arch, i) => {
+    const ad = AD[arch];
+    const y = padTop + i * rowH;
+    const baseW = (basePct[arch] / 100) * maxBarW;
+    const pressW = (pressPct[arch] / 100) * maxBarW;
+    const g = gap[arch];
+    const yBase = y;
+    const yPress = y + barH + barGap;
+
+    body += \`<text class="bar-label" x="\${padLeft - 12}" y="\${y + barH + barGap/2 + 5}" text-anchor="end" fill="\${ad.color}"><tspan class="bar-label-icon">\${ad.icon}</tspan> <tspan font-weight="600">\${ad.name}</tspan></text>\`;
+
+    body += \`<rect class="bar-track" x="\${padLeft}" y="\${yBase}" width="\${maxBarW}" height="\${barH}" fill="#000" fill-opacity="0.04" rx="2"/>\`;
+    body += \`<rect class="bar-base" x="\${padLeft}" y="\${yBase}" width="\${Math.max(2, baseW).toFixed(1)}" height="\${barH}" fill="#D4A854" fill-opacity="0.55" stroke="#D4A854" stroke-width="0.6" rx="2"/>\`;
+    body += \`<text class="bar-pct" x="\${padLeft + Math.max(2, baseW) + 6}" y="\${yBase + barH - 3}" fill="\${ad.color}">\${basePct[arch]}</text>\`;
+
+    body += \`<rect class="bar-track" x="\${padLeft}" y="\${yPress}" width="\${maxBarW}" height="\${barH}" fill="#000" fill-opacity="0.04" rx="2"/>\`;
+    body += \`<rect class="bar-press" x="\${padLeft}" y="\${yPress}" width="\${Math.max(2, pressW).toFixed(1)}" height="\${barH}" fill="#A85454" fill-opacity="0.55" stroke="#A85454" stroke-width="0.6" rx="2"/>\`;
+    body += \`<text class="bar-pct" x="\${padLeft + Math.max(2, pressW) + 6}" y="\${yPress + barH - 3}" fill="\${ad.color}">\${pressPct[arch]}</text>\`;
+
+    if(g >= 10){
+      const labelX = width - 8;
+      body += \`<text class="bar-gap" x="\${labelX}" y="\${y + barH + barGap/2 + 5}" text-anchor="end" fill="\${ad.color}" opacity="0.65">−\${g}</text>\`;
+    }
+  });
+
+  return \`<svg class="bar-svg" viewBox="0 0 \${width} \${height}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">\${body}</svg>\`;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RESULTS-PAGE TOGGLE HELPERS
+// ══════════════════════════════════════════════════════════════════
+function setGraphMode(mode){
+  const barEl = document.getElementById('graph-bar');
+  const radarEl = document.getElementById('graph-radar');
+  const bTog = document.getElementById('graph-tog-bar');
+  const rTog = document.getElementById('graph-tog-radar');
+  if(!barEl || !radarEl || !bTog || !rTog) return;
+  if(mode === 'bar'){
+    barEl.style.display = '';
+    radarEl.style.display = 'none';
+    bTog.classList.add('active');
+    rTog.classList.remove('active');
+  } else {
+    barEl.style.display = 'none';
+    radarEl.style.display = '';
+    bTog.classList.remove('active');
+    rTog.classList.add('active');
+  }
+}
+
+function toggleGoingDeeper(){
+  const content = document.getElementById('going-deeper-content');
+  const tog = document.getElementById('going-deeper-toggle');
+  if(!content || !tog) return;
+  if(content.style.display === 'none'){
+    content.style.display = 'flex';
+    tog.textContent = 'Hide component scores ▲';
+  } else {
+    content.style.display = 'none';
+    tog.textContent = 'Show component scores ▼';
+  }
+}
+
+function showAllCapacities(){
+  const others = document.getElementById('arch-deep-grid-others');
+  const btn = document.getElementById('show-all-btn');
+  if(!others || !btn) return;
+  if(others.style.display === 'none'){
+    others.style.display = '';
+    btn.textContent = 'Hide other capacities ▲';
+  } else {
+    others.style.display = 'none';
+    btn.textContent = 'Show all 5 capacities ▼';
+  }
+}
+
 
 function buildRadarSVG(basePct, pressPct){
   // viewBox is 480 wide × 400 tall — extra horizontal room so Warrior/Visionary labels don't clip
