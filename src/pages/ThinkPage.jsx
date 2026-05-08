@@ -14,6 +14,8 @@ const THINK_PIECES = [
     abstract: 'A visual walkthrough of the Cynefin framework \u2014 from predictable to unpredictable, from holiday dinners to organizational challenges. Learn to see which parts of your challenge need expertise, which need experimentation, and which just need you to act.',
     readTime: '6 min read',
     accent: '#C5D49B',
+    bg: '#2D4541',
+    bgHover: '#37514D',
   },
   {
     id: 'five-layers-deep',
@@ -22,6 +24,8 @@ const THINK_PIECES = [
     abstract: 'A biological view of complexity. How humans evolved from single-celled organisms to creatures who can hold meaning, and how each layer of new capacity unlocked more advanced ways to connect, protect, and \u2014 when we are at our best \u2014 to serve a future bigger than ourselves.',
     readTime: '8 min read',
     accent: '#E8C87A',
+    bg: '#2A4446',
+    bgHover: '#354F51',
   },
 ];
 
@@ -43,9 +47,9 @@ export default function ThinkPage() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         {THINK_PIECES.map((piece) => (
           <a key={piece.id} onClick={(e) => { e.preventDefault(); navigate(piece.id); }} href="#"
-             style={{ display: 'block', background: C.bgCard, borderRadius: 4, padding: '36px 36px', textDecoration: 'none', color: 'inherit', borderLeft: `3px solid ${piece.accent || C.sage}`, transition: 'background 0.3s, transform 0.3s', cursor: 'pointer' }}
-             onMouseEnter={(e) => { e.currentTarget.style.background = C.bgCardHover; e.currentTarget.style.transform = 'translateX(4px)'; }}
-             onMouseLeave={(e) => { e.currentTarget.style.background = C.bgCard; e.currentTarget.style.transform = 'translateX(0)'; }}>
+             style={{ display: 'block', background: piece.bg || C.bgCard, borderRadius: 4, padding: '36px 36px', textDecoration: 'none', color: 'inherit', borderLeft: `3px solid ${piece.accent || C.sage}`, transition: 'background 0.3s, transform 0.3s', cursor: 'pointer' }}
+             onMouseEnter={(e) => { e.currentTarget.style.background = piece.bgHover || C.bgCardHover; e.currentTarget.style.transform = 'translateX(4px)'; }}
+             onMouseLeave={(e) => { e.currentTarget.style.background = piece.bg || C.bgCard; e.currentTarget.style.transform = 'translateX(0)'; }}>
             <div style={{ ...eyebrow, marginBottom: 10, fontSize: 10 }}>{piece.readTime}</div>
             <h2 style={{ fontFamily: F.serif, fontSize: 32, color: C.cream, marginBottom: 8, fontWeight: 400, lineHeight: 1.15 }}>{piece.title}</h2>
             <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: piece.accent || C.sage, marginBottom: 16, lineHeight: 1.4 }}>{piece.subtitle}</p>

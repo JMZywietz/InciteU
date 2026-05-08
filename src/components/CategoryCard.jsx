@@ -11,9 +11,16 @@ const VARIANT_BG = {
   org:  { base: C.bgCardOrg,  hover: C.bgCardOrgHover },
 };
 
+const VARIANT_ACCENT = {
+  self: '#C5D49B',
+  team: '#E8C87A',
+  org:  '#8CBAC6',
+};
+
 export default function CategoryCard({ label, name, tagline, Icon, iconStyle, tools, navigate, guideTo, variant }) {
   const [hovered, setHovered] = useState(false);
   const bgPair = VARIANT_BG[variant] || { base: C.bgCard, hover: C.bgCardHover };
+  const accent = VARIANT_ACCENT[variant] || C.sage;
 
   return (
     <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
@@ -24,10 +31,10 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
       <div style={{ position: 'relative', zIndex: 1, marginTop: 80 }}>
         <div style={{ ...eyebrow, marginBottom: 12 }}>{label}</div>
         <h2 style={{ ...heading(48), marginBottom: 16 }}>{name}</h2>
-        <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: C.sage, marginBottom: 24, lineHeight: 1.4 }}>{tagline}</p>
+        <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: accent, marginBottom: 24, lineHeight: 1.4 }}>{tagline}</p>
         {guideTo && (
           <a onClick={(e) => { e.preventDefault(); navigate(guideTo); }} href="#"
-             style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: C.sage, textDecoration: 'none', fontFamily: F.serif, fontStyle: 'italic', fontSize: 16, cursor: 'pointer', borderTop: `1px solid ${C.line}`, width: '100%', padding: '18px 0 20px', transition: 'gap 0.3s' }}
+             style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: accent, textDecoration: 'none', fontFamily: F.serif, fontStyle: 'italic', fontSize: 16, cursor: 'pointer', borderTop: `1px solid ${C.line}`, width: '100%', padding: '18px 0 20px', transition: 'gap 0.3s' }}
              onMouseEnter={(e) => { e.target.style.gap = '14px'; }}
              onMouseLeave={(e) => { e.target.style.gap = '8px'; }}>
             Not sure where to begin? <span style={{ fontStyle: 'normal' }}>→</span>
@@ -40,10 +47,10 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
             return (
               <li key={i} onClick={onClick}
                   style={{ padding: '12px 0', borderBottom: i === tools.length - 1 ? 'none' : `1px solid ${C.line}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 15, color: C.cream, cursor: isLink ? 'pointer' : 'default', transition: 'color 0.3s' }}
-                  onMouseEnter={(e) => { if (isLink) e.currentTarget.style.color = C.sage; }}
+                  onMouseEnter={(e) => { if (isLink) e.currentTarget.style.color = accent; }}
                   onMouseLeave={(e) => { if (isLink) e.currentTarget.style.color = C.cream; }}>
                 <span>{t.name}</span>
-                <span style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: t.live ? C.sage : C.creamMuted }}>
+                <span style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: t.live ? accent : C.creamMuted }}>
                   {t.live ? `Available${t.external ? ' ↗' : ''}` : 'Coming soon'}
                 </span>
               </li>
