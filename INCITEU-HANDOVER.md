@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 8, 2026 (afternoon)
+**Last updated:** May 8, 2026 (evening)
 **Owner:** Jen Zywietz (jen@inciteu.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** Deployed on Vercel (custom domain pending → inciteu.com)
@@ -290,6 +290,8 @@ These are Jen's tasks, not Claude's. Listed so future-Claude knows the state.
 
 Keep commits small and atomic. One feature = one commit. When you add a Pattern B tool, also update §9 of this doc in the same commit.
 
+**Before signing off:** if this session shipped a new tool, renamed something, deprecated something, or otherwise changed reality on `main` in a way that future-Claude needs to know about — update this handover doc in the same session. See §11.
+
 ---
 
 ## 8. Quick Reference — Existing Tools
@@ -344,4 +346,36 @@ External URLs the site links to that aren't published Claude artifacts. Recorded
 
 ---
 
-*End of handover. Keep it current — update this file in the repo when the architecture changes meaningfully, and always update §9 when adding a Pattern B tool.*
+## 11. Updating this Handover Doc
+
+This doc is the source of truth that every future Claude session reads first. **The session that ships a change is the session that updates the doc** — not "later," not "next time." If the change matters enough that future-Claude needs to know about it, the handover update belongs in the same session, ideally the same atomic commit.
+
+**Update the handover when any of these happen:**
+- A new tool is added (Pattern A or B). Update §8 (Quick Reference table) and, for Pattern B tools, §9 (Artifact URL Registry).
+- A tool is renamed, deprecated, or removed. Update §8, and add a backward-compat note if the rename leaves redirects/aliases behind (see Leadership Capacities Analysis precedent).
+- A new architectural pattern emerges that future-Claude could miss or accidentally re-invent (e.g., per-category palette tints when those were introduced).
+- A new constraint, gotcha, or rule worth flagging (add to §5 Pitfalls or wherever it fits topically).
+- An item in §6 (Outstanding Setup) is completed — cross it off so future-Claude isn't chasing stale tasks.
+- The architecture map in §1 changes structurally (new top-level folder, new shared resource, etc.).
+
+**Skip the handover update for:**
+- Routine cosmetic tweaks to existing components (font sizes, paddings, opacity, copy edits) that don't introduce a new pattern.
+- Bug fixes that restore previously-documented behavior without changing the interface.
+- Internal refactors of a single tool that don't affect how it's wired into the rest of the site.
+
+**How to do the update mechanically:**
+1. Make the change to the code as normal.
+2. Read the current handover doc with `GITHUB_GET_REPOSITORY_CONTENT` on `INCITEU-HANDOVER.md`.
+3. Edit the relevant section(s). Bump the "Last updated" date at the top.
+4. Commit the doc update — either bundled with the code change in one atomic commit (preferred for tightly-coupled changes), or as a separate "Update handover doc: ..." commit immediately after (acceptable when the code change is large and the doc edit is unrelated cleanup).
+
+**Don't:**
+- Don't ask Jen "should I also update the handover?" — just do it. Surfacing it as a question creates friction; the answer is always yes when the criteria above are met.
+- Don't wait for Jen to remind you. She does not want to be the one tracking this.
+- Don't update the handover in a way that undermines existing rules or patterns without flagging it explicitly. If a new approach contradicts something the doc already says, call that out in the commit message and in the doc itself.
+
+This rule was added May 8, 2026 after a session where the handover went stale because each Claude session assumed the "next one" would update it. The fix: the session that did the work also writes the note about the work.
+
+---
+
+*End of handover. Keep it current — update this file in the repo when the architecture changes meaningfully, and always update §9 when adding a Pattern B tool. See §11 for the rule on when and how to update.*
