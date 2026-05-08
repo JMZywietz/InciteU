@@ -12,10 +12,10 @@ export default function HomePage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease' }}>
-      <section style={{ position: 'relative', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 6vw 40px', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', minHeight: '56vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 6vw 40px', overflow: 'hidden' }}>
         <img src={HERO_PHOTO} alt="" aria-hidden="true"
-             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, opacity: 0.35 }} />
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at center, transparent 0%, rgba(31, 57, 55, 0.6) 60%, ${C.bgDeep} 100%), linear-gradient(180deg, rgba(31, 57, 55, 0.4) 0%, ${C.bgDeep} 95%)`, zIndex: 1 }} />
+             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, opacity: 0.7 }} />
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(180deg, rgba(31, 57, 55, 0.35) 0%, rgba(31, 57, 55, 0.55) 50%, ${C.bgDeep} 100%)`, zIndex: 1 }} />
         <HeroFlourish />
         <div style={{ position: 'relative', zIndex: 3, maxWidth: 1000, textAlign: 'center' }}>
           <h1 style={{ fontFamily: F.serif, fontWeight: 400, fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.1, letterSpacing: '-0.01em', marginBottom: 24, color: C.cream }}>
