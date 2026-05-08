@@ -1,6 +1,6 @@
-// ===========================================================================
+// =====================================================================
 // ROUTE PATHS
-// ===========================================================================
+// =====================================================================
 export const PATHS = {
   home: '/',
   bio: '/bio',
@@ -9,6 +9,8 @@ export const PATHS = {
   threeMoments: '/tools/self/three-moments',
   lcp: '/tools/self/lcp',
   leadershipStance: '/tools/self/leadership-stance',
+  fiveLives: '/tools/self/five-lives',
+  smallestViableExperiment: '/tools/self/smallest-viable-experiment',
   readiness: '/tools/org/readiness',
   vision: '/tools/org/vision',
   preMortem: '/tools/team/pre-mortem',
@@ -26,6 +28,8 @@ export const STATE_TO_PATH = {
   'three-moments': PATHS.threeMoments,
   lcp: PATHS.lcp,
   'leadership-stance': PATHS.leadershipStance,
+  'five-lives': PATHS.fiveLives,
+  'smallest-viable-experiment': PATHS.smallestViableExperiment,
   readiness: PATHS.readiness,
   vision: PATHS.vision,
   'pre-mortem': PATHS.preMortem,
