@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 6, 2026
+**Last updated:** May 8, 2026
 **Owner:** Jen Zywietz (jen@inciteu.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** Deployed on Vercel (custom domain pending → inciteu.com)
@@ -50,6 +50,7 @@ JMZywietz/InciteU/
 **Brand constants (from `src/theme.js`):**
 - `C.bgDeep` `#1F3937`, `C.bgCard` `#2A4744`, `C.cream` `#F0EBDB`, `C.sage` `#C5D49B`
 - `F.serif` = Cormorant Garamond, `F.sans` = Inter
+- **Per-category card tints** (HomePage cards only): `C.bgCardSelf` (`#2A4744`, sage-teal), `C.bgCardTeam` (`#2D4541`, warmer green-brown), `C.bgCardOrg` (`#28464A`, cooler blue-teal), each with a matching `*Hover` variant. The generic `C.bgCard` / `C.bgCardHover` are still the right choice for tool pages and other dark surfaces — only the three category cards on the homepage use the tinted versions, via the `variant="self|team|org"` prop on `<CategoryCard>`.
 - Always import from `theme.js` and `styles.js`. **Don't redefine colors or buttons.**
 
 ---
