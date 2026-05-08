@@ -3,12 +3,12 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 
 // ============================================================================
-// LEADERSHIP STANCE ASSESSMENT
+// LEADERSHIP CAPACITIES ANALYSIS
 // ============================================================================
 // FAITHFUL 1:1 PORT of the standalone five-layers-assessment.html.
 //
 // Strategy: the original is a complete, self-contained HTML/CSS/JS experience
-// with its own multi-page state machine, archetype detail modals, and the
+// with its own multi-page state machine, capacity detail modals, and the
 // Theoretical Foundations page. Rather than rewriting it in idiomatic React
 // (which is what introduced silent content losses on the previous attempt),
 // this React component is a thin shell:
@@ -60,7 +60,7 @@ const LSA_CSS = `
 .lsa-root .arch-pills {display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 28px}
 .lsa-root .apill {display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:16px;border:1.5px solid;font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
 
-/* ── INTRO ARCHETYPE BOXES ── */
+/* ── INTRO CAPACITY BOXES ── */
 .lsa-root .intro-text-narrow {max-width:600px;margin-left:auto;margin-right:auto}
 .lsa-root .intro-section {margin:34px 0 24px}
 .lsa-root .intro-section-label {font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:8px}
@@ -81,7 +81,7 @@ const LSA_CSS = `
   .lsa-root .intro-section {margin:28px 0 18px}
 }
 
-/* ── ARCHETYPE MODAL (home page click-to-expand + results page reuse) ── */
+/* ── CAPACITY MODAL (home page click-to-expand + results page reuse) ── */
 .lsa-root .arch-modal-backdrop {position:fixed;inset:0;background:rgba(42,37,32,0.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:9000;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
 .lsa-root .arch-modal-backdrop.on {display:flex;animation:fade-in .22s ease}
 @keyframes fade-in{from{opacity:0}to{opacity:1}}
@@ -142,6 +142,9 @@ const LSA_CSS = `
 .lsa-root .qtext {font-family:var(--fd);font-size:clamp(17px,2.8vw,21px);font-weight:600;line-height:1.42;margin-bottom:8px;color:var(--text)}
 .lsa-root .qhint {font-family:var(--fm);font-size:10px;letter-spacing:.04em;color:var(--text3);margin-bottom:22px;font-style:italic}
 .lsa-root .qhint span {font-style:normal;font-weight:600;color:var(--text2)}
+.lsa-root .qphase {font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;opacity:0.85;display:flex;align-items:center;gap:10px}
+.lsa-root .qphase-bar {display:inline-block;width:22px;height:1.5px;background:currentColor;opacity:0.5}
+.lsa-root .qphase-num {opacity:0.6;font-weight:500}
 .lsa-root .qopts {display:flex;flex-direction:column;gap:9px}
 .lsa-root .qopt {display:flex;align-items:flex-start;gap:13px;padding:14px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color .16s,background .16s;background:transparent;text-align:left;width:100%;font-family:var(--fb);font-size:14.5px;color:var(--text2);line-height:1.5}
 .lsa-root .qopt:hover {border-color:var(--border2);background:rgba(0,0,0,.01)}
@@ -236,7 +239,7 @@ const LSA_CSS = `
 .lsa-root .sub-interp strong {color:var(--text);font-weight:700}
 .lsa-root .sub-note {font-size:11.5px;color:var(--text3);font-style:italic;line-height:1.6;margin-top:10px}
 
-/* ── ARCHETYPE DEEP-DIVE GRID (results page) ── */
+/* ── CAPACITY DEEP-DIVE GRID (results page) ── */
 .lsa-root .arch-deep-grid {display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:10px;margin-top:8px}
 .lsa-root .arch-deep-btn {background:var(--surface);border:1.5px solid;border-radius:10px;padding:18px 16px;font-family:var(--fb);cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
 .lsa-root .arch-deep-btn:hover {transform:translateY(-2px);box-shadow:0 6px 18px rgba(42,37,32,0.07)}
@@ -335,7 +338,7 @@ const LSA_CSS = `
 .lsa-root .tia-section h3 {font-family:var(--fd);font-size:24px;font-weight:700;margin-bottom:14px;line-height:1.3}
 .lsa-root .tia-section > p {font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:24px;font-style:italic}
 
-/* Sticky archetype jump nav */
+/* Sticky capacity jump nav */
 .lsa-root .tia-nav {position:sticky;top:0;z-index:50;background:var(--bg);display:flex;flex-wrap:wrap;gap:8px;padding:14px 0;margin-bottom:16px;border-bottom:1px solid var(--border);justify-content:center}
 .lsa-root .tia-pill {display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 11px;background:var(--surface);border:1px solid var(--border);border-radius:24px;text-decoration:none;font-family:var(--fm);font-size:12px;font-weight:600;letter-spacing:.05em;color:var(--text2);transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;cursor:pointer}
 .lsa-root .tia-pill:hover {transform:translateY(-1px);box-shadow:0 4px 12px rgba(42,37,32,0.06);border-color:var(--pill-color)}
@@ -346,7 +349,7 @@ const LSA_CSS = `
 .lsa-root .tia-pill-icon svg {width:100%;height:100%}
 .lsa-root .tia-pill-label {transition:color .18s ease}
 
-/* Archetype CARD — single bordered container per archetype */
+/* Capacity CARD — single bordered container per capacity */
 .lsa-root .tia-arch {background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--arch-color);border-radius:12px;padding:0;margin-bottom:28px;scroll-margin-top:90px;overflow:hidden}
 .lsa-root .tia-arch:last-child {margin-bottom:0}
 
@@ -469,15 +472,15 @@ const LSA_BODY_HTML = `
   <div class="inner-w">
     <div class="intro-text-narrow">
       <div class="intro-eyebrow">Incite Leadership · Five Layers Deep</div>
-      <h1 class="intro-title">Archetypes <span style="color:var(--text3);font-weight:400;font-style:italic;font-size:.7em;vertical-align:middle"> / </span><br>Leadership stances</h1>
-      <p class="intro-sub">Which of the five evolutionary archetypes do you lead with at baseline — and which one takes over when you're under pressure?</p>
+      <h1 class="intro-title">Five Core Capacities</h1>
+      <p class="intro-sub">Which of your Five Core Capacities do you lead with at baseline — and which one takes over when you're under pressure?</p>
 
-      <p class="intro-body">This assessment maps three things: which archetypes you draw on in everyday conditions, which you default to when stakes are high, and which you may underuse overall. The most diagnostic finding is the <em>gap</em> — the capacity that goes offline when you're stressed.</p>
+      <p class="intro-body">This assessment maps three things: which capacities you draw on in everyday conditions, which you default to when stakes are high, and which you may underuse overall. The most diagnostic finding is the <em>gap</em> — the capacity that goes offline when you're stressed.</p>
     </div>
 
-    <!-- ─── DRIVES ─── -->
+    <!-- ─── BASIC DRIVE CAPACITIES ─── -->
     <div class="intro-section">
-      <div class="intro-section-label">— Drives —</div>
+      <div class="intro-section-label">— Basic drive capacities —</div>
       <div class="intro-section-tagline">Motivational systems that move you</div>
       <div class="arch-grid">
 
@@ -539,9 +542,9 @@ const LSA_BODY_HTML = `
       </div>
     </div>
 
-    <!-- ─── CAPACITIES ─── -->
+    <!-- ─── ENHANCED COGNITIVE CAPACITIES ─── -->
     <div class="intro-section">
-      <div class="intro-section-label">— Capacities —</div>
+      <div class="intro-section-label">— Enhanced cognitive capacities —</div>
       <div class="intro-section-tagline">Resources you bring to bear when the world gets complex</div>
       <div class="arch-grid">
 
@@ -674,7 +677,7 @@ const LSA_BODY_HTML = `
     <div class="found-hdr">
       <div class="r-eyebrow">About this assessment</div>
       <h1 class="r-title" style="font-size:clamp(26px,4.5vw,38px)">Theoretical foundations</h1>
-      <p class="r-sub">The theory, the deeper dive into each archetype, and how this assessment was built</p>
+      <p class="r-sub">The theory, the deeper dive into each capacity, and how this assessment was built</p>
 
       <nav class="found-jump-nav" aria-label="Jump to section">
         <button class="found-jump-btn" onclick="foundJump(event,'found-grounding')">Scientific grounding</button>
@@ -688,8 +691,8 @@ const LSA_BODY_HTML = `
       <h2 class="found-section-title">Scientific grounding</h2>
 
     <div class="found-intro">
-      <p>This assessment maps each archetype to a specific body of research and the validated psychometric instruments that informed item design. The format is a Situational Judgment Test (SJT) — a well-established psychometric format that avoids the social desirability bias of traditional Likert-scale self-report.</p>
-      <p>Items haven't been through factor analysis or formal validation. Each archetype is grounded in published research and reference instruments listed below — but until validated, treat results as <em>reflective</em>, not <em>diagnostic</em>.</p>
+      <p>This assessment maps each capacity to a specific body of research and the validated psychometric instruments that informed item design. The format is a Situational Judgment Test (SJT) — a well-established psychometric format that avoids the social desirability bias of traditional Likert-scale self-report.</p>
+      <p>Items haven't been through factor analysis or formal validation. Each capacity is grounded in published research and reference instruments listed below — but until validated, treat results as <em>reflective</em>, not <em>diagnostic</em>.</p>
     </div>
 
     <!-- HEDONIST -->
@@ -900,7 +903,7 @@ const LSA_BODY_HTML = `
         </div>
       </div>
 
-      <div class="fcard-note">The least scientifically settled archetype. Strongest theoretical backing comes from Levy et al. (2024) on abstraction capacity and the cultural evolution literature (Boyd &amp; Richerson) on meaning-making and cooperation at scale.</div>
+      <div class="fcard-note">The least scientifically settled capacity. Strongest theoretical backing comes from Levy et al. (2024) on abstraction capacity and the cultural evolution literature (Boyd &amp; Richerson) on meaning-making and cooperation at scale.</div>
     </div>
 
     </section>
@@ -908,13 +911,13 @@ const LSA_BODY_HTML = `
 
     <!-- ═══ SECTION 2: THEORY IN ACTION ═══ -->
     <section class="found-section" id="found-tia">
-      <h2 class="found-section-title">Theory in action <span class="found-section-title-sub">— a deeper dive into the archetypes</span></h2>
+      <h2 class="found-section-title">Theory in action <span class="found-section-title-sub">— a deeper dive into the capacities</span></h2>
 
     <!-- THEORY IN ACTION -->
     <div class="tia-section">
-      <p>Each archetype is a constellation of distinct capacities. Two people can score the same on an archetype overall while having radically different inner machinery. The subscales are where the texture of who you actually are lives.</p>
+      <p>Each capacity is composed of distinct subscales. Two people can score the same on a capacity overall while having radically different inner machinery — the subscales are where the texture of who you actually are lives.</p>
 
-      <nav class="tia-nav" aria-label="Jump to archetype">
+      <nav class="tia-nav" aria-label="Jump to capacity">
     <a href="#tia-hedonist" class="tia-pill" onclick="tiaJump(event,'tia-hedonist')" style="--pill-color:#D4A854"><span class="tia-pill-icon" style="color:#D4A854"><svg viewBox="0 0 120 120" class="tia-pill-svg" role="img" aria-label="Hedonist sun">
     <title>Hedonist sun</title>
     <circle cx="60" cy="60" r="54" fill="rgba(212,168,84,0.06)"/>
@@ -1223,7 +1226,7 @@ const LSA_BODY_HTML = `
             <div class="tia-arch-iconbox-label">The Visionary</div>
           </div>
           <div class="tia-arch-content">
-            <p class="tia-framing">The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity — and it has more distinct components than any other archetype.</p>
+            <p class="tia-framing">The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity — and it has more distinct components than any other capacity.</p>
 
             <dl class="tia-subscales">
               <dt>Presence of Meaning</dt>
@@ -1269,7 +1272,7 @@ const LSA_BODY_HTML = `
       <!-- ═══════════════════════════════════════════════════════════════ -->
       <div class="chain-block">
         <h3 class="chain-title">Emotion as diagnostic <span class="chain-title-sub">— the cross-cutting view</span></h3>
-        <p class="chain-intro">The five archetypes above are the entry point. Underneath them sits a deeper structure: <strong>five evolutionary substrates</strong> — Egoist, Veteran, Lover, Strategist, Visionary — and <strong>two drives</strong> that run through every substrate: Hedonist (seeking pleasure) and Warrior (avoiding pain). The same drive feels different at each layer of the system. The grid below maps that — seven emotion families across the five substrates. Every emotion you can name is also a diagnostic: it tells you which level of the system is active and which way the drive is pointing.</p>
+        <p class="chain-intro">The Five Core Capacities above are the entry point. Underneath them sits a deeper structure: <strong>five evolutionary substrates</strong> — Egoist, Veteran, Lover, Strategist, Visionary — and <strong>two drives</strong> that run through every substrate: Hedonist (seeking pleasure) and Warrior (avoiding pain). The same drive feels different at each layer of the system. The grid below maps that — seven emotion families across the five substrates. Every emotion you can name is also a diagnostic: it tells you which level of the system is active and which way the drive is pointing.</p>
 
         <div class="chain-grid">
           <div class="chain-grid-header">
@@ -1387,7 +1390,7 @@ const LSA_BODY_HTML = `
     <!-- COVERAGE MATRIX -->
     <div class="cov-section">
       <h3>Subscale coverage matrix</h3>
-      <p>Each archetype's items map to specific subscales of the validated reference instruments listed above. This matrix shows item counts per subscale, broken down by section, and whether differential analysis (baseline vs. pressure) is meaningfully possible.</p>
+      <p>Each capacity's items map to specific subscales of the validated reference instruments listed above. This matrix shows item counts per subscale, broken down by section, and whether differential analysis (baseline vs. pressure) is meaningfully possible.</p>
 
       <div class="cov-wrap">
         <table class="cov-table">
@@ -1502,11 +1505,11 @@ const LSA_BODY_HTML = `
     <div class="found-isnot">
       <div class="found-isnot-cell is">
         <div class="found-isnot-lbl">What this is</div>
-        <div class="found-isnot-body">A well-grounded, theoretically informed tool for self-reflection and coaching conversations. Each archetype maps to established psychological constructs with validated instruments as reference points.</div>
+        <div class="found-isnot-body">A well-grounded, theoretically informed tool for self-reflection and coaching conversations. Each capacity maps to established psychological constructs with validated instruments as reference points.</div>
       </div>
       <div class="found-isnot-cell isnot">
         <div class="found-isnot-lbl">What this is not (yet)</div>
-        <div class="found-isnot-body">A psychometrically validated instrument. Validation would require administering these items plus the reference instruments to 200–300 participants, then confirming through factor analysis that five factors emerge corresponding to the five archetypes, and that scores show convergent and discriminant validity against established measures.</div>
+        <div class="found-isnot-body">A psychometrically validated instrument. Validation would require administering these items plus the reference instruments to 200–300 participants, then confirming through factor analysis that five factors emerge corresponding to the five capacities, and that scores show convergent and discriminant validity against established measures.</div>
       </div>
     </div>
 
@@ -1520,7 +1523,7 @@ const LSA_BODY_HTML = `
 
 <div class="toast" id="toast"></div>
 
-<!-- Archetype detail modal — opened from home page boxes and results page deep-dive links -->
+<!-- Capacity detail modal — opened from home page boxes and results page deep-dive links -->
 <div class="arch-modal-backdrop" id="arch-modal-backdrop" onclick="if(event.target === this) closeArchModal()">
   <div class="arch-modal" role="dialog" aria-modal="true" aria-labelledby="arch-modal-title">
     <button class="arch-modal-close" onclick="closeArchModal()" aria-label="Close">×</button>
@@ -1615,10 +1618,10 @@ const SUBSCALE_COUNTS = {
 };
 
 // ══════════════════════════════════════════════════════════════════
-// ARCHETYPE DETAILS — source content for home modal + results deep-dive
+// CAPACITY DETAILS — source content for home modal + results deep-dive
 // ══════════════════════════════════════════════════════════════════
 
-const ARCHETYPE_DETAILS = {
+const CAPACITY_DETAILS = {
   hedonist: {
     framing: "The Hedonist is the part of you that goes <em>toward</em> — toward pleasure, toward novelty, toward the thing that lights you up. But \\"going toward\\" decomposes into three different engines, and they don't always run together.",
     subscales: [
@@ -1630,7 +1633,7 @@ const ARCHETYPE_DETAILS = {
       {
         id:'achievement_runner',
         label:'Drive without Reward Responsiveness — the achievement runner',
-        // Drive ≥ 60% within archetype AND Reward Responsiveness ≤ 35% within archetype
+        // Drive ≥ 60% within capacity AND Reward Responsiveness ≤ 35% within capacity
         detect: (subPct) => subPct.drive >= 60 && subPct.reward_responsiveness <= 35,
         content: "Strong pursuit machinery, weak savoring machinery. You climb the ladder, hit the goal, get the promotion — and feel surprisingly little. The dopamine of pursuit isn't matched by satisfaction at arrival, so you immediately set the next goal. From outside it looks like drive. From inside it can feel like an inability to land. The fix isn't more drive; it's relearning Reward Responsiveness — the capacity to actually feel what you've already won."
       },
@@ -1751,7 +1754,7 @@ const ARCHETYPE_DETAILS = {
   },
 
   visionary: {
-    framing: "The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity — and it has more distinct components than any other archetype.",
+    framing: "The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity — and it has more distinct components than any other capacity.",
     subscales: [
       { key:'presence_of_meaning', name:'Presence of Meaning', desc:"The felt sense that your life has purpose. \\"I know why I'm here.\\" A <strong>current state</strong> of meaningfulness." },
       { key:'search_for_meaning', name:'Search for Meaning', desc:"Active questioning of purpose. \\"I'm working out why I'm here.\\" A <strong>process</strong> of meaning-making. Importantly, not the inverse of Presence — they're partly orthogonal." },
@@ -1792,7 +1795,7 @@ const ARCHETYPE_DETAILS = {
     also: "<strong>Presence and Search are partly orthogonal</strong> — that's the key insight here. You can have a strong settled sense of meaning <em>and</em> be actively questioning it. The four positions on the Presence × Search grid feel completely different from the inside, even when overall Visionary scores look similar.",
     uncovered: {
       name: 'Spiritual Self-Transcendence and Positive Reframing',
-      note: "Two further Visionary subscales — <strong>Spiritual Self-Transcendence</strong> (identification with cosmos, openness to mystery, transpersonal experience) and <strong>Positive Reframing</strong> (the coping capacity that transforms difficulty into growth or meaning) — are described in the research but not measured by this 15-scenario assessment. Spiritual Self-Transcendence in particular is often the most distinctive subscale within the Visionary archetype."
+      note: "Two further Visionary subscales — <strong>Spiritual Self-Transcendence</strong> (identification with cosmos, openness to mystery, transpersonal experience) and <strong>Positive Reframing</strong> (the coping capacity that transforms difficulty into growth or meaning) — are described in the research but not measured by this 15-scenario assessment. Spiritual Self-Transcendence in particular is often the most distinctive subscale within the Visionary capacity."
     }
   },
 };
@@ -1928,7 +1931,7 @@ const TOTAL_Q = 15;
 let state = {
   sessionScenarios: [],
   currentIdx: 0,
-  answers: {},        // scenarioId -> ordered array of archetype keys (max 3)
+  answers: {},        // scenarioId -> ordered array of capacity keys (max 3)
   optionShuffles: {}, // scenarioId -> shuffled options array
 };
 let _prevPage = null;
@@ -2007,7 +2010,7 @@ function closeFoundations(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Theory in Action: jump to a specific archetype section with smooth scroll
+// Theory in Action: jump to a specific capacity section with smooth scroll
 // and active-pill highlighting. The sticky nav remains in place while the
 // content scrolls beneath it.
 function tiaJump(e, targetId){
@@ -2077,9 +2080,15 @@ function renderScenario(){
     </button>\`;
   }).join('');
 
+  const phaseLabels = { baseline:'Everyday scenarios', pressure:'Under pressure', identity:'Identity and values' };
+  const phaseScens = state.sessionScenarios.filter(x => x.section === s.section);
+  const withinIdx = phaseScens.findIndex(x => x.id === s.id);
+  const phaseLine = (phaseLabels[s.section] || s.section) + ' \u00b7 <span class="qphase-num">' + (withinIdx + 1) + ' of ' + phaseScens.length + '</span>';
+
   wrap.innerHTML = \`<div class="qcard">
+    <div class="qphase"><span class="qphase-bar"></span>\${phaseLine}</div>
     <p class="qtext">\${s.text}</p>
-    <p class="qhint">Tap your top <span>1–3 responses</span> in order. Tap again to deselect.</p>
+    <p class="qhint">Choose your top response. If you feel many strongly apply, you may choose up to 3.</p>
     <div class="qopts">\${opts}</div>
   </div>\`;
 
@@ -2172,7 +2181,7 @@ function calcScores(){
     });
   });
 
-  // Max possible per section per archetype: count * 3 (always 1st pick)
+  // Max possible per section per capacity: count * 3 (always 1st pick)
   const maxes = {
     baseline: counts.baseline * 3,
     pressure: counts.pressure * 3,
@@ -2204,7 +2213,7 @@ function bottomN(scoreObj, n=2){
 }
 
 function calcOverall(pct){
-  // Average across all three sections per archetype
+  // Average across all three sections per capacity
   const out = {};
   for(const a of ARCHS){
     out[a] = (pct.baseline[a] + pct.pressure[a] + pct.identity[a]) / 3;
@@ -2213,7 +2222,7 @@ function calcOverall(pct){
 }
 
 function calcGap(pct){
-  // baseline minus pressure per archetype
+  // baseline minus pressure per capacity
   const gap = {};
   for(const a of ARCHS){
     gap[a] = pct.baseline[a] - pct.pressure[a];
@@ -2267,7 +2276,7 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
     gapBody = \`\${gAD.name} drops by \${gapVal} points when conditions get hard. A moderate gap — present but not collapse. Worth tracking in real time: when do you feel \${gAD.name} starting to recede, and what brings it back?\`;
   } else if(gapVal >= 0){
     gapHeadline = \`Stable across baseline and pressure\`;
-    gapBody = \`Your largest baseline-to-pressure gap is only \${gapVal} points (\${gAD.name}). You hold most of your archetypes consistently across conditions, which is unusual. The question worth sitting with: are there capacities you might be less aware of because nothing dramatic shifts?\`;
+    gapBody = \`Your largest baseline-to-pressure gap is only \${gapVal} points (\${gAD.name}). You hold most of your capacities consistently across conditions, which is unusual. The question worth sitting with: are there capacities you might be less aware of because nothing dramatic shifts?\`;
   } else {
     // Negative gap = something rises under pressure
     const absGap = Math.abs(gapVal);
@@ -2277,7 +2286,7 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
 
   const html = \`
   <div class="r-header fade-up">
-    <div class="r-eyebrow">Your Archetype Profile</div>
+    <div class="r-eyebrow">Your Capacity Profile</div>
     <h1 class="r-title">Five Layers Deep</h1>
     <p class="r-sub">Baseline · Under pressure · Core identity</p>
   </div>
@@ -2290,7 +2299,7 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
     </div>
   </div>
 
-  <div class="sec-divider">Your lead archetypes</div>
+  <div class="sec-divider">Your lead capacities</div>
   <div class="rblock fade-up">
     <div class="rblock-lbl">Top 2 at baseline</div>
     <div class="rblock-archs">\${leadTop.map(archPill).join('')}</div>
@@ -2321,7 +2330,7 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
   \${scored.subRaw ? \`
   <div class="sub-section fade-up">
     <div class="sub-section-hdr">Going deeper</div>
-    <p class="sub-prompt">Each archetype is composed of distinct subscales drawn from validated psychological instruments. The breakdown below shows which patterns within each archetype contributed most to your scores.</p>
+    <p class="sub-prompt">Each capacity is composed of multiple components, some of which can be surprising and enlightening. The breakdown below shows which patterns within each capacity contributed most to your scores.</p>
     <div class="sub-toggle-wrap">
       <button class="btn-sub-toggle" onclick="toggleSubscales()" id="subscale-toggle">Show subscales ▼</button>
     </div>
@@ -2329,8 +2338,8 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
   </div>
 
   <div class="sub-section fade-up">
-    <div class="sub-section-hdr">About each archetype</div>
-    <p class="sub-prompt">\${scored.subRaw ? "Detailed descriptions of all five archetypes — their subscales, the patterns that emerge from different combinations, and the texture of who you actually are. Where your specific scores match a documented pattern, that pattern is highlighted in your view." : "Detailed descriptions of all five archetypes — their subscales and the patterns that emerge from different combinations."}</p>
+    <div class="sub-section-hdr">About each capacity</div>
+    <p class="sub-prompt">\${scored.subRaw ? "Detailed descriptions of all five capacities — their components, the patterns that emerge from different combinations, and the texture of who you actually are. Where your specific scores match a documented pattern, that pattern is highlighted in your view." : "Detailed descriptions of all five capacities — their components and the patterns that emerge from different combinations."}</p>
     <div class="arch-deep-grid">
       \${ARCHS.map(arch => {
         const ad = AD[arch];
@@ -2345,7 +2354,8 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
   </div>\` : ''}
 
   <div class="r-actions fade-up">
-    <button class="btn btn-dark" onclick="copyShare()">Copy shareable link</button>
+    <button class="btn btn-dark" onclick="emailResults()">Email me my results</button>
+    <button class="btn btn-ghost" onclick="copyShare()">Copy shareable link</button>
   </div>
 
   <div style="text-align:center;margin-top:22px">
@@ -2370,8 +2380,29 @@ function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap
   } catch(e){ /* sandboxed iframe */ }
 }
 
+
 // ══════════════════════════════════════════════════════════════════
-// ARCHETYPE DETAIL MODAL
+// EMAIL RESULTS (mailto: — opens user's email client with pre-filled link)
+// ══════════════════════════════════════════════════════════════════
+function emailResults(){
+  // Build URL with hash. Fallback: try to construct one if _lastShareHash is empty.
+  let hash = _lastShareHash;
+  if(!hash){
+    try { hash = encodeResults(_lastScored.pct); } catch(e){ hash = ''; }
+  }
+  const base = window.location.origin + window.location.pathname;
+  const url  = hash ? (base + '#r=' + hash) : base;
+  const subject = encodeURIComponent('My Leadership Capacities Analysis results');
+  const body = encodeURIComponent(
+    'Here are my Leadership Capacities Analysis results:' + '\n\n' +
+    url + '\n\n' +
+    'This link encodes my results — bookmark or save the email to revisit anytime.' + '\n'
+  );
+  window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CAPACITY DETAIL MODAL
 // Opened from home page archboxes (no scores yet) and from results
 // page deep-dive section (with scored data → conditional combos).
 // ══════════════════════════════════════════════════════════════════
@@ -2382,7 +2413,7 @@ let _lastScored = null;  // stashed so the results-page deep-dive buttons can ac
 
 function openArchModal(arch, scored){
   // scored is optional — when present, we surface matching combinations
-  const details = ARCHETYPE_DETAILS[arch];
+  const details = CAPACITY_DETAILS[arch];
   if(!details) return;
   const ad = AD[arch];
   const backdrop = document.getElementById('arch-modal-backdrop');
@@ -2505,7 +2536,7 @@ function toggleArchDeep(arch){
   const panel = document.getElementById('arch-deep-panel');
   if(!panel) return;
   const allBtns = document.querySelectorAll('.arch-deep-btn');
-  // If clicking the already-open archetype, close it
+  // If clicking the already-open capacity, close it
   if(_archDeepOpen === arch){
     panel.classList.remove('open');
     panel.innerHTML = '';
@@ -2513,7 +2544,7 @@ function toggleArchDeep(arch){
     _archDeepOpen = null;
     return;
   }
-  // Otherwise, open the chosen archetype
+  // Otherwise, open the chosen capacity
   panel.innerHTML = LSA_TIA_BLOCKS[arch] || '';
   panel.classList.add('open');
   allBtns.forEach(b => b.classList.remove('active'));
@@ -2539,7 +2570,7 @@ function openArchModalFromResults(arch){
   }
 }
 
-// Helper: compute within-archetype subscale percentages for combination detection
+// Helper: compute within-capacity subscale percentages for combination detection
 function computeSubPct(arch, subRaw){
   const out = {};
   for(const [subKey, _] of Object.entries(SUBSCALES[arch])){
@@ -2569,7 +2600,7 @@ function toggleSubscales(){
   if(content.style.display === 'none'){
     if(!content.dataset.rendered){
       const scored = calcScores();
-      content.innerHTML = \`<div class="sub-content-intro">Subscales are drawn from validated reference instruments — see <a href="#foundations" onclick="openFoundations(event)" style="color:inherit;text-decoration:underline">Theoretical foundations</a> for full citations and the coverage matrix. Percentages are within-archetype: the proportion of available points you scored on that subscale.</div>\` + renderSubscaleAnalysis(scored.subRaw);
+      content.innerHTML = \`<div class="sub-content-intro">Subscales are drawn from validated reference instruments — see <a href="#foundations" onclick="openFoundations(event)" style="color:inherit;text-decoration:underline">Theoretical foundations</a> for full citations and the coverage matrix. Percentages are within-capacity: the proportion of available points you scored on that subscale.</div>\` + renderSubscaleAnalysis(scored.subRaw);
       content.dataset.rendered = '1';
     }
     content.style.display = 'block';
@@ -2581,7 +2612,7 @@ function toggleSubscales(){
 }
 
 function renderSubscaleAnalysis(subRaw){
-  // Calculate per-subscale percentages and per-archetype totals
+  // Calculate per-subscale percentages and per-capacity totals
   const out = {};
   for(const arch of ARCHS){
     out[arch] = { subscales:{}, total:0, max:0, pct:0 };
@@ -2598,14 +2629,14 @@ function renderSubscaleAnalysis(subRaw){
     out[arch].pct = out[arch].max > 0 ? Math.round((out[arch].total / out[arch].max) * 100) : 0;
   }
 
-  // Sort archetypes by their total subscale-coded score (descending)
+  // Sort capacities by their total subscale-coded score (descending)
   const sortedArchs = ARCHS.slice().sort((a,b) => out[b].total - out[a].total);
 
   return sortedArchs.map(arch => {
     const ad = AD[arch];
     const data = out[arch];
 
-    // Sort subscales within archetype by percentage
+    // Sort subscales within capacity by percentage
     const sortedSubs = Object.entries(data.subscales)
       .map(([key, info]) => ({ key, ...info }))
       .sort((a,b) => b.pct - a.pct);
@@ -2631,7 +2662,7 @@ function renderSubscaleAnalysis(subRaw){
       <div class="sub-card-hdr">
         <span class="sub-card-icon">\${ad.icon}</span>
         <span class="sub-card-name" style="color:\${ad.color}">\${ad.name}</span>
-        <span class="sub-card-pct">\${data.pct}% within archetype</span>
+        <span class="sub-card-pct">\${data.pct}% within capacity</span>
       </div>
       <div class="sub-rows">\${bars}</div>
       \${interp ? \`<p class="sub-interp">\${interp}</p>\` : ''}
@@ -2641,7 +2672,7 @@ function renderSubscaleAnalysis(subRaw){
 }
 
 function subscaleInterpretation(arch, dominant, sortedSubs){
-  // Skip interpretation if dominant score is 0 (user didn't engage with this archetype)
+  // Skip interpretation if dominant score is 0 (user didn't engage with this capacity)
   if(dominant.pct === 0) return \`You didn't engage with <strong>\${AD[arch].name}</strong> responses on this assessment, so subscale-level patterns can't be read.\`;
 
   const interps = {
@@ -2882,7 +2913,7 @@ const LSA_TIA_BLOCKS = {
   warrior: "<article class=\"tia-arch\" id=\"tia-warrior\" style=\"--arch-color:#A85454\">\n        <div class=\"tia-arch-top\">\n          <div class=\"tia-arch-iconbox\">\n            <div class=\"tia-arch-iconbox-svg\"><svg viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Warrior shield\">\n    <title>Warrior shield</title>\n    <circle cx=\"60\" cy=\"60\" r=\"54\" fill=\"rgba(168,84,84,0.06)\"/>\n    <path d=\"M 60 24 L 92 32 L 92 60 Q 92 84 60 102 Q 28 84 28 60 L 28 32 Z\" fill=\"rgba(168,84,84,0.08)\" stroke=\"#A85454\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/>\n    <path d=\"M 60 32 L 84 38 L 84 60 Q 84 78 60 92 Q 36 78 36 60 L 36 38 Z\" fill=\"none\" stroke=\"#A85454\" stroke-width=\"0.8\" stroke-opacity=\"0.5\"/>\n    <circle cx=\"60\" cy=\"22\" r=\"3.2\" fill=\"none\" stroke=\"#A85454\" stroke-width=\"1.5\"/>\n    <line x1=\"60\" y1=\"25\" x2=\"60\" y2=\"38\" stroke=\"#A85454\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n    <line x1=\"46\" y1=\"40\" x2=\"74\" y2=\"40\" stroke=\"#A85454\" stroke-width=\"2.2\" stroke-linecap=\"round\"/>\n    <line x1=\"60\" y1=\"42\" x2=\"60\" y2=\"86\" stroke=\"#A85454\" stroke-width=\"2.6\" stroke-linecap=\"round\"/>\n    <path d=\"M 56 82 L 60 90 L 64 82\" fill=\"none\" stroke=\"#A85454\" stroke-width=\"1.6\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/>\n    <circle cx=\"42\" cy=\"40\" r=\"1.5\" fill=\"#A85454\"/>\n    <circle cx=\"78\" cy=\"40\" r=\"1.5\" fill=\"#A85454\"/>\n  </svg></div>\n            <div class=\"tia-arch-iconbox-label\">The Warrior</div>\n          </div>\n          <div class=\"tia-arch-content\">\n            <p class=\"tia-framing\">The Warrior is the part of you that handles threat. Whether the threat is physical, social, professional, or emotional, the Warrior is what comes online. But \"handling threat\" isn't one capacity \u2014 it's four, and which one runs the show shapes a great deal of how you move through the world.</p>\n\n            <dl class=\"tia-subscales\">\n              <dt>Threat Sensitivity</dt>\n              <dd>The anxious vigilance system. Scanning for risk, worrying about mistakes, anticipating what could go wrong. This is the <em>detection</em> layer. High Threat Sensitivity makes you see things others miss; it can also exhaust you.</dd>\n\n              <dt>Fight</dt>\n              <dd>Confrontational defense. Pushing back, holding ground, engaging the threat directly. The capacity to say no, to argue, to refuse to yield.</dd>\n\n              <dt>Flight</dt>\n              <dd>Escape and damage control. Securing position, getting out, minimizing exposure. Less glamorous than Fight but often the wiser choice. Good Flight is strategic withdrawal, not cowardice.</dd>\n\n              <dt>Freeze</dt>\n              <dd>Immobilization and observation. Going still, watching, not committing until more information arrives. The capacity to <em>not act</em> under pressure \u2014 which is harder than it sounds.</dd>\n            </dl>\n          </div>\n        </div>\n        <div class=\"tia-arch-bottom\">\n          <h4 class=\"tia-h4\">The most interesting combination: Threat Sensitivity without an active defense response</h4>\n          <p>This is anxious paralysis. The detection system is on, the action systems aren't. You see every risk, you can't pick a response, you ruminate. Common in people described as \"anxious overthinkers.\" From the inside it feels like being trapped between possibilities.</p>\n          <p>The inverse is also revealing: <strong>Fight without Threat Sensitivity</strong>. Combat-ready but not alarm-aware. Escalates conflicts that didn't need to escalate, picks battles for the wrong reasons, mistakes everything for an attack. Often described as \"always angry\" \u2014 but the underlying issue is calibration, not aggression.</p>\n\n          <h4 class=\"tia-h4\">Also worth knowing</h4>\n          <p>Freeze gets a bad reputation but is often the most cognitively sophisticated mode \u2014 you're not paralyzed, you're gathering. Some of the best decision-makers under pressure freeze first, then act. The signature of an unhealthy Freeze is when it never resolves into action; the signature of a healthy one is that it does.</p>\n          <p>The classical \"fight or flight\" framing is a simplification. Real-world threat response is fight <em>or</em> flight <em>or</em> freeze \u2014 and the fourth, less-discussed option, <em>tend and befriend</em> (turning toward others under stress), is what tips Warrior into Lover territory.</p>\n        </div>\n      </article>",
   lover: "<article class=\"tia-arch\" id=\"tia-lover\" style=\"--arch-color:#8B5E5E\">\n        <div class=\"tia-arch-top\">\n          <div class=\"tia-arch-iconbox\">\n            <div class=\"tia-arch-iconbox-svg\"><svg viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Lover \u2014 adult holding child\">\n    <title>Lover \u2014 adult holding child</title>\n    <circle cx=\"60\" cy=\"60\" r=\"54\" fill=\"rgba(139,94,94,0.06)\"/>\n    <circle cx=\"56\" cy=\"32\" r=\"10\" fill=\"#8B5E5E\" stroke=\"#8B5E5E\" stroke-width=\"1.5\"/>\n    <path d=\"M 56 43 Q 42 46 40 64 Q 40 84 44 100 L 72 100 Q 72 84 72 64 Q 70 46 56 43 Z\" fill=\"#8B5E5E\" stroke=\"#8B5E5E\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/>\n    <circle cx=\"62\" cy=\"58\" r=\"8\" fill=\"#C49494\" stroke=\"#8B5E5E\" stroke-width=\"1.3\"/>\n    <path d=\"M 62 67 Q 52 70 50 84 Q 50 94 53 100 L 73 100 Q 76 94 76 84 Q 74 70 62 67 Z\" fill=\"#C49494\" stroke=\"#8B5E5E\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/>\n    <line x1=\"22\" y1=\"102\" x2=\"96\" y2=\"102\" stroke=\"#8B5E5E\" stroke-width=\"0.8\" stroke-opacity=\"0.35\" stroke-linecap=\"round\"/>\n  </svg></div>\n            <div class=\"tia-arch-iconbox-label\">The Lover</div>\n          </div>\n          <div class=\"tia-arch-content\">\n            <p class=\"tia-framing\">The Lover is the part of you that turns toward other people \u2014 but \"turning toward\" has at least four distinct flavors, and the differences between them are some of the most consequential in adult life.</p>\n\n            <dl class=\"tia-subscales\">\n              <dt>Empathic Concern</dt>\n              <dd>Feeling <em>for</em> others. Warmth, tenderness, the heart-going-out response. Genuine care about another person's wellbeing.</dd>\n\n              <dt>Perspective Taking</dt>\n              <dd>Cognitive empathy. The capacity to see through someone else's eyes, model their mental state, understand why their position makes sense to them. This is empathy as a <em>thinking</em> operation.</dd>\n\n              <dt>Fantasy</dt>\n              <dd>Imaginative immersion in others' experiences, real or fictional. The capacity to inhabit a character, a friend, a stranger you read about. Often shows up in fiction-readers and creatives.</dd>\n\n              <dt>Personal Distress</dt>\n              <dd>Your own distress in response to others' distress. The \"I can't bear to see them in pain\" response. Looks like empathy but is technically about your nervous system, not theirs.</dd>\n            </dl>\n          </div>\n        </div>\n        <div class=\"tia-arch-bottom\">\n          <h4 class=\"tia-h4\">The most interesting combination: Empathic Concern with vs. without Personal Distress</h4>\n          <p>This is the difference between sustainable caring and burnout-prone caring, and it's one of the most clinically important distinctions in personality.</p>\n          <p><strong>EC high, PD low</strong> is the healthy helper. They feel for you, they show up, they help \u2014 and they go home and sleep. Their nervous system stays regulated even when yours isn't. They can hear hard things without absorbing them.</p>\n          <p><strong>EC high, PD high</strong> is the vulnerable empath. They feel for you <em>and</em> their own system floods with your distress. They're often extraordinarily attuned and effective in short bursts \u2014 and they collapse. The classic codependent caregiver. The therapist who burns out. The friend who vanishes after a hard conversation because they need a week to recover.</p>\n          <p>The work isn't to care less. It's to build the regulatory capacity that lets EC operate without PD overwhelming it. This is what mature empathy actually is.</p>\n\n          <h4 class=\"tia-h4\">Also worth knowing</h4>\n          <p><strong>Perspective Taking without Empathic Concern</strong> is cognitive empathy uncoupled from warmth \u2014 the capacity to read someone perfectly without caring about them. It's a useful skill in negotiation, sales, and psychotherapy when paired with values; it's the central feature of dark-triad personalities when not.</p>\n          <p><strong>Empathic Concern without Perspective Taking</strong> is the warm projector \u2014 cares deeply but assumes everyone shares their feelings. Often inadvertently invasive: \"I know just how you feel\" when in fact they don't.</p>\n        </div>\n      </article>",
   strategist: "<article class=\"tia-arch\" id=\"tia-strategist\" style=\"--arch-color:#5B6B8B\">\n        <div class=\"tia-arch-top\">\n          <div class=\"tia-arch-iconbox\">\n            <div class=\"tia-arch-iconbox-svg\"><svg viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Strategist \u2014 node map\">\n    <title>Strategist \u2014 node map</title>\n    <circle cx=\"60\" cy=\"60\" r=\"54\" fill=\"rgba(91,107,139,0.06)\"/>\n    <line x1=\"38\" y1=\"32\" x2=\"62\" y2=\"48\" stroke=\"#5B6B8B\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-opacity=\"0.85\"/>\n    <line x1=\"62\" y1=\"48\" x2=\"86\" y2=\"58\" stroke=\"#5B6B8B\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-opacity=\"0.85\"/>\n    <line x1=\"62\" y1=\"48\" x2=\"50\" y2=\"80\" stroke=\"#5B6B8B\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-opacity=\"0.75\"/>\n    <line x1=\"50\" y1=\"80\" x2=\"80\" y2=\"88\" stroke=\"#5B6B8B\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-opacity=\"0.55\"/>\n    <line x1=\"86\" y1=\"58\" x2=\"92\" y2=\"86\" stroke=\"#5B6B8B\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-opacity=\"0.55\"/>\n    <line x1=\"38\" y1=\"32\" x2=\"28\" y2=\"58\" stroke=\"#5B6B8B\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-opacity=\"0.55\"/>\n    <line x1=\"28\" y1=\"58\" x2=\"50\" y2=\"80\" stroke=\"#5B6B8B\" stroke-width=\"0.8\" stroke-linecap=\"round\" stroke-opacity=\"0.4\"/>\n    <line x1=\"80\" y1=\"88\" x2=\"92\" y2=\"86\" stroke=\"#5B6B8B\" stroke-width=\"0.8\" stroke-linecap=\"round\" stroke-opacity=\"0.4\"/>\n    <line x1=\"38\" y1=\"32\" x2=\"86\" y2=\"58\" stroke=\"#5B6B8B\" stroke-width=\"0.7\" stroke-linecap=\"round\" stroke-opacity=\"0.3\"/>\n    <circle cx=\"62\" cy=\"48\" r=\"8\" fill=\"rgba(91,107,139,0.22)\" stroke=\"#5B6B8B\" stroke-width=\"2\"/>\n    <circle cx=\"62\" cy=\"48\" r=\"2.5\" fill=\"#5B6B8B\"/>\n    <circle cx=\"38\" cy=\"32\" r=\"6\" fill=\"rgba(91,107,139,0.15)\" stroke=\"#5B6B8B\" stroke-width=\"1.6\"/>\n    <circle cx=\"86\" cy=\"58\" r=\"6\" fill=\"rgba(91,107,139,0.15)\" stroke=\"#5B6B8B\" stroke-width=\"1.6\"/>\n    <circle cx=\"50\" cy=\"80\" r=\"5.5\" fill=\"rgba(91,107,139,0.15)\" stroke=\"#5B6B8B\" stroke-width=\"1.5\"/>\n    <circle cx=\"28\" cy=\"58\" r=\"4\" fill=\"rgba(91,107,139,0.1)\" stroke=\"#5B6B8B\" stroke-width=\"1.2\"/>\n    <circle cx=\"80\" cy=\"88\" r=\"3.5\" fill=\"rgba(91,107,139,0.1)\" stroke=\"#5B6B8B\" stroke-width=\"1.2\"/>\n    <circle cx=\"92\" cy=\"86\" r=\"3\" fill=\"rgba(91,107,139,0.1)\" stroke=\"#5B6B8B\" stroke-width=\"1\"/>\n  </svg></div>\n            <div class=\"tia-arch-iconbox-label\">The Strategist</div>\n          </div>\n          <div class=\"tia-arch-content\">\n            <p class=\"tia-framing\">The Strategist is the part of you that thinks ahead, reads patterns, and tries to figure out what's actually going on. Three different cognitive capacities make up the Strategist, and the differences between them are easy to miss but hugely consequential.</p>\n\n            <dl class=\"tia-subscales\">\n              <dt>Future Consequences</dt>\n              <dd>Orientation toward long-term outcomes. The capacity to weigh what happens later against what's pleasant now. Some people feel the future as vividly as the present; others can barely make it real.</dd>\n\n              <dt>Analytical Thinking</dt>\n              <dd>Preference for systematic evaluation, pattern recognition, complex problems. The \"thinks for fun\" trait. Distinct from intelligence \u2014 some very smart people don't enjoy thinking, and some less brilliant people love it.</dd>\n\n              <dt>Cognitive Flexibility</dt>\n              <dd>Capacity to reframe, adapt plans, hold multiple representations of a situation simultaneously. The unstuck-ness factor. What lets you change your mind when the data changes.</dd>\n            </dl>\n          </div>\n        </div>\n        <div class=\"tia-arch-bottom\">\n          <h4 class=\"tia-h4\">The most interesting combination: Future Consequences without Cognitive Flexibility</h4>\n          <p>This is the brittle planner. Future-oriented, builds detailed plans, lives by the long arc \u2014 and gets shattered when reality diverges from the plan. \"But the strategy said\u2026\" Common in people who succeeded early through planning and then hit a wall they can't model their way through.</p>\n          <p>The compound trait \u2014 \"plans well <em>and</em> adapts\" \u2014 is rarer than either component. Most \"strategic\" people are strong on one and weak on the other.</p>\n          <p>The inverse, <strong>Cognitive Flexibility without Future Consequences</strong>, is the situational surfer. Adapts beautifully to whatever's happening but never builds a long arc. Resilient in the short term, drifting in the long term.</p>\n\n          <h4 class=\"tia-h4\">Also worth knowing</h4>\n          <p>Analytical Thinking is independent of intelligence in interesting ways. High-Analytical people enjoy thinking through problems even when they're not great at it; low-Analytical people may be brilliant but find sustained analysis exhausting. Coaching a low-Analytical, high-Future-Consequences person looks completely different from coaching a high-Analytical, low-Future-Consequences one \u2014 even though both might score \"high Strategist.\"</p>\n        </div>\n      </article>",
-  visionary: "<article class=\"tia-arch\" id=\"tia-visionary\" style=\"--arch-color:#6B5B8B\">\n        <div class=\"tia-arch-top\">\n          <div class=\"tia-arch-iconbox\">\n            <div class=\"tia-arch-iconbox-svg\"><svg viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Visionary compass\">\n    <title>Visionary compass</title>\n    <circle cx=\"60\" cy=\"60\" r=\"54\" fill=\"rgba(107,91,139,0.06)\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"38\" fill=\"rgba(107,91,139,0.06)\" stroke=\"#6B5B8B\" stroke-width=\"1.8\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"30\" fill=\"none\" stroke=\"#6B5B8B\" stroke-width=\"0.8\" stroke-opacity=\"0.5\"/>\n    <path d=\"M 60 28 L 64 60 L 60 64 L 56 60 Z\" fill=\"#6B5B8B\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <path d=\"M 60 92 L 64 60 L 60 56 L 56 60 Z\" fill=\"rgba(107,91,139,0.15)\" stroke=\"#6B5B8B\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 90 60 L 64 56 L 60 60 L 64 64 Z\" fill=\"rgba(107,91,139,0.1)\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <path d=\"M 30 60 L 56 56 L 60 60 L 56 64 Z\" fill=\"rgba(107,91,139,0.1)\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"3\" fill=\"#6B5B8B\"/>\n    <line x1=\"60\" y1=\"18\" x2=\"60\" y2=\"22\" stroke=\"#6B5B8B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n    <line x1=\"60\" y1=\"98\" x2=\"60\" y2=\"102\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n    <line x1=\"18\" y1=\"60\" x2=\"22\" y2=\"60\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n    <line x1=\"98\" y1=\"60\" x2=\"102\" y2=\"60\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n  </svg></div>\n            <div class=\"tia-arch-iconbox-label\">The Visionary</div>\n          </div>\n          <div class=\"tia-arch-content\">\n            <p class=\"tia-framing\">The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity \u2014 and it has more distinct components than any other archetype.</p>\n\n            <dl class=\"tia-subscales\">\n              <dt>Presence of Meaning</dt>\n              <dd>The felt sense that your life has purpose. \"I know why I'm here.\" A <em>current state</em> of meaningfulness.</dd>\n\n              <dt>Search for Meaning</dt>\n              <dd>Active questioning of purpose. \"I'm working out why I'm here.\" A <em>process</em> of meaning-making. Importantly, not the inverse of Presence \u2014 they're partly orthogonal.</dd>\n\n              <dt>Self-Transcendence</dt>\n              <dd>Identification with something larger than yourself. This subscale has two flavors that the assessment treats separately:\n                <ul class=\"tia-sublist\">\n                  <li><em>Secular Self-Transcendence</em> \u2014 legacy, contribution, future generations, the cause that outlasts you. The \"I served something bigger than me\" frame.</li>\n                  <li><em>Spiritual Self-Transcendence</em> \u2014 identification with cosmos, openness to mystery, transpersonal experience, the felt sense of being part of a larger whole that may not be reducible to legacy or impact. Some people experience this through religion, some through nature, some through art, some through contemplative practice.</li>\n                </ul>\n              </dd>\n\n              <dt>Positive Reframing</dt>\n              <dd>The coping capacity that transforms difficulty into growth or meaning. The \"this is part of a larger story\" move you make under pressure.</dd>\n            </dl>\n          </div>\n        </div>\n        <div class=\"tia-arch-bottom\">\n          <h4 class=\"tia-h4\">The most interesting combination: Presence \u00d7 Search</h4>\n          <p>These two are almost-orthogonal, which means there are four distinct positions and they feel completely different from the inside.</p>\n          <p><strong>High Presence, low Search:</strong> Settled meaning. \"I know my purpose and I'm not looking for more.\" Can be deep clarity. Can also be foreclosed \u2014 you stopped questioning at 25 and never reopened the question.</p>\n          <p><strong>Low Presence, high Search:</strong> Active seeker. The meaning-quest is on. Often present in transitions, post-crisis recovery, mid-life pivots, spiritual openings. Uncomfortable but generative.</p>\n          <p><strong>High Presence, high Search:</strong> The reflective-but-grounded type. Has meaning, keeps questioning whether it's the right meaning. Tends to deepen over time. Often the most resilient.</p>\n          <p><strong>Low Presence, low Search:</strong> Drifting without distress. Can be peaceful (think Buddhist non-grasping) or numbed (think mild depression). The two look identical from outside and feel completely different inside.</p>\n\n          <h4 class=\"tia-h4\">The other interesting combination: Presence \u00d7 Self-Transcendence</h4>\n          <p>You can have meaning that's entirely about your own life \u2014 your craft, your family, your relationships, the texture of your days \u2014 and that's high Presence with low Self-Transcendence. Fulfilled, just personal.</p>\n          <p>You can have a strong sense of serving something larger without knowing what to do with your specific life \u2014 that's high Self-Transcendence with low Presence. Often shows up in idealistic young people who haven't yet found the form their contribution should take.</p>\n          <p>People in meaning crises often think the problem is Presence (no purpose) when it's actually Self-Transcendence (purpose exists but feels small). The interventions are different. Building meaning means finding what you care about. Expanding the frame means finding how what you care about connects to something larger than your own life.</p>\n\n          <h4 class=\"tia-h4\">Also worth knowing</h4>\n          <p><strong>Positive Reframing without Presence</strong> is sophisticated coping that masks emptiness. The person who narrates every difficulty as \"growth\" without having a stable core meaning. The reframes are real, the coping is real \u2014 and there's nothing underneath. Worth knowing about because Positive Reframing can look like resilience right up until it stops working.</p>\n          <p><strong>Spiritual Self-Transcendence</strong> is the most controversial subscale in academic psychology because it correlates with mystical experience and openness to non-rational knowing \u2014 which makes it suspicious to some researchers and central to others. It tends to correlate with creativity, openness to experience, and some forms of wisdom. It can also, untethered from grounding, drift into ungroundedness. Like every capacity, its value depends on what it's coupled with.</p>\n        </div>\n      </article>",
+  visionary: "<article class=\"tia-arch\" id=\"tia-visionary\" style=\"--arch-color:#6B5B8B\">\n        <div class=\"tia-arch-top\">\n          <div class=\"tia-arch-iconbox\">\n            <div class=\"tia-arch-iconbox-svg\"><svg viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Visionary compass\">\n    <title>Visionary compass</title>\n    <circle cx=\"60\" cy=\"60\" r=\"54\" fill=\"rgba(107,91,139,0.06)\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"38\" fill=\"rgba(107,91,139,0.06)\" stroke=\"#6B5B8B\" stroke-width=\"1.8\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"30\" fill=\"none\" stroke=\"#6B5B8B\" stroke-width=\"0.8\" stroke-opacity=\"0.5\"/>\n    <path d=\"M 60 28 L 64 60 L 60 64 L 56 60 Z\" fill=\"#6B5B8B\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <path d=\"M 60 92 L 64 60 L 60 56 L 56 60 Z\" fill=\"rgba(107,91,139,0.15)\" stroke=\"#6B5B8B\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 90 60 L 64 56 L 60 60 L 64 64 Z\" fill=\"rgba(107,91,139,0.1)\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <path d=\"M 30 60 L 56 56 L 60 60 L 56 64 Z\" fill=\"rgba(107,91,139,0.1)\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linejoin=\"round\"/>\n    <circle cx=\"60\" cy=\"60\" r=\"3\" fill=\"#6B5B8B\"/>\n    <line x1=\"60\" y1=\"18\" x2=\"60\" y2=\"22\" stroke=\"#6B5B8B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n    <line x1=\"60\" y1=\"98\" x2=\"60\" y2=\"102\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n    <line x1=\"18\" y1=\"60\" x2=\"22\" y2=\"60\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n    <line x1=\"98\" y1=\"60\" x2=\"102\" y2=\"60\" stroke=\"#6B5B8B\" stroke-width=\"1\" stroke-linecap=\"round\" stroke-opacity=\"0.6\"/>\n  </svg></div>\n            <div class=\"tia-arch-iconbox-label\">The Visionary</div>\n          </div>\n          <div class=\"tia-arch-content\">\n            <p class=\"tia-framing\">The Visionary is the part of you that asks what your life is for. It's the meaning-making capacity \u2014 and it has more distinct components than any other capacity.</p>\n\n            <dl class=\"tia-subscales\">\n              <dt>Presence of Meaning</dt>\n              <dd>The felt sense that your life has purpose. \"I know why I'm here.\" A <em>current state</em> of meaningfulness.</dd>\n\n              <dt>Search for Meaning</dt>\n              <dd>Active questioning of purpose. \"I'm working out why I'm here.\" A <em>process</em> of meaning-making. Importantly, not the inverse of Presence \u2014 they're partly orthogonal.</dd>\n\n              <dt>Self-Transcendence</dt>\n              <dd>Identification with something larger than yourself. This subscale has two flavors that the assessment treats separately:\n                <ul class=\"tia-sublist\">\n                  <li><em>Secular Self-Transcendence</em> \u2014 legacy, contribution, future generations, the cause that outlasts you. The \"I served something bigger than me\" frame.</li>\n                  <li><em>Spiritual Self-Transcendence</em> \u2014 identification with cosmos, openness to mystery, transpersonal experience, the felt sense of being part of a larger whole that may not be reducible to legacy or impact. Some people experience this through religion, some through nature, some through art, some through contemplative practice.</li>\n                </ul>\n              </dd>\n\n              <dt>Positive Reframing</dt>\n              <dd>The coping capacity that transforms difficulty into growth or meaning. The \"this is part of a larger story\" move you make under pressure.</dd>\n            </dl>\n          </div>\n        </div>\n        <div class=\"tia-arch-bottom\">\n          <h4 class=\"tia-h4\">The most interesting combination: Presence \u00d7 Search</h4>\n          <p>These two are almost-orthogonal, which means there are four distinct positions and they feel completely different from the inside.</p>\n          <p><strong>High Presence, low Search:</strong> Settled meaning. \"I know my purpose and I'm not looking for more.\" Can be deep clarity. Can also be foreclosed \u2014 you stopped questioning at 25 and never reopened the question.</p>\n          <p><strong>Low Presence, high Search:</strong> Active seeker. The meaning-quest is on. Often present in transitions, post-crisis recovery, mid-life pivots, spiritual openings. Uncomfortable but generative.</p>\n          <p><strong>High Presence, high Search:</strong> The reflective-but-grounded type. Has meaning, keeps questioning whether it's the right meaning. Tends to deepen over time. Often the most resilient.</p>\n          <p><strong>Low Presence, low Search:</strong> Drifting without distress. Can be peaceful (think Buddhist non-grasping) or numbed (think mild depression). The two look identical from outside and feel completely different inside.</p>\n\n          <h4 class=\"tia-h4\">The other interesting combination: Presence \u00d7 Self-Transcendence</h4>\n          <p>You can have meaning that's entirely about your own life \u2014 your craft, your family, your relationships, the texture of your days \u2014 and that's high Presence with low Self-Transcendence. Fulfilled, just personal.</p>\n          <p>You can have a strong sense of serving something larger without knowing what to do with your specific life \u2014 that's high Self-Transcendence with low Presence. Often shows up in idealistic young people who haven't yet found the form their contribution should take.</p>\n          <p>People in meaning crises often think the problem is Presence (no purpose) when it's actually Self-Transcendence (purpose exists but feels small). The interventions are different. Building meaning means finding what you care about. Expanding the frame means finding how what you care about connects to something larger than your own life.</p>\n\n          <h4 class=\"tia-h4\">Also worth knowing</h4>\n          <p><strong>Positive Reframing without Presence</strong> is sophisticated coping that masks emptiness. The person who narrates every difficulty as \"growth\" without having a stable core meaning. The reframes are real, the coping is real \u2014 and there's nothing underneath. Worth knowing about because Positive Reframing can look like resilience right up until it stops working.</p>\n          <p><strong>Spiritual Self-Transcendence</strong> is the most controversial subscale in academic psychology because it correlates with mystical experience and openness to non-rational knowing \u2014 which makes it suspicious to some researchers and central to others. It tends to correlate with creativity, openness to experience, and some forms of wisdom. It can also, untethered from grounding, drift into ungroundedness. Like every capacity, its value depends on what it's coupled with.</p>\n        </div>\n      </article>",
 };
 
 let _lsaInitialized = false;
@@ -2944,7 +2975,7 @@ export default function LeadershipStanceAssessmentPage() {
       card.style.cssText = 'margin:48px auto 0;max-width:680px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center';
       card.innerHTML = '<div style="font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:14px">Optional</div>' +
         '<h3 style="font-family:var(--fd);font-size:24px;font-weight:700;margin-bottom:10px">Synthesize my pattern</h3>' +
-        '<p style="font-size:14px;color:var(--text2);margin-bottom:20px">Have Claude write a short personalized synthesis of your results — what your top archetypes, gap, and underused capacity say about your leadership pattern.</p>' +
+        '<p style="font-size:14px;color:var(--text2);margin-bottom:20px">Have Claude write a short personalized synthesis of your results — what your top capacities, gap, and underused capacity say about your leadership pattern.</p>' +
         '<button class="lsa-synth-btn" style="background:#1a1a1a;color:#fff;border:none;font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:14px 32px;border-radius:4px;cursor:pointer">Synthesize my pattern</button>' +
         '<div class="lsa-synth-output" style="margin-top:24px;text-align:left;font-size:15px;line-height:1.78;color:var(--text2)"></div>';
       resultsContent.appendChild(card);
@@ -2961,7 +2992,7 @@ export default function LeadershipStanceAssessmentPage() {
             max_tokens: 600,
             messages: [{
               role: 'user',
-              content: 'Below are the results of a leadership-stance self-assessment. Write a short, warm, plain-language synthesis (180-250 words) of what these results suggest about how the person leads — their strengths, their gap under pressure, and one practical place to focus. Do not list the numbers; speak to the pattern. Use second-person voice ("you").\n\n' + txt
+              content: 'Below are the results of a Leadership Capacities Analysis. Write a short, warm, plain-language synthesis (180-250 words) of what these results suggest about how the person leads — their strengths, their gap under pressure, and one practical place to focus. Do not list the numbers; speak to the pattern. Use second-person voice ("you").\n\n' + txt
             }],
           });
           const synthesis = extractText(data);

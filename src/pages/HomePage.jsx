@@ -39,7 +39,7 @@ export default function HomePage() {
             tools={[
               { name: 'Three Moments', live: true, to: 'three-moments' },
               { name: 'Working with your circle', live: true, to: 'lcp' },
-              { name: 'Leadership Stance Assessment', live: true, to: 'leadership-stance' },
+              { name: 'Leadership Capacities Analysis', live: true, to: 'leadership-stance' },
               { name: 'Purpose', live: false },
               { name: 'Possibilities', live: false },
             ]} />
