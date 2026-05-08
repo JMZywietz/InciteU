@@ -46,12 +46,11 @@ export default function HomePage() {
             ]} />
           <CategoryCard variant="team" label="Together" name="Team" tagline="Seeing each other clearly, and deciding well." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             tools={[
-              { name: 'Premortem', live: true, to: 'pre-mortem' },
-              { name: 'Decision-making', live: true, to: 'challenge-mapper' },
-              { name: 'Seeing the team', live: false },
-              { name: 'Retrospective', live: false },
-              { name: 'Candor exchange', live: false },
-              { name: 'Meeting check', live: false },
+              { name: 'Decision Making', live: true, to: 'challenge-mapper' },
+              { name: 'Stakeholder Shoes Walk', live: false },
+              { name: 'Pre-Mortem', live: true, to: 'pre-mortem' },
+              { name: 'Post-Mortem', live: false },
+              { name: 'The Squeeze', live: false },
             ]} />
           <CategoryCard variant="org" label="At scale" name="Org" tagline="The shape of how things really work — and what to change." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             tools={[
