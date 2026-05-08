@@ -8,10 +8,17 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 // ============================================================================
 const THINK_PIECES = [
   {
+    id: 'cynefin',
+    title: 'The Cynefin Framework',
+    subtitle: 'Not all problems are created equal',
+    abstract: 'A visual walkthrough of the Cynefin framework \u2014 from predictable to unpredictable, from holiday dinners to organizational challenges. Learn to see which parts of your challenge need expertise, which need experimentation, and which just need you to act.',
+    readTime: '6 min read',
+  },
+  {
     id: 'five-layers-deep',
     title: 'Five Layers Deep',
     subtitle: 'The evolutionary roots of how you think, connect, and lead',
-    abstract: 'A biological view of complexity. How humans evolved from single-celled organisms to creatures who can hold meaning, and how each layer of new capacity unlocked more advanced ways to connect, protect, and — when we are at our best — to serve a future bigger than ourselves.',
+    abstract: 'A biological view of complexity. How humans evolved from single-celled organisms to creatures who can hold meaning, and how each layer of new capacity unlocked more advanced ways to connect, protect, and \u2014 when we are at our best \u2014 to serve a future bigger than ourselves.',
     readTime: '8 min read',
   },
 ];
