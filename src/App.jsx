@@ -15,6 +15,7 @@ import VisionPage from './tools/Vision.jsx';
 import LCPPage from './tools/LCP.jsx';
 import LeadershipStancePage from './tools/LeadershipStanceAssessment.jsx';
 import PreMortemPage from './tools/PreMortem.jsx';
+import ChallengeMapperPage from './tools/ChallengeMapper.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
 import CynefinPage from './think/CynefinScrollytelling.jsx';
 
@@ -46,6 +47,7 @@ export default function App() {
           <Route path={PATHS.readiness} element={<ReadinessPage />} />
           <Route path={PATHS.vision} element={<VisionPage />} />
           <Route path={PATHS.preMortem} element={<PreMortemPage />} />
+          <Route path={PATHS.challengeMapper} element={<ChallengeMapperPage />} />
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
           <Route path={PATHS.cynefin} element={<CynefinPage />} />

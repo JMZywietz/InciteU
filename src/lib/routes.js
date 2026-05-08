@@ -1,10 +1,6 @@
 // ===========================================================================
 // ROUTE PATHS
 // ===========================================================================
-// Single source of truth for all route paths. Use these constants in
-// navigate() calls so renaming a route only needs one edit.
-// ===========================================================================
-
 export const PATHS = {
   home: '/',
   bio: '/bio',
@@ -16,13 +12,12 @@ export const PATHS = {
   readiness: '/tools/org/readiness',
   vision: '/tools/org/vision',
   preMortem: '/tools/team/pre-mortem',
+  challengeMapper: '/tools/team/challenge-mapper',
   think: '/think',
   fiveLayersDeep: '/think/five-layers-deep',
   cynefin: '/think/cynefin',
 };
 
-// Map from old v13 page-state IDs to PATHS, so the existing
-// navigate('lcp') style calls keep working during the port.
 export const STATE_TO_PATH = {
   home: PATHS.home,
   bio: PATHS.bio,
@@ -34,6 +29,7 @@ export const STATE_TO_PATH = {
   readiness: PATHS.readiness,
   vision: PATHS.vision,
   'pre-mortem': PATHS.preMortem,
+  'challenge-mapper': PATHS.challengeMapper,
   think: PATHS.think,
   'five-layers-deep': PATHS.fiveLayersDeep,
   cynefin: PATHS.cynefin,

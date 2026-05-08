@@ -305,7 +305,7 @@ export default function CynefinScrollytelling() {
             style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 500, letterSpacing: '0.08em', padding: '16px 44px', background: C.sage, color: C.bgDeep, border: 'none', borderRadius: 8, cursor: 'pointer', transition: 'all 0.3s ease' }}
             onMouseEnter={e => { e.target.style.background = C.cream; e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 32px rgba(197,212,155,0.2)'; }}
             onMouseLeave={e => { e.target.style.background = C.sage; e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = 'none'; }}
-          >Coming soon: Challenge Mapper \u2192</button>
+           onClick={() => navigate('challenge-mapper')}>Launch the Challenge Mapper \u2192</button>
         </Reveal>
       </div>
     </div>
