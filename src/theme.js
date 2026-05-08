@@ -5,6 +5,13 @@ export const C = {
   bgDeep: '#1F3937',
   bgCard: '#2A4744',
   bgCardHover: '#335552',
+  // Per-category card backgrounds (Path A: subtle tinting)
+  bgCardSelf: '#2A4744',       // existing sage-teal
+  bgCardSelfHover: '#335552',
+  bgCardTeam: '#2D4541',       // warmer, slightly more green-brown
+  bgCardTeamHover: '#37514D',
+  bgCardOrg: '#28464A',        // cooler, slightly more blue-teal
+  bgCardOrgHover: '#325258',
   cream: '#F0EBDB',
   creamMuted: '#C9C2AE',
   sage: '#C5D49B',

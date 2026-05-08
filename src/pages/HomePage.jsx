@@ -35,7 +35,7 @@ export default function HomePage() {
 
       <section id="tools-anchor" style={{ padding: '30px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
-          <CategoryCard label="Inward" name="Self" tagline="Knowing what's true for you, beneath what you've been told." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate} guideTo="where-to-start"
+          <CategoryCard variant="self" label="Inward" name="Self" tagline="Knowing what's true for you, beneath what you've been told." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate} guideTo="where-to-start"
             tools={[
               { name: 'Three Moments', live: true, to: 'three-moments' },
               { name: 'Working with your circle', live: true, to: 'lcp' },
@@ -43,7 +43,7 @@ export default function HomePage() {
               { name: 'Purpose', live: false },
               { name: 'Possibilities', live: false },
             ]} />
-          <CategoryCard label="Together" name="Team" tagline="Seeing each other clearly, and deciding well." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
+          <CategoryCard variant="team" label="Together" name="Team" tagline="Seeing each other clearly, and deciding well." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             tools={[
               { name: 'Premortem', live: true, to: 'pre-mortem' },
               { name: 'Decision-making', live: false },
@@ -52,7 +52,7 @@ export default function HomePage() {
               { name: 'Candor exchange', live: false },
               { name: 'Meeting check', live: false },
             ]} />
-          <CategoryCard label="At scale" name="Org" tagline="The shape of how things really work — and what to change." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
+          <CategoryCard variant="org" label="At scale" name="Org" tagline="The shape of how things really work — and what to change." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             tools={[
               { name: 'Culture model', live: true, external: 'https://qq5l85.csb.app/' },
               { name: 'Readiness assessment', live: true, to: 'readiness' },
