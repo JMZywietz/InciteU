@@ -13,7 +13,7 @@ import ThreeMomentsPage from './tools/ThreeMoments.jsx';
 import ReadinessPage from './tools/Readiness.jsx';
 import VisionPage from './tools/Vision.jsx';
 import LCPPage from './tools/LCP.jsx';
-import LeadershipStancePage from './tools/LeadershipStanceAssessment.jsx';
+import LeadershipCapacitiesAnalysisPage from './tools/LeadershipCapacitiesAnalysis.jsx';
 import PreMortemPage from './tools/PreMortem.jsx';
 import ChallengeMapperPage from './tools/ChallengeMapper.jsx';
 import FiveLivesPage from './tools/FiveLives.jsx';
@@ -45,7 +45,9 @@ export default function App() {
           <Route path={PATHS.whereToStart} element={<WhereToStartPage />} />
           <Route path={PATHS.threeMoments} element={<ThreeMomentsPage />} />
           <Route path={PATHS.lcp} element={<LCPPage />} />
-          <Route path={PATHS.leadershipStance} element={<LeadershipStancePage />} />
+          <Route path={PATHS.leadershipCapacities} element={<LeadershipCapacitiesAnalysisPage />} />
+          {/* Backward-compat redirect: old route -> new */}
+          <Route path="/tools/self/leadership-stance" element={<Navigate to={PATHS.leadershipCapacities} replace />} />
           <Route path={PATHS.fiveLives} element={<FiveLivesPage />} />
           <Route path={PATHS.smallestViableExperiment} element={<SmallestViableExperimentPage />} />
           <Route path={PATHS.readiness} element={<ReadinessPage />} />

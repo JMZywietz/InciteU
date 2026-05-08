@@ -39,8 +39,9 @@ export default function HomePage() {
             tools={[
               { name: 'Three Moments', live: true, to: 'three-moments' },
               { name: 'Working with your circle', live: true, to: 'lcp' },
-              { name: 'Leadership Capacities Analysis', live: true, to: 'leadership-stance' },
-              { name: 'Purpose', live: false },
+              { name: 'Leadership Capacities Analysis', live: true, to: 'leadership-capacities' },
+              { name: 'Purpose (Five Lives)', live: true, to: 'five-lives' },
+              { name: 'Smallest Viable Experiment', live: true, to: 'smallest-viable-experiment' },
               { name: 'Possibilities', live: false },
             ]} />
           <CategoryCard variant="team" label="Together" name="Team" tagline="Seeing each other clearly, and deciding well." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
