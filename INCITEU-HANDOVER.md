@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 8, 2026
+**Last updated:** May 8, 2026 (afternoon)
 **Owner:** Jen Zywietz (jen@inciteu.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** Deployed on Vercel (custom domain pending → inciteu.com)
@@ -9,7 +9,7 @@
 
 ## TL;DR for Claude
 
-Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 5 working tools, 1 think piece, and supporting pages. **Adding a new tool is a routine modular task** — extract pattern from existing tools, drop into the right folder, add one route, push the commit. No rebuild, no migration, no monolith.
+Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 live tools, 2 think pieces, and supporting pages. **Adding a new tool is a routine modular task** — extract pattern from existing tools, drop into the right folder, add one route, push the commit. No rebuild, no migration, no monolith.
 
 This doc is the playbook. Read it before doing anything. **§9 has the artifact URL registry — read URLs from there, never try to fetch claude.ai/public/artifacts/* (web_fetch returns 403 on those).**
 
@@ -27,7 +27,7 @@ JMZywietz/InciteU/
 │   ├── styles.js                  ← Reusable styles: btn(), heading(), eyebrow, fieldLabel, fieldInput, btnHoverIn/Out
 │   ├── components/                ← Header, Footer, HeroFlourish, OrganicDivider, icons, CategoryCard
 │   ├── pages/                     ← Top-level pages (Home, Bio, Contact, ThinkPage, WhereToStartPage)
-│   ├── tools/                     ← Five interactive tools  ← NEW TOOLS GO HERE
+│   ├── tools/                     ← Interactive tools (currently 9)  ← NEW TOOLS GO HERE
 │   ├── think/                     ← Long-form think pieces  ← NEW THINK PIECES GO HERE
 │   └── lib/
 │       ├── routes.js              ← Symbolic name → URL path map  ← EDIT WHEN ADDING A ROUTE
@@ -294,14 +294,28 @@ Keep commits small and atomic. One feature = one commit. When you add a Pattern 
 
 ## 8. Quick Reference — Existing Tools
 
-| Tool | File | Route | Pattern | Uses AI? |
-|------|------|-------|---------|----------|
-| ThreeMoments | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | A (native) | Yes (optional synthesis) |
-| LCP | `src/tools/LCP.jsx` | `/tools/self/lcp` | A (native) | Yes (synthesis) |
-| Readiness | `src/tools/Readiness.jsx` | `/tools/org/readiness` | A (native) | No |
-| Vision | `src/tools/Vision.jsx` | `/tools/org/vision` | A (native) | Yes (optional polish) |
-| Premortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | B (artifact) | Yes (via published artifact) |
-| FiveLayersDeep | `src/think/FiveLayersDeep.jsx` | `/think/five-layers-deep` | A (native) | No |
+Categories: **Self** (inward / personal), **Team** (together / collaborative), **Org** (at scale / systemic).
+Patterns: **A (native)** — React tool implemented in this repo. **B (artifact)** — InciteU-styled intro page that opens a published Claude artifact in a new tab; see §4.
+
+| Tool | Category | File | Route | Pattern | Uses AI? |
+|------|----------|------|-------|---------|----------|
+| ThreeMoments | Self | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | A | Yes (optional synthesis) |
+| LCP (Working with your circle) | Self | `src/tools/LCP.jsx` | `/tools/self/lcp` | A | Yes (synthesis) |
+| Leadership Capacities Analysis | Self | `src/tools/LeadershipCapacitiesAnalysis.jsx` | `/tools/self/leadership-capacities` | A | Yes (optional synthesis on results) |
+| Five Lives (Purpose) | Self | `src/tools/FiveLives.jsx` | `/tools/self/five-lives` | A | Yes |
+| Smallest Viable Experiment | Self | `src/tools/SmallestViableExperiment.jsx` | `/tools/self/smallest-viable-experiment` | A | Yes |
+| Premortem | Team | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | B | Yes (via published artifact) |
+| Challenge Mapper | Team | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | A | Not yet surfaced on HomePage |
+| Readiness | Org | `src/tools/Readiness.jsx` | `/tools/org/readiness` | A | No |
+| Vision | Org | `src/tools/Vision.jsx` | `/tools/org/vision` | A | Yes (optional polish) |
+| Five Layers Deep (think piece) | — | `src/think/FiveLayersDeep.jsx` | `/think/five-layers-deep` | A | No |
+| Cynefin Scrollytelling (think piece) | — | `src/think/CynefinScrollytelling.jsx` | `/think/cynefin` | A | No |
+
+**Backward-compat redirect**: the old `/tools/self/leadership-stance` route now redirects to `/tools/self/leadership-capacities`. Don't break this redirect; bookmarked links rely on it. The old key `'leadership-stance'` in `STATE_TO_PATH` is also kept as an alias.
+
+**Naming note**: The Leadership Capacities Analysis file used to be called `LeadershipStanceAssessment.jsx`. It was renamed in May 2026 to align with Jen's preferred public-facing name. The internal CSS class prefix in that file is still `lsa-` — leave it alone, it's scoped to that file and renaming risks breaking the embedded HTML.
+
+**Not yet surfaced**: Challenge Mapper exists as a working route but isn't on the HomePage Team card yet. Surface it via the standard §3 Step 4 process when Jen is ready.
 
 ---
 
