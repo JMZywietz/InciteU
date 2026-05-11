@@ -9,7 +9,7 @@ export default function Header() {
     { id: 'home', label: 'Home' },
     { id: 'home-tools', label: 'Tools' },
     { id: 'think', label: 'Think' },
-    { id: 'bio', label: 'Bio' },
+    { id: 'bio', label: 'About' },
     { id: 'contact', label: 'Contact' },
   ];
 

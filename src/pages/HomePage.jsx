@@ -33,9 +33,18 @@ export default function HomePage() {
 
       <OrganicDivider />
 
+      <section style={{ padding: '0 6vw 50px', textAlign: 'center' }}>
+        <a onClick={(e) => { e.preventDefault(); navigate('where-to-start'); }} href="#"
+           style={btn('primary')}
+           onMouseEnter={btnHoverIn}
+           onMouseLeave={btnHoverOut}>
+          Curious where to start?
+        </a>
+      </section>
+
       <section id="tools-anchor" style={{ padding: '30px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
-          <CategoryCard variant="self" label="Inward" name="Self" tagline="Knowing what's true for you, beneath what you've been told." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate} guideTo="where-to-start"
+          <CategoryCard variant="self" label="Inward" name="Self" tagline="Knowing what's true for you, beneath what you've been told." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             tools={[
               { name: 'Three Moments', live: true, to: 'three-moments' },
               { name: 'Working with your circle', live: true, to: 'lcp' },
