@@ -1,101 +1,177 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 8, 2026 (evening)
-**Owner:** Jen Zywietz (jen@inciteu.com)
+**Last updated:** May 11, 2026 (end of session)
+**Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
-**Live site:** Deployed on Vercel (custom domain pending → inciteu.com)
+**Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
 ## TL;DR for Claude
 
-Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 live tools, 2 think pieces, and supporting pages. **Adding a new tool is a routine modular task** — extract pattern from existing tools, drop into the right folder, add one route, push the commit. No rebuild, no migration, no monolith.
+Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 working tools, 2 think pieces, and supporting pages. The homepage, About page, footer, and where-to-start wizard were all overhauled in the May 11 session.
 
-This doc is the playbook. Read it before doing anything. **§9 has the artifact URL registry — read URLs from there, never try to fetch claude.ai/public/artifacts/* (web_fetch returns 403 on those).**
+**The most important thing in this document is §0.** Read it before doing anything else. Claude cannot see the rendered website, and pretending otherwise has burned multiple sessions. The rules in §0 exist because they were not followed and the consequences were bad.
+
+The second most important: **for any push over ~15KB, hand the files to Jen for manual upload via the GitHub web UI rather than wrestling with the Composio API.** See §5 pitfall #5 and §3 fallback section. The API will get stuck on large strings and waste several turns.
+
+Adding a new tool is a routine modular task (§4). Modifying existing pages requires fetching every relevant component file first (§0, §2). No exceptions, ever.
 
 ---
 
-## 1. Architecture (memorize this)
+## §0 — What Claude can and cannot see (READ THIS FIRST)
+
+**Claude cannot see the rendered InciteU website.** This is not a metaphor. It is literally true.
+
+`web_fetch` on `inciteu.vercel.app` returns the bare React SPA shell — about a dozen meta tags, an empty root div, and nothing else. The actual rendered content is produced by JavaScript that Claude's tools cannot execute. Screenshots uploaded by Jen are the only way Claude can see what the site actually looks like.
+
+What this means:
+
+1. **No mockup or visual change is safe to render without source files.** Claude must fetch every component file (header, footer, hero, divider, icons, cards) before producing any visual deliverable. If Claude lacks the source for any element on screen, Claude must say so out loud, before rendering anything: "I haven't seen Footer.jsx; that part is a guess." Never silently fill in details.
+
+2. **"Match the brand" is not the same as "match the code."** The handover lists colors and fonts (theme.js) and reusable styles (styles.js), but those are tokens, not layouts. Reproducing the brand language doesn't reproduce the site. Only fetching the source does.
+
+3. **Mockups in standalone HTML are dangerous.** They look authoritative even when they're guesses. If Claude is building one, every component must be matched line-by-line to the actual React source. The moment Claude invents a header, a footer, an icon, a divider, or a button style without seeing the source for it, the mockup is misleading.
+
+4. **Claude must not make creative changes that weren't authorized.** This includes font weights, tag substitutions (`<div>` → `<p>`), spacing tweaks, hover effects, or anything else not present in the source. The InciteU codebase is meticulously edited; "small improvements" are unauthorized substitutions. If Claude has an idea, it goes in a question, not in a deliverable.
+
+5. **When in doubt, flag uncertainty before producing output.** "I'm about to render the homepage. I have HomePage.jsx, theme.js, and styles.js. I do NOT have Footer.jsx. Should I fetch it or render without a footer?" is the correct posture.
+
+Failure to follow these rules has burned multiple sessions. Subsequent Claudes: do not repeat this.
+
+---
+
+## §1 — Architecture
 
 ```
 JMZywietz/InciteU/
 ├── api/synthesize.js              ← Vercel serverless: proxies to Anthropic API
 ├── src/
 │   ├── main.jsx                   ← React entry (BrowserRouter)
-│   ├── App.jsx                    ← Route definitions  ← EDIT WHEN ADDING A ROUTE
+│   ├── App.jsx                    ← Route definitions
 │   ├── theme.js                   ← Brand: palette C, fonts F, GLOBAL_CSS, HERO_PHOTO
 │   ├── styles.js                  ← Reusable styles: btn(), heading(), eyebrow, fieldLabel, fieldInput, btnHoverIn/Out
 │   ├── components/                ← Header, Footer, HeroFlourish, OrganicDivider, icons, CategoryCard
-│   ├── pages/                     ← Top-level pages (Home, Bio, Contact, ThinkPage, WhereToStartPage)
-│   ├── tools/                     ← Interactive tools (currently 9)  ← NEW TOOLS GO HERE
-│   ├── think/                     ← Long-form think pieces  ← NEW THINK PIECES GO HERE
+│   ├── pages/                     ← Home, Bio, Contact, Think, WhereToStart
+│   ├── tools/                     ← 9 working tools (see §9)
+│   ├── think/                     ← 2 think pieces (see §9)
 │   └── lib/
-│       ├── routes.js              ← Symbolic name → URL path map  ← EDIT WHEN ADDING A ROUTE
+│       ├── routes.js              ← Symbolic name → URL path map
 │       ├── useAppNavigate.js      ← Hook: navigate('lcp') instead of '/tools/self/lcp'
 │       ├── synthesize.js          ← AI helper: synthesize() + extractText()
 │       └── utils.js               ← escapeHTML, downloadHTML
 ├── package.json                   ← React 18.3.1 + react-router-dom 6.26.2 + Vite 5.4.8
 ├── vite.config.js
 ├── vercel.json                    ← Rewrites all paths → /index.html (SPA)
+├── public/                        ← Vite static asset root (created May 11 for about-enso.jpg)
+│   └── about-enso.jpg            ← Self-hosted; referenced as src="/about-enso.jpg" in BioPage
 └── index.html
 ```
 
-**Stack:**
-- Plain React 18 with **inline styles** (NO Tailwind, NO CSS modules — just `style={{}}`)
-- React Router v6 for routing
-- Vite for build
-- Vercel for hosting (auto-deploys from `main`)
-- Anthropic API via Vercel serverless proxy at `/api/synthesize`
+**Stack:** React 18 + inline styles (no Tailwind, no CSS modules) + React Router v6 + Vite + Vercel + Anthropic API via serverless proxy at `/api/synthesize`.
 
-**Brand constants (from `src/theme.js`):**
-- `C.bgDeep` `#1F3937`, `C.bgCard` `#2A4744`, `C.cream` `#F0EBDB`, `C.sage` `#C5D49B`
-- `F.serif` = Cormorant Garamond, `F.sans` = Inter
-- **Per-category card tints** (HomePage cards only): `C.bgCardSelf` (`#2A4744`, sage-teal), `C.bgCardTeam` (`#2D4541`, warmer green-brown), `C.bgCardOrg` (`#28464A`, cooler blue-teal), each with a matching `*Hover` variant. The generic `C.bgCard` / `C.bgCardHover` are still the right choice for tool pages and other dark surfaces — only the three category cards on the homepage use the tinted versions, via the `variant="self|team|org"` prop on `<CategoryCard>`.
-- Always import from `theme.js` and `styles.js`. **Don't redefine colors or buttons.**
+**Brand constants** in `src/theme.js`:
+- Background: `C.bgDeep #1F3937`, `C.bgCard #2A4744`
+- Per-category card backgrounds: Self / Team / Org each have base + hover variants
+- Text: `C.cream #F0EBDB`, `C.creamMuted #C9C2AE`
+- Accents: `C.sage #C5D49B`, `C.sageMuted #8FA876`
+- Per-category accent colors (used in CategoryCard.jsx, NOT theme.js): Self `#C5D49B` (sage), Team `#E8C87A` (gold), Org `#8CBAC6` (blue)
+- Fonts: `F.serif` = Cormorant Garamond, `F.sans` = Inter
 
 ---
 
-## 2. Connecting to GitHub (every session)
+## §2 — Component source URLs
 
-Composio MCP is connected on Jen's account. Connection details:
+**Fetch these before any visual work.** Every URL is the raw GitHub file. Claude can `web_fetch` these directly.
+
+### Pages
+- HomePage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/HomePage.jsx
+- BioPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/BioPage.jsx
+- ContactPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ContactPage.jsx
+- WhereToStartPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/WhereToStartPage.jsx
+- ThinkPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ThinkPage.jsx
+
+### Components
+- Header: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/Header.jsx
+- Footer: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/Footer.jsx
+- HeroFlourish: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/HeroFlourish.jsx
+- OrganicDivider: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/OrganicDivider.jsx
+- CategoryCard: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/CategoryCard.jsx
+- Icons (SelfIcon, TeamIcon, OrgIcon): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/components/icons.jsx
+
+### Core
+- App (routes): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/App.jsx
+- Theme (palette, fonts, HERO_PHOTO): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/theme.js
+- Styles (btn, heading, eyebrow, fields): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/styles.js
+- Routes map: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/lib/routes.js
+- useAppNavigate hook: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/lib/useAppNavigate.js
+- synthesize helper: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/lib/synthesize.js
+- utils (escapeHTML, downloadHTML): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/lib/utils.js
+
+### Tools (Self / Inward)
+- ThreeMoments: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ThreeMoments.jsx
+- LCP (Working with your circle): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/LCP.jsx
+- LeadershipCapacitiesAnalysis: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/LeadershipCapacitiesAnalysis.jsx
+- FiveLives (Purpose): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/FiveLives.jsx
+- SmallestViableExperiment: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/SmallestViableExperiment.jsx
+
+### Tools (Team / Together)
+- ChallengeMapper (Decision Making): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ChallengeMapper.jsx
+- PreMortem: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/PreMortem.jsx
+
+### Tools (Org / At scale)
+- Readiness: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Readiness.jsx
+- Vision: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Vision.jsx
+- Culture model is hosted externally at https://qq5l85.csb.app/ (not in this repo)
+
+### Think pieces
+- FiveLayersDeep: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/think/FiveLayersDeep.jsx
+- CynefinScrollytelling: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/think/CynefinScrollytelling.jsx
+
+---
+
+## §3 — Connecting to GitHub
+
+Composio MCP is connected on Jen's account.
 - **Account:** `github_tum-horse` (login: JMZywietz)
 - **Default branch:** `main`
-- **The tool that works:** `GITHUB_COMMIT_MULTIPLE_FILES` with `encoding: "utf-8"`
-
-**Don't** use base64 encoding via the workbench — it bloats payloads and broke a previous session. Plain utf-8 strings passed to `GITHUB_COMMIT_MULTIPLE_FILES` work clean every time.
+- **The tool that works:** `GITHUB_COMMIT_MULTIPLE_FILES` with `encoding: "utf-8"`. Do not use base64 — it bloats payloads and broke a previous session.
 
 Verify connection at session start:
 ```
 COMPOSIO_SEARCH_TOOLS query: {"use_case": "create or update file in GitHub repo on a branch", "known_fields": "owner:JMZywietz, repo:InciteU"}
 ```
 
-If it shows `has_active_connection: true` → proceed. If not → user needs to reconnect via Composio.
+If it shows `has_active_connection: true` → proceed. If not → user reconnects via Composio.
 
 ---
 
-## 3. Adding a New Tool — End-to-End Playbook
 
-There are **two patterns** for new tools. Pick the right one before writing code:
+### Fallback: hand the files to Jen for manual upload
 
-- **Pattern A: Native React tool** — the tool's UI lives entirely inside the InciteU site, written in React. Examples: ThreeMoments, Readiness, Vision, LCP. Use this when you're building the tool from scratch or porting a self-contained interaction. Most new tools that don't already exist as published Claude artifacts use this.
-- **Pattern B: Linked Claude artifact** — the tool's actual UI lives in a published Claude artifact at `claude.ai/public/artifacts/<uuid>`, and InciteU just provides a brand-styled intro page with a button that opens it in a new tab. Example: Premortem. Use this when the tool already exists as a published artifact, when you specifically want to avoid Anthropic API costs, or when the tool needs Claude's UI capabilities the React site doesn't provide.
+**Use this whenever a commit involves more than ~15 KB of new file content in a single push.** The Composio API path that worked great for small edits (front-page tweaks, footer link adds — ~2 KB) struggles when a single file gets large. Symptoms: tool call hangs, payload truncation, JSON escaping issues, repeated workbench retries that go nowhere. This burned the second half of the May 11 session before we gave up and switched to manual upload.
 
-§3 below covers Pattern A. For Pattern B, see §4.
+How to hand off:
+
+1. Build the file(s) locally, save to `/mnt/user-data/outputs/`.
+2. Call `present_files` so they appear as downloadable attachments.
+3. Tell Jen the exact target path in the repo (e.g. `src/pages/BioPage.jsx` overwrites existing; `public/about-enso.jpg` is a new file, may need the `public/` folder created via GitHub's "Add file → Upload files → type path with / in the filename" trick).
+4. Vercel auto-deploys on commit just the same.
+
+This is faster, not a workaround. It's the recommended path for any new page, any new image, or any single-file commit over ~15 KB. Small file edits (string changes, single-line additions, footer link tweaks) still go through `GITHUB_COMMIT_MULTIPLE_FILES` via Composio.
+
+---
+
+## §4 — Adding a new tool — end-to-end playbook
+
+(Same as previous version; tools follow the existing pattern.)
 
 ### Step 1: Confirm the design with Jen
-Before writing code, get clear on:
-- **What's the tool called?** (e.g. "Decision Audit", "Power Map", "Stakeholder Heat-Check")
-- **Which category does it sit in?** Self / Team / Org → determines route prefix
-- **What's the user flow?** Steps, questions, output format. Look at existing tools as templates:
-  - **ThreeMoments** = multi-step wizard with optional AI synthesis at the end
-  - **Readiness** = self-assessment with scored dimensions, banded results, downloadable HTML
-  - **Vision** = guided long-form text builder with optional AI polish
-  - **LCP** = pick-from-options with diagonal-tension synthesis (most similar to what most new tools want)
-- **Does it use AI?** If yes → import `synthesize` and `extractText` from `lib/synthesize.js`
-- **Does it produce a download?** If yes → use `downloadHTML` from `lib/utils.js` and follow the HTML doc pattern from ThreeMoments/Readiness/Vision
+- Tool name, category (Self / Team / Org), user flow, AI usage, download format.
+- Look at existing tools as templates (per §9).
 
 ### Step 2: Write the tool file
-Create `src/tools/<ToolName>.jsx`. **Copy the structure of the closest existing tool**, don't write from scratch.
+Create `src/tools/<ToolName>.jsx`. **Copy the structure of the closest existing tool. Do not write from scratch.**
 
 Boilerplate every new tool needs:
 ```jsx
@@ -106,31 +182,11 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 // Optional, only if needed:
 import { synthesize, extractText } from '../lib/synthesize.js';
 import { escapeHTML, downloadHTML } from '../lib/utils.js';
-
-export default function YourToolPage() {
-  const navigate = useAppNavigate();
-  // ... state, handlers ...
-  return (
-    <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
-      <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
-         style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
-        ← Back to tools
-      </a>
-      {/* tool body */}
-    </main>
-  );
-}
 ```
 
-**Style discipline:**
-- No new color values — always pull from `C` palette in `theme.js`
-- No new button styles — use `btn('primary')` or `btn('secondary')` from `styles.js`
-- No new heading sizes — use `heading(48)`, `heading(40)`, etc.
-- Eyebrow caps text uses `eyebrow` style
-- For form fields, use `fieldLabel` and `fieldInput`
-- If any of the above feels insufficient, **flag it to Jen first** before adding new tokens — keeping the visual system tight is non-negotiable
+**Style discipline:** pull from `C` palette and `styles.js`. Do not redefine colors, buttons, or headings. If something feels missing, flag it as a question — do not add a token.
 
-**AI synthesis pattern (if needed):**
+**AI synthesis pattern:**
 ```jsx
 const data = await synthesize({
   model: 'claude-sonnet-4-5',
@@ -139,243 +195,120 @@ const data = await synthesize({
 });
 const text = extractText(data);
 ```
-Always wrap in try/catch and provide a graceful fallback message ("AI synthesis is unavailable right now. Your reflections above stand on their own."). The proxy may fail if the env var isn't set yet.
+Wrap in try/catch with a graceful fallback message.
 
 ### Step 3: Register the route
-Two files to edit:
+- Edit `src/lib/routes.js` — add `'your-tool': '/tools/<self|team|org>/your-tool'`
+- Edit `src/App.jsx` — add import + `<Route>`
 
-**`src/lib/routes.js`** — add the symbolic name → path mapping:
-```js
-'your-tool': '/tools/<self|team|org>/your-tool',
-```
+### Step 4: Surface on HomePage
+- Edit `src/pages/HomePage.jsx` — add to the right `CategoryCard` tools array.
 
-**`src/App.jsx`** — add the import and `<Route>`:
-```jsx
-import YourToolPage from './tools/YourTool.jsx';
-// ...
-<Route path="/tools/<self|team|org>/your-tool" element={<YourToolPage />} />
-```
-
-### Step 4: Surface it on HomePage
-The user has to be able to find the tool. Edit `src/pages/HomePage.jsx` to add it under the right `CategoryCard` (Self / Team / Org). Pattern:
-```jsx
-{ name: 'Your Tool', live: true, to: 'your-tool' }
-```
-
-### Step 5: (Optional) Add to WhereToStartPage
-If the tool fits the 3-question wizard logic, add it to the recommendation map in `src/pages/WhereToStartPage.jsx`. If the existing wizard branches don't reach it cleanly, leave it off rather than forcing it.
-
-### Step 6: Local build check (optional but smart)
-If there's a working `/home/claude/inciteu/` from a previous session:
+### Step 5: Build check (optional)
+If a working `/home/claude/inciteu/` exists from a previous session:
 ```bash
 cd /home/claude/inciteu && npx vite build
 ```
-If `dist/` builds clean, the JSX is valid. Catches typos before they hit GitHub. Skip if not in a sandbox where the project lives — Vercel will catch errors on its own deploy too.
-
-### Step 7: Commit and push
-Use **one** atomic commit per logical change. Pattern that works:
-
-```
-COMPOSIO_MULTI_EXECUTE_TOOL → GITHUB_COMMIT_MULTIPLE_FILES
-{
-  "owner": "JMZywietz",
-  "repo": "InciteU",
-  "branch": "main",
-  "message": "Add <ToolName> tool: <one-line description>",
-  "upserts": [
-    { "path": "src/tools/<ToolName>.jsx", "content": "<full file>", "encoding": "utf-8" },
-    { "path": "src/lib/routes.js", "content": "<full file>", "encoding": "utf-8" },
-    { "path": "src/App.jsx", "content": "<full file>", "encoding": "utf-8" },
-    { "path": "src/pages/HomePage.jsx", "content": "<full file>", "encoding": "utf-8" }
-  ]
-}
-```
-
-Pass the **complete** file contents for every file in `upserts` — `GITHUB_COMMIT_MULTIPLE_FILES` overwrites with whatever you send. To see current state of a file before editing it, use `GITHUB_GET_REPOSITORY_CONTENT` first.
-
-### Step 8: Verify
-After commit succeeds, Vercel auto-deploys from `main` in ~30 seconds. Jen confirms by visiting the live URL. Done.
-
----
-
-## 4. Pattern B: Tool that links to a published Claude artifact
-
-Use this when the tool's actual UI is a published Claude artifact at `claude.ai/public/artifacts/<uuid>` and you just need to integrate it into InciteU. The integration is a small InciteU-styled intro page that explains what the tool is, then a primary button that opens the artifact in a new tab.
-
-The Premortem tool is the reference implementation: see `src/tools/PreMortem.jsx`.
-
-### ⚠️ Critical: how to know the artifact URL
-
-**`web_fetch` returns 403 on every `claude.ai/public/artifacts/*` URL.** Don't try to fetch the artifact to read its contents — it won't work. Instead:
-
-1. **Read the URL from §9 of this doc** (the artifact URL registry). If a Pattern B tool already exists, its URL is recorded there.
-2. **Ask Jen for the URL** if she's adding a new artifact-backed tool that isn't in §9 yet.
-3. **After committing**, add or update the entry in §9 so future-Claude can find it.
-
-Do NOT try to open the artifact yourself with `web_fetch` and report back its contents. Even if Jen pastes the URL in chat, you only need the URL string — never the artifact's HTML.
-
-### Step 1: Confirm with Jen
-- **What's the tool called?** Becomes the page heading and the Team/Self/Org card label.
-- **Which category?** Self / Team / Org.
-- **One-paragraph description of what the tool does.** This goes in the intro page — use Jen's actual words, don't paraphrase. Quote her two-sentence definition + elaboration if she gives you one.
-- **Anything important about who it's for / when to use it?** Becomes a sage callout box on the intro page (e.g. "This tool can be used alone or with a team.").
-- **The artifact URL.** Get this from Jen directly.
-
-### Step 2: Write the intro page file
-Create `src/tools/<ToolName>.jsx`. Copy the structure of `src/tools/PreMortem.jsx` — it's the reference. Key elements:
-
-- Constant at the top: `const <TOOLNAME>_URL = 'https://claude.ai/public/artifacts/<uuid>';`
-- Eyebrow: "A Self/Team/Org tool"
-- `heading(60)` with the tool name in serif italic sage
-- Jen's description as two paragraphs: serif 22px lead, then sans 15px elaboration in `creamMuted`
-- Sage-bordered callout box for the "who it's for" line
-- `heading(28)` "How this tool works" with a 3-step numbered list (matching LCP's pattern)
-- Primary button: `<a href={URL} target="_blank" rel="noopener noreferrer" style={{ ...btn('primary'), textDecoration: 'none' }}>Open the <Tool> tool ↗</a>`
-- Secondary button: `<button onClick={() => navigate('home')} style={btn('secondary')}>Back to all tools</button>`
-- Small italic note at bottom: "Opens in a new tab. The tool itself runs as a published Claude artifact."
-
-### Step 3: Register the route
-Same as Pattern A, Step 3. `routes.js` and `App.jsx`.
-
-### Step 4: Surface it on HomePage
-Same as Pattern A, Step 4. `HomePage.jsx`, the right CategoryCard, with `live: true, to: '<tool-name>'`.
-
-### Step 5: Update §9 of this handover doc
-Add a row to the artifact URL registry. This is non-optional — it's the only place future sessions will be able to discover the URL.
 
 ### Step 6: Commit
-One atomic commit, same as Pattern A Step 7. Files touched: the new tool intro page + App.jsx + HomePage.jsx + INCITEU-HANDOVER.md.
-
-### Why this pattern (and what it doesn't do)
-- **No Anthropic API costs** — the artifact runs on Anthropic's published-artifact infrastructure, not on Jen's API key.
-- **No iframe** — claude.ai sets `X-Frame-Options` headers that block iframe embedding (verified). Always opens in a new tab.
-- **The artifact's own UI is not styled to match InciteU** — visitors see the InciteU shell on the way in, but the actual tool experience is whatever the artifact looks like. That's a real tradeoff. Worth it for free, but flag it to Jen if she expects pixel-perfect brand continuity through the whole flow.
+Use one atomic commit per logical change. `GITHUB_COMMIT_MULTIPLE_FILES` overwrites with the contents passed — always send the complete file contents.
 
 ---
 
-## 5. Common Pitfalls to Avoid
+## §5 — Common pitfalls to avoid
 
-1. **Don't paste base64 inline** — broke a previous session. Plain utf-8 to `GITHUB_COMMIT_MULTIPLE_FILES`.
-2. **Don't introduce Tailwind, CSS-in-JS libraries, or component frameworks** — site is intentionally minimal stack.
-3. **Don't redefine colors, buttons, or fonts** — pull from `theme.js`/`styles.js`.
-4. **Don't put real-time AI calls directly to `api.anthropic.com`** — always go through `synthesize()` helper, which uses the Vercel proxy and keeps the API key out of the bundle.
-5. **Don't forget the 4 places a route lives:** the page file, `routes.js`, `App.jsx`, and HomePage. Missing any one → broken navigation.
-6. **Don't push to a branch other than `main`** unless Jen explicitly asks for a PR workflow. Vercel deploys main directly.
-7. **Don't change `package.json` dependencies casually.** If a new tool genuinely needs a library, flag it to Jen first.
-8. **Don't add a new tool category (Self/Team/Org)** without asking. The 3-card structure on HomePage is part of the IA.
-9. **Don't `web_fetch` a `claude.ai/public/artifacts/*` URL.** Returns 403. Use §9 (artifact URL registry) or ask Jen directly for the URL. The fetch will fail every time.
+The first four are the most important. The rest were here in the previous version and remain.
 
----
+1. **Don't invent components.** Header, Footer, OrganicDivider, HeroFlourish, CategoryCard, the icons, and the page files all exist as real React source. Fetch them (§2) before rendering anything visual. If Claude doesn't have a file, Claude says so before producing output, not after the fact.
 
-## 6. Outstanding Setup
+2. **Don't take "creative license."** No font-weight tweaks, no `<div>` → `<p>` substitutions, no spacing adjustments, no new hover states, no rephrased copy, no rearranged sections — unless Jen has explicitly authorized that specific change. Anything else is an unauthorized substitution, even when it "feels minor."
 
-These are Jen's tasks, not Claude's. Listed so future-Claude knows the state.
+3. **Don't claim to see the site.** If a mockup is being produced, name the iframe limitation up front: viewport-relative units (vh, vw, clamp) render at different sizes in the artifact iframe than they do in a full browser window. The mockup is an approximation of the source code, not of the visual experience.
 
-- [ ] **`ANTHROPIC_API_KEY` in Vercel env vars** — not yet set. Without this, the AI tools (ThreeMoments, LCP, Vision) fall back to "AI synthesis is unavailable" message but site otherwise works. Jen plans to fund $5 of API credits with a $5/month spending cap when she's ready.
-- [ ] **Custom domain** `inciteu.com` — point GoDaddy DNS to Vercel.
-- [ ] **Formspree ID** — replace `REPLACE_WITH_YOUR_ID` in `src/pages/ContactPage.jsx`.
-- [ ] **Self-host hero photo** — `HERO_PHOTO` in `theme.js` is still pointing at Wix CDN.
-- [ ] **Wayback Machine archive** of old Wix site, then cancel Wix.
+4. **Don't push unauthorized changes back into the repo.** Every commit lists exactly the changes Jen approved. If anything else snuck in (a stray font-weight, a renamed prop), it gets removed before commit.
 
----
+5. **Don't push large content (>~15 KB single-file) through Composio.** The May 11 session lost ~5 turns trying to push BioPage.jsx (17 KB) + about-enso.jpg (9 KB) via `COMPOSIO_MULTI_EXECUTE_TOOL` and the workbench. Inline string escaping and tool-call payload limits made it unreliable. **Just give Jen the files via `present_files` and ask her to upload through the GitHub web UI.** It takes her 90 seconds. Vercel deploys the same way. See §3 fallback.
 
-## 7. How a Fresh Session Should Open
+6. Don't paste base64 inline in JSX — broke an earlier session. Plain utf-8 to `GITHUB_COMMIT_MULTIPLE_FILES` for source files; binary files (images) go to `public/` as separate base64-encoded upserts in the same commit, OR via manual upload (§3 fallback).
 
-1. Read this doc end to end (it's not long).
-2. Ask Jen: "What are we building today?"
-3. If it's a new native React tool: walk through §3 with her — confirm name, category, flow, AI usage, download format **before** writing code.
-4. If it's a new tool backed by a published Claude artifact: walk through §4 — confirm name, category, description, and ask for the artifact URL. Don't try to fetch the URL.
-5. If it's a fix to an existing tool: use `GITHUB_GET_REPOSITORY_CONTENT` to read current state, then commit changes via `GITHUB_COMMIT_MULTIPLE_FILES`.
-6. If it's an env/Vercel/domain question: refer to §6 and the Vercel dashboard. Claude doesn't deploy — Vercel does, automatically, on push to `main`.
+7. Don't introduce Tailwind, CSS-in-JS libraries, or component frameworks — site is intentionally minimal stack.
 
-Keep commits small and atomic. One feature = one commit. When you add a Pattern B tool, also update §9 of this doc in the same commit.
+8. Don't put real-time AI calls directly to `api.anthropic.com` — always go through `synthesize()` helper.
 
-**Before signing off:** if this session shipped a new tool, renamed something, deprecated something, or otherwise changed reality on `main` in a way that future-Claude needs to know about — update this handover doc in the same session. See §11.
+9. Don't forget the 4 places a route lives: the page file, `routes.js`, `App.jsx`, and HomePage. Missing any one → broken navigation.
+
+10. Don't push to a branch other than `main` unless Jen explicitly asks for a PR workflow.
+
+11. Don't change `package.json` dependencies casually. Flag to Jen first.
+
+12. Don't add a new tool category (Self/Team/Org) without asking. The 3-card structure is part of the IA.
 
 ---
 
-## 8. Quick Reference — Existing Tools
+## §6 — Outstanding setup (running list)
 
-Categories: **Self** (inward / personal), **Team** (together / collaborative), **Org** (at scale / systemic).
-Patterns: **A (native)** — React tool implemented in this repo. **B (artifact)** — InciteU-styled intro page that opens a published Claude artifact in a new tab; see §4.
+### Recently completed (May 11, 2026 session)
 
-| Tool | Category | File | Route | Pattern | Uses AI? |
-|------|----------|------|-------|---------|----------|
-| ThreeMoments | Self | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | A | Yes (optional synthesis) |
-| LCP (Working with your circle) | Self | `src/tools/LCP.jsx` | `/tools/self/lcp` | A | Yes (synthesis) |
-| Leadership Capacities Analysis | Self | `src/tools/LeadershipCapacitiesAnalysis.jsx` | `/tools/self/leadership-capacities` | A | Yes (optional synthesis on results) |
-| Five Lives (Purpose) | Self | `src/tools/FiveLives.jsx` | `/tools/self/five-lives` | A | Yes |
-| Smallest Viable Experiment | Self | `src/tools/SmallestViableExperiment.jsx` | `/tools/self/smallest-viable-experiment` | A | Yes |
-| Premortem | Team | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | B | Yes (via published artifact) |
-| Challenge Mapper | Team | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | A | Not yet surfaced on HomePage |
-| Readiness | Org | `src/tools/Readiness.jsx` | `/tools/org/readiness` | A | No |
-| Vision | Org | `src/tools/Vision.jsx` | `/tools/org/vision` | A | Yes (optional polish) |
-| Five Layers Deep (think piece) | — | `src/think/FiveLayersDeep.jsx` | `/think/five-layers-deep` | A | No |
-| Cynefin Scrollytelling (think piece) | — | `src/think/CynefinScrollytelling.jsx` | `/think/cynefin` | A | No |
+- [x] **Homepage update** — commit [`63bc6033`](https://github.com/JMZywietz/InciteU/commit/63bc6033). Added "Curious where to start?" CTA between OrganicDivider and category grid. Removed `guideTo="where-to-start"` from Self CategoryCard. Re-labeled Bio → About in Header nav. HeroFlourish kept on homepage hero (Jen wanted "the spiral back").
+- [x] **Footer links** — commit [`f30956a0`](https://github.com/JMZywietz/InciteU/commit/f30956a0). Contact (internal `navigate('contact')`) and LinkedIn (`https://www.linkedin.com/in/jenniferdianemay/`, external) added under the existing "© InciteU · Jennifer May" copyline.
+- [x] **WhereToStartPage wizard expanded** — already live (`73531dd2...`). Welcome → Layer (self/team/org/exploring) → Intent (branches by layer) → Time → Result. Covers all 9 tools + culture-model external link. Exploring branch skips intent, defaults to Three Moments.
+- [x] **About page (BioPage.jsx) redesign** — handed off as files for manual upload at end of session. Status: pending Jen's upload via GitHub web UI. New structure:
+  - Hero with subtle flourish background; new line: *"I coach senior leaders and teams. The invitation, every time, is the same: take an honest look at where you are, decide who you want to become next, and do the joyful, often unglamorous work of getting there."*
+  - **Why I created InciteU** — two-column with enso image (`/public/about-enso.jpg`) on right; sage-bordered callout pull-quote for "This website is here so that anyone who wants to transform themselves — or others — can build the mental, emotional, and physical resilience to do so."
+  - **Why the Name InciteU** — three numbered belief cards in auto-fit grid with hover-lift state.
+  - Logo wall preserved (Google / Microsoft / PepsiCo / WHO — flagged: Microsoft and WHO are NOT in the new canonical client list from the bio; need swap or extension).
+  - **How I work** (merged from old "How I work" + "Before all this") with subsections: opening paragraphs, Clients (chip-styled tags listing 13 companies), Before this (McKinsey paragraphs first-person), Education & training (Harvard / Vrije / Kansas State + cert chips with year tags 2024 → 2009).
+  - The lowercase italic sage "u" treatment is preserved only in the header brand mark. Body references use **CAPITAL** U styled with `{ color: C.sage, fontStyle: 'italic' }` (the `inlineU` style constant).
 
-**Backward-compat redirect**: the old `/tools/self/leadership-stance` route now redirects to `/tools/self/leadership-capacities`. Don't break this redirect; bookmarked links rely on it. The old key `'leadership-stance'` in `STATE_TO_PATH` is also kept as an alias.
+### Still pending
 
-**Naming note**: The Leadership Capacities Analysis file used to be called `LeadershipStanceAssessment.jsx`. It was renamed in May 2026 to align with Jen's preferred public-facing name. The internal CSS class prefix in that file is still `lsa-` — leave it alone, it's scoped to that file and renaming risks breaking the embedded HTML.
+- [ ] `ANTHROPIC_API_KEY` in Vercel env vars — without this, AI tools fall back to "unavailable" but site otherwise works.
+- [ ] Custom domain `inciteu.com` — point GoDaddy DNS to Vercel.
+- [ ] Formspree ID — replace `REPLACE_WITH_YOUR_ID` in `src/pages/ContactPage.jsx`.
+- [ ] Self-host hero photo — `HERO_PHOTO` in `theme.js` still points at Wix CDN. (About page's `about-enso.jpg` is the first self-hosted image, lives at `public/about-enso.jpg`. Pattern is established; HERO_PHOTO can follow.)
+- [ ] Wayback Machine archive of old Wix site, then cancel Wix.
+- [ ] **Logo wall vs client chips reconciliation.** The logo wall on the About page shows 4 placeholder logos (Google, Microsoft, PepsiCo, WHO). The new client chips list 13 companies from Jen's bio. Mismatches: Microsoft and WHO are in the wall but not the bio; PayPal, Careem/Uber, Novartis, Honeywell, World Bank, Kuwait Finance House, McKinsey, PWC, Achmea, Diageo, Cleveland Clinic AD are in the bio but not the wall. Jen's call: update wall to match bio, drop the wall, or keep both as redundant.
+- [ ] **Tool outcome lines on homepage** — flagged option (a) from earlier sessions, never built. Five tools still need Jen's outcome-line wording: Leadership Capacities Analysis, Purpose (Five Lives), Smallest Viable Experiment, Decision Making, Culture model.
+- [ ] **BioPage.jsx + about-enso.jpg manual upload** — files handed to Jen at end of May 11 session. Confirm she pushed them and the About page renders cleanly at `/bio`.
+- [ ] **Two-paths page** — superseded. Jen pivoted to one expanded wizard for the whole set of tools rather than a two-paths page at `/where-to-start`. The wizard now lives at `/where-to-start` directly. No need to build a separate two-paths page.
 
-**Not yet surfaced**: Challenge Mapper exists as a working route but isn't on the HomePage Team card yet. Surface it via the standard §3 Step 4 process when Jen is ready.
-
----
-
-## 9. Published Artifact URL Registry
-
-For every Pattern B tool, the published Claude artifact URL it links to. **This is the single source of truth for these URLs** — future-Claude reads from this list rather than trying to `web_fetch` claude.ai (which returns 403).
-
-| Tool | Artifact URL | Category | Notes |
-|------|-------------|----------|-------|
-| Premortem | `https://claude.ai/public/artifacts/b6fdfb33-8a4a-4237-b58d-0f24d5cb814e` | Team | Tested, working. Opens in new tab. |
-
-**When adding a new Pattern B tool:** add a row here in the same commit that introduces the tool. Without it, future sessions can't find the URL.
-
-**When updating an existing artifact:** if Jen replaces a published artifact with a new version (different UUID), update the URL here AND in the corresponding tool file's URL constant. Both must change together.
+Past: the Pre-Mortem tool was already merged into the repo before the May 2026 session began (`src/tools/PreMortem.jsx`). It is NOT pending migration as an older version of this doc said.
 
 ---
 
-## 10. Other URL References (non-artifact)
+## §7 — How a fresh session should open
 
-External URLs the site links to that aren't published Claude artifacts. Recorded here so future-Claude doesn't have to dig through the codebase.
-
-| Reference | URL | Where it's used |
-|-----------|-----|----------------|
-| Culture model (CodeSandbox) | `https://qq5l85.csb.app/` | Org card on HomePage, external link |
-| Leadership Circle Profile | `https://leadershipcircle.com` | LCP intro page, external link to free assessment |
-
----
-
-## 11. Updating this Handover Doc
-
-This doc is the source of truth that every future Claude session reads first. **The session that ships a change is the session that updates the doc** — not "later," not "next time." If the change matters enough that future-Claude needs to know about it, the handover update belongs in the same session, ideally the same atomic commit.
-
-**Update the handover when any of these happen:**
-- A new tool is added (Pattern A or B). Update §8 (Quick Reference table) and, for Pattern B tools, §9 (Artifact URL Registry).
-- A tool is renamed, deprecated, or removed. Update §8, and add a backward-compat note if the rename leaves redirects/aliases behind (see Leadership Capacities Analysis precedent).
-- A new architectural pattern emerges that future-Claude could miss or accidentally re-invent (e.g., per-category palette tints when those were introduced).
-- A new constraint, gotcha, or rule worth flagging (add to §5 Pitfalls or wherever it fits topically).
-- An item in §6 (Outstanding Setup) is completed — cross it off so future-Claude isn't chasing stale tasks.
-- The architecture map in §1 changes structurally (new top-level folder, new shared resource, etc.).
-
-**Skip the handover update for:**
-- Routine cosmetic tweaks to existing components (font sizes, paddings, opacity, copy edits) that don't introduce a new pattern.
-- Bug fixes that restore previously-documented behavior without changing the interface.
-- Internal refactors of a single tool that don't affect how it's wired into the rest of the site.
-
-**How to do the update mechanically:**
-1. Make the change to the code as normal.
-2. Read the current handover doc with `GITHUB_GET_REPOSITORY_CONTENT` on `INCITEU-HANDOVER.md`.
-3. Edit the relevant section(s). Bump the "Last updated" date at the top.
-4. Commit the doc update — either bundled with the code change in one atomic commit (preferred for tightly-coupled changes), or as a separate "Update handover doc: ..." commit immediately after (acceptable when the code change is large and the doc edit is unrelated cleanup).
-
-**Don't:**
-- Don't ask Jen "should I also update the handover?" — just do it. Surfacing it as a question creates friction; the answer is always yes when the criteria above are met.
-- Don't wait for Jen to remind you. She does not want to be the one tracking this.
-- Don't update the handover in a way that undermines existing rules or patterns without flagging it explicitly. If a new approach contradicts something the doc already says, call that out in the commit message and in the doc itself.
-
-This rule was added May 8, 2026 after a session where the handover went stale because each Claude session assumed the "next one" would update it. The fix: the session that did the work also writes the note about the work.
+1. **Read §0.** Then §2. The URLs in §2 are pre-fetched assets — Claude should fetch the ones relevant to the task at the start.
+2. Ask Jen what we're working on today.
+3. Before producing any visual deliverable, confirm out loud: "I have these source files: [list]. I'm missing these: [list]. Should I fetch the missing ones or proceed without them?"
+4. If editing an existing tool or page, fetch its source with `web_fetch` (URL in §2) before making any change.
+5. If editing components used across the site (Header, Footer, etc.), fetch ALL pages that use them to verify the change doesn't break anything visible.
+6. Keep commits small and atomic. One feature = one commit. Send the complete updated file contents to `GITHUB_COMMIT_MULTIPLE_FILES`.
 
 ---
 
-*End of handover. Keep it current — update this file in the repo when the architecture changes meaningfully, and always update §9 when adding a Pattern B tool. See §11 for the rule on when and how to update.*
+## §8 — Quick reference — existing tools
+
+| Tool | File | Route | Uses AI? |
+|------|------|-------|----------|
+| Three Moments | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | Yes (optional synthesis) |
+| Working with your circle (LCP) | `src/tools/LCP.jsx` | `/tools/self/lcp` | Yes (synthesis) |
+| Leadership Capacities Analysis | `src/tools/LeadershipCapacitiesAnalysis.jsx` | `/tools/self/leadership-capacities` | Unknown — fetch the file |
+| Purpose (Five Lives) | `src/tools/FiveLives.jsx` | `/tools/self/five-lives` | Unknown — fetch the file |
+| Smallest Viable Experiment | `src/tools/SmallestViableExperiment.jsx` | `/tools/self/smallest-viable-experiment` | Unknown — fetch the file |
+| Decision Making | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | Unknown — fetch the file |
+| Pre-Mortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | Unknown — fetch the file |
+| Culture model | (external, not in repo) | external link to `qq5l85.csb.app` | N/A |
+| Readiness assessment | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No |
+| Vision builder | `src/tools/Vision.jsx` | `/tools/org/vision` | Yes (optional polish) |
+| Five Layers Deep | `src/think/FiveLayersDeep.jsx` | `/think/five-layers-deep` | No |
+| Cynefin Scrollytelling | `src/think/CynefinScrollytelling.jsx` | `/think/cynefin` | No |
+
+Coming-soon tools (placeholders only, not built yet):
+- Self: Possibilities
+- Team: Stakeholder Shoes Walk, Post-Mortem, The Squeeze
+- Org: Boids · emergence
+
+---
+
+*End of handover. This document lives in the repo; keep it current. When components are added, renamed, or moved, update §2 in the same commit.*
