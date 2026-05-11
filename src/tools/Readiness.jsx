@@ -180,9 +180,21 @@ ${dimRows}
       <p style={{ fontFamily: F.serif, fontSize: 22, lineHeight: 1.55, color: C.cream, marginBottom: 16, maxWidth: 600 }}>
         Rate each statement honestly — not how you wish things were, but how they actually are.
       </p>
-      <p style={{ fontSize: 14, color: C.creamMuted, marginBottom: 48, lineHeight: 1.6, fontStyle: 'italic' }}>
+      <p style={{ fontSize: 14, color: C.creamMuted, marginBottom: 32, lineHeight: 1.6, fontStyle: 'italic' }}>
         There are no wrong answers. This is a mirror, not a test. Takes about 5–7 minutes.
       </p>
+
+      {/* Culture Model prep callout */}
+      <div style={{ background: 'rgba(42, 71, 68, 0.5)', border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.sage}`, borderRadius: 4, padding: '20px 24px', marginBottom: 48, maxWidth: 600 }}>
+        <div style={{ ...eyebrow, color: C.sage, marginBottom: 10 }}>Prep · Read first</div>
+        <p style={{ fontSize: 15, color: C.cream, lineHeight: 1.6, margin: '0 0 14px 0' }}>
+          The Culture Model is essential context for the dimensions below. If you haven't yet, open it in a tab and skim before you begin.
+        </p>
+        <a href="https://qq5l85.csb.app/" target="_blank" rel="noopener noreferrer"
+           style={{ color: C.sage, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: F.sans }}>
+          Open the Culture Model ↗
+        </a>
+      </div>
 
       {READINESS_DIMS.map((d) => (
         <div key={d.id} style={{ marginBottom: 48 }}>
