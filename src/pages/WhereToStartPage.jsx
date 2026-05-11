@@ -161,7 +161,6 @@ export default function WhereToStartPage() {
 
   const TIME_LABELS = { short: '10\u201315 minutes', medium: '30 minutes or so', long: 'an hour or more' };
 
-  // Map numeric step to logical screen, accounting for exploring path
   const isExploring = answers.layer === 'exploring';
   function whichScreen() {
     if (step === 1) return 'welcome';
@@ -173,7 +172,6 @@ export default function WhereToStartPage() {
   }
   const screen = whichScreen();
 
-  // Progress bar segments \u2014 one fewer when exploring path skips intent
   const totalSegments = isExploring ? 3 : 4;
   const segments = Array.from({ length: totalSegments }, (_, i) => i + 1);
 
@@ -207,7 +205,7 @@ export default function WhereToStartPage() {
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
-        \u2190 Back to tools
+        ← Back to tools
       </a>
 
       <div style={{ display: 'flex', gap: 6, marginBottom: 32 }}>
@@ -280,13 +278,13 @@ export default function WhereToStartPage() {
             )}
             <div style={{ background: C.bgCard, borderLeft: `3px solid ${C.sage}`, borderRadius: 4, padding: 36, margin: '24px 0 36px' }}>
               <div style={{ ...eyebrow, marginBottom: 16 }}>
-                {tool.available ? 'Recommended \u00b7 Available now' : 'Recommended \u00b7 Coming soon'}
+                {tool.available ? 'Recommended · Available now' : 'Recommended · Coming soon'}
               </div>
               <div style={{ ...heading(36), marginBottom: 18, fontSize: 36, lineHeight: 1.1 }}>{tool.title}</div>
               <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 19, lineHeight: 1.55, color: C.cream, marginBottom: 24 }}>{whyText}</div>
               <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.creamMuted, paddingTop: 16, borderTop: `1px solid ${C.line}` }}>
                 <span>{tool.time}</span><span>{tool.mode}</span>
-                {tool.external && <span>External \u2197</span>}
+                {tool.external && <span>External ↗</span>}
               </div>
             </div>
             {sec && (
