@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 11, 2026 (end of session)
+**Last updated:** May 11, 2026 (late evening session — Decision Toolkit + Cynefin + Challenge Mapper)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -9,7 +9,7 @@
 
 ## TL;DR for Claude
 
-Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 working tools, 2 think pieces, and supporting pages. The homepage, About page, footer, and where-to-start wizard were all overhauled in the May 11 session.
+Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 working tools, 2 think pieces (including the Cynefin scrollytelling and Challenge Mapper added this session), and supporting pages. The homepage, About page, footer, and where-to-start wizard were all overhauled in the May 11 session.
 
 **The most important thing in this document is §0.** Read it before doing anything else. Claude cannot see the rendered website, and pretending otherwise has burned multiple sessions. The rules in §0 exist because they were not followed and the consequences were bad.
 
@@ -72,11 +72,20 @@ JMZywietz/InciteU/
 
 **Brand constants** in `src/theme.js`:
 - Background: `C.bgDeep #1F3937`, `C.bgCard #2A4744`
-- Per-category card backgrounds: Self / Team / Org each have base + hover variants
+- Per-category card backgrounds: Self `#2A4744` (cool teal) / Team `#33403B` (warm earthy) / Org `#28464A` (cool blue-teal), each with hover variants
 - Text: `C.cream #F0EBDB`, `C.creamMuted #C9C2AE`
 - Accents: `C.sage #C5D49B`, `C.sageMuted #8FA876`
 - Per-category accent colors (used in CategoryCard.jsx, NOT theme.js): Self `#C5D49B` (sage), Team `#E8C87A` (gold), Org `#8CBAC6` (blue)
 - Fonts: `F.serif` = Cormorant Garamond, `F.sans` = Inter
+
+**Homepage category cards** (renamed May 11, 2026 session):
+- **Inward → "Live Well"** (variant=self) — identity, purpose, sustainability
+- **Outward → "Face What Is"** (variant=team) — understanding self, others, reality; houses the Decision Toolkit
+- **Forward → "Lead Well"** (variant=org) — direction, execution, learning
+
+CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) in addition to the flat `tools` array. The homepage uses `toolGroups`.
+
+**Think page** cards have per-piece accent colors and backgrounds (Cynefin = sage/warm, Five Layers Deep = gold/cool).
 
 ---
 
@@ -287,7 +296,28 @@ Past: the Pre-Mortem tool was already merged into the repo before the May 2026 s
 
 ---
 
-## §8 — Quick reference — existing tools
+## §8 — Decision Toolkit architecture
+
+The "Face What Is" card on the homepage contains a coherent **decision-making lifecycle** built around the Cynefin framework. The tools are listed in lifecycle order:
+
+1. **Cynefin Scrollytelling** (`/think/cynefin`) — educational scrollytelling that teaches Cynefin from zero. Ends with a CTA that navigates to the Challenge Mapper. Lives in `src/think/` because it's educational content, but it's the entry point to the decision toolkit.
+2. **Challenge Mapper** (`/tools/team/challenge-mapper`) — 5-step wizard: define a challenge, break it into sub-parts, map each to a Cynefin domain, pressure test the mapping, choose domain-appropriate next steps. Outputs an "Action Plan" as a Cynefin-styled grid with downloadable HTML.
+3. **Stakeholder Shoes Walk** — *not yet built*. Before acting on a big decision, walk in each stakeholder's shoes. Map how the decision lands.
+4. **Pre-Mortem** (`/tools/team/pre-mortem`) — stress-test the plan before executing.
+5. **Post-Mortem** — *not yet built*. After the outcome: separate decision quality from outcome quality.
+6. **The Squeeze** — *not yet built*. Fast (<5 min) structured debrief for safe-to-fail experiments. Six questions: what were you testing, what did you expect, what happened, what surprised you, so what, now what.
+
+The Cynefin scrollytelling uses an extended color palette for domain coding:
+- Clear: `C.cream` (#F0EBDB)
+- Complicated: `#E8C87A` (warm gold)
+- Complex: `C.sage` (#C5D49B)
+- Chaotic: `#D4785C` (soft coral)
+
+Both the scrollytelling and Challenge Mapper define these as local extensions: `const C = { ...baseC, creamMuted: '...', warmAccent: '#E8C87A', alert: '#D4785C' };`
+
+---
+
+## §9 — Quick reference — existing tools
 
 | Tool | File | Route | Uses AI? |
 |------|------|-------|----------|
