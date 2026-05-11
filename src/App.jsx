@@ -18,6 +18,8 @@ import PreMortemPage from './tools/PreMortem.jsx';
 import ChallengeMapperPage from './tools/ChallengeMapper.jsx';
 import FiveLivesPage from './tools/FiveLives.jsx';
 import SmallestViableExperimentPage from './tools/SmallestViableExperiment.jsx';
+import PurposeSmallMovesPage from './tools/PurposeSmallMoves.jsx';
+import EmotionsAsInformationPage from './tools/EmotionsAsInformation.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
 import CynefinPage from './think/CynefinScrollytelling.jsx';
 
@@ -50,6 +52,8 @@ export default function App() {
           <Route path="/tools/self/leadership-stance" element={<Navigate to={PATHS.leadershipCapacities} replace />} />
           <Route path={PATHS.fiveLives} element={<FiveLivesPage />} />
           <Route path={PATHS.smallestViableExperiment} element={<SmallestViableExperimentPage />} />
+          <Route path={PATHS.purposeSmallMoves} element={<PurposeSmallMovesPage />} />
+          <Route path={PATHS.emotionsAsInformation} element={<EmotionsAsInformationPage />} />
           <Route path={PATHS.readiness} element={<ReadinessPage />} />
           <Route path={PATHS.vision} element={<VisionPage />} />
           <Route path={PATHS.preMortem} element={<PreMortemPage />} />
