@@ -8,8 +8,8 @@ export const C = {
   // Per-category card backgrounds (Path A: subtle tinting)
   bgCardSelf: '#2A4744',       // existing sage-teal
   bgCardSelfHover: '#335552',
-  bgCardTeam: '#2D4541',       // warmer, slightly more green-brown
-  bgCardTeamHover: '#37514D',
+  bgCardTeam: '#33403B',       // distinctly warmer, earthy brown-green
+  bgCardTeamHover: '#3D4B44',
   bgCardOrg: '#28464A',        // cooler, slightly more blue-teal
   bgCardOrgHover: '#325258',
   cream: '#F0EBDB',
