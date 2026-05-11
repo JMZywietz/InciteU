@@ -254,7 +254,7 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
         </ol>
 
         <div style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap' }}>
-          <a href="https://leadershipcircle.com" target="_blank" rel="noopener noreferrer"
+          <a href="https://self-assessment.theleadershipcircle.com/?_gl=1*csjdxm*_up*MQ..*_ga*MTE5NDQ4NzU4MC4xNzc4NTQyNDc5*_ga_7BE657G74J*czE3Nzg1NDI0NzkkbzEkZzEkdDE3Nzg1NDI0ODYkajUzJGwwJGgw" target="_blank" rel="noopener noreferrer"
              style={{ ...btn('primary'), textDecoration: 'none' }}
              onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
             Take the free assessment ↗
