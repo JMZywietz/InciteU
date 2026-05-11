@@ -164,9 +164,22 @@ export default function VisionPage() {
         <p style={{ fontFamily: F.serif, fontSize: 22, lineHeight: 1.55, color: C.cream, marginBottom: 24, maxWidth: 640 }}>
           Six questions that build a complete culture change story — burning platform, north star, values, strategy, leadership, behaviours.
         </p>
-        <p style={{ fontSize: 15, lineHeight: 1.7, color: C.creamMuted, maxWidth: 600, marginBottom: 40 }}>
+        <p style={{ fontSize: 15, lineHeight: 1.7, color: C.creamMuted, maxWidth: 600, marginBottom: 32 }}>
           This isn't designed to "get it right." It's designed to show you which pieces are clear to you — and where the gaps are that need attention. Around <em style={{ color: C.sage, fontStyle: 'italic', fontFamily: F.serif, fontSize: 17 }}>20 to 30 minutes</em> if you go deep.
         </p>
+
+        {/* Culture Model prep callout */}
+        <div style={{ background: 'rgba(42, 71, 68, 0.5)', border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.sage}`, borderRadius: 4, padding: '20px 24px', marginBottom: 40, maxWidth: 600 }}>
+          <div style={{ ...eyebrow, color: C.sage, marginBottom: 10 }}>Prep · Read first</div>
+          <p style={{ fontSize: 15, color: C.cream, lineHeight: 1.6, margin: '0 0 14px 0' }}>
+            The Culture Model is essential context for this tool. If you haven't yet, open it in a tab and skim before you begin.
+          </p>
+          <a href="https://qq5l85.csb.app/" target="_blank" rel="noopener noreferrer"
+             style={{ color: C.sage, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', textDecoration: 'none', fontFamily: F.sans }}>
+            Open the Culture Model ↗
+          </a>
+        </div>
+
         <button onClick={() => setStep(1)} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Begin</button>
       </main>
     );
