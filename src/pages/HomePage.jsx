@@ -33,40 +33,47 @@ export default function HomePage() {
 
       <OrganicDivider />
 
-      <section style={{ padding: '0 6vw 50px', textAlign: 'center' }}>
-        <a onClick={(e) => { e.preventDefault(); navigate('where-to-start'); }} href="#"
-           style={btn('primary')}
-           onMouseEnter={btnHoverIn}
-           onMouseLeave={btnHoverOut}>
-          Curious where to start?
-        </a>
-      </section>
-
       <section id="tools-anchor" style={{ padding: '30px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
-          <CategoryCard variant="self" label="Inward" name="Self" tagline="Knowing what's true for you, beneath what you've been told." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
-            tools={[
-              { name: 'Three Moments', live: true, to: 'three-moments' },
-              { name: 'Working with your circle', live: true, to: 'lcp' },
-              { name: 'Leadership Capacities Analysis', live: true, to: 'leadership-capacities' },
-              { name: 'Purpose (Five Lives)', live: true, to: 'five-lives' },
-              { name: 'Smallest Viable Experiment', live: true, to: 'smallest-viable-experiment' },
-              { name: 'Possibilities', live: false },
+          <CategoryCard variant="self" label="Inward" name="Live Well" tagline="The inner work of becoming who you are next." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
+            toolGroups={[
+              { label: 'Who You Are', tools: [
+                { name: 'Identity Box', live: false },
+                { name: 'Three Moments', live: true, to: 'three-moments' },
+              ]},
+              { label: 'What Drives You', tools: [
+                { name: 'Purpose (and the Small Moves to Live It)', live: true, to: 'purpose-small-moves' },
+                { name: 'Emotions as Information', live: true, to: 'emotions-as-information' },
+              ]},
+              { label: 'What Sustains You', tools: [
+                { name: 'State Check', live: false },
+              ]},
             ]} />
-          <CategoryCard variant="team" label="Together" name="Team" tagline="Seeing each other clearly, and deciding well." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
-            tools={[
-              { name: 'Decision Making', live: true, to: 'challenge-mapper' },
-              { name: 'Stakeholder Shoes Walk', live: false },
-              { name: 'Pre-Mortem', live: true, to: 'pre-mortem' },
-              { name: 'Post-Mortem', live: false },
-              { name: 'The Squeeze', live: false },
+          <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Seeing what's actually here, not what you wish were." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
+            toolGroups={[
+              { label: 'Understand Yourself', tools: [
+                { name: 'Using the Leadership Circle Profile Self Assessment', live: true, to: 'lcp' },
+              ]},
+              { label: 'Understand Others', tools: [
+                { name: 'Surfacing Perspectives', live: false },
+              ]},
+              { label: 'Understand Reality', tools: [
+                { name: 'Decision Making (Cynefin) & Challenge Mapper', live: true, to: 'challenge-mapper' },
+              ]},
             ]} />
-          <CategoryCard variant="org" label="At scale" name="Org" tagline="The shape of how things really work — and what to change." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
-            tools={[
-              { name: 'Culture model', live: true, external: 'https://qq5l85.csb.app/' },
-              { name: 'Readiness assessment', live: true, to: 'readiness' },
-              { name: 'Vision builder', live: true, to: 'vision' },
-              { name: 'Boids · emergence', live: false },
+          <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Setting direction, making moves, learning from them." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
+            toolGroups={[
+              { label: 'Set Direction', tools: [
+                { name: 'Vision', live: true, to: 'vision' },
+                { name: 'Pre-Mortem', live: true, to: 'pre-mortem' },
+              ]},
+              { label: 'Make It Happen', tools: [
+                { name: 'The Squeeze', live: false },
+                { name: 'Readiness', live: true, to: 'readiness' },
+              ]},
+              { label: 'Sustain & Renew', tools: [
+                { name: 'Post-Mortem', live: false },
+              ]},
             ]} />
         </div>
       </section>
