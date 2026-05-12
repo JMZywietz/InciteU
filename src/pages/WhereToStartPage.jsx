@@ -1,335 +1,128 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 
-// Q1 — Layer
-const Q1 = {
-  title: <>First &mdash; <em>what's drawing you here?</em></>,
-  helper: 'Pick the one that fits best. There are no wrong answers.',
-  options: [
-    { value: 'inward',   text: 'I want to know myself better.' },
-    { value: 'outward',  text: "I'm trying to see a situation clearly." },
-    { value: 'forward',  text: "I'm leading something hard." },
-    { value: 'exploring',text: 'Just exploring. Show me something gentle.' },
-  ],
-};
-
-// Q2 — branches by layer
-const Q2_BY_LAYER = {
-  inward: {
-    title: <>And <em>what part of that?</em></>,
-    helper: 'These map to different inward practices.',
-    options: [
-      { value: 'history',  text: 'What helped make me who I am today?' },
-      { value: 'calling',  text: "Who do I want to be when I grow up? / What's calling me next?" },
-      { value: 'emotions', text: 'What are my emotions actually good for?' },
+// The sequence through the tools, organized by IA bucket.
+// Identity is the foundation for purpose: inward first, then outward, then forward.
+const SEQUENCE = [
+  {
+    label: 'Inward',
+    name: 'Live Well',
+    accent: '#C5D49B',
+    tools: [
+      { num: 1, name: 'Three Moments',                                 to: 'three-moments' },
+      { num: 2, name: 'Purpose (and the Small Moves to Live It)',      to: 'purpose-small-moves' },
+      { num: 3, name: 'Emotions as Information',                       to: 'emotions-as-information' },
     ],
   },
-  outward: {
-    title: <>And <em>where do you need clarity?</em></>,
-    helper: 'Different ways of reading what is in front of you.',
-    options: [
-      { value: 'self',      text: 'On myself — my leadership patterns.' },
-      { value: 'challenge', text: "I've got a challenge that I'm stuck on and need new perspectives." },
-      { value: 'others',    text: 'On other people / stakeholders.' },
+  {
+    label: 'Outward',
+    name: 'Face What Is',
+    accent: '#E8C87A',
+    tools: [
+      { num: 4, name: 'Using the LCP Self-Assessment',                 to: 'lcp' },
+      { num: 5, name: 'Decision Making (Cynefin) & Challenge Mapper',  to: 'challenge-mapper' },
     ],
   },
-  forward: {
-    title: <>And <em>what part of leading?</em></>,
-    helper: 'Different parts of moving forward need different tools.',
-    options: [
-      { value: 'direction', text: 'Articulating direction for the organization.' },
-      { value: 'project',   text: 'Pressure-testing a project before I commit.' },
-      { value: 'readiness', text: "Assessing whether we're ready for big change." },
+  {
+    label: 'Forward',
+    name: 'Lead Well',
+    accent: '#8CBAC6',
+    tools: [
+      { num: 6, name: 'Vision',     to: 'vision' },
+      { num: 7, name: 'Readiness',  to: 'readiness' },
+      { num: 8, name: 'Pre-Mortem', to: 'pre-mortem' },
     ],
   },
-};
-
-// Route: (layer, intent) -> outcome key
-const ROUTE_MAP = {
-  'inward.history':    'three-moments',
-  'inward.calling':    'purpose-small-moves',
-  'inward.emotions':   'emotions-as-information',
-  'outward.self':      'lcp',
-  'outward.challenge': 'challenge-mapper',
-  'outward.others':    'challenge-mapper-stakeholders',
-  'forward.direction': 'vision',
-  'forward.project':   'pre-mortem',
-  'forward.readiness': 'readiness',
-  'exploring':         'five-layers-deep',
-};
-
-const OUTCOMES = {
-  'three-moments': {
-    title: 'Three Moments',
-    page: 'three-moments',
-    context: 'Inward — looking back to look forward.',
-    description: "You'll surface three moments that shaped you, then look at how much you have already changed. It makes growth feel real.",
-    time: '10–15 min',
-    mode: 'Solo or with a partner',
-  },
-  'purpose-small-moves': {
-    title: 'Purpose (and the Small Moves to Live It)',
-    page: 'purpose-small-moves',
-    context: "Inward — surfacing what's calling next.",
-    description: 'A two-part practice. Five Lives surfaces what you actually want more of; Smallest Viable Experiment turns that signal into one tiny move you can make this week.',
-    time: '~30 min for the full pair',
-    mode: 'Solo',
-  },
-  'emotions-as-information': {
-    title: 'Emotions as Information',
-    page: 'emotions-as-information',
-    context: 'Inward — learning to read your own signals.',
-    description: 'A think piece, then a tool. Five Layers Deep shows what emotions actually carry; the Leadership Capacities Analysis helps you apply it to your own patterns.',
-    time: '~30 min for the full pair',
-    mode: 'Solo',
-  },
-  'lcp': {
-    title: 'Using the Leadership Circle Profile Self-Assessment',
-    page: 'lcp',
-    context: 'Outward — a clear-eyed look at your own leadership.',
-    description: 'The Leadership Circle Profile maps your creative strengths and reactive patterns onto one image. This tool helps you make sense of what you find.',
-    time: '30–45 min including the assessment',
-    mode: 'Solo',
-    secondary: 'emotions-as-information',
-    secondaryNote: 'Once you can see the patterns on the Circle, this paired practice helps you read what they are telling you about what you need to grow.',
-  },
-  'challenge-mapper': {
-    title: 'Decision Making (Cynefin) & Challenge Mapper',
-    page: 'challenge-mapper',
-    context: "Outward — getting clear on what kind of thing you're actually facing.",
-    description: 'Different kinds of problems need different kinds of moves. This walks you through what kind of challenge you have and how to approach it.',
-    time: '15–25 min',
-    mode: 'Solo or with a team',
-  },
-  'challenge-mapper-stakeholders': {
-    title: 'Decision Making (Cynefin) & Challenge Mapper',
-    page: 'challenge-mapper',
-    context: 'Outward — reading the situation, including the people in it.',
-    description: 'A dedicated tool for reading stakeholder dynamics (Surfacing Perspectives) is being designed. In the meantime, Cynefin & Challenge Mapper is the closest fit — it helps you classify the situation and surface what you might be missing about who else is in it.',
-    time: '15–25 min',
-    mode: 'Solo or with a team',
-    note: 'A dedicated stakeholder-perspectives tool is in the works.',
-  },
-  'vision': {
-    title: 'Vision',
-    page: 'vision',
-    context: "Forward — articulating what you're trying to build.",
-    description: 'Six questions that build a complete culture-change story: burning platform, north star, values, strategy, leadership, behaviours.',
-    time: '20–30 min',
-    mode: 'Solo or with a leadership team',
-    secondary: 'readiness',
-    secondaryNote: 'Once you can name the vision, this honest assessment tells you whether the organization is set up to go after it.',
-  },
-  'pre-mortem': {
-    title: 'Pre-Mortem',
-    page: 'pre-mortem',
-    context: 'Forward — surfacing what could go wrong before it does.',
-    description: 'Imagine the project failed. Why? Working backwards from imagined failure surfaces the risks you can still do something about.',
-    time: '30–45 min',
-    mode: 'Solo or with a team',
-  },
-  'readiness': {
-    title: 'Readiness',
-    page: 'readiness',
-    context: 'Forward — honest about where you actually stand.',
-    description: 'An 18-statement self-assessment of culture-change readiness. A mirror, not a verdict.',
-    time: '5–7 min',
-    mode: 'Solo or with a leadership team',
-    secondary: 'vision',
-    secondaryNote: 'If your readiness assessment surfaces a missing vision, this is where you would build it out.',
-  },
-  'five-layers-deep': {
-    title: 'Five Layers Deep',
-    page: 'five-layers-deep',
-    context: 'A gentle place to begin.',
-    description: 'A short think piece on how emotions carry information beneath the surface — and what is hiding under the loudest layer. Most people leave it thinking differently about something they came in convinced about.',
-    time: '~10 min read',
-    mode: 'Solo',
-  },
-};
-
-// Main component
+];
 
 export default function WhereToStartPage() {
   const navigate = useAppNavigate();
-  // step 1 = intro, 2 = Q1, 3 = Q2, 4 = result
-  const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState({ layer: null, intent: null });
-
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, [step]);
-
-  function selectOption(qId, value) { setAnswers((a) => ({ ...a, [qId]: value })); }
-
-  function getOutcomeKey() {
-    if (answers.layer === 'exploring') return ROUTE_MAP.exploring;
-    return ROUTE_MAP[`${answers.layer}.${answers.intent}`];
-  }
-
-  function advanceFromQ1() {
-    if (answers.layer === 'exploring') setStep(4); // skip Q2
-    else setStep(3);
-  }
-  function backFromResult() {
-    if (answers.layer === 'exploring') setStep(2);
-    else setStep(3);
-  }
-
-  // Progress dots: Q1, Q2, Result
-  let activeDot = 0;
-  if (step === 2) activeDot = 1;
-  else if (step === 3) activeDot = 2;
-  else if (step === 4) activeDot = 3;
 
   return (
-    <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
+    <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 1100, margin: '0 auto' }}>
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools
       </a>
 
-      {step > 1 && (
-        <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
-          {[1,2,3].map((n) => (
-            <div key={n} style={{ height: 3, flex: 1, maxWidth: 60,
-              background: n < activeDot ? C.sageMuted : n === activeDot ? C.sage : C.line,
-              borderRadius: 2, transition: 'background 0.3s' }} />
-          ))}
-        </div>
-      )}
+      <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 56px' }}>
+        <div style={{ ...eyebrow, marginBottom: 16 }}>Where to begin</div>
+        <h1 style={heading(56)}>Two <em style={{ color: C.sage, fontStyle: 'italic' }}>paths</em>.</h1>
+        <p style={{ fontFamily: F.serif, fontSize: 22, lineHeight: 1.55, color: C.cream, marginTop: 24 }}>
+          Take the practice in order, or answer two quick questions and I'll point you somewhere worth beginning.
+        </p>
+      </div>
 
-      {step === 1 && (
-        <div style={{ animation: 'fadeIn 0.4s ease' }}>
-          <h1 style={heading(60)}>Where to <em style={{ color: C.sage, fontStyle: 'italic' }}>start</em>.</h1>
-          <p style={{ fontFamily: F.serif, fontSize: 22, lineHeight: 1.55, color: C.cream, marginTop: 24, marginBottom: 36, maxWidth: 600 }}>
-            Two quick questions, and I'll point you somewhere worth beginning.
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 32, marginBottom: 56 }}>
+
+        {/* SEQUENCE CARD */}
+        <div style={{ background: C.bgCard, borderLeft: `3px solid ${C.sage}`, borderRadius: 4, padding: 36 }}>
+          <div style={{ ...eyebrow, marginBottom: 12 }}>For people who want a guided arc</div>
+          <h2 style={{ ...heading(36), marginBottom: 16 }}>The sequence</h2>
+          <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 17, color: C.cream, lineHeight: 1.6, marginBottom: 28 }}>
+            Inward first &mdash; identity is the foundation for purpose. Then outward to see what is in front of you. Then forward to move it.
           </p>
-          <p style={{ fontSize: 14, color: C.creamMuted, marginBottom: 32, letterSpacing: '0.04em' }}>Takes about 30 seconds.</p>
-          <button onClick={() => setStep(2)} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Begin</button>
-        </div>
-      )}
 
-      {step === 2 && (
-        <QuestionView
-          question={Q1}
-          value={answers.layer}
-          onSelect={(v) => selectOption('layer', v)}
-          onBack={() => setStep(1)}
-          onNext={advanceFromQ1}
-          backLabel="← Back to intro"
-          nextLabel={answers.layer === 'exploring' ? 'See suggestion →' : 'Next →'}
-        />
-      )}
-
-      {step === 3 && answers.layer && answers.layer !== 'exploring' && (
-        <QuestionView
-          question={Q2_BY_LAYER[answers.layer]}
-          value={answers.intent}
-          onSelect={(v) => selectOption('intent', v)}
-          onBack={() => setStep(2)}
-          onNext={() => setStep(4)}
-          backLabel="← Previous"
-          nextLabel="See suggestion →"
-        />
-      )}
-
-      {step === 4 && (
-        <ResultView
-          outcomeKey={getOutcomeKey()}
-          onStartOver={() => { setStep(1); setAnswers({ layer: null, intent: null }); }}
-          onBack={backFromResult}
-          navigate={navigate}
-        />
-      )}
-    </main>
-  );
-}
-
-// Question view
-
-function QuestionView({ question, value, onSelect, onBack, onNext, backLabel, nextLabel }) {
-  const canAdvance = !!value;
-  return (
-    <div style={{ animation: 'fadeIn 0.4s ease' }}>
-      <h2 style={{ ...heading(40), fontSize: 'clamp(28px, 4vw, 40px)', marginBottom: 16 }}>{question.title}</h2>
-      <p style={{ fontSize: 14, color: C.creamMuted, marginBottom: 32, letterSpacing: '0.04em' }}>{question.helper}</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, margin: '32px 0' }}>
-        {question.options.map((opt) => {
-          const selected = value === opt.value;
-          return (
-            <button key={opt.value} onClick={() => onSelect(opt.value)}
-                    style={{ background: selected ? C.bgCardHover : C.bgCard, border: `1px solid ${selected ? C.sage : C.line}`, borderRadius: 4, padding: '22px 26px', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', alignItems: 'center', gap: 16, textAlign: 'left', fontFamily: 'inherit', color: C.cream, fontSize: 17, lineHeight: 1.5, width: '100%' }}>
-              <span style={{ width: 22, height: 22, border: `1px solid ${selected ? C.sage : C.sageMuted}`, borderRadius: '50%', flexShrink: 0, background: selected ? C.sage : 'transparent', position: 'relative' }}>
-                {selected && <span style={{ position: 'absolute', left: 6, top: 6, width: 8, height: 8, background: C.bgDeep, borderRadius: '50%' }} />}
-              </span>
-              <span>{opt.text}</span>
-            </button>
-          );
-        })}
-      </div>
-      <div style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap' }}>
-        <button onClick={onBack} style={btn('secondary')}>{backLabel}</button>
-        <button onClick={onNext} disabled={!canAdvance} style={btn('primary', !canAdvance)}
-                onMouseEnter={(e) => { if (canAdvance) btnHoverIn(e); }}
-                onMouseLeave={(e) => { if (canAdvance) btnHoverOut(e); }}>
-          {nextLabel}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Result view
-
-function ResultView({ outcomeKey, onStartOver, onBack, navigate }) {
-  const outcome = OUTCOMES[outcomeKey];
-  if (!outcome) {
-    return (
-      <div style={{ animation: 'fadeIn 0.4s ease' }}>
-        <p style={{ fontSize: 16, color: C.cream, marginBottom: 24 }}>Something went sideways — let's start over.</p>
-        <button onClick={onStartOver} style={btn('primary')}>Start over</button>
-      </div>
-    );
-  }
-  const secondary = outcome.secondary ? OUTCOMES[outcome.secondary] : null;
-  return (
-    <div style={{ animation: 'fadeIn 0.4s ease' }}>
-      <h2 style={{ ...heading(40), fontSize: 'clamp(28px, 4vw, 40px)', marginBottom: 16 }}>Here's where I'd <em style={{ color: C.sage, fontStyle: 'italic' }}>start</em>.</h2>
-      <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 17, color: C.sage, marginBottom: 32, marginTop: 0 }}>
-        {outcome.context}
-      </p>
-      <div style={{ background: C.bgCard, borderLeft: `3px solid ${C.sage}`, borderRadius: 4, padding: 36, margin: '24px 0 24px' }}>
-        <div style={{ ...eyebrow, marginBottom: 16 }}>Recommended · Available now</div>
-        <div style={{ ...heading(36), marginBottom: 18, fontSize: 32, lineHeight: 1.15 }}>{outcome.title}</div>
-        <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, lineHeight: 1.55, color: C.cream, marginBottom: 24 }}>{outcome.description}</div>
-        {outcome.note && (
-          <div style={{ fontSize: 13, color: C.creamMuted, fontStyle: 'italic', marginBottom: 16, paddingTop: 14, borderTop: `1px solid ${C.line}` }}>
-            {outcome.note}
+          <div style={{ marginBottom: 32 }}>
+            {SEQUENCE.map((bucket, bi) => (
+              <div key={bi} style={{ marginBottom: bi === SEQUENCE.length - 1 ? 0 : 22 }}>
+                <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: bucket.accent, marginBottom: 10 }}>
+                  {bucket.label} &middot; {bucket.name}
+                </div>
+                <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {bucket.tools.map((t) => (
+                    <li key={t.num} style={{ padding: '6px 0', display: 'flex', alignItems: 'baseline', gap: 12, fontSize: 15, lineHeight: 1.45 }}>
+                      <span style={{ color: bucket.accent, fontFamily: F.serif, fontStyle: 'italic', fontSize: 14, minWidth: 18 }}>{t.num}.</span>
+                      <a onClick={(e) => { e.preventDefault(); navigate(t.to); }} href="#"
+                         style={{ color: C.cream, textDecoration: 'none', transition: 'color 0.3s', cursor: 'pointer' }}
+                         onMouseEnter={(e) => { e.currentTarget.style.color = bucket.accent; }}
+                         onMouseLeave={(e) => { e.currentTarget.style.color = C.cream; }}>
+                        {t.name}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
           </div>
-        )}
-        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.creamMuted, paddingTop: 16, borderTop: outcome.note ? 'none' : `1px solid ${C.line}` }}>
-          <span>{outcome.time}</span><span>{outcome.mode}</span>
-        </div>
-      </div>
 
-      {secondary && (
-        <div style={{ background: 'rgba(42, 71, 68, 0.4)', border: `1px dashed ${C.line}`, borderRadius: 4, padding: '22px 26px', margin: '16px 0 24px' }}>
-          <div style={{ ...eyebrow, color: C.creamMuted, marginBottom: 10, fontSize: 11, letterSpacing: '0.25em' }}>Natural next</div>
-          <p style={{ fontSize: 15, color: C.cream, lineHeight: 1.65, marginBottom: 16 }}>
-            <em style={{ color: C.sage, fontStyle: 'italic' }}>{secondary.title}</em> &mdash; {outcome.secondaryNote}
+          <button onClick={() => navigate('three-moments')} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
+            Begin with Three Moments →
+          </button>
+        </div>
+
+        {/* QUIZ CARD */}
+        <div style={{ background: 'rgba(42, 71, 68, 0.5)', border: `1px solid ${C.line}`, borderLeft: `3px solid ${C.sageMuted}`, borderRadius: 4, padding: 36 }}>
+          <div style={{ ...eyebrow, color: C.creamMuted, marginBottom: 12 }}>For people who'd rather be pointed</div>
+          <h2 style={{ ...heading(36), marginBottom: 16 }}>The quiz</h2>
+          <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 17, color: C.cream, lineHeight: 1.6, marginBottom: 24 }}>
+            About thirty seconds. Tell me where the pull is &mdash; toward yourself, toward a situation, or toward leading something &mdash; and I'll suggest somewhere to begin.
           </p>
-          <button onClick={() => navigate(secondary.page)} style={btn('secondary')}>Open {secondary.title}</button>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 36px 0' }}>
+            <li style={{ padding: '10px 0', fontSize: 14, color: C.cream, borderBottom: `1px solid ${C.line}`, fontStyle: 'italic', fontFamily: F.serif }}>
+              What's drawing you here?
+            </li>
+            <li style={{ padding: '10px 0', fontSize: 14, color: C.cream, fontStyle: 'italic', fontFamily: F.serif }}>
+              And what part of that?
+            </li>
+          </ul>
+          <button onClick={() => navigate('quiz')} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
+            Take the quiz →
+          </button>
         </div>
-      )}
 
-      <div style={{ display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap' }}>
-        <button onClick={onBack} style={btn('secondary')}>← Back</button>
-        <button onClick={onStartOver} style={btn('secondary')}>Start over</button>
-        <button onClick={() => navigate(outcome.page)} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
-          Open {outcome.title}
-        </button>
       </div>
-    </div>
+
+      <div style={{ textAlign: 'center', borderTop: `1px solid ${C.line}`, paddingTop: 32 }}>
+        <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
+           style={{ color: C.creamMuted, textDecoration: 'none', fontSize: 14, letterSpacing: '0.04em', cursor: 'pointer', fontStyle: 'italic', fontFamily: F.serif, transition: 'color 0.3s' }}
+           onMouseEnter={(e) => { e.currentTarget.style.color = C.sage; }}
+           onMouseLeave={(e) => { e.currentTarget.style.color = C.creamMuted; }}>
+          Or just browse the tools by category →
+        </a>
+      </div>
+    </main>
   );
 }

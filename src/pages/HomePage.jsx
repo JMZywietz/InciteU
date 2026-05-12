@@ -33,12 +33,20 @@ export default function HomePage() {
 
       <OrganicDivider />
 
-      <section id="tools-anchor" style={{ padding: '30px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
+      <section style={{ padding: '50px 6vw 0', textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>
+        <button onClick={() => navigate('where-to-start')}
+                style={btn('primary')}
+                onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
+          Curious where to start? →
+        </button>
+      </section>
+
+      <section id="tools-anchor" style={{ padding: '40px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
           <CategoryCard variant="self" label="Inward" name="Live Well" tagline="The inner work of becoming who you are next." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             toolGroups={[
               { label: 'Who You Are', tools: [
-                { name: 'Identity Box', live: true, to: 'identity-box' },
+                { name: 'Identity Box', live: false },
                 { name: 'Three Moments', live: true, to: 'three-moments' },
               ]},
               { label: 'What Drives You', tools: [
