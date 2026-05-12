@@ -23,6 +23,7 @@ import FiveLivesPage from './tools/FiveLives.jsx';
 import SmallestViableExperimentPage from './tools/SmallestViableExperiment.jsx';
 import PurposeSmallMovesPage from './tools/PurposeSmallMoves.jsx';
 import EmotionsAsInformationPage from './tools/EmotionsAsInformation.jsx';
+import FacilitateYourWayPage from './tools/FacilitateYourWay.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
 import CynefinPage from './think/CynefinScrollytelling.jsx';
 
@@ -64,6 +65,7 @@ export default function App() {
           <Route path={PATHS.preMortem} element={<PreMortemPage />} />
           <Route path={PATHS.creativeCollision} element={<CreativeCollisionPage />} />
           <Route path={PATHS.challengeMapper} element={<ChallengeMapperPage />} />
+          <Route path={PATHS.facilitateYourWay} element={<FacilitateYourWayPage />} />
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
           <Route path={PATHS.cynefin} element={<CynefinPage />} />
