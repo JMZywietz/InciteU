@@ -17,6 +17,7 @@ import VisionPage from './tools/Vision.jsx';
 import LCPPage from './tools/LCP.jsx';
 import LeadershipCapacitiesAnalysisPage from './tools/LeadershipCapacitiesAnalysis.jsx';
 import PreMortemPage from './tools/PreMortem.jsx';
+import CreativeCollisionPage from './tools/CreativeCollision.jsx';
 import ChallengeMapperPage from './tools/ChallengeMapper.jsx';
 import FiveLivesPage from './tools/FiveLives.jsx';
 import SmallestViableExperimentPage from './tools/SmallestViableExperiment.jsx';
@@ -61,6 +62,7 @@ export default function App() {
           <Route path={PATHS.readiness} element={<ReadinessPage />} />
           <Route path={PATHS.vision} element={<VisionPage />} />
           <Route path={PATHS.preMortem} element={<PreMortemPage />} />
+          <Route path={PATHS.creativeCollision} element={<CreativeCollisionPage />} />
           <Route path={PATHS.challengeMapper} element={<ChallengeMapperPage />} />
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
