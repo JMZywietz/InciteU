@@ -63,7 +63,7 @@ export default function HomePage() {
                 { name: 'Using the Leadership Circle Profile Self Assessment', live: true, to: 'lcp' },
               ]},
               { label: 'Understand Others', tools: [
-                { name: 'Surfacing Perspectives', live: false },
+                { name: 'Creative Collision', live: true, to: 'creative-collision' },
               ]},
               { label: 'Understand Reality', tools: [
                 { name: 'Decision Making (Cynefin) & Challenge Mapper', live: true, to: 'challenge-mapper' },
