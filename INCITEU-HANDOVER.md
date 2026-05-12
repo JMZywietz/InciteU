@@ -13,7 +13,7 @@ Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadersh
 
 **The most important thing in this document is §0.** Read it before doing anything else. Claude cannot see the rendered website, and pretending otherwise has burned multiple sessions. The rules in §0 exist because they were not followed and the consequences were bad.
 
-The second most important: **for any push over ~15KB, hand the files to Jen for manual upload via the GitHub web UI rather than wrestling with the Composio API.** See §5 pitfall #5 and §3 fallback section. The API will get stuck on large strings and waste several turns.
+The second most important: **for any push over ~30KB, hand the files to Jen for manual upload via the GitHub web UI rather than wrestling with the Composio API.** See §5 pitfall #5 and §3 fallback section. The API will get stuck on large strings and waste several turns.
 
 Adding a new tool is a routine modular task (§4). Modifying existing pages requires fetching every relevant component file first (§0, §2). No exceptions, ever.
 
@@ -162,7 +162,7 @@ If it shows `has_active_connection: true` → proceed. If not → user reconnect
 
 ### Fallback: hand the files to Jen for manual upload
 
-**Use this whenever a commit involves more than ~15 KB of new file content in a single push.** The Composio API path that worked great for small edits (front-page tweaks, footer link adds — ~2 KB) struggles when a single file gets large. Symptoms: tool call hangs, payload truncation, JSON escaping issues, repeated workbench retries that go nowhere. This burned the second half of the May 11 session before we gave up and switched to manual upload.
+**Use this whenever a commit involves more than ~30 KB of new file content in a single push.** The Composio API path that worked great for small edits (front-page tweaks, footer link adds — ~2 KB) struggles when a single file gets large. Symptoms: tool call hangs, payload truncation, JSON escaping issues, repeated workbench retries that go nowhere. This burned the second half of the May 11 session before we gave up and switched to manual upload.
 
 How to hand off:
 
@@ -171,7 +171,7 @@ How to hand off:
 3. Tell Jen the exact target path in the repo (e.g. `src/pages/BioPage.jsx` overwrites existing; `public/about-enso.jpg` is a new file, may need the `public/` folder created via GitHub's "Add file → Upload files → type path with / in the filename" trick).
 4. Vercel auto-deploys on commit just the same.
 
-This is faster, not a workaround. It's the recommended path for any new page, any new image, or any single-file commit over ~15 KB. Small file edits (string changes, single-line additions, footer link tweaks) still go through `GITHUB_COMMIT_MULTIPLE_FILES` via Composio.
+This is faster, not a workaround. It's the recommended path for any new page, any new image, or any single-file commit over ~30 KB. Small file edits (string changes, single-line additions, footer link tweaks) still go through `GITHUB_COMMIT_MULTIPLE_FILES` via Composio.
 
 ---
 
@@ -240,7 +240,7 @@ The first four are the most important. The rest were here in the previous versio
 
 4. **Don't push unauthorized changes back into the repo.** Every commit lists exactly the changes Jen approved. If anything else snuck in (a stray font-weight, a renamed prop), it gets removed before commit.
 
-5. **Don't push large content (>~15 KB single-file) through Composio.** The May 11 session lost ~5 turns trying to push BioPage.jsx (17 KB) + about-enso.jpg (9 KB) via `COMPOSIO_MULTI_EXECUTE_TOOL` and the workbench. Inline string escaping and tool-call payload limits made it unreliable. **Just give Jen the files via `present_files` and ask her to upload through the GitHub web UI.** It takes her 90 seconds. Vercel deploys the same way. See §3 fallback.
+5. **Don't push large content (>~30 KB single-file) through Composio.** The May 11 session lost ~5 turns trying to push BioPage.jsx (17 KB) + about-enso.jpg (9 KB) via `COMPOSIO_MULTI_EXECUTE_TOOL` and the workbench. Inline string escaping and tool-call payload limits made it unreliable. **Just give Jen the files via `present_files` and ask her to upload through the GitHub web UI.** It takes her 90 seconds. Vercel deploys the same way. See §3 fallback.
 
 6. Don't paste base64 inline in JSX — broke an earlier session. Plain utf-8 to `GITHUB_COMMIT_MULTIPLE_FILES` for source files; binary files (images) go to `public/` as separate base64-encoded upserts in the same commit, OR via manual upload (§3 fallback).
 
