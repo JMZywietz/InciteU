@@ -38,7 +38,7 @@ export default function HomePage() {
           <CategoryCard variant="self" label="Inward" name="Live Well" tagline="The inner work of becoming who you are next." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             toolGroups={[
               { label: 'Who You Are', tools: [
-                { name: 'Identity Box', live: false },
+                { name: 'Identity Box', live: true, to: 'identity-box' },
                 { name: 'Three Moments', live: true, to: 'three-moments' },
               ]},
               { label: 'What Drives You', tools: [
