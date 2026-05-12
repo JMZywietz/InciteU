@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 11, 2026 (late evening session — Decision Toolkit + Cynefin + Challenge Mapper)
+**Last updated:** May 12, 2026 (Two-paths landing + wizard relocation + paired-flow landings)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -52,7 +52,7 @@ JMZywietz/InciteU/
 │   ├── theme.js                   ← Brand: palette C, fonts F, GLOBAL_CSS, HERO_PHOTO
 │   ├── styles.js                  ← Reusable styles: btn(), heading(), eyebrow, fieldLabel, fieldInput, btnHoverIn/Out
 │   ├── components/                ← Header, Footer, HeroFlourish, OrganicDivider, icons, CategoryCard
-│   ├── pages/                     ← Home, Bio, Contact, Think, WhereToStart
+│   ├── pages/                     ← Home, Bio, Contact, Think, WhereToStart (two-paths landing), Quiz (wizard)
 │   ├── tools/                     ← 9 working tools (see §9)
 │   ├── think/                     ← 2 think pieces (see §9)
 │   └── lib/
@@ -79,9 +79,9 @@ JMZywietz/InciteU/
 - Fonts: `F.serif` = Cormorant Garamond, `F.sans` = Inter
 
 **Homepage category cards** (renamed May 11, 2026 session):
-- **Inward → "Live Well"** (variant=self) — identity, purpose, sustainability
-- **Outward → "Face What Is"** (variant=team) — understanding self, others, reality; houses the Decision Toolkit
-- **Forward → "Lead Well"** (variant=org) — direction, execution, learning
+- **Inward → "Live Well"** (variant=self) — *Who You Are · What Drives You · What Sustains You*
+- **Outward → "Face What Is"** (variant=team) — *Understand Yourself · Understand Others · Understand Reality*; houses the Decision Toolkit
+- **Forward → "Lead Well"** (variant=org) — *Set Direction · Make It Happen · Sustain & Renew*
 
 CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) in addition to the flat `tools` array. The homepage uses `toolGroups`.
 
@@ -97,7 +97,8 @@ CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) 
 - HomePage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/HomePage.jsx
 - BioPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/BioPage.jsx
 - ContactPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ContactPage.jsx
-- WhereToStartPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/WhereToStartPage.jsx
+- WhereToStartPage (two-paths landing): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/WhereToStartPage.jsx
+- QuizPage (wizard): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/QuizPage.jsx
 - ThinkPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ThinkPage.jsx
 
 ### Components
@@ -123,6 +124,8 @@ CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) 
 - LeadershipCapacitiesAnalysis: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/LeadershipCapacitiesAnalysis.jsx
 - FiveLives (Purpose): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/FiveLives.jsx
 - SmallestViableExperiment: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/SmallestViableExperiment.jsx
+- PurposeSmallMoves (paired-flow landing for Five Lives + SVE): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/PurposeSmallMoves.jsx
+- EmotionsAsInformation (paired-flow landing for Five Layers Deep + LCA): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/EmotionsAsInformation.jsx
 
 ### Tools (Team / Together)
 - ChallengeMapper (Decision Making): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ChallengeMapper.jsx
@@ -256,6 +259,16 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
+### Recently completed (May 12, 2026 session)
+
+- [x] **Homepage IA with sub-buckets** — commit [`f7f18ab`](https://github.com/JMZywietz/InciteU/commit/f7f18ab). Each CategoryCard now renders **sub-buckets** (Live Well: Who You Are / What Drives You / What Sustains You; Face What Is: Understand Yourself / Others / Reality; Lead Well: Set Direction / Make It Happen / Sustain & Renew). CategoryCard.jsx extended with optional `toolGroups` prop, backward compatible with the older flat `tools` prop.
+- [x] **Paired-flow landing pages** — commit [`002adc3`](https://github.com/JMZywietz/InciteU/commit/002adc3). *Purpose (and the Small Moves to Live It)* at `/tools/self/purpose-small-moves` is a landing introducing Five Lives + Smallest Viable Experiment as a paired practice. *Emotions as Information* at `/tools/self/emotions-as-information` is a landing introducing Five Layers Deep + Leadership Capacities Analysis as a paired practice.
+- [x] **Wizard rewrite for new IA** — commit [`bbadabbc`](https://github.com/JMZywietz/InciteU/commit/bbadabbc). Two questions instead of three (Layer → Intent; no Time question). Branched routing: Inward / Outward / Forward / Just exploring. "Just exploring" fast-path skips Q2 and goes straight to Five Layers Deep. Two outcomes have "Natural next" secondaries (LCP → Emotions paired; Vision ↔ Readiness). The "stakeholders" option under Outward routes to Cynefin & Challenge Mapper with a note that a dedicated Surfacing Perspectives tool is in development.
+- [x] **Two-paths landing + wizard relocation + homepage CTA** — commit [`de17854a`](https://github.com/JMZywietz/InciteU/commit/de17854a). `/tools/where-to-start` is now a two-paths landing page with two cards: *The sequence* (8 tools numbered by bucket with per-bucket accent colors and a "Begin with Three Moments →" CTA) and *The quiz* (links to wizard). Wizard moved from `/tools/where-to-start` to `/tools/quiz`. Homepage gets a "Curious where to start? →" button between OrganicDivider and the 3 category cards.
+- [x] **Culture Model prep callouts** — manual upload by Jen for Vision.jsx and Readiness.jsx (files were >16KB so Composio refused; uploaded via GitHub web UI). Both tools now have "Prep: read first" callouts pointing at the external Culture Model scrollytelling (https://qq5l85.csb.app/).
+
+The recommended sequence on the two-paths page reflects a deliberate decision Jen articulated: *Identity is the foundation for purpose.* Order is Inward (Three Moments → Purpose → Emotions) → Outward (LCP → Cynefin & Challenge Mapper) → Forward (Vision → Readiness → Pre-Mortem). Don't rearrange without checking.
+
 ### Recently completed (May 11, 2026 session)
 
 - [x] **Homepage update** — commit [`63bc6033`](https://github.com/JMZywietz/InciteU/commit/63bc6033). Added "Curious where to start?" CTA between OrganicDivider and category grid. Removed `guideTo="where-to-start"` from Self CategoryCard. Re-labeled Bio → About in Header nav. HeroFlourish kept on homepage hero (Jen wanted "the spiral back").
@@ -279,7 +292,7 @@ The first four are the most important. The rest were here in the previous versio
 - [ ] **Logo wall vs client chips reconciliation.** The logo wall on the About page shows 4 placeholder logos (Google, Microsoft, PepsiCo, WHO). The new client chips list 13 companies from Jen's bio. Mismatches: Microsoft and WHO are in the wall but not the bio; PayPal, Careem/Uber, Novartis, Honeywell, World Bank, Kuwait Finance House, McKinsey, PWC, Achmea, Diageo, Cleveland Clinic AD are in the bio but not the wall. Jen's call: update wall to match bio, drop the wall, or keep both as redundant.
 - [ ] **Tool outcome lines on homepage** — flagged option (a) from earlier sessions, never built. Five tools still need Jen's outcome-line wording: Leadership Capacities Analysis, Purpose (Five Lives), Smallest Viable Experiment, Decision Making, Culture model.
 - [ ] **BioPage.jsx + about-enso.jpg manual upload** — files handed to Jen at end of May 11 session. Confirm she pushed them and the About page renders cleanly at `/bio`.
-- [ ] **Two-paths page** — superseded. Jen pivoted to one expanded wizard for the whole set of tools rather than a two-paths page at `/where-to-start`. The wizard now lives at `/where-to-start` directly. No need to build a separate two-paths page.
+- [ ] **Wizard URL decision** — wizard now lives at `/tools/quiz`. Jen may want to rename to something less testy (e.g. `/tools/find-your-start` or `/tools/guide`). Trivial single-commit change in routes.js + App.jsx + WhereToStartPage.jsx's quiz card if so.
 
 Past: the Pre-Mortem tool was already merged into the repo before the May 2026 session began (`src/tools/PreMortem.jsx`). It is NOT pending migration as an older version of this doc said.
 
@@ -322,11 +335,13 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 | Tool | File | Route | Uses AI? |
 |------|------|-------|----------|
 | Three Moments | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | Yes (optional synthesis) |
-| Working with your circle (LCP) | `src/tools/LCP.jsx` | `/tools/self/lcp` | Yes (synthesis) |
+| Using the Leadership Circle Profile Self Assessment (LCP) | `src/tools/LCP.jsx` | `/tools/self/lcp` | Yes (synthesis) |
 | Leadership Capacities Analysis | `src/tools/LeadershipCapacitiesAnalysis.jsx` | `/tools/self/leadership-capacities` | Unknown — fetch the file |
 | Purpose (Five Lives) | `src/tools/FiveLives.jsx` | `/tools/self/five-lives` | Unknown — fetch the file |
 | Smallest Viable Experiment | `src/tools/SmallestViableExperiment.jsx` | `/tools/self/smallest-viable-experiment` | Unknown — fetch the file |
-| Decision Making | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | Unknown — fetch the file |
+| Purpose (and the Small Moves to Live It) | `src/tools/PurposeSmallMoves.jsx` | `/tools/self/purpose-small-moves` | No (paired-flow landing for Five Lives + SVE) |
+| Emotions as Information | `src/tools/EmotionsAsInformation.jsx` | `/tools/self/emotions-as-information` | No (paired-flow landing for Five Layers Deep + LCA) |
+| Decision Making (Cynefin) & Challenge Mapper | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | Unknown — fetch the file |
 | Pre-Mortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | Unknown — fetch the file |
 | Culture model | (external, not in repo) | external link to `qq5l85.csb.app` | N/A |
 | Readiness assessment | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No |
