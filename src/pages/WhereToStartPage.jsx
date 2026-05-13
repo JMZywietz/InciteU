@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
@@ -11,10 +11,10 @@ const SEQUENCE = [
     name: 'Live Well',
     accent: '#C5D49B',
     tools: [
-      { num: 1, name: 'Three Moments',                                 to: 'three-moments' },
-      { num: 2, name: 'Identity Box',                                  to: 'identity-box' },
-      { num: 3, name: 'Purpose (and the Small Moves to Live It)',      to: 'purpose-small-moves' },
-      { num: 4, name: 'Emotions as Information',                       to: 'emotions-as-information' },
+      { num:  1, name: 'Three Moments',                                to: 'three-moments',           live: true,  description: 'What made us who we are today' },
+      { num:  2, name: 'Identity Box',                                 to: 'identity-box',            live: true,  description: 'How we see ourselves, and what could be possible if we used that effort for something else' },
+      { num:  3, name: 'Purpose',                                      to: 'purpose-small-moves',     live: true,  description: 'Who we want to be next, and how to get there' },
+      { num:  4, name: 'Emotions as Information',                      to: 'emotions-as-information', live: true,  description: "Understanding what we feel - and don't feel - can rapidly unlock new possibilities" },
     ],
   },
   {
@@ -22,10 +22,10 @@ const SEQUENCE = [
     name: 'Face What Is',
     accent: '#E8C87A',
     tools: [
-      { num: 5, name: 'Using the LCP Self-Assessment',                 to: 'lcp' },
-      { num: 6, name: 'Decision Making (Cynefin) & Challenge Mapper',  to: 'challenge-mapper' },
-      { num: 7, name: 'Creative Collision',                            to: 'creative-collision' },
-      { num: 8, name: 'Open Facilitation',                             to: 'facilitate-your-way' },
+      { num:  5, name: 'Using the LCP Self-Assessment',                to: 'lcp',                     live: true,  description: 'An objective look at your strengths and reactive patterns' },
+      { num:  6, name: 'Decision Making (Cynefin) & Challenge Mapper', to: 'challenge-mapper',        live: true,  description: 'Understand what type of challenge you are facing and the best way to move forward' },
+      { num:  7, name: 'Creative Collision',                           to: 'creative-collision',      live: true,  description: 'Get opposing perspectives to make your idea better' },
+      { num:  8, name: 'Open Facilitation',                            to: 'facilitate-your-way',     live: true,  description: 'Gather input from a group on any questions that you have' },
     ],
   },
   {
@@ -33,15 +33,17 @@ const SEQUENCE = [
     name: 'Lead Well',
     accent: '#8CBAC6',
     tools: [
-      { num:  9, name: 'Culture Change Vision',                        to: 'vision' },
-      { num: 10, name: 'Culture Readiness Assessment',                 to: 'readiness' },
-      { num: 11, name: 'Pre-Mortem',                                   to: 'pre-mortem' },
+      { num:  9, name: 'Culture Change Vision',                        to: 'vision',                  live: true,  description: 'get clear on how to communicate the change you want (for teams / orgs)' },
+      { num: 10, name: 'Culture Readiness Assessment',                 to: 'readiness',               live: true,  description: 'take stock of what your team needs to successfully change its culture (for teams / orgs)' },
+      { num: 11, name: 'Pre-Mortem',                                   to: 'pre-mortem',              live: true,  description: 'Imagine failure before it happens, then prevent the worst of it' },
+      { num: 12, name: 'The Squeeze',                                  to: null,                      live: false, description: 'Move forward quickly and easily by designing small experiments and rapidly harvesting them for insights' },
     ],
   },
 ];
 
 export default function WhereToStartPage() {
   const navigate = useAppNavigate();
+  const [hoveredKey, setHoveredKey] = useState(null);
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 1100, margin: '0 auto' }}>
@@ -65,7 +67,7 @@ export default function WhereToStartPage() {
           <div style={{ ...eyebrow, marginBottom: 12 }}>For people who want a guided arc</div>
           <h2 style={{ ...heading(36), marginBottom: 16 }}>The sequence</h2>
           <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 17, color: C.cream, lineHeight: 1.6, marginBottom: 28 }}>
-            Inward first &mdash; identity is the foundation for purpose. Then outward to see what is in front of you. Then forward to move it.
+            Inward first. Who we are - our identity and our purpose - is the foundation of everything we do. Then outward, to see what is in front of you. Then forward to move into what's next.
           </p>
 
           <div style={{ marginBottom: 32 }}>
@@ -75,17 +77,62 @@ export default function WhereToStartPage() {
                   {bucket.label} &middot; {bucket.name}
                 </div>
                 <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {bucket.tools.map((t) => (
-                    <li key={t.num} style={{ padding: '6px 0', display: 'flex', alignItems: 'baseline', gap: 12, fontSize: 15, lineHeight: 1.45 }}>
-                      <span style={{ color: bucket.accent, fontFamily: F.serif, fontStyle: 'italic', fontSize: 14, minWidth: 18 }}>{t.num}.</span>
-                      <a onClick={(e) => { e.preventDefault(); navigate(t.to); }} href="#"
-                         style={{ color: C.cream, textDecoration: 'none', transition: 'color 0.3s', cursor: 'pointer' }}
-                         onMouseEnter={(e) => { e.currentTarget.style.color = bucket.accent; }}
-                         onMouseLeave={(e) => { e.currentTarget.style.color = C.cream; }}>
-                        {t.name}
-                      </a>
-                    </li>
-                  ))}
+                  {bucket.tools.map((t, ti) => {
+                    const key = `${bi}-${ti}`;
+                    const isComing = t.live === false;
+                    const isLink = !isComing && !!t.to;
+                    const isHovered = hoveredKey === key;
+                    const isLast = ti === bucket.tools.length - 1;
+
+                    const nameColor = isComing
+                      ? 'rgba(240, 235, 219, 0.38)'
+                      : (isHovered ? bucket.accent : C.cream);
+                    const descColor = isComing
+                      ? 'rgba(240, 235, 219, 0.3)'
+                      : 'rgba(240, 235, 219, 0.62)';
+                    const numColor = isComing
+                      ? 'rgba(240, 235, 219, 0.38)'
+                      : bucket.accent;
+
+                    const itemContent = (
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 15, color: nameColor, fontWeight: 400, lineHeight: 1.35, marginBottom: t.description ? 4 : 0, transition: 'color 0.3s' }}>
+                          {t.name}
+                        </div>
+                        {t.description && (
+                          <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 13, color: descColor, fontWeight: 400, lineHeight: 1.4, transition: 'color 0.3s' }}>
+                            {t.description}
+                          </div>
+                        )}
+                      </div>
+                    );
+
+                    return (
+                      <li key={key}
+                          onMouseEnter={() => { if (isLink) setHoveredKey(key); }}
+                          onMouseLeave={() => setHoveredKey(null)}
+                          style={{
+                            padding: '12px 0',
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            gap: 12,
+                            borderBottom: isLast ? 'none' : `1px solid ${C.line}`,
+                            cursor: isLink ? 'pointer' : 'default',
+                          }}>
+                        <span style={{ color: numColor, fontFamily: F.serif, fontStyle: 'italic', fontSize: 14, minWidth: 22, flexShrink: 0, transition: 'color 0.3s' }}>
+                          {t.num}.
+                        </span>
+                        {isLink ? (
+                          <a onClick={(e) => { e.preventDefault(); navigate(t.to); }} href="#"
+                             style={{ textDecoration: 'none', cursor: 'pointer', flex: 1, color: 'inherit' }}>
+                            {itemContent}
+                          </a>
+                        ) : (
+                          itemContent
+                        )}
+                      </li>
+                    );
+                  })}
                 </ol>
               </div>
             ))}
