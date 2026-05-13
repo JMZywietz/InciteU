@@ -105,9 +105,23 @@ export default function FacilitateYourWay() {
         setCode(urlCode);
         setConfig(cfg);
         setAnswers(Object.fromEntries(cfg.questions.map(q => [q.id, ''])));
-        // Check URL for explicit contributor mode flag (from share links)
+        // Check URL for view mode flag (from share links)
         const urlParams = new URLSearchParams(window.location.search);
-        const forceContributor = urlParams.get('v') === 'c';
+        const viewMode = urlParams.get('v');
+        // v=results → public read-only results view
+        if (viewMode === 'results') {
+          try {
+            const resultsR = await fetch(`/api/sessions/${encodeURIComponent(urlCode)}/results`);
+            if (resultsR.ok) {
+              const resultsData = await resultsR.json();
+              setResponses(resultsData.responses || []);
+              setSyntheses(resultsData.syntheses || {});
+            }
+          } catch (e) { /* show empty */ }
+          setStep('results-view');
+          return;
+        }
+        const forceContributor = viewMode === 'c';
         // Check if user has a facilitator token stored
         const storedToken = loadToken(urlCode);
         if (storedToken && !forceContributor) {
@@ -369,7 +383,7 @@ export default function FacilitateYourWay() {
         <div style={s.eyebrow}>Session {code}</div>
         <h1 style={s.heading(40)}>{config.title}</h1>
         {config.contextBlurb && <p style={{ fontFamily: F.sans, fontSize: 15, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, marginBottom: 28 }}>{config.contextBlurb}</p>}
-        <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.5)', marginBottom: 32 }}>Hosted by {config.facilitatorName}. Your responses are private to the facilitator.</p>
+        <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.5)', marginBottom: 32 }}>Hosted by {config.facilitatorName}. Responses may be shared with the group, along with an AI synthesis of patterns.</p>
         {bootError && <p style={s.error}>{bootError}</p>}
         {submitError && <p style={s.error}>{submitError}</p>}
 
@@ -511,6 +525,23 @@ ${sections}
               Download as Word doc
             </button>
           )}
+          {hasAnySynth && (
+            <button
+              onClick={() => {
+                const url = `${window.location.origin}${window.location.pathname}?code=${encodeURIComponent(code)}&v=results`;
+                navigator.clipboard.writeText(url).then(() => {
+                  setDashError(''); 
+                  alert('Results link copied to clipboard:\n\n' + url);
+                }).catch(() => {
+                  alert('Copy failed. Share this link:\n\n' + url);
+                });
+              }}
+              style={btn('secondary')}
+              onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}
+            >
+              Copy share-results link
+            </button>
+          )}
         </div>
 
         {dashError && <p style={s.error}>{dashError}</p>}
@@ -601,6 +632,88 @@ ${sections}
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // ── STEP: results-view (public, no auth) ──
+  if (step === 'results-view' && config && code) {
+    const byQ = {};
+    responses.forEach(r => { r.answers && Object.entries(r.answers).forEach(([qid, text]) => { if (!byQ[qid]) byQ[qid] = []; if (text) byQ[qid].push({ name: r.name, text }); }); });
+
+    const renderItems = (items) => {
+      if (!items || items.length === 0) return null;
+      return items.map((p, j) => (
+        <div key={j} style={{ marginBottom: 12 }}>
+          {typeof p === 'object' && p.title ? (
+            <>
+              <div style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 600, color: C.cream, marginBottom: 4 }}>{p.title}</div>
+              <div style={{ fontFamily: F.sans, fontSize: 14, color: 'rgba(240,235,219,0.82)', lineHeight: 1.6 }}>{p.detail}</div>
+            </>
+          ) : (
+            <div style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6 }}>{typeof p === 'string' ? p : JSON.stringify(p)}</div>
+          )}
+        </div>
+      ));
+    };
+
+    return (
+      <div style={s.page} className="fyw-wrap">
+        <div style={s.eyebrow}>Session results</div>
+        <h1 style={s.heading(40)}>{config.title}</h1>
+        {config.contextBlurb && <p style={{ fontFamily: F.sans, fontSize: 15, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, marginBottom: 28 }}>{config.contextBlurb}</p>}
+        <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.5)', marginBottom: 32 }}>Hosted by {config.facilitatorName} · {responses.length} response{responses.length === 1 ? '' : 's'}</p>
+
+        {config.questions.map((q, i) => {
+          const items = byQ[q.id] || [];
+          const synth = syntheses[q.id];
+          return (
+            <div key={q.id} style={{ ...s.card, marginBottom: 24 }}>
+              <div style={s.eyebrow}>Question {i + 1}</div>
+              <p style={{ fontFamily: F.serif, fontSize: 20, color: C.cream, marginBottom: 20, lineHeight: 1.5 }}>{q.text}</p>
+
+              {synth && (
+                <div style={{ background: 'rgba(115,163,150,0.08)', border: '1px solid rgba(115,163,150,0.2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
+                  <div style={{ ...s.fieldLabel, color: C.sage, marginBottom: 12 }}>AI Synthesis</div>
+                  {synth.patterns?.length > 0 && (
+                    <div style={{ marginBottom: 18 }}>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Patterns</div>
+                      {renderItems(synth.patterns)}
+                    </div>
+                  )}
+                  {synth.outliers?.length > 0 && (
+                    <div style={{ marginBottom: 18 }}>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Outliers</div>
+                      {renderItems(synth.outliers)}
+                    </div>
+                  )}
+                  {(synth.absences?.length > 0 || synth.absent?.length > 0) && (
+                    <div>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Notably absent</div>
+                      {renderItems(synth.absences || synth.absent)}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {items.length > 0 && (
+                <div>
+                  <div style={{ ...s.fieldLabel, marginBottom: 12 }}>Individual responses ({items.length})</div>
+                  {items.map((item, j) => (
+                    <div key={j} style={{ borderTop: '1px solid rgba(240,235,219,0.08)', paddingTop: 14, marginTop: 14 }}>
+                      <div style={{ fontFamily: F.sans, fontSize: 11, color: 'rgba(240,235,219,0.45)', marginBottom: 6 }}>{item.name || 'Anonymous'}</div>
+                      <p style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.65, margin: 0 }}>{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {items.length === 0 && !synth && (
+                <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.4)', fontStyle: 'italic', margin: 0 }}>No responses or synthesis yet.</p>
               )}
             </div>
           );
