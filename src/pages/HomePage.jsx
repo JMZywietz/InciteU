@@ -46,12 +46,12 @@ export default function HomePage() {
           <CategoryCard variant="self" label="Inward" name="Live Well" tagline="The inner work of becoming who you are next." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             toolGroups={[
               { label: 'Who You Are', tools: [
-                { name: 'Identity Box', live: true, to: 'identity-box' },
-                { name: 'Three Moments', live: true, to: 'three-moments' },
+                { name: 'Identity Box', description: 'Reveal what you work to project vs. what you protect', live: true, to: 'identity-box' },
+                { name: 'Three Moments', description: 'Reflect on what made you who you are today', live: true, to: 'three-moments' },
               ]},
               { label: 'What Drives You', tools: [
-                { name: 'Purpose (and the Small Moves to Live It)', live: true, to: 'purpose-small-moves' },
-                { name: 'Emotions as Information', live: true, to: 'emotions-as-information' },
+                { name: 'Purpose and Small Moves', description: 'Picture multiple lives, find the breadcrumbs leading to who you want to be next, and take a small step to get there', live: true, to: 'purpose-small-moves' },
+                { name: 'Emotions as Information', description: 'Learn how your emotions developed, and how understanding them can create new possibilities', live: true, to: 'emotions-as-information' },
               ]},
               { label: 'What Sustains You', tools: [
                 { name: 'State Check', live: false },
@@ -60,25 +60,25 @@ export default function HomePage() {
           <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Seeing what's actually here, not what you wish were." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             toolGroups={[
               { label: 'Understand Yourself', tools: [
-                { name: 'Using the Leadership Circle Profile Self Assessment', live: true, to: 'lcp' },
+                { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
               ]},
               { label: 'Understand Others', tools: [
-                { name: 'Creative Collision', live: true, to: 'creative-collision' },
-                { name: 'Open Facilitation (gather group input and use AI to sensemake)', live: true, to: 'facilitate-your-way' },
+                { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },
+                { name: 'Open Facilitation', description: 'Gather group input and use AI to sensemake', live: true, to: 'facilitate-your-way' },
               ]},
               { label: 'Understand Reality', tools: [
-                { name: 'Decision Making (Cynefin) & Challenge Mapper', live: true, to: 'challenge-mapper' },
+                { name: 'Decision Making (Cynefin) & Challenge Mapper', description: 'Understand the challenge you face and match your next steps to what works', live: true, to: 'challenge-mapper' },
               ]},
             ]} />
           <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Setting direction, making moves, learning from them." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             toolGroups={[
               { label: 'Set Direction', tools: [
-                { name: 'Vision', live: true, to: 'vision' },
-                { name: 'Pre-Mortem', live: true, to: 'pre-mortem' },
+                { name: 'Culture Change Vision', description: 'Refine or build a compelling chase for change', live: true, to: 'vision' },
+                { name: 'Pre-Mortem', description: 'Imagine failure before it happens, then prevent it', live: true, to: 'pre-mortem' },
               ]},
               { label: 'Make It Happen', tools: [
                 { name: 'The Squeeze', live: false },
-                { name: 'Readiness', live: true, to: 'readiness' },
+                { name: 'Culture Readiness Assessment', description: 'Take stock of what your team needs to successfully change its culture', live: true, to: 'readiness' },
               ]},
               { label: 'Sustain & Renew', tools: [
                 { name: 'Post-Mortem', live: false },
