@@ -64,6 +64,7 @@ export default function HomePage() {
               ]},
               { label: 'Understand Others', tools: [
                 { name: 'Creative Collision', live: true, to: 'creative-collision' },
+                { name: 'Open Facilitation (gather group input and use AI to sensemake)', live: true, to: 'facilitate-your-way' },
               ]},
               { label: 'Understand Reality', tools: [
                 { name: 'Decision Making (Cynefin) & Challenge Mapper', live: true, to: 'challenge-mapper' },
