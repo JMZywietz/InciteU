@@ -143,9 +143,16 @@ export default function FacilitateYourWay() {
     if (!r.ok) throw new Error(`Failed to load responses (${r.status})`);
     const data = await r.json();
     setResponses(data.responses || []);
-    const synthMap = {};
-    if (data.syntheses) data.syntheses.forEach(s => { synthMap[s.questionId] = s; });
-    setSyntheses(synthMap);
+    // Backend GET responses returns syntheses as a map keyed by questionId, not an array
+    if (data.syntheses) {
+      if (Array.isArray(data.syntheses)) {
+        const m = {};
+        data.syntheses.forEach(s => { m[s.questionId] = s; });
+        setSyntheses(m);
+      } else {
+        setSyntheses(data.syntheses);
+      }
+    }
   };
 
   const onSynthesize = async (qid) => {
@@ -157,7 +164,9 @@ export default function FacilitateYourWay() {
       });
       const data = await r.json();
       if (!r.ok) throw new Error(data.detail ? `${data.error}: ${data.detail}` : (data.error || `Failed (${r.status})`));
-      setSyntheses(prev => ({ ...prev, [qid]: data }));
+      // Backend returns {synthesis: {...}} - unwrap it
+      const synthObj = data.synthesis || data;
+      setSyntheses(prev => ({ ...prev, [qid]: synthObj }));
     } catch (e) {
       setDashError(e.message);
     } finally {
@@ -463,21 +472,54 @@ export default function FacilitateYourWay() {
                 <div style={{ background: 'rgba(115,163,150,0.08)', border: '1px solid rgba(115,163,150,0.2)', borderRadius: 4, padding: '20px 24px', marginBottom: 20 }}>
                   <div style={{ ...s.fieldLabel, color: C.sage, marginBottom: 12 }}>AI Synthesis</div>
                   {synth.patterns?.length > 0 && (
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ ...s.fieldLabel, marginBottom: 8 }}>Patterns</div>
-                      {synth.patterns.map((p, j) => <p key={j} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6, margin: '0 0 8px' }}>{p}</p>)}
+                    <div style={{ marginBottom: 18 }}>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Patterns</div>
+                      {synth.patterns.map((p, j) => (
+                        <div key={j} style={{ marginBottom: 12 }}>
+                          {typeof p === 'object' && p.title ? (
+                            <>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 600, color: C.cream, marginBottom: 4 }}>{p.title}</div>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, color: 'rgba(240,235,219,0.82)', lineHeight: 1.6 }}>{p.detail}</div>
+                            </>
+                          ) : (
+                            <div style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6 }}>{typeof p === 'string' ? p : JSON.stringify(p)}</div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
                   {synth.outliers?.length > 0 && (
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ ...s.fieldLabel, marginBottom: 8 }}>Outliers</div>
-                      {synth.outliers.map((p, j) => <p key={j} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6, margin: '0 0 8px' }}>{p}</p>)}
+                    <div style={{ marginBottom: 18 }}>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Outliers</div>
+                      {synth.outliers.map((p, j) => (
+                        <div key={j} style={{ marginBottom: 12 }}>
+                          {typeof p === 'object' && p.title ? (
+                            <>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 600, color: C.cream, marginBottom: 4 }}>{p.title}</div>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, color: 'rgba(240,235,219,0.82)', lineHeight: 1.6 }}>{p.detail}</div>
+                            </>
+                          ) : (
+                            <div style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6 }}>{typeof p === 'string' ? p : JSON.stringify(p)}</div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
-                  {synth.absent?.length > 0 && (
-                    <div>
-                      <div style={{ ...s.fieldLabel, marginBottom: 8 }}>Notably absent</div>
-                      {synth.absent.map((p, j) => <p key={j} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6, margin: '0 0 8px' }}>{p}</p>)}
+                  {(synth.absences?.length > 0 || synth.absent?.length > 0) && (
+                    <div style={{ marginBottom: 6 }}>
+                      <div style={{ ...s.fieldLabel, marginBottom: 10 }}>Notably absent</div>
+                      {(synth.absences || synth.absent).map((p, j) => (
+                        <div key={j} style={{ marginBottom: 12 }}>
+                          {typeof p === 'object' && p.title ? (
+                            <>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, fontWeight: 600, color: C.cream, marginBottom: 4 }}>{p.title}</div>
+                              <div style={{ fontFamily: F.sans, fontSize: 14, color: 'rgba(240,235,219,0.82)', lineHeight: 1.6 }}>{p.detail}</div>
+                            </>
+                          ) : (
+                            <div style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.6 }}>{typeof p === 'string' ? p : JSON.stringify(p)}</div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
                   {synth.synthesizedAt && <p style={{ fontFamily: F.sans, fontSize: 11, color: 'rgba(240,235,219,0.4)', marginTop: 12, marginBottom: 0 }}>Last synthesized {new Date(synth.synthesizedAt).toLocaleString()} · {synth.responseCount} response{synth.responseCount === 1 ? '' : 's'}</p>}
