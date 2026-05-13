@@ -294,6 +294,77 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
+### Recently completed (May 13, 2026 session — late night) — Wizard + WhereToStartPage + Homepage two-level accordion refresh
+
+Four atomic commits over the course of a single session. Built around mocking each non-trivial change before touching the repo, getting Jen's explicit sign-off on copy and structure, then pushing. Zero rollbacks across all four.
+
+**Commit 1: Wizard + WhereToStart wiring for three previously-orphaned tools** — [`8d54048`](https://github.com/JMZywietz/InciteU/commit/8d54048a794b4d794f4e6ea0754c049e97a022fc) (`QuizPage.jsx`, `WhereToStartPage.jsx`).
+
+- [x] **Identity Box** wired into Inward Q2 as the 4th option (`inward.identity` → `identity-box`). Wording: *"What am I working to project — and what am I working to protect?"* In the WhereToStart sequence Jen put it at position #2 (after Three Moments), with the framing: TM = "what shaped me", IB = "who I want to be seen as", Purpose = "who I want to be next", Emotions = "the many parts of me". The OUTCOMES entry has `secondary: 'purpose-small-moves'` so the wizard surfaces the identity → purpose pairing in the result card.
+- [x] **Creative Collision** wired into Outward Q2 as `'collision'` → `creative-collision`. Wording: *"On my idea — I want to stress-test it with opposing perspectives."* Sequence position #7. Mode "Solo or with a team."
+- [x] **Open Facilitation** wired into Outward Q2 as `'group'` → `facilitate-your-way`. Wording: *"On a group — I want to gather many voices and make sense of them together."* Sequence position #8. Mode "With a group" — first wizard outcome that is group-only.
+- [x] **Outward Q2 restructured 3 options → 4** (`self / challenge / collision / group`) to mirror the homepage sub-buckets exactly: Understand Yourself (LCP) / Understand Reality (Cynefin) / Understand Others (CC, OF). Cynefin's option text rewritten — was *"I've got a challenge that I'm stuck on and need new perspectives"*, now *"On the situation — what kind of challenge am I actually facing?"* Per Jen: Cynefin = *type* of challenge; "perspectives" is CC and OF territory. The old `outward.others` → `challenge-mapper-stakeholders` route and its stale stub note (*"A dedicated stakeholder-perspectives tool is in the works"*) deleted.
+- [x] **Sequence renumbered 1 → 11** to absorb the three new tools (Inward 1-4, Outward 5-8, Forward 9-11). Forward labels updated to homepage display names: *Vision* → *Culture Change Vision*, *Readiness* → *Culture Readiness Assessment*. Pre-Mortem label unchanged. "Begin with Three Moments →" CTA unchanged (TM still #1).
+
+**Commit 2: WhereToStart sequence-card visual upgrade** — [`d60ab72`](https://github.com/JMZywietz/InciteU/commit/d60ab72e54141753eebd44a2fd033ea2f18b90b4) (`WhereToStartPage.jsx`).
+
+- [x] **Each tool got a description** in Jen's exact wording (e.g., Three Moments → "What made us who we are today"). Format mirrors homepage CategoryCard pattern: name 15px cream, description 13px italic serif at `rgba(240,235,219,0.62)`, 12px vertical padding, `C.line` divider between items. Identity Box description: *"How we see ourselves, and what could be possible if we used that effort for something else"* — derived from the wizard description Jen approved.
+- [x] **Intro paragraph rewritten** from *"Inward first — identity is the foundation for purpose. Then outward to see what is in front of you. Then forward to move it."* to *"Inward first. Who we are - our identity and our purpose - is the foundation of everything we do. Then outward, to see what is in front of you. Then forward to move into what's next."*
+- [x] **Purpose label shortened** from *"Purpose (and the Small Moves to Live It)"* to *"Purpose"* in the sequence list; route still resolves to the paired-flow landing at `/tools/self/purpose-small-moves`.
+- [x] **The Squeeze added at #12 as coming-soon** — dimmed name (`rgba(240,235,219,0.38)`), dimmed italic description (`rgba(240,235,219,0.3)`), no link/hover, same pattern as homepage placeholders. Sequential 1-12 numbering kept (no second-class unnumbered treatment).
+
+**Commit 3: Homepage major refresh — hero/divider/CTA/accordion** — [`33bd773`](https://github.com/JMZywietz/InciteU/commit/33bd773856fa61a348e654d741c6c8d0a647bfcc) (`HomePage.jsx`, `CategoryCard.jsx`).
+
+- [x] **Hero pruned**: tagline paragraph removed from inside hero. Hero is now title + Rohr cite only. Rohr cite's `marginBottom` set to 0 (was 56, no longer needed since the tagline that followed it has moved).
+- [x] **New tagline below `<OrganicDivider />`**: three-line paragraph (lines split by `<br />`). Final v3 copy used sage accents on lines 1 and 3 (later edited in commit 4).
+- [x] **Bolder "Curious where to start? →" CTA**: replaced `btn('primary')` with inline custom styles — solid sage fill, deep-teal text, 22×48 padding, 15px / 500 weight letter-spaced, sage glow halo on hover. Inverts to transparent+sage-text on hover for visual interest.
+- [x] **Three parallel card taglines** (all replacing terser old versions):
+  - Live Well: *"Do the inner work needed to become the best version of yourself possible"*
+  - Face What Is: *"Recognize what's actually in front of you, not what you wish was"*
+  - Lead Well: *"Set a direction, inspire others to join you, and keep experimenting and learning"*
+- [x] **Two-level accordion** added to `CategoryCard.jsx`:
+  - Cards collapsed by default. Click anywhere on the card header (initial version) or only the bottom-trigger row (final version, see commit 4) to toggle.
+  - Each sub-bucket also collapsed by default. Click sub-bucket header to expand. Sub-bucket state preserved across card collapse/expand (independent state).
+  - Chevrons rotate 90° on expand (▸ → ▾).
+  - `minHeight: 380` removed from the card since collapsed cards are much shorter; was creating awkward dead space.
+- [x] **Sub-bucket descriptions** added to the toolGroups data structure: one-line italic serif under each sub-bucket label (e.g., *Who You Are* → *"Where you came from, the image you maintain, and what shaped you"*). All nine sub-buckets across the three cards have descriptions. Initially 13px (matched homepage tool descriptions); bumped to 15px in commit 4 for hierarchy.
+- [x] **Tool counts shown per card and per sub-bucket**: e.g., card-level *"5 tools · 1 coming soon"*; sub-bucket-level *"2 tools"*. Format kept neutral and tracked in a small helper `countString(total, coming)`.
+- [x] **Tool reordering to match sequence arc**:
+  - Live Well > Who You Are: swapped to `[Three Moments, Identity Box]` (arc positions 1, 2).
+  - Lead Well > Make It Happen: swapped to `[Culture Readiness Assessment, The Squeeze]` (arc 10, 12).
+  - Pre-Mortem stays in Set Direction with Vision (arc 9, 11) — sub-bucket conceptual grouping won over strict arc-order top-to-bottom flow. Confirmed with Jen during mock review.
+
+**Commit 4: Homepage polish — text/color/footer/chevron-placement** — [`4d80323`](https://github.com/JMZywietz/InciteU/commit/4d803237876e3ac5c89f12fbf7c662fec91172a3) (`HomePage.jsx`, `CategoryCard.jsx`).
+
+- [x] **Tagline line 3 rewritten + de-greened**: was *"If they help you, repay us by spreading them along to anywhere they will do good."* in sage; now *"If these tools help you, please share them with others who will use them for good."* in plain cream-muted, matching lines 1–2. Sage accent on line 1 (*"anyone who wants to transform themselves or others"*) kept.
+- [x] **Card-level chevron relocated** — the top-right chevron from commit 3 was getting lost behind the corner icon decorations (Jen's call). Removed from the header entirely. Replaced with a full-width row at the bottom of every card: *"CLICK TO SEE MORE DETAIL ▸"* in the card's accent color, 12px sans uppercase letter-spaced. Chevron rotates to ▾ on expand; text flips to *"CLICK TO SEE LESS DETAIL"*. Bordered above with `C.line`. Hover gives a small gap-expand interaction. **Card header is now display-only — only this bottom row is the toggle.** Whole-card cursor stays `default`. Tool/sub-bucket clicks now use `stopPropagation()` to avoid bubbling.
+- [x] **Sub-bucket description size bumped 13 → 15px**, opacity nudged 0.6 → 0.72 — gives a cleaner hierarchy between sub-bucket descriptions and the 13px tool descriptions inside them.
+- [x] **Sub-bucket count line rewritten** — was *"2 TOOLS"* (10px uppercase tracked); now *"2 tools · click to see more"* / *"2 tools · click to see less"* (12px, lowercase, normal letter-spacing, regular weight; the "click to see more" half in italic to read as the inline call-to-action).
+- [x] **Footer reflowed**: was centered stacked `<p>` + button; now flex-row with `justifyContent: 'space-between'`. Paragraph left-aligned and growing (`flex: '1 1 600px'`, `maxWidth: 900`), "Get in touch" button anchored on the right with `flexShrink: 0`. `flexWrap: 'wrap'` so the button drops below on narrow viewports — no horizontal scroll.
+
+**Pre-push validation across all four commits:** every JSX file was passed through `npx esbuild --loader:.jsx=jsx --bundle=false --format=esm` before commit. Zero JSX errors landed on `main`. §5 pitfall #5 followed every time.
+
+**Architecture file `routes.js` and `App.jsx` unchanged** — all four new tools wired in this session (Identity Box, Creative Collision, Open Facilitation, The Squeeze) already had route registrations from prior sessions. The Squeeze remains `live: false` with no actual page yet.
+
+**Outstanding from this session:**
+
+- [ ] **Standalone tool page titles still don't match homepage labels** — `Vision.jsx`, `Readiness.jsx`, `FiveLives.jsx`, `SmallestViableExperiment.jsx`. Was already flagged in the May 13 late-afternoon entry; this session's WhereToStartPage labels widen the gap. Trivial single-line edits per file once Jen confirms wording. Now also affects the wizard `OUTCOMES` titles in `QuizPage.jsx`.
+- [ ] **Vercel deploy verification of accordion behavior** — eyes-on test of the homepage accordion (card-level + sub-bucket level) once Vercel rebuild lands. Test specifically: card click target only on bottom row; sub-bucket clicks don't bubble up to collapse the parent card; tool clicks don't collapse anything; sub-bucket state preserved across card re-collapse.
+- [ ] **CategoryCard's `guideTo` prop is unused** — preserved in the component for backward compat but no current caller uses it. Safe to delete in a future cleanup or keep as a hook for future "guide me" patterns.
+- [ ] **Possibly: bolder CTA spacing review on Vercel** — the new solid-sage button might look out of step with the brand's other outline-only buttons elsewhere. If it does, reverting to `btn('primary')` with different ambient framing (e.g., contained in a soft-bordered box) is one alternative.
+- [ ] **§1 Architecture paragraph about `CategoryCard.jsx` is now slightly incomplete** — doesn't yet mention the two-level accordion behavior, the sub-bucket `description` field, or the bottom-row toggle pattern. Trivial single-paragraph rewrite; not done this session because Jen's "update the handover" instruction was specifically about logging this session's work in §6.
+- [ ] **The Squeeze placeholder page** — listed in sequence #12 (coming-soon) and homepage Make-It-Happen sub-bucket (coming-soon). No actual file or route. Status unchanged from prior sessions.
+
+**Key patterns / lessons from this session:**
+
+1. **Multi-round elicitation before any code touches the repo** — Jen and Claude did 3-4 rounds of "show me the diff and ask the right questions, get sign-off, then push" before each commit. Result: four atomic commits, zero rollbacks. Pattern worth keeping for any non-trivial UI/copy refresh.
+2. **HTML file mocks for "mock it up" requests** — the in-chat `visualize:show_widget` tool timed out (4-minute wait) early in this session. Pivoted to creating the mockup as `/mnt/user-data/outputs/inciteu-homepage-mockup.html` and delivering via `present_files`. Jen got a clickable mock in a real browser tab with the full InciteU palette and fonts; arguably better fidelity than the inline widget would have given. Pattern: if `visualize:read_me` hangs, don't retry — pivot to file-based HTML.
+3. **CSS `max-height` transitions for accordion content** — `maxHeight: expanded ? 3000 : 0` with `overflow: hidden` and a transition gives clean expand/collapse without measuring content. Limitation: the magic ceiling must safely exceed any conceivable expanded content. Fine for homepage cards (largest expanded card ~1200px).
+4. **`stopPropagation()` on inner click handlers** when ancestor elements have click handlers. CategoryCard had a brief subtle bug in commit 3 where clicking a tool would navigate AND trigger card collapse on the way out; commit 4 hardened it.
+5. **Composio `GITHUB_COMMIT_MULTIPLE_FILES` argument shape** (recording here so the next session doesn't have to discover it again): requires `message` (not `commit_message`) and `upserts` (not `files`). Each item in `upserts` is `{path, content, encoding: 'utf-8'}`. The §3 "tool that works" note is correct but missed the field renames.
+
+---
+
 ### Recently completed (May 13, 2026 session — late evening) — Culture Change Model v9 lift SHIPPED
 
 The planning section immediately below records the decisions and the orphaned-backend question as they stood when this session opened. This section is the completion record.
