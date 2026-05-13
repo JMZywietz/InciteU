@@ -50,9 +50,9 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
   const renderToolItem = (t, i, _allItems, isLast, keyPrefix = '') => {
     const isLink = !!(t.to || t.external) && t.live !== false;
     const onClick = isLink && t.to
-      ? () => navigate(t.to)
+      ? (e) => { e.stopPropagation(); navigate(t.to); }
       : isLink && t.external
-        ? () => window.open(t.external, '_blank', 'noopener')
+        ? (e) => { e.stopPropagation(); window.open(t.external, '_blank', 'noopener'); }
         : null;
     const key = `${keyPrefix}${i}`;
     const isHovered = hoveredTool === key;
@@ -96,16 +96,12 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
         <Icon />
       </div>
 
-      {/* Clickable card header — toggles card expansion */}
-      <div onClick={() => setExpanded((e) => !e)}
-           style={{ position: 'relative', zIndex: 1, marginTop: 80, cursor: 'pointer', display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ ...eyebrow, marginBottom: 12 }}>{label}</div>
-          <h2 style={{ ...heading(48), marginBottom: 16 }}>{name}</h2>
-          <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: accent, marginBottom: 0, lineHeight: 1.4 }}>{tagline}</p>
-          <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.creamMuted, marginTop: 18 }}>{cardCount}</div>
-        </div>
-        <div style={{ color: accent, fontSize: 20, transition: 'transform 0.3s ease', transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 4, userSelect: 'none', fontFamily: F.sans }}>▸</div>
+      {/* Card header — display only (no click target; chevron lives at the bottom now) */}
+      <div style={{ position: 'relative', zIndex: 1, marginTop: 80 }}>
+        <div style={{ ...eyebrow, marginBottom: 12 }}>{label}</div>
+        <h2 style={{ ...heading(48), marginBottom: 16 }}>{name}</h2>
+        <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: accent, marginBottom: 0, lineHeight: 1.4 }}>{tagline}</p>
+        <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.creamMuted, marginTop: 18 }}>{cardCount}</div>
       </div>
 
       {/* Card body — visible only when expanded */}
@@ -126,6 +122,7 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
             const groupTotal = group.tools.length;
             const groupComing = group.tools.filter((t) => !t.live).length;
             const groupCount = countString(groupTotal, groupComing);
+            const seeMoreText = subExpanded ? 'click to see less' : 'click to see more';
 
             return (
               <div key={gi} style={{ marginBottom: 4 }}>
@@ -136,9 +133,11 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>{group.label}</div>
                     {group.description && (
-                      <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 13, color: 'rgba(240, 235, 219, 0.6)', lineHeight: 1.45 }}>{group.description}</div>
+                      <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 15, color: 'rgba(240, 235, 219, 0.72)', lineHeight: 1.45 }}>{group.description}</div>
                     )}
-                    <div style={{ fontFamily: F.sans, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.creamMuted, marginTop: 8 }}>{groupCount}</div>
+                    <div style={{ fontFamily: F.sans, fontSize: 12, color: C.creamMuted, marginTop: 8, fontWeight: 300 }}>
+                      {groupCount} · <span style={{ fontStyle: 'italic' }}>{seeMoreText}</span>
+                    </div>
                   </div>
                   <div style={{ fontSize: 14, color: C.creamMuted, transition: 'transform 0.25s ease', transform: subExpanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 2, userSelect: 'none', fontFamily: F.sans }}>▸</div>
                 </div>
@@ -161,6 +160,34 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
             </ul>
           )}
         </div>
+      </div>
+
+      {/* Card-level expand/collapse trigger at the bottom — moved here from the top so it doesn't get lost in the corner icon decoration */}
+      <div onClick={() => setExpanded((e) => !e)}
+           style={{
+             position: 'relative',
+             zIndex: 1,
+             marginTop: 24,
+             paddingTop: 20,
+             paddingBottom: 4,
+             borderTop: `1px solid ${C.line}`,
+             cursor: 'pointer',
+             display: 'flex',
+             alignItems: 'center',
+             justifyContent: 'center',
+             gap: 12,
+             color: accent,
+             fontFamily: F.sans,
+             fontSize: 12,
+             letterSpacing: '0.18em',
+             textTransform: 'uppercase',
+             fontWeight: 400,
+             transition: 'gap 0.3s ease',
+           }}
+           onMouseEnter={(e) => { e.currentTarget.style.gap = '18px'; }}
+           onMouseLeave={(e) => { e.currentTarget.style.gap = '12px'; }}>
+        <span>{expanded ? 'click to see less detail' : 'click to see more detail'}</span>
+        <span style={{ fontSize: 16, transition: 'transform 0.3s ease', transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)', userSelect: 'none', display: 'inline-block' }}>▸</span>
       </div>
     </div>
   );

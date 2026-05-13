@@ -34,7 +34,7 @@ export default function HomePage() {
         <p style={{ fontFamily: F.sans, fontSize: 19, color: C.creamMuted, fontWeight: 300, lineHeight: 1.7, margin: 0 }}>
           This webpage is for <span style={{ color: C.sage }}>anyone who wants to transform themselves or others</span>.<br />
           It hosts a suite of transformational tools that are free to use.<br />
-          <span style={{ color: C.sage }}>If they help you, repay us by spreading them along to anywhere they will do good.</span>
+          If these tools help you, please share them with others who will use them for good.
         </p>
       </section>
 
@@ -101,11 +101,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ padding: '120px 6vw 140px', textAlign: 'center', borderTop: `1px solid ${C.line}`, maxWidth: 1400, margin: '0 auto' }}>
-        <p style={{ fontFamily: F.serif, fontSize: 28, fontWeight: 400, color: C.cream, lineHeight: 1.5, maxWidth: 700, margin: '0 auto 24px' }}>
-          If, after exploring here, you'd like a human to <em style={{ color: C.sage, fontStyle: 'italic' }}>think alongside you</em>, please get in touch.
-        </p>
-        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
+      <section style={{ padding: '120px 6vw 140px', borderTop: `1px solid ${C.line}`, maxWidth: 1400, margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 48, flexWrap: 'wrap' }}>
+          <p style={{ fontFamily: F.serif, fontSize: 28, fontWeight: 400, color: C.cream, lineHeight: 1.5, margin: 0, flex: '1 1 600px', maxWidth: 900 }}>
+            If, after exploring here, you'd like a human to <em style={{ color: C.sage, fontStyle: 'italic' }}>think alongside you</em>, please get in touch.
+          </p>
+          <a href="mailto:jen@inciteu.com" style={{ ...btn('primary'), flexShrink: 0 }} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
+        </div>
       </section>
     </main>
   );
