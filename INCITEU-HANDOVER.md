@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 13, 2026 (Facilitate Your Way multi-contributor tool live — first tool with backend persistence; Upstash Redis added)
+**Last updated:** May 13, 2026 (Facilitate Your Way live; homepage tool descriptions added + Available/Coming-soon badges retired; three tool renames)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -92,7 +92,7 @@ JMZywietz/InciteU/
 - **Outward → "Face What Is"** (variant=team) — *Understand Yourself · Understand Others · Understand Reality*; houses the Decision Toolkit
 - **Forward → "Lead Well"** (variant=org) — *Set Direction · Make It Happen · Sustain & Renew*
 
-CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) in addition to the flat `tools` array. The homepage uses `toolGroups`.
+CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in addition to the flat `tools` array. Each tool item now supports an optional `description` field rendered in italic serif below the name. The 'Available / Coming soon' badge has been retired; coming-soon tools (where `live: false`) are dimmed in place and show `description: 'Coming soon'`. The homepage uses `toolGroups`.
 
 **Think page** cards have per-piece accent colors and backgrounds (Cynefin = sage/warm, Five Layers Deep = gold/cool).
 
@@ -279,7 +279,17 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
-### Recently completed (May 13, 2026 session) — Facilitate Your Way
+### Recently completed (May 13, 2026 session — late afternoon) — Homepage IA refresh
+
+- [x] **Tool descriptions replace badges on homepage** — commits [`cffdf81`](https://github.com/JMZywietz/InciteU/commit/cffdf81375fb704d571f0a8ffdecb53bae0ef1cc) (CategoryCard) and [`a483f9a`](https://github.com/JMZywietz/InciteU/commit/a483f9aa612af7c5ddf2f395bec9ac1b6f13929e) (HomePage). Replaced the "Available / Coming soon" right-side badge with a short italic-serif description under each tool name. Coming-soon tools now dimmed in place with description text "Coming soon". CategoryCard's `tools` items now support an optional `description` field; renders below `name` in `F.serif` italic at 13px, color `rgba(240,235,219,0.62)` for live tools (`rgba(240,235,219,0.3)` for coming-soon). All 11 live tools now have descriptions. Three are placeholders pending Jen's revision: Identity Box, LCP Self Assessment, Pre-Mortem.
+- [x] **Tool renames on homepage display** — same commit. Note these are DISPLAY-ONLY renames; the symbolic route names in `routes.js` and URL paths are unchanged.
+  - 'Purpose (and the Small Moves to Live It)' → 'Purpose and Small Moves'
+  - 'Vision' → 'Culture Change Vision'  *(URL still `/tools/org/vision`)*
+  - 'Readiness' → 'Culture Readiness Assessment'  *(URL still `/tools/org/readiness`)*
+  Worth noting: the tool *page titles* (inside Vision.jsx, Readiness.jsx, FiveLives.jsx, SmallestViableExperiment.jsx) were NOT updated. Jen may want those updated to match the new homepage labels in a follow-up.
+- [x] **Open Facilitation added to homepage** — commit [`0b8a1dc`](https://github.com/JMZywietz/InciteU/commit/0b8a1dcb4018e4c34029733b8a75084776645ff0). Placed under Face What Is → Understand Others. The route was already registered (`facilitate-your-way` → `/OpenFacilitation`); this commit just wired it into the homepage card list.
+
+### Recently completed (May 13, 2026 session — earlier) — Facilitate Your Way
 
 - [x] **Facilitate Your Way tool — multi-contributor sessions** — final commit chain ending [`b4c77a3`](https://github.com/JMZywietz/InciteU/commit/b4c77a327ba73b665563fa94dfdc693270e4d1d7). First tool with **backend persistence** — different shape from every other tool on the site. Lives at `/openfacilitation` (route name from routes.js). User flow:
   1. Facilitator clicks "Facilitate a session" → fills title, name, context, 1-5 questions → creates session → gets 6-char code + share link
@@ -403,9 +413,33 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 | Cynefin Scrollytelling | `src/think/CynefinScrollytelling.jsx` | `/think/cynefin` | No |
 
 Coming-soon tools (placeholders only, not built yet):
-- Self: Possibilities
+- Self: Possibilities, State Check
 - Team: Stakeholder Shoes Walk, Post-Mortem, The Squeeze
 - Org: Boids · emergence
+
+### Full tool roadmap (Jen's vision, May 13, 2026)
+
+Status legend: 🟢 Built and live · 🟡 Designed, not built · 🔴 Idea, no design yet
+
+**Live Well (the inner work)**
+- Who You Are: Identity Box 🟢 (anchor) · Three Moments 🟢 · Reactive Patterns 🟡 · Parts at the Table 🟡 · Feedback Mirror 🟡
+- What Drives You: Purpose and Small Moves 🟢 (anchor) · Emotions as Information 🟢 · When Emotions Conflict (IFS) 🟡 · Values in Trade-offs 🟡
+- What Sustains You: State Check 🟡 (uses ATL/BTL video) · Energy & Recovery 🔴 · Audio companions 🟡
+
+**Face What Is (read reality)**
+- Understand Yourself: LCP Debrief 🟢 (anchor) · Body Yes / Body No 🔴 · Story You're Telling Yourself 🟡
+- Understand Others: Surfacing Perspectives 🔴 (anchor, not built) · Creative Collision 🟢 · Open Facilitation 🟢 · Stakeholder Shoes Walk 🔴 · Power Map 🔴
+- Understand Reality: Cynefin & Challenge Mapper 🟢 (anchor) · Surf or Sink (Polarities) 🟡
+
+**Lead Well (move forward)**
+- Set Direction: Culture Change Vision 🟢 (org/culture level, anchor) · Pre-Mortem 🟢 (project level) · Why Change 🟡
+- Make It Happen: Culture Readiness Assessment 🟢 (anchor) · The Squeeze 🟡 · Disagree to Deepen 🟡 · Strategic Subtraction 🔴 · Hard Conversations 🟡 · Repair After Rupture 🔴
+- Sustain & Renew: Post-Mortem 🟡
+
+Notes for future Claudes:
+- Every tool fits the existing 3-bucket / 9-sub-bucket IA. There is no "Tools Library" — adding one was considered and rejected (would create IA debt). Place new tools where users would naturally look for them.
+- Open Facilitation is conceptually a flavor of "Surfacing Perspectives" — async, AI-aided. When Surfacing Perspectives gets built, may want to think about how the two relate (anchor vs Wave 2, etc.). Not urgent.
+- The handover doc's older "coming-soon tools" list (immediately above this roadmap) is the SHORTER list of just the *placeholders shown on the homepage*. The roadmap above is Jen's fuller vision.
 
 ---
 
