@@ -928,6 +928,25 @@ ${sections}
         </div>
       ) : null}
 
+
+      {responses.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <button
+            onClick={async () => {
+              for (const q of config.questions) {
+                await onSynthesize(q.id);
+              }
+            }}
+            disabled={synthLoading}
+            onMouseEnter={btnHoverIn}
+            onMouseLeave={btnHoverOut}
+            style={btn('primary', synthLoading)}
+          >
+            {synthLoading ? 'Synthesizing…' : 'Synthesize All Questions with AI'}
+          </button>
+        </div>
+      )}
+
       {config.questions.map((q, i) => {
         const items = byQ[q.id] || [];
         const synth = syntheses[q.id];
