@@ -927,8 +927,13 @@ ${sections}
               type="text"
               readOnly
               value={joinUrl}
-              onFocus={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> e.target.select()}
+              onFocus={(e) => e.target.select()}
               style={{ ...fieldInput, fontSize: 13 }}
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-bwignore="true"
+              data-form-type="other"
             />
           </div>
         </div>
