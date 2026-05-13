@@ -666,7 +666,79 @@ ${sections}
         <div style={s.eyebrow}>Session results</div>
         <h1 style={s.heading(40)}>{config.title}</h1>
         {config.contextBlurb && <p style={{ fontFamily: F.sans, fontSize: 15, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, marginBottom: 28 }}>{config.contextBlurb}</p>}
-        <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.5)', marginBottom: 32 }}>Hosted by {config.facilitatorName} · {responses.length} response{responses.length === 1 ? '' : 's'}</p>
+        <p style={{ fontFamily: F.sans, fontSize: 13, color: 'rgba(240,235,219,0.5)', marginBottom: 24 }}>Hosted by {config.facilitatorName} · {responses.length} response{responses.length === 1 ? '' : 's'}</p>
+
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
+          <button
+            onClick={() => {
+              const escape = str => String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+              const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+              const renderItems = (items) => {
+                if (!items || items.length === 0) return '<p style="color:#888;font-style:italic">(none)</p>';
+                return items.map(p => {
+                  if (typeof p === 'object' && p.title) {
+                    return `<div style="margin-bottom:14px"><strong>${escape(p.title)}</strong><br/>${escape(p.detail)}</div>`;
+                  }
+                  return `<p>${escape(typeof p === 'string' ? p : JSON.stringify(p))}</p>`;
+                }).join('');
+              };
+              const byQ_local = {};
+              responses.forEach(r => { r.answers && Object.entries(r.answers).forEach(([qid, text]) => { if (!byQ_local[qid]) byQ_local[qid] = []; if (text) byQ_local[qid].push({ name: r.name, text }); }); });
+              const sections = config.questions.map((q, i) => {
+                const synth = syntheses[q.id];
+                const items = byQ_local[q.id] || [];
+                let html = `<h2>Question ${i + 1}</h2><p class="q">${escape(q.text)}</p>`;
+                if (synth) {
+                  html += '<h3>Patterns</h3>' + renderItems(synth.patterns);
+                  html += '<h3>Outliers</h3>' + renderItems(synth.outliers);
+                  html += '<h3>Notably absent</h3>' + renderItems(synth.absences || synth.absent);
+                }
+                if (items.length > 0) {
+                  html += '<h3>Individual responses</h3>';
+                  items.forEach(item => {
+                    html += `<div class="resp"><strong>${escape(item.name || 'Anonymous')}</strong>: ${escape(item.text)}</div>`;
+                  });
+                }
+                return html;
+              }).join('');
+              const html = `<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>${escape(config.title)} - ${date}</title>
+<style>
+  body { font-family: Calibri, Arial, sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; color: #222; line-height: 1.6; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  .date { color: #888; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 40px; }
+  h2 { font-size: 20px; margin: 36px 0 6px; color: #1F3937; }
+  h3 { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #888; margin: 18px 0 8px; }
+  .q { font-style: italic; color: #444; margin-bottom: 14px; }
+  .resp { padding: 10px 0; border-bottom: 1px solid #eee; }
+  p { margin: 0 0 10px 0; }
+</style></head><body>
+<h1>${escape(config.title)}</h1>
+<div class="date">${date} · Hosted by ${escape(config.facilitatorName)} · Code ${escape(code)}</div>
+${config.contextBlurb ? `<p style="color:#555;font-style:italic">${escape(config.contextBlurb)}</p>` : ''}
+${sections}
+</body></html>`;
+              const blob = new Blob([html], { type: 'application/msword' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `${(config.title || 'session').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.doc`;
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }}
+            style={btn('primary')}
+            onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}
+          >
+            Download as Word doc
+          </button>
+          <button
+            onClick={() => window.print()}
+            style={btn('secondary')}
+            onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}
+          >
+            Print / Save as PDF
+          </button>
+        </div>
 
         {config.questions.map((q, i) => {
           const items = byQ[q.id] || [];
