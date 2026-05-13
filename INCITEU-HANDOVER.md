@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 13, 2026 — late evening (CC ported to native InciteU tool with Upstash-backed multiplayer, shareable session URLs, and Six Hats diagnostic; v9 lift planning + Readiness backend wiring still in flight; standalone Readiness rewrite shelved in favor of in-v9 Readiness)
+**Last updated:** May 13, 2026 — late evening (Culture Change Model v9 lifted into InciteU as a self-contained sub-app at `/culture-change-model`; in-context Readiness with cross-device group mode + shareable URLs is live; Creative Collision shipped earlier the same session)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -48,7 +48,8 @@ JMZywietz/InciteU/
 ├── api/
 │   ├── synthesize.js              ← Vercel serverless: proxies to Anthropic API (used by tools that synthesize ONE user's input)
 │   ├── cc-storage.js              ← Cross-client storage (legacy)
-│   └── sessions/                  ← Multi-contributor session backend (added May 13, 2026)
+│   ├── sessions.js                ← Flat action-verb session backend (Culture Change Model v9 in-context Readiness; commit bf88c97)
+│   └── sessions/                  ← Path-routed multi-contributor backend (Facilitate Your Way; added May 13, 2026)
 │       ├── create.js              ← POST: create session, generate code + facilitator token
 │       ├── [code].js              ← GET: public config for session (no auth)
 │       └── [code]/
@@ -60,6 +61,8 @@ JMZywietz/InciteU/
 │   ├── App.jsx                    ← Route definitions
 │   ├── theme.js                   ← Brand: palette C, fonts F, GLOBAL_CSS, HERO_PHOTO
 │   ├── styles.js                  ← Reusable styles: btn(), heading(), eyebrow, fieldLabel, fieldInput, btnHoverIn/Out
+│   ├── apps/                      ← Self-contained sub-apps (lazy-loaded; zero imports from sibling source files)
+│   │   └── CultureChangeModel.jsx ← v9 lift; lives at /culture-change-model; ~265 KB; in-context Readiness + Vision + Games
 │   ├── components/                ← Header, Footer, HeroFlourish, OrganicDivider, icons, CategoryCard
 │   ├── pages/                     ← Home, Bio, Contact, Think, WhereToStart (two-paths landing), Quiz (wizard)
 │   ├── tools/                     ← 9 working tools (see §9)
@@ -153,11 +156,18 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 ### Tools (Org / At scale)
 - Readiness: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Readiness.jsx
 - Vision: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Vision.jsx
-- Culture model is hosted externally at https://qq5l85.csb.app/ (not in this repo)
+- Culture model is now in-repo as a sub-app (see Sub-apps below). The original external scrollytelling at https://qq5l85.csb.app/ is the v9 codebase Jen lifted into InciteU on May 13, 2026.
 
 ### Think pieces
 - FiveLayersDeep: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/think/FiveLayersDeep.jsx
 - CynefinScrollytelling: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/think/CynefinScrollytelling.jsx
+
+### Sub-apps
+- CultureChangeModel (v9 lift, ~265 KB — large; fetch only when needed): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/apps/CultureChangeModel.jsx
+
+### v9 sessions backend (Culture Change Model in-context Readiness)
+- /api/sessions (flat action-verb endpoint): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions.js
+- src/lib/sessions.js (frontend adapter, not used by the v9 file itself — v9 duplicates the fetch inline): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/lib/sessions.js
 
 ---
 
@@ -283,6 +293,26 @@ The first four are the most important. The rest were here in the previous versio
 ---
 
 ## §6 — Outstanding setup (running list)
+
+### Recently completed (May 13, 2026 session — late evening) — Culture Change Model v9 lift SHIPPED
+
+The planning section immediately below records the decisions and the orphaned-backend question as they stood when this session opened. This section is the completion record.
+
+- [x] **Sub-app live at `/culture-change-model`** — two commits: small wiring files at [`a597e9d`](https://github.com/JMZywietz/InciteU/commit/a597e9dd40183c73ca80b5cc8f155f846565178b) (Composio) and the 271 KB v9 file at [`b6bf85b`](https://github.com/JMZywietz/InciteU/commit/b6bf85b3408a4fc571f3a907be453315e66da35b) (manual upload via GitHub web UI, per the §3 fallback). Vercel build went red between the two commits and green again once the v9 file landed — expected, called out in the small-files commit message.
+- [x] **Six surgical edits to v9 inside the file** — top-of-file LIFTING INSTRUCTIONS block + two backend-URL constants (`API_SYNTHESIZE_URL`, `API_SESSIONS_URL`); readinessStorage adapter swapped from localStorage to `/api/sessions`; aiCall swapped from direct anthropic.com to `/api/synthesize`; VisionTool's second inline fetch collapsed into `aiCall`; solo mode-chooser card got the sage tint + sage border to differentiate it from join/run; live participant URL panel added on facil-share with Copy-link button; share-results panel + new read-only `public-synthesis` view added on facil-synthesis; URL-param handler on the top-level Model component reads `?section=`, `?tool=`, `?join=CODE`, `?view=CODE` once on mount and threads through ToolsPage → ReadinessTool via props.
+- [x] **Orphaned `api/sessions.js` is no longer orphaned** — the planning section below worried about whether to repurpose the flat `/api/sessions` endpoint or migrate v9 Readiness to the FYW path-based pattern and remove it. The lift went with **path (a) — reuse the flat endpoint**, not (b). Reason: the v9 file's existing `readinessStorage` adapter has five action-named methods (createSession / getSession / contribute / saveSynthesis / deleteSession) that map 1:1 to the flat `{action:'create'|'contribute'|'synthesis'|'delete'}` POST shape; refactoring the v9 adapter to FYW's path-routed shape would have meant ~50 call-site edits with no functional benefit. Both backends now coexist on Vercel: `api/sessions.js` (flat, v9) and `api/sessions/*` (path-routed, FYW).
+- [x] **Sub-app architecture pattern introduced** — `src/apps/CultureChangeModel.jsx` is the first file under `src/apps/`. The pattern: self-contained sub-app, lazy-loaded via `React.lazy()`, internal navigation by state (not by react-router), own theme/styles/helpers, two backend URLs as top-of-file constants so the file can be lifted into a different host with two string changes. Use this pattern only when a tool is large enough (>50 KB) and self-coherent enough to justify the duplication; for modular tools the §4 playbook still applies.
+- [x] **One Readiness, two front doors live** — canonical Readiness now lives inside the sub-app. `/tools/org/readiness` is a splash redirect to `/culture-change-model?section=tools&tool=readiness`. SEO is preserved. Solo / join-a-group / run-a-group all work cross-device via Upstash KV. Group mode now includes a copy-link participant URL on facil-share (drops them into Join with the code pre-filled) and a read-only share-results URL on facil-synthesis (no facil controls, no re-run, no delete).
+- [x] **New Think-page card** — third entry on `/think` linking to `/culture-change-model`. Copy and color choices are Claude's draft, not Jen's — the card uses v9's own teal/gold palette so visually it previews the destination. Easy to recolor; the card is one entry in `THINK_PIECES` in `src/pages/ThinkPage.jsx`.
+- [x] **Boids simulation is shipping as v9's Games tab** — note for future Claudes who see "Boids · emergence" in the §9 coming-soon list: it's inside v9 already. Leave the coming-soon list alone unless Jen says otherwise; the standalone Boids tool might still be planned as a separate thing.
+
+**Key gotchas worth remembering:**
+
+1. **`bash curl` cannot reach `raw.githubusercontent.com`** — the InciteU allowlist covers `github.com` but the `/raw/...` redirect resolves to a different host that's not on the list. Use `GITHUB_GET_REPOSITORY_CONTENT` via Composio instead. This blocker burned an entire previous session and was fixed in this one. Add this to the §3 connection-method preferences if it isn't there already.
+2. **Composio's hard ceiling on `GITHUB_COMMIT_MULTIPLE_FILES`** — combined payload of ~16 KB across four files worked fine in one call. The 271 KB v9 file definitively did not fit (driving the commit from inside the workbench helps for code-to-execute parameter limits, but the underlying tool argument still has a per-call cap somewhere well under 100 KB). The §3 manual-upload fallback continues to be the right answer for anything >30 KB.
+3. **Vercel builds fail loudly but live deploy stays up** — when the small-files commit landed without the v9 file, the build failed (App.jsx imported a non-existent module). The previous good deploy stayed live, so end-users saw no regression during the ~17-minute window between commits. Useful pattern: it's safe to land scaffolding ahead of a large manual upload as long as you'll do the upload promptly.
+4. **The v9 file shouldn't be re-uploaded via Composio for routine edits** — future small-touch edits should be done via the GitHub web editor or a manual upload. The whole 271 KB has to round-trip on every commit; not worth wrestling with Composio for changes that fit in a textarea.
+5. **The character-count from a Python r-string in the workbench differed slightly from local file sizes** — final commit verified by SHA + size + critical-substring checks on the deployed blob, not by character count. Trust the post-commit verification, not the staging-side counts.
 
 ### Recently completed (May 13, 2026 session — evening) — Culture Change Model v9 lift planning + Readiness backend
 
@@ -436,8 +466,8 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 | Pre-Mortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | Unknown — fetch the file |
 | Creative Collision (multi-contributor sessions) | `src/tools/CreativeCollision.jsx` | `/tools/team/creative-collision` | Yes (multi-stage synthesis: recommendation clusters, divergence map, bridging insights, cruxes, Six Hats missing-mode diagnostic) |
 | Facilitate Your Way (multi-contributor sessions) | `src/tools/FacilitateYourWay.jsx` | `/openfacilitation` | Yes (per-question synthesis via backend) |
-| Culture model | (external, not in repo) | external link to `qq5l85.csb.app` | N/A |
-| Readiness assessment | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No |
+| Culture Change Model (sub-app — includes in-context Readiness + Vision + Boids/Games) | `src/apps/CultureChangeModel.jsx` | `/culture-change-model` | Yes (in-context Readiness group synthesis via `/api/sessions`; in-context Vision polish via `/api/synthesize`) |
+| Readiness assessment (splash → in-context) | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No — redirects to `/culture-change-model?section=tools&tool=readiness` |
 | Vision builder | `src/tools/Vision.jsx` | `/tools/org/vision` | Yes (optional polish) |
 | Five Layers Deep | `src/think/FiveLayersDeep.jsx` | `/think/five-layers-deep` | No |
 | Cynefin Scrollytelling | `src/think/CynefinScrollytelling.jsx` | `/think/cynefin` | No |
