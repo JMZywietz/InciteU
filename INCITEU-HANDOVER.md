@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 13, 2026 (Facilitate Your Way live; homepage tool descriptions added + Available/Coming-soon badges retired; three tool renames)
+**Last updated:** May 13, 2026 — evening (v9 lift planning + Readiness backend wiring; standalone Readiness rewrite shelved in favor of in-v9 Readiness)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -279,6 +279,26 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
+### Recently completed (May 13, 2026 session — evening) — Culture Change Model v9 lift planning + Readiness backend
+
+This session set up backend plumbing for a multi-mode Readiness tool, then pivoted to host that tool inside the lifted Culture Change Model v9 codebase rather than as a standalone re-implementation. No frontend was shipped beyond backend wiring. A dedicated handover for the v9 lift task lives separately as `V9-LIFT-HANDOVER.md` (in Jen's outputs, not committed) — drop that into the next chat to resume.
+
+- [x] **`api/sessions.js` + `src/lib/sessions.js` shipped** — commit [`bf88c97`](https://github.com/JMZywietz/InciteU/commit/bf88c97a54976dc890f2531fdb37c866eb8295c5). Added a flat `/api/sessions` endpoint (action-verb POST: create/get/contribute/saveSynthesis/delete) plus a lightweight client helper at `src/lib/sessions.js` reading the same Upstash Redis instance Facilitate Your Way uses. **⚠ Status: currently orphaned in the live deploy** — nothing on the live site calls them. They were built for the standalone Readiness rewrite (also dropped, see below). Two paths when v9 lift starts: (a) repurpose for v9 Readiness group mode, OR (b) more likely, have v9 Readiness use the existing FYW endpoint pattern (`/api/sessions/[code]/responses` etc.) and **remove** the orphaned files. Jen's preference per this session: the v9 Readiness "should function nearly exactly the same as the Open Facilitation tool does now" — strongly implies (b).
+- [x] **Decision: skip the 76 KB standalone Readiness rewrite upload** (path B chosen). The file is at `/mnt/user-data/outputs/Readiness.jsx` for reference only. The live standalone Readiness at `/tools/org/readiness` stays the ~16 KB solo-only version until v9 ships. Once v9 is live, this path becomes a splash page linking into v9.
+- [x] **Architectural plan locked for v9 lift** — Culture Change Model v9 (Daniel = Jen's married pseudonym, no attribution issue) will be lifted as `src/apps/CultureChangeModel.jsx`:
+  - Single self-contained file, lazy-loaded via React.lazy
+  - Internal navigation by state (cover / model / tools / readiness / vision tabs)
+  - Zero imports from `../theme.js`, `../styles.js`, `../lib/*` — own internal everything
+  - Top-of-file "LIFTING INSTRUCTIONS" block with `API_SYNTHESIZE_URL` + `API_SESSIONS_URL` constants for easy white-label port
+  - AI proxy via internal duplication of `synthesize.js` (~20 lines) rather than import — keeps file truly liftable
+  - v9 visual identity preserved as-is (dark teal / gold palette, **not** matched to InciteU's design system)
+  - New `PATHS.cultureChangeModel = '/culture-change-model'` (canonical marketing entry). One placeholder card on `/think`. Not on home page.
+  - Sub-tool deep links via `?section=tools&tool=readiness` skip the Tools page and land directly inside the sub-tool
+  - One Readiness, two front doors: in-v9 Readiness is canonical; standalone `/tools/org/readiness` becomes a splash redirecting in. Same eventual pattern for Vision (already in v9).
+- [x] **Vercel Marketplace / Upstash for Redis verified live** — Jen confirmed the integration is in place from the May 13 FYW work; env vars `KV_REST_API_URL` and `KV_REST_API_TOKEN` already injected. Group-mode backend is reachable as soon as v9 Readiness is wired.
+
+**Pattern note for future repo reads:** `web_fetch` is restricted to URLs in `userMemories`, and `bash curl` is blocked from `raw.githubusercontent.com` and the `github.com/.../raw/...` redirect pattern (both return "Host not in allowlist"). **`GITHUB_GET_REPOSITORY_CONTENT` via Composio works** — it returns base64 content + path metadata. Use it as the canonical "read a file from the repo" tool when web_fetch refuses.
+
 ### Recently completed (May 13, 2026 session — late afternoon) — Homepage IA refresh
 
 - [x] **Tool descriptions replace badges on homepage** — commits [`cffdf81`](https://github.com/JMZywietz/InciteU/commit/cffdf81375fb704d571f0a8ffdecb53bae0ef1cc) (CategoryCard) and [`a483f9a`](https://github.com/JMZywietz/InciteU/commit/a483f9aa612af7c5ddf2f395bec9ac1b6f13929e) (HomePage). Replaced the "Available / Coming soon" right-side badge with a short italic-serif description under each tool name. Coming-soon tools now dimmed in place with description text "Coming soon". CategoryCard's `tools` items now support an optional `description` field; renders below `name` in `F.serif` italic at 13px, color `rgba(240,235,219,0.62)` for live tools (`rgba(240,235,219,0.3)` for coming-soon). All 11 live tools now have descriptions. Three are placeholders pending Jen's revision: Identity Box, LCP Self Assessment, Pre-Mortem.
@@ -345,6 +365,10 @@ The recommended sequence on the two-paths page reflects a deliberate decision Je
 
 ### Still pending
 
+- [ ] **v9 lift work in progress** — Culture Change Model v9 → `src/apps/CultureChangeModel.jsx`. Full plan in `V9-LIFT-HANDOVER.md` (in Jen's outputs from May 13 evening session). Two adapter swaps, four feature additions, structural wiring (lazy route, Think page card, splash for old Readiness path). v9 source staged at `/mnt/user-data/outputs/Culture_Change_Model_v9.jsx` (253 KB).
+- [ ] **Decide fate of orphaned `api/sessions.js` + `src/lib/sessions.js`** (commit bf88c97) — most likely path: remove and use existing FYW endpoint pattern for v9 Readiness group mode.
+- [ ] **Splash the standalone `/tools/org/readiness` route** once v9 is live — one-screen landing with single button to `/culture-change-model?section=tools&tool=readiness`.
+- [ ] **Eventually: same treatment for `/tools/org/vision`** — v9 already has a Vision tool; once v9 ships, the standalone Vision becomes a splash too.
 - [ ] `ANTHROPIC_API_KEY` in Vercel env vars — without this, AI tools fall back to "unavailable" but site otherwise works.
 - [ ] Custom domain `inciteu.com` — point GoDaddy DNS to Vercel.
 - [ ] Formspree ID — replace `REPLACE_WITH_YOUR_ID` in `src/pages/ContactPage.jsx`.
