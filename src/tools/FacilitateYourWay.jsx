@@ -731,7 +731,7 @@ function ContributeJoin({ initialCode, onCancel, onJoined, Shell, HeaderBlock, E
       }
       if (!r.ok) throw new Error(`Failed to load session (${r.status})`);
       const cfg = await r.json();
-      onJoined({ code: c, config: cfg });
+      onJoined({ code: c, config: cfg, forceStep: "contribute" });
     } catch (e) {
       setError(String(e.message || e));
     } finally {
