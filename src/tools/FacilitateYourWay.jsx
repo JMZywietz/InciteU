@@ -62,6 +62,25 @@ const textArea = {
 // =====================================================================
 // MAIN COMPONENT
 // =====================================================================
+
+// Inject CSS for inputs/textareas (FiveLives pattern - prevents 1Password interference)
+if (typeof document !== 'undefined' && !document.getElementById('fyw-styles')) {
+  const _fywStyle = document.createElement('style');
+  _fywStyle.id = 'fyw-styles';
+  _fywStyle.textContent = `
+    .fyw-input::placeholder, .fyw-textarea::placeholder {
+      color: rgba(240, 235, 219, 0.35);
+      font-style: italic;
+      font-weight: 300;
+    }
+    .fyw-input:focus, .fyw-textarea:focus {
+      border-color: rgba(240, 235, 219, 0.4) !important;
+      background: rgba(240, 235, 219, 0.06) !important;
+    }
+  `;
+  document.head.appendChild(_fywStyle);
+}
+
 export default function FacilitateYourWay() {
   const navigate = useAppNavigate();
 
@@ -438,7 +457,7 @@ export default function FacilitateYourWay() {
 
         <div style={card}>
           <label style={labelBlock}>How would you like to appear? (optional)</label>
-          <input
+          <input className="fyw-input"
             type="search"
             value={contributorName}
             onChange={(e) => setContributorName(e.target.value)}
@@ -453,7 +472,7 @@ export default function FacilitateYourWay() {
             <div style={{ fontFamily: F.serif, fontSize: 20, color: C.cream, marginBottom: 14, lineHeight: 1.4 }}>
               {q.text}
             </div>
-            <textarea
+            <textarea className="fyw-textarea"
               value={answers[q.id] || ''}
               onChange={(e) => setAnswers(a => ({ ...a, [q.id]: e.target.value }))}
               placeholder="Your response…"
@@ -621,7 +640,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
 
       <div style={card}>
         <label style={labelBlock}>Session title</label>
-        <input
+        <input className="fyw-input"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Mid-quarter check-in"
@@ -631,7 +650,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
 
       <div style={card}>
         <label style={labelBlock}>Your name <span style={{ color: C.creamMuted, fontWeight: 'normal', fontSize: 12 }}>(shown to contributors)</span></label>
-        <input
+        <input className="fyw-input"
           value={facilitatorName}
           onChange={(e) => setFacilitatorName(e.target.value)}
           placeholder="e.g. Jen"
@@ -641,7 +660,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
 
       <div style={card}>
         <label style={labelBlock}>Context for your team <span style={{ color: C.creamMuted, fontWeight: 'normal', fontSize: 12 }}>(optional)</span></label>
-        <textarea
+        <textarea className="fyw-textarea"
           value={contextBlurb}
           onChange={(e) => setContextBlurb(e.target.value)}
           placeholder="Anything you'd like contributors to know before answering. The AI will also use this to gauge what perspectives might be notably absent."
@@ -671,7 +690,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
               >Remove</button>
             ) : null}
           </div>
-          <textarea
+          <textarea className="fyw-textarea"
             value={q.text}
             onChange={(e) => updateQuestion(i, e.target.value)}
             placeholder="What do you want input on?"
@@ -752,7 +771,7 @@ function ContributeJoin({ initialCode, onCancel, onJoined, Shell, HeaderBlock, E
 
       <div style={card}>
         <label style={labelBlock}>Session code</label>
-        <input
+        <input className="fyw-input"
           value={codeInput}
           onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
           onKeyDown={(e) => { if (e.key === 'Enter') joinSession(); }}
@@ -884,7 +903,7 @@ ${sections}
           </div>
           <div style={{ flex: 1, minWidth: 220 }}>
             <div style={{ fontSize: 11, color: C.creamMuted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Direct link</div>
-            <input
+            <input className="fyw-input"
               readOnly
               value={joinUrl}
               onFocus={(e) => e.target.select()}
