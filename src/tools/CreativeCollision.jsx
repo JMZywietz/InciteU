@@ -486,6 +486,9 @@ function Landing({ onChoose }) {
       <p style={{ fontSize: 12, color: C.creamMuted, fontStyle: 'italic', marginTop: 56, maxWidth: 600, lineHeight: 1.7 }}>
         Built on the work of Steven Johnson (<em style={{ fontStyle: 'italic' }}>Where Good Ideas Come From</em>, Riverhead, 2010) on creative collision as a generative force, and Charlan Nemeth (UC Berkeley, <em style={{ fontStyle: 'italic' }}>In Defense of Troublemakers</em>, Basic Books, 2018) on the value of authentic dissent in group cognition.
       </p>
+      <p style={{ fontSize: 12, color: C.creamMuted, fontStyle: 'italic', marginTop: 12, maxWidth: 600, lineHeight: 1.7 }}>
+        See also: <a href="https://www.mindsopen.co/our-thinking/high-performing-teams-the-dissent-advantage" target="_blank" rel="noopener noreferrer" style={{ color: C.sage, textDecoration: 'underline' }}>High Performing Teams: The Dissent Advantage</a> (MindsOpen) — a practitioner synthesis of dissent research applied to organizational teams.
+      </p>
     </PhaseShell>
   );
 }
