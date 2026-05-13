@@ -101,8 +101,9 @@ export default function FacilitateYourWay() {
         setStep('mode');
         return;
       }
-      // We have a code in URL. Try facilitator path if a token is stored for it.
-      const storedToken = loadToken(urlCode);
+      // We have a code in URL. ALWAYS go to contributor view (share links are for contributors).
+      // Facilitators access dashboard by creating a session, not clicking share links.
+      const storedToken = null; // Force contributor mode
       if (storedToken) {
         // Try to load dashboard — fetch config (public) + responses (gated)
         try {
@@ -141,6 +142,7 @@ export default function FacilitateYourWay() {
           setResponses(respData.responses || []);
           setSyntheses(synData.syntheses || {});
           setStep('facilitate-dashboard');
+          setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
         } catch (e) {
           setBootError(String(e.message || e));
           setStep('mode');
@@ -328,6 +330,7 @@ export default function FacilitateYourWay() {
         setResponses([]);
         setSyntheses({});
         setStep('facilitate-dashboard');
+          setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
       }}
       Shell={Shell}
       HeaderBlock={HeaderBlock}
