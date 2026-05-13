@@ -105,7 +105,24 @@ export default function FacilitateYourWay() {
         setCode(urlCode);
         setConfig(cfg);
         setAnswers(Object.fromEntries(cfg.questions.map(q => [q.id, ''])));
-        setStep('contribute-form');
+        // Check if user has a facilitator token stored - if so, return them to dashboard
+        const storedToken = loadToken(urlCode);
+        if (storedToken) {
+          setFacilitatorToken(storedToken);
+          setStep('facilitate-dashboard');
+          try {
+            const respR = await fetch(`/api/sessions/${encodeURIComponent(urlCode)}/responses`, { headers: { Authorization: `Bearer ${storedToken}` } });
+            if (respR.ok) {
+              const respData = await respR.json();
+              setResponses(respData.responses || []);
+              const synthMap = {};
+              if (respData.syntheses) respData.syntheses.forEach(syn => { synthMap[syn.questionId] = syn; });
+              setSyntheses(synthMap);
+            }
+          } catch (e) { /* dashboard will load on Refresh click */ }
+        } else {
+          setStep('contribute-form');
+        }
       } catch (e) {
         setBootError('Could not load session. Please enter the code manually.');
         setStep('mode');
@@ -234,9 +251,18 @@ export default function FacilitateYourWay() {
         });
         const data = await r.json();
         if (!r.ok) throw new Error(data.error || `Failed (${r.status})`);
+        // Build the full config from what we sent - API only returns {code, facilitatorToken}
+        const fullConfig = {
+          code: data.code,
+          title: title.trim(),
+          contextBlurb: contextBlurb.trim(),
+          questions: activeQs,
+          facilitatorName: facilitatorName.trim() || 'Facilitator',
+          createdAt: new Date().toISOString(),
+        };
         saveToken(data.code, data.facilitatorToken);
         setCode(data.code);
-        setConfig(data);
+        setConfig(fullConfig);
         setFacilitatorToken(data.facilitatorToken);
         writeCodeToUrl(data.code);
         setStep('facilitate-dashboard');
