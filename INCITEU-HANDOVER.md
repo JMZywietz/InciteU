@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 13, 2026 — evening (v9 lift planning + Readiness backend wiring; standalone Readiness rewrite shelved in favor of in-v9 Readiness)
+**Last updated:** May 13, 2026 — late evening (CC ported to native InciteU tool with Upstash-backed multiplayer, shareable session URLs, and Six Hats diagnostic; v9 lift planning + Readiness backend wiring still in flight; standalone Readiness rewrite shelved in favor of in-v9 Readiness)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -140,6 +140,7 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 ### Tools (Team / Together)
 - ChallengeMapper (Decision Making): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ChallengeMapper.jsx
 - PreMortem: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/PreMortem.jsx
+- CreativeCollision: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/CreativeCollision.jsx
 - FacilitateYourWay: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/FacilitateYourWay.jsx
 
 ### Multi-contributor backend (Facilitate Your Way)
@@ -259,6 +260,8 @@ The first four are the most important. The rest were here in the previous versio
 
 5. **Don't push large content (>~30 KB single-file) through Composio.** The May 11 session lost ~5 turns trying to push BioPage.jsx (17 KB) + about-enso.jpg (9 KB) via `COMPOSIO_MULTI_EXECUTE_TOOL` and the workbench. Inline string escaping and tool-call payload limits made it unreliable. **Just give Jen the files via `present_files` and ask her to upload through the GitHub web UI.** It takes her 90 seconds. Vercel deploys the same way. See §3 fallback.
 
+   *Update (May 13, 2026 evening):* A later session successfully pushed `src/tools/CreativeCollision.jsx` at 144 KB and a follow-up at 148 KB via plain `GITHUB_CREATE_OR_UPDATE_FILE_CONTENTS` (auto-base64 encoding handled by Composio). Pattern: workbench fetches canonical → applies surgical Python `str.replace` patches → pushes back, in one cell. The 30 KB heuristic appears to have been about *inline base64 binary blobs* in the workbench (where the May 11 session was passing the JPEG byte string directly into a Python variable), not text content via the normal write tool. For text source files of any sane size, Composio works fine. Binary files (images) still go through manual upload.
+
 6. Don't paste base64 inline in JSX — broke an earlier session. Plain utf-8 to `GITHUB_COMMIT_MULTIPLE_FILES` for source files; binary files (images) go to `public/` as separate base64-encoded upserts in the same commit, OR via manual upload (§3 fallback).
 
 7. Don't introduce Tailwind, CSS-in-JS libraries, or component frameworks — site is intentionally minimal stack.
@@ -274,6 +277,8 @@ The first four are the most important. The rest were here in the previous versio
 12. Don't add a new tool category (Self/Team/Org) without asking. The 3-card structure is part of the IA.
 
 13. **Don't assume your earlier file fetch is still current.** `GITHUB_COMMIT_MULTIPLE_FILES` overwrites the target paths with whatever's in the payload, so if a parallel session has touched the same files since your fetch, your commit will silently revert their work (or yours will get reverted by theirs, depending on push order). Two protections: (a) re-fetch the files you're about to modify immediately before pushing, especially if hours have passed or another session is open in parallel; (b) keep commits scoped narrowly — a smaller commit has a smaller surface area for clobbering. We hit this twice in a single session: once when the `de17854a` two-paths commit clobbered the Identity Box wire-up to routes.js/App.jsx/HomePage.jsx (tool file survived in a different directory; homepage card reverted to placeholder); and once on this very file — the handover doc itself was updated by a parallel session mid-draft, requiring a re-fetch and re-anchor before the update could land. **Applies to this doc as much as any source file.**
+
+14. **Upstash Redis env var name gotcha.** Vercel's Marketplace integration ("Upstash for Redis") provisions credentials under the legacy `KV_REST_API_URL` and `KV_REST_API_TOKEN` names (kept for backward compat with Vercel's original KV product, which was sunset in December 2024). The `Redis.fromEnv()` constructor in `@upstash/redis` looks for `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` and will silently fail (returns an unconfigured client) if you rely on it. Construct the client explicitly instead: `new Redis({ url: process.env.KV_REST_API_URL, token: process.env.KV_REST_API_TOKEN })`. See `api/cc-storage.js` and `api/sessions/*.js` — both follow this pattern. Note: the integration also provisions `KV_REST_API_READ_ONLY_TOKEN`, `KV_URL`, and `REDIS_URL` — those are for other client patterns (read-only client, TCP-style connection strings) and aren't needed for the REST-based `@upstash/redis` SDK we're using.
 
 ---
 
@@ -429,6 +434,7 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 | Emotions as Information | `src/tools/EmotionsAsInformation.jsx` | `/tools/self/emotions-as-information` | No (paired-flow landing for Five Layers Deep + LCA) |
 | Decision Making (Cynefin) & Challenge Mapper | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | Unknown — fetch the file |
 | Pre-Mortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | Unknown — fetch the file |
+| Creative Collision (multi-contributor sessions) | `src/tools/CreativeCollision.jsx` | `/tools/team/creative-collision` | Yes (multi-stage synthesis: recommendation clusters, divergence map, bridging insights, cruxes, Six Hats missing-mode diagnostic) |
 | Facilitate Your Way (multi-contributor sessions) | `src/tools/FacilitateYourWay.jsx` | `/openfacilitation` | Yes (per-question synthesis via backend) |
 | Culture model | (external, not in repo) | external link to `qq5l85.csb.app` | N/A |
 | Readiness assessment | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No |
