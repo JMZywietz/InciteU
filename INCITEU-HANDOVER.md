@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 12, 2026 (Two-paths landing + wizard relocation + paired-flow landings; Identity Box tool added)
+**Last updated:** May 13, 2026 (Facilitate Your Way multi-contributor tool live — first tool with backend persistence; Upstash Redis added)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -45,7 +45,16 @@ Failure to follow these rules has burned multiple sessions. Subsequent Claudes: 
 
 ```
 JMZywietz/InciteU/
-├── api/synthesize.js              ← Vercel serverless: proxies to Anthropic API
+├── api/
+│   ├── synthesize.js              ← Vercel serverless: proxies to Anthropic API (used by tools that synthesize ONE user's input)
+│   ├── cc-storage.js              ← Cross-client storage (legacy)
+│   └── sessions/                  ← Multi-contributor session backend (added May 13, 2026)
+│       ├── create.js              ← POST: create session, generate code + facilitator token
+│       ├── [code].js              ← GET: public config for session (no auth)
+│       └── [code]/
+│           ├── responses.js       ← POST: submit response (public); GET: list responses (facilitator auth)
+│           ├── synthesize.js      ← POST: AI synthesize one question (facilitator auth)
+│           └── results.js         ← GET: public read-only results (responses + syntheses)
 ├── src/
 │   ├── main.jsx                   ← React entry (BrowserRouter)
 │   ├── App.jsx                    ← Route definitions
@@ -60,15 +69,15 @@ JMZywietz/InciteU/
 │       ├── useAppNavigate.js      ← Hook: navigate('lcp') instead of '/tools/self/lcp'
 │       ├── synthesize.js          ← AI helper: synthesize() + extractText()
 │       └── utils.js               ← escapeHTML, downloadHTML
-├── package.json                   ← React 18.3.1 + react-router-dom 6.26.2 + Vite 5.4.8
+├── package.json                   ← React 18.3.1 + react-router-dom 6.26.2 + Vite 5.4.8 + @upstash/redis 1.34.x
 ├── vite.config.js
-├── vercel.json                    ← Rewrites all paths → /index.html (SPA)
+├── vercel.json                    ← Rewrites paths → /index.html EXCEPT /api/* (so serverless functions work alongside SPA routing)
 ├── public/                        ← Vite static asset root (created May 11 for about-enso.jpg)
 │   └── about-enso.jpg            ← Self-hosted; referenced as src="/about-enso.jpg" in BioPage
 └── index.html
 ```
 
-**Stack:** React 18 + inline styles (no Tailwind, no CSS modules) + React Router v6 + Vite + Vercel + Anthropic API via serverless proxy at `/api/synthesize`.
+**Stack:** React 18 + inline styles (no Tailwind, no CSS modules) + React Router v6 + Vite + Vercel + Anthropic API via serverless proxy at `/api/synthesize`. Multi-contributor tools (Facilitate Your Way) add **Upstash Redis** (via Vercel Marketplace) for session persistence — 30-day TTL on all keys.
 
 **Brand constants** in `src/theme.js`:
 - Background: `C.bgDeep #1F3937`, `C.bgCard #2A4744`
@@ -131,6 +140,14 @@ CategoryCard.jsx now supports `toolGroups` (labeled sub-sections within a card) 
 ### Tools (Team / Together)
 - ChallengeMapper (Decision Making): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ChallengeMapper.jsx
 - PreMortem: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/PreMortem.jsx
+- FacilitateYourWay: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/FacilitateYourWay.jsx
+
+### Multi-contributor backend (Facilitate Your Way)
+- create: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/create.js
+- [code] (get config): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D.js
+- [code]/responses: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/responses.js
+- [code]/synthesize: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/synthesize.js
+- [code]/results: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/results.js
 
 ### Tools (Org / At scale)
 - Readiness: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Readiness.jsx
@@ -262,6 +279,36 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
+### Recently completed (May 13, 2026 session) — Facilitate Your Way
+
+- [x] **Facilitate Your Way tool — multi-contributor sessions** — final commit chain ending [`b4c77a3`](https://github.com/JMZywietz/InciteU/commit/b4c77a327ba73b665563fa94dfdc693270e4d1d7). First tool with **backend persistence** — different shape from every other tool on the site. Lives at `/openfacilitation` (route name from routes.js). User flow:
+  1. Facilitator clicks "Facilitate a session" → fills title, name, context, 1-5 questions → creates session → gets 6-char code + share link
+  2. Contributors visit the share link (`?code=XXX&v=c`) → fill in name (optional) + responses → submit
+  3. Facilitator returns to dashboard (reload retains access via stored token in localStorage) → "Refresh responses" → sees individual submissions
+  4. Facilitator clicks "Synthesize All Questions with AI" → backend calls Anthropic with each question's responses → returns `{patterns, outliers, absences}` structured JSON → dashboard renders
+  5. Facilitator clicks "Download as Word doc" → generates HTML/.doc with all syntheses + responses
+  6. Facilitator clicks "Copy share-results link" → produces `?code=XXX&v=results` URL → anyone with link sees the public results view (responses + syntheses, no auth)
+- [x] **Upstash Redis added** — installed via Vercel Marketplace, auto-injects `KV_REST_API_URL` and `KV_REST_API_TOKEN` env vars. Required for Facilitate Your Way only; doesn't affect other tools.
+- [x] **`@upstash/redis` dependency added** — commit [`eb7c232`](https://github.com/JMZywietz/InciteU/commit/eb7c2328f3df833f3510f655655f53ef3fae8c46). Without this in package.json Vercel won't detect the serverless functions in `api/sessions/`.
+- [x] **vercel.json rewrites fixed** — commit [`f8b3ada`](https://github.com/JMZywietz/InciteU/commit/f8b3ada9d2cfbf86bf705d6278dd7a4ed091290f). Old rule `source: "/(.*)"` was catching `/api/*` and sending it to index.html — broke ALL serverless functions silently. Fixed to `source: "/((?!api).*)"` (negative lookahead excludes /api).
+- [x] **AI model name standardised** — endpoint at `api/sessions/[code]/synthesize.js` now uses `model: 'claude-sonnet-4-5'` (the working model name used by FiveLives, Vision, etc), not the dated `claude-sonnet-4-20250514` which 404s.
+
+**Key learnings from this session — read before touching FYW or building another multi-contributor tool:**
+
+1. **The /api/sessions/create endpoint returns ONLY `{code, facilitatorToken}`** — NOT the full config. The frontend must rebuild the full config locally from the title/questions/etc it already has. Doing `setConfig(data)` made config missing `.questions`, the dashboard crashed silently rendering `config.questions.map`, React unmounted, the boot useEffect re-ran with the URL code → routed user to contributor view. Symptom Jen saw: "I clicked Facilitate, it went white, then dumped me in contributor mode." This took an hour to diagnose because I kept chasing the wrong cause.
+
+2. **Backend / frontend data shape mismatches were the second biggest time sink.** The synthesize endpoint returns `{synthesis: {patterns, outliers, absences}}` with each item as `{title, detail}`. The frontend was storing the wrapper (not the inner synthesis), using `absent` not `absences`, and rendering the objects as `<p>{p}</p>` (which renders nothing because React skips objects). Result: AI Synthesis box appeared but was completely empty. Three independent shape bugs in one box.
+
+3. **1Password / password manager interference is almost always a red herring.** I spent an hour adding `autoComplete="off"`, `data-1p-ignore`, `data-lpignore`, `data-bwignore`, `data-form-type="other"`, `type="search"`, etc. to fight a "page flashes on every keystroke" symptom Jen described. NONE of it helped. The actual problem was something else entirely (and we never definitively diagnosed it — Jen confirmed it's fine now without those attributes). **If FiveLives uses plain `<input className="fl-input" style={...} value={...} onChange={...} placeholder="..." />` with zero password-manager attributes and works, copy that pattern.** Don't add ignore attributes preemptively.
+
+4. **A regex that adds attributes to JSX `<input>` tags WILL break onChange handlers** if it's not balanced-brace aware. The pattern `<input[^>]*?/>` matches the `>` inside `onChange={(e) => ...}` thinking it's the tag close. Symptom: build fails with "Expected '}' but found 'data'" pointing at the onChange line. Use a brace-balanced parser, not regex.
+
+5. **ALWAYS validate JSX before committing** — `npx esbuild test.jsx --bundle=false --format=esm` will catch all the issues above in <2 seconds. Each broken commit cost ~3 minutes of Vercel deploy + diagnosis. We had at least 3 failed Vercel builds before I added local validation.
+
+6. **The share link routing tension** — facilitators clicking their own share link want different behavior than facilitators reloading the page. Solution: share link includes explicit `&v=c` flag for contributor mode. Boot useEffect: `if v=c → contribute view`; `else if stored token → dashboard`; `else → contribute view`. Reload without `v=c` → back to dashboard.
+
+7. **Composio file uploads with brackets in filenames work** (e.g. `api/sessions/[code].js`, `api/sessions/[code]/synthesize.js`). I worried at one point they might not — they did. The verification was that the file appeared in GitHub at the right path after `GITHUB_COMMIT_MULTIPLE_FILES`.
+
 ### Recently completed (May 12, 2026 session)
 
 - [x] **Homepage IA with sub-buckets** — commit [`f7f18ab`](https://github.com/JMZywietz/InciteU/commit/f7f18ab). Each CategoryCard now renders **sub-buckets** (Live Well: Who You Are / What Drives You / What Sustains You; Face What Is: Understand Yourself / Others / Reality; Lead Well: Set Direction / Make It Happen / Sustain & Renew). CategoryCard.jsx extended with optional `toolGroups` prop, backward compatible with the older flat `tools` prop.
@@ -348,6 +395,7 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 | Emotions as Information | `src/tools/EmotionsAsInformation.jsx` | `/tools/self/emotions-as-information` | No (paired-flow landing for Five Layers Deep + LCA) |
 | Decision Making (Cynefin) & Challenge Mapper | `src/tools/ChallengeMapper.jsx` | `/tools/team/challenge-mapper` | Unknown — fetch the file |
 | Pre-Mortem | `src/tools/PreMortem.jsx` | `/tools/team/pre-mortem` | Unknown — fetch the file |
+| Facilitate Your Way (multi-contributor sessions) | `src/tools/FacilitateYourWay.jsx` | `/openfacilitation` | Yes (per-question synthesis via backend) |
 | Culture model | (external, not in repo) | external link to `qq5l85.csb.app` | N/A |
 | Readiness assessment | `src/tools/Readiness.jsx` | `/tools/org/readiness` | No |
 | Vision builder | `src/tools/Vision.jsx` | `/tools/org/vision` | Yes (optional polish) |
@@ -358,6 +406,67 @@ Coming-soon tools (placeholders only, not built yet):
 - Self: Possibilities
 - Team: Stakeholder Shoes Walk, Post-Mortem, The Squeeze
 - Org: Boids · emergence
+
+---
+
+## §10 — Multi-contributor session architecture (Facilitate Your Way)
+
+Different shape from every other tool. Other tools are pure-frontend single-user experiences with optional AI synthesis via `/api/synthesize`. **Facilitate Your Way persists state server-side so multiple people can collaborate asynchronously.**
+
+### Redis key schema
+
+All keys 30-day TTL. Namespace: `fyw:` (facilitate your way).
+
+```
+fyw:{CODE}:config                       JSON: {code, title, contextBlurb, questions, facilitatorName, tokenHash, createdAt}
+fyw:{CODE}:response:{contributorName}   JSON: {name, answers: {q1: '...', q2: '...'}, submittedAt}
+fyw:{CODE}:synthesis:{questionId}       JSON: {questionId, questionText, responseCount, patterns, outliers, absences, synthesizedAt}
+```
+
+The contributor name as key means **one submission per named contributor** — re-submitting overwrites. Empty/anonymous submissions get bucketed under name `"Anonymous"`.
+
+### Auth model
+
+- **Facilitator token**: 24-byte hex random, returned ONCE on session creation, hashed with SHA-256 and stored in config. Token itself is stored client-side in `localStorage` keyed `fyw:{CODE}:token`. If user clears browser data, that token is lost forever and the facilitator cannot regain access (no recovery flow). Listed as a known limitation; can be revisited.
+- **Contributor access**: just the 6-char code. No auth.
+- **Public results view**: `?v=results` URL parameter unlocks read-only access to responses + syntheses via dedicated `/api/sessions/[code]/results` endpoint (no token check).
+
+### URL parameters drive view selection
+
+| URL | View |
+|-----|------|
+| `/openfacilitation` | Mode chooser (Facilitate vs Join) |
+| `/openfacilitation?code=XXX` | If facilitator token in localStorage → dashboard; else → contributor form |
+| `/openfacilitation?code=XXX&v=c` | Force contributor form (share links use this) |
+| `/openfacilitation?code=XXX&v=results` | Public read-only results view |
+
+### Endpoint summary
+
+| Method | Path | Auth | Returns |
+|--------|------|------|---------|
+| POST | `/api/sessions/create` | none | `{code, facilitatorToken}` ← does NOT echo full config |
+| GET | `/api/sessions/[code]` | none | Public config (tokenHash stripped) |
+| POST | `/api/sessions/[code]/responses` | none | Submit response |
+| GET | `/api/sessions/[code]/responses` | Bearer facilitator token | All responses + all syntheses |
+| POST | `/api/sessions/[code]/synthesize` | Bearer facilitator token | `{synthesis: {patterns, outliers, absences, ...}}` |
+| GET | `/api/sessions/[code]/synthesize` | Bearer facilitator token | `{syntheses: {questionId: {...}}}` |
+| GET | `/api/sessions/[code]/results` | none | All responses + all syntheses, public |
+
+### Required Vercel setup for this tool
+
+1. Upstash Redis installed via Vercel Marketplace (auto-injects `KV_REST_API_URL` and `KV_REST_API_TOKEN`)
+2. `ANTHROPIC_API_KEY` env var set
+3. `@upstash/redis` in package.json (already added)
+
+### Known limitations / future work
+
+- No facilitator token recovery if browser data is cleared
+- No way to delete a session before TTL expires
+- No rate limiting on response submission
+- No "session active / closed" toggle — anyone with the code can submit until 30 days TTL
+- Results view doesn't auto-refresh — viewer must reload
+- 1-5 questions max (UX choice, not technical)
+- Question count fixed at session creation — can't add/remove after
 
 ---
 
