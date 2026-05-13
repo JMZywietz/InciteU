@@ -487,8 +487,8 @@ function Landing({ onChoose }) {
 // CONTRIBUTOR ENTRY (session code + name)
 // =============================================================================
 
-function ContributorEntry({ onContinue, onBack }) {
-  const [code, setCode] = useState('');
+function ContributorEntry({ onContinue, onBack, prefilledCode }) {
+  const [code, setCode] = useState(prefilledCode || '');
   const [name, setName] = useState('');
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
@@ -513,20 +513,24 @@ function ContributorEntry({ onContinue, onBack }) {
     <PhaseShell>
       <BackLink onClick={onBack} />
       <div style={{ ...eyebrow, marginBottom: 14 }}>Join a session</div>
-      <h1 style={{ ...heading(42), marginBottom: 36 }}>Where are you joining?</h1>
+      <h1 style={{ ...heading(42), marginBottom: 36 }}>
+        {prefilledCode ? <>Joining <em style={{ color: C.sage, fontStyle: 'italic' }}>{prefilledCode}</em></> : 'Where are you joining?'}
+      </h1>
 
       <ErrorBox message={err} onDismiss={() => setErr('')} />
 
-      <div style={{ marginBottom: 26 }}>
-        <label style={fieldLabel}>Session code</label>
-        <input
-          type="text" value={code} onChange={(e) => setCode(e.target.value)}
-          placeholder="e.g. forge-4827"
-          style={{ ...fieldInput, maxWidth: 360, fontSize: 18, letterSpacing: '0.04em' }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = C.sageMuted; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = C.line; }}
-        />
-      </div>
+      {!prefilledCode && (
+        <div style={{ marginBottom: 26 }}>
+          <label style={fieldLabel}>Session code</label>
+          <input
+            type="text" value={code} onChange={(e) => setCode(e.target.value)}
+            placeholder="e.g. forge-4827"
+            style={{ ...fieldInput, maxWidth: 360, fontSize: 18, letterSpacing: '0.04em' }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = C.sageMuted; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = C.line; }}
+          />
+        </div>
+      )}
       <div style={{ marginBottom: 40 }}>
         <label style={fieldLabel}>Your name</label>
         <input
@@ -2521,11 +2525,30 @@ function FacilitatorSetup({ onContinue, onBack }) {
   const [code, setCode] = useState(() => generateSessionCode());
   const [customCode, setCustomCode] = useState('');
   const [useCustom, setUseCustom] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // The code as it will land in the shareable URL — whichever input is active right now
+  const currentCode = useCustom
+    ? customCode.trim().toLowerCase().replace(/\s+/g, '-')
+    : code;
+  const shareableUrl = (typeof window !== 'undefined' && currentCode)
+    ? `${window.location.origin}${window.location.pathname}?code=${encodeURIComponent(currentCode)}`
+    : '';
 
   const proceed = () => {
-    const chosen = useCustom ? customCode.trim().toLowerCase().replace(/\s+/g, '-') : code;
-    if (!chosen) return;
-    onContinue(chosen);
+    if (!currentCode) return;
+    onContinue(currentCode);
+  };
+
+  const copyUrl = async () => {
+    if (!shareableUrl) return;
+    try {
+      await navigator.clipboard.writeText(shareableUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error('clipboard write failed', e);
+    }
   };
 
   return (
@@ -2569,6 +2592,35 @@ function FacilitatorSetup({ onContinue, onBack }) {
         }}>{useCustom ? '← Use generated code' : 'Use a custom code'}</button>
       </div>
 
+      <div style={{
+        background: 'rgba(216, 176, 124, 0.06)', border: `1px solid ${C.collabDim}`,
+        borderRadius: 6, padding: '22px 26px', marginBottom: 28, maxWidth: 600,
+      }}>
+        <div style={{ ...eyebrow, marginBottom: 12, color: C.collab }}>Shareable link</div>
+        <p style={{ fontSize: 13, color: C.creamMuted, lineHeight: 1.6, margin: '0 0 14px' }}>
+          Send this to participants instead of (or alongside) the code. Opens straight to their perspective form &mdash; they just enter their name.
+        </p>
+        <div style={{
+          background: 'rgba(0, 0, 0, 0.18)', border: `1px solid ${C.line}`,
+          borderRadius: 4, padding: '12px 14px', marginBottom: 14,
+          fontFamily: F.sans, fontSize: 13, color: C.cream,
+          wordBreak: 'break-all', lineHeight: 1.5,
+        }}>
+          {shareableUrl || <span style={{ color: C.creamMuted, fontStyle: 'italic' }}>Enter a custom code to generate a link…</span>}
+        </div>
+        <button onClick={copyUrl} disabled={!shareableUrl} style={{
+          background: copied ? C.good : 'transparent',
+          color: copied ? C.bgDeep : C.collab,
+          border: `1px solid ${copied ? C.good : C.collab}`,
+          padding: '8px 14px', borderRadius: 2, cursor: shareableUrl ? 'pointer' : 'not-allowed',
+          fontFamily: F.sans, fontSize: 11, letterSpacing: '0.18em',
+          textTransform: 'uppercase', transition: 'all 0.2s ease',
+          opacity: shareableUrl ? 1 : 0.5,
+        }}>
+          {copied ? '✓ Copied' : 'Copy link'}
+        </button>
+      </div>
+
       <p style={{ fontSize: 14, color: C.creamMuted, fontStyle: 'italic', maxWidth: 600, marginBottom: 36 }}>
         Codes don't expire and aren't password-protected — anyone with the code can submit a read. Pick something unique enough that strangers won't collide with you.
       </p>
@@ -2608,6 +2660,23 @@ export default function CreativeCollisionPage() {
   // For solo/facilitate: phase = 'setup' | 'frame' | 'reads' | 'pull' | 'synthesis' | 'collision' | 'decision' | 'results'
   // For contribute: phase = 'entry' | 'frame' | 'reads' | 'done'
   const [phase, setPhase] = useState(null);
+
+  // ---- URL-driven entry: if ?code=... is present, jump straight to contributor flow ----
+  useEffect(() => {
+    if (mode !== null) return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlCode = (params.get('code') || '').trim().toLowerCase();
+      if (urlCode) {
+        setSessionCode(urlCode);
+        setMode('contribute');
+        setPhase('entry');
+      }
+    } catch (e) {
+      // ignore (SSR / older browser)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ---- Mode dispatch ----
   const chooseMode = (m) => {
@@ -2667,6 +2736,7 @@ export default function CreativeCollisionPage() {
               setPhase('frame');
             }}
             onBack={restart}
+            prefilledCode={sessionCode}
           />
         )}
         {mode === 'contribute' && phase === 'frame' && (
