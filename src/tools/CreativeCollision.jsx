@@ -62,6 +62,13 @@ const accentFor = (mode) => (mode === 'contribute' || mode === 'facilitate') ? C
 const accentMutedFor = (mode) => (mode === 'contribute' || mode === 'facilitate') ? C.collabMuted : C.sageMuted;
 const accentDimFor = (mode) => (mode === 'contribute' || mode === 'facilitate') ? C.collabDim : C.sageDim;
 
+// de Bono Six Thinking Hats — warm-palette-compatible color mapping for missing-mode chips
+const HAT_COLORS = {
+  white: '#E8E2D4', yellow: '#E8C97B', black: '#6B5E4F',
+  red: '#D88A7A', green: '#9FBE7F', blue: '#7AA5A0',
+};
+const hatColorFor = (hat) => HAT_COLORS[(hat || '').toLowerCase()] || C.creamMuted;
+
 
 // ----- Style helpers (mirrors src/styles.js exactly) -----
 const btn = (variant = 'primary', disabled = false) => ({
@@ -1017,7 +1024,13 @@ Respond with ONLY valid JSON, no preamble, no markdown fences. Use this exact sc
   "silence_map": {
     "unmentioned_stakeholders": ["Stakeholders or perspectives nobody raised"],
     "avoided_topics": ["Topics that seem conspicuously absent given the decision"],
-    "emotional_undercurrent": "What emotion seems to be present but unnamed — fear, grief, excitement, resentment, exhaustion?"
+    "emotional_undercurrent": "What emotion seems to be present but unnamed — fear, grief, excitement, resentment, exhaustion?",
+    "missing_thinking_modes": [
+      {
+        "hat": "Green | White | Black | Red | Yellow | Blue",
+        "what_it_would_have_seen": "Specific description of what this lens would have noticed that the gathered perspectives didn’t capture."
+      }
+    ]
   },
   "assumption_map": [
     {
@@ -1048,6 +1061,14 @@ Quality bar:
 - Be direct. No corporate jargon. No "leverage" or "align" or "synergize".
 - Attribute positions to specific names (e.g. "Engineering sees X while Finance sees Y") — the names matter for the facilitator.
 - The "real_question" should make a smart reader say "oh, THAT\'S what we\'re actually deciding."
+- For "missing_thinking_modes": diagnostically check the gathered perspectives against Edward de Bono's Six Thinking Hats as a lens checklist.
+  - WHITE — pure data, facts, what we know vs don't know
+  - YELLOW — optimistic case, benefits, what's right about this
+  - BLACK — caution, risks, what could go wrong
+  - RED — emotional / intuitive read, gut feeling, what feels off or right
+  - GREEN — generative creativity, alternative possibilities, options nobody named
+  - BLUE — meta / process thinking, how we're framing the decision itself
+  Only flag a hat as MISSING if its absence is a real diagnostic — the group genuinely didn't apply that lens and would benefit from doing so. If everyone naturally brought a Black-Hat read, the Black Hat is not missing. Don't pad. Empty array is fine if all six lenses are well-represented. Each entry: { "hat": "Green", "what_it_would_have_seen": "No one proposed alternatives outside the build-vs-buy frame; a generative read might have asked whether ownership could be staged or shared." }
 - For "bridging_insights": be rigorous. Don\'t pad with generic platitudes like "everyone wants the company to succeed." Bridging insights are SPECIFIC commitments where unlikely allies converge — e.g. "Both the cost-cutters and the growth advocates agree we shouldn\'t launch in Europe this quarter, even though they got there by different routes." Surface what makes the disagreement smaller than it first looks.
 - If a section is genuinely empty (e.g. no false_agreements because the disagreement is honest), use an empty string or empty array — don\'t pad.`;
 }
@@ -1168,7 +1189,7 @@ function SynthesisDisplay({ synthesis, testedAssumptions, setTestedAssumptions, 
   const tabs = [
     { id: 'disagree', label: 'Where we disagree', count: clusters.length },
     { id: 'agree', label: 'Where we agree', count: (bridge.shared_ground || []).length + (bridge.unlikely_bedfellows || []).length },
-    { id: 'missing', label: "What's missing", count: (sil.unmentioned_stakeholders || []).length + (sil.avoided_topics || []).length },
+    { id: 'missing', label: "What's missing", count: (sil.unmentioned_stakeholders || []).length + (sil.avoided_topics || []).length + (sil.missing_thinking_modes || []).length },
     { id: 'assumptions', label: 'Assumptions worth testing', count: assumptions.length },
     { id: 'cruxes', label: 'AI insights', count: (crux.factual_cruxes || []).length + (crux.value_cruxes || []).length + (crux.the_real_question ? 1 : 0) },
   ];
@@ -1419,6 +1440,32 @@ function SynthesisDisplay({ synthesis, testedAssumptions, setTestedAssumptions, 
             <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px dashed ${C.line}` }}>
               <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8, color: C.creamMuted }}>Emotional undercurrent</div>
               <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 17, color: C.cream, lineHeight: 1.6, margin: 0 }}>{sil.emotional_undercurrent}</p>
+            </div>
+          )}
+          {(sil.missing_thinking_modes || []).length > 0 && (
+            <div style={{ marginTop: 22, paddingTop: 18, borderTop: `1px dashed ${C.line}` }}>
+              <div style={{ ...eyebrow, fontSize: 10, marginBottom: 4, color: C.creamMuted }}>Missing thinking modes</div>
+              <p style={{ fontSize: 12, color: C.creamMuted, fontStyle: 'italic', margin: '0 0 14px', maxWidth: 580 }}>
+                Lenses (from de Bono's Six Thinking Hats) that didn't show up in the gathered perspectives. Worth bringing into the conversation.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {(sil.missing_thinking_modes || []).map((m, i) => {
+                  const hatColor = hatColorFor(m.hat);
+                  return (
+                    <div key={i} style={{ borderLeft: `3px solid ${hatColor}`, padding: '10px 16px', background: 'rgba(0,0,0,0.10)', borderRadius: 2 }}>
+                      <span style={{
+                        display: 'inline-block', background: hatColor, color: C.bgDeep,
+                        padding: '3px 10px', borderRadius: 2, fontSize: 10,
+                        letterSpacing: '0.18em', textTransform: 'uppercase',
+                        fontFamily: F.sans, fontWeight: 500, marginRight: 12, marginBottom: 8,
+                      }}>{m.hat} Hat</span>
+                      <p style={{ fontSize: 14, color: C.cream, lineHeight: 1.6, margin: 0 }}>
+                        {m.what_it_would_have_seen}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </section>
@@ -1807,6 +1854,21 @@ function PhaseCollision({ mode, synthesis, collisionState, setCollisionState, on
                       </ul>
                       {sil.emotional_undercurrent && (
                         <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 16, color: C.cream, lineHeight: 1.6, marginTop: 14, marginBottom: 0 }}>{sil.emotional_undercurrent}</p>
+                      )}
+                      {(sil.missing_thinking_modes || []).length > 0 && (
+                        <div style={{ marginTop: 14, paddingTop: 12, borderTop: `1px dashed ${C.line}` }}>
+                          <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8, color: C.creamMuted }}>Lenses the room didn't bring</div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                            {(sil.missing_thinking_modes || []).map((m, i) => (
+                              <span key={i} title={m.what_it_would_have_seen || ''} style={{
+                                background: hatColorFor(m.hat), color: C.bgDeep,
+                                padding: '3px 10px', borderRadius: 999, fontSize: 11,
+                                fontFamily: F.sans, letterSpacing: '0.08em',
+                                cursor: m.what_it_would_have_seen ? 'help' : 'default',
+                              }}>{m.hat} Hat</span>
+                            ))}
+                          </div>
+                        </div>
                       )}
                     </div>
                   )}
