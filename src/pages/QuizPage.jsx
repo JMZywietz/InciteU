@@ -22,6 +22,7 @@ const Q2_BY_LAYER = {
     helper: 'These map to different inward practices.',
     options: [
       { value: 'history',  text: 'What helped make me who I am today?' },
+      { value: 'identity', text: 'What am I working to project — and what am I working to protect?' },
       { value: 'calling',  text: "Who do I want to be when I grow up? / What's calling me next?" },
       { value: 'emotions', text: 'What are my emotions actually good for?' },
     ],
@@ -31,8 +32,9 @@ const Q2_BY_LAYER = {
     helper: 'Different ways of reading what is in front of you.',
     options: [
       { value: 'self',      text: 'On myself — my leadership patterns.' },
-      { value: 'challenge', text: "I've got a challenge that I'm stuck on and need new perspectives." },
-      { value: 'others',    text: 'On other people / stakeholders.' },
+      { value: 'challenge', text: 'On the situation — what kind of challenge am I actually facing?' },
+      { value: 'collision', text: 'On my idea — I want to stress-test it with opposing perspectives.' },
+      { value: 'group',     text: 'On a group — I want to gather many voices and make sense of them together.' },
     ],
   },
   forward: {
@@ -49,11 +51,13 @@ const Q2_BY_LAYER = {
 // Route: (layer, intent) -> outcome key
 const ROUTE_MAP = {
   'inward.history':    'three-moments',
+  'inward.identity':   'identity-box',
   'inward.calling':    'purpose-small-moves',
   'inward.emotions':   'emotions-as-information',
   'outward.self':      'lcp',
   'outward.challenge': 'challenge-mapper',
-  'outward.others':    'challenge-mapper-stakeholders',
+  'outward.collision': 'creative-collision',
+  'outward.group':     'facilitate-your-way',
   'forward.direction': 'vision',
   'forward.project':   'pre-mortem',
   'forward.readiness': 'readiness',
@@ -68,6 +72,16 @@ const OUTCOMES = {
     description: "You'll surface three moments that shaped you, then look at how much you have already changed. It makes growth feel real.",
     time: '10–15 min',
     mode: 'Solo or with a partner',
+  },
+  'identity-box': {
+    title: 'Identity Box',
+    page: 'identity-box',
+    context: 'Inward — naming what you project, and what you protect.',
+    description: 'An exercise that surfaces how you see yourself, the effort you put into maintaining this image, and what might be possible if you used that effort for something else.',
+    time: '15–25 min',
+    mode: 'Solo',
+    secondary: 'purpose-small-moves',
+    secondaryNote: 'Once you can see how you want to be seen, this paired practice helps you ask who you want to be next.',
   },
   'purpose-small-moves': {
     title: 'Purpose (and the Small Moves to Live It)',
@@ -103,14 +117,21 @@ const OUTCOMES = {
     time: '15–25 min',
     mode: 'Solo or with a team',
   },
-  'challenge-mapper-stakeholders': {
-    title: 'Decision Making (Cynefin) & Challenge Mapper',
-    page: 'challenge-mapper',
-    context: 'Outward — reading the situation, including the people in it.',
-    description: 'A dedicated tool for reading stakeholder dynamics (Surfacing Perspectives) is being designed. In the meantime, Cynefin & Challenge Mapper is the closest fit — it helps you classify the situation and surface what you might be missing about who else is in it.',
-    time: '15–25 min',
+  'creative-collision': {
+    title: 'Creative Collision',
+    page: 'creative-collision',
+    context: 'Outward — stress-testing your idea by colliding it with opposing perspectives.',
+    description: 'Take an idea you are close to and run it through deliberate opposing perspectives — solo with AI, or with a team using the de Bono Six Thinking Hats. What survives the collision is sturdier than what went in.',
+    time: '20–40 min',
     mode: 'Solo or with a team',
-    note: 'A dedicated stakeholder-perspectives tool is in the works.',
+  },
+  'facilitate-your-way': {
+    title: 'Open Facilitation',
+    page: 'facilitate-your-way',
+    context: 'Outward — gathering many voices and sensemaking together.',
+    description: 'Pose 1–5 questions to a group, collect their responses asynchronously, and use AI to surface patterns, outliers, and absences across what they said. A facilitation tool you can run without being in the room.',
+    time: '~15 min to set up; group time varies',
+    mode: 'With a group',
   },
   'vision': {
     title: 'Vision',

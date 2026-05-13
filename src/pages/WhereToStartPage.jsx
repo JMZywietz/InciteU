@@ -12,8 +12,9 @@ const SEQUENCE = [
     accent: '#C5D49B',
     tools: [
       { num: 1, name: 'Three Moments',                                 to: 'three-moments' },
-      { num: 2, name: 'Purpose (and the Small Moves to Live It)',      to: 'purpose-small-moves' },
-      { num: 3, name: 'Emotions as Information',                       to: 'emotions-as-information' },
+      { num: 2, name: 'Identity Box',                                  to: 'identity-box' },
+      { num: 3, name: 'Purpose (and the Small Moves to Live It)',      to: 'purpose-small-moves' },
+      { num: 4, name: 'Emotions as Information',                       to: 'emotions-as-information' },
     ],
   },
   {
@@ -21,8 +22,10 @@ const SEQUENCE = [
     name: 'Face What Is',
     accent: '#E8C87A',
     tools: [
-      { num: 4, name: 'Using the LCP Self-Assessment',                 to: 'lcp' },
-      { num: 5, name: 'Decision Making (Cynefin) & Challenge Mapper',  to: 'challenge-mapper' },
+      { num: 5, name: 'Using the LCP Self-Assessment',                 to: 'lcp' },
+      { num: 6, name: 'Decision Making (Cynefin) & Challenge Mapper',  to: 'challenge-mapper' },
+      { num: 7, name: 'Creative Collision',                            to: 'creative-collision' },
+      { num: 8, name: 'Open Facilitation',                             to: 'facilitate-your-way' },
     ],
   },
   {
@@ -30,9 +33,9 @@ const SEQUENCE = [
     name: 'Lead Well',
     accent: '#8CBAC6',
     tools: [
-      { num: 6, name: 'Vision',     to: 'vision' },
-      { num: 7, name: 'Readiness',  to: 'readiness' },
-      { num: 8, name: 'Pre-Mortem', to: 'pre-mortem' },
+      { num:  9, name: 'Culture Change Vision',                        to: 'vision' },
+      { num: 10, name: 'Culture Readiness Assessment',                 to: 'readiness' },
+      { num: 11, name: 'Pre-Mortem',                                   to: 'pre-mortem' },
     ],
   },
 ];
