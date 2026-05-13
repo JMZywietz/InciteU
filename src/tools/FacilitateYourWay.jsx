@@ -439,16 +439,10 @@ export default function FacilitateYourWay() {
         <div style={card}>
           <label style={labelBlock}>Your name (optional)</label>
           <input
-            type="text"
             value={contributorName}
             onChange={(e) => setContributorName(e.target.value)}
             placeholder="Leave blank to stay anonymous"
             style={fieldInput}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              data-form-type="other"
             />
         </div>
 
@@ -463,12 +457,6 @@ export default function FacilitateYourWay() {
               onChange={(e) => setAnswers(a => ({ ...a, [q.id]: e.target.value }))}
               placeholder="Your response…"
               style={textArea}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              name={`answer-${q.id}`}
-              id={`answer-${q.id}`}
             />
           </div>
         ))}
@@ -633,32 +621,20 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
       <div style={card}>
         <label style={labelBlock}>Session title</label>
         <input
-          type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Mid-quarter check-in"
           style={fieldInput}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              data-form-type="other"
             />
       </div>
 
       <div style={card}>
         <label style={labelBlock}>Your name <span style={{ color: C.creamMuted, fontWeight: 'normal', fontSize: 12 }}>(shown to contributors)</span></label>
         <input
-          type="text"
           value={facilitatorName}
           onChange={(e) => setFacilitatorName(e.target.value)}
           placeholder="e.g. Jen"
           style={fieldInput}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              data-form-type="other"
             />
       </div>
 
@@ -669,12 +645,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
           onChange={(e) => setContextBlurb(e.target.value)}
           placeholder="Anything you'd like contributors to know before answering. The AI will also use this to gauge what perspectives might be notably absent."
           style={textArea}
-          autoComplete="off"
-          data-1p-ignore="true"
-          data-lpignore="true"
-          data-bwignore="true"
-          data-form-type="other"
-        />
+            />
       </div>
 
       <h3 style={{ fontFamily: F.serif, fontSize: 24, color: C.cream, fontWeight: 400, margin: '40px 0 16px' }}>Questions</h3>
@@ -704,12 +675,7 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
             onChange={(e) => updateQuestion(i, e.target.value)}
             placeholder="What do you want input on?"
             style={textArea}
-          autoComplete="off"
-          data-1p-ignore="true"
-          data-lpignore="true"
-          data-bwignore="true"
-          data-form-type="other"
-        />
+            />
         </div>
       ))}
 
@@ -786,17 +752,11 @@ function ContributeJoin({ initialCode, onCancel, onJoined, Shell, HeaderBlock, E
       <div style={card}>
         <label style={labelBlock}>Session code</label>
         <input
-          type="text"
           value={codeInput}
           onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
           onKeyDown={(e) => { if (e.key === 'Enter') joinSession(); }}
           placeholder="e.g. KJ7P2X"
           style={{ ...fieldInput, letterSpacing: '0.2em', fontFamily: F.sans, textTransform: 'uppercase' }}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              data-form-type="other"
             />
       </div>
 
@@ -924,16 +884,10 @@ ${sections}
           <div style={{ flex: 1, minWidth: 220 }}>
             <div style={{ fontSize: 11, color: C.creamMuted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>Direct link</div>
             <input
-              type="text"
               readOnly
               value={joinUrl}
               onFocus={(e) => e.target.select()}
               style={{ ...fieldInput, fontSize: 13 }}
-              autoComplete="off"
-              data-1p-ignore="true"
-              data-lpignore="true"
-              data-bwignore="true"
-              data-form-type="other"
             />
           </div>
         </div>
@@ -972,7 +926,6 @@ ${sections}
           No responses yet. Share the code <strong style={{ color: C.cream, fontStyle: 'normal' }}>{code}</strong> with your team and click <em>Refresh responses</em> when they've submitted.
         </div>
       ) : null}
-
 
       {responses.length > 0 && (() => {
         const anySynthLoading = Object.values(synthLoading || {}).some(v => v);
