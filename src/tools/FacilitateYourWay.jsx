@@ -441,10 +441,15 @@ export default function FacilitateYourWay() {
           <input
             type="text"
             value={contributorName}
-            onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setContributorName(e.target.value)}
+            onChange={(e) => setContributorName(e.target.value)}
             placeholder="Leave blank to stay anonymous"
             style={fieldInput}
-          />
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-bwignore="true"
+              data-form-type="other"
+            />
         </div>
 
         {config.questions.map((q, i) => (
@@ -455,7 +460,7 @@ export default function FacilitateYourWay() {
             </div>
             <textarea
               value={answers[q.id] || ''}
-              onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setAnswers(a => ({ ...a, [q.id]: e.target.value }))}
+              onChange={(e) => setAnswers(a => ({ ...a, [q.id]: e.target.value }))}
               placeholder="Your response…"
               style={textArea}
               autoComplete="off"
@@ -630,10 +635,15 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
         <input
           type="text"
           value={title}
-          onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Mid-quarter check-in"
           style={fieldInput}
-        />
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-bwignore="true"
+              data-form-type="other"
+            />
       </div>
 
       <div style={card}>
@@ -641,19 +651,29 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
         <input
           type="text"
           value={facilitatorName}
-          onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setFacilitatorName(e.target.value)}
+          onChange={(e) => setFacilitatorName(e.target.value)}
           placeholder="e.g. Jen"
           style={fieldInput}
-        />
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-bwignore="true"
+              data-form-type="other"
+            />
       </div>
 
       <div style={card}>
         <label style={labelBlock}>Context for your team <span style={{ color: C.creamMuted, fontWeight: 'normal', fontSize: 12 }}>(optional)</span></label>
         <textarea
           value={contextBlurb}
-          onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setContextBlurb(e.target.value)}
+          onChange={(e) => setContextBlurb(e.target.value)}
           placeholder="Anything you'd like contributors to know before answering. The AI will also use this to gauge what perspectives might be notably absent."
           style={textArea}
+          autoComplete="off"
+          data-1p-ignore="true"
+          data-lpignore="true"
+          data-bwignore="true"
+          data-form-type="other"
         />
       </div>
 
@@ -681,10 +701,15 @@ function FacilitateSetup({ onCancel, onCreated, Shell, HeaderBlock, ErrorLine })
           </div>
           <textarea
             value={q.text}
-            onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> updateQuestion(i, e.target.value)}
+            onChange={(e) => updateQuestion(i, e.target.value)}
             placeholder="What do you want input on?"
             style={textArea}
-          />
+          autoComplete="off"
+          data-1p-ignore="true"
+          data-lpignore="true"
+          data-bwignore="true"
+          data-form-type="other"
+        />
         </div>
       ))}
 
@@ -763,11 +788,16 @@ function ContributeJoin({ initialCode, onCancel, onJoined, Shell, HeaderBlock, E
         <input
           type="text"
           value={codeInput}
-          onChange={(e) = autoComplete="off" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other"> setCodeInput(e.target.value.toUpperCase())}
+          onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
           onKeyDown={(e) => { if (e.key === 'Enter') joinSession(); }}
           placeholder="e.g. KJ7P2X"
           style={{ ...fieldInput, letterSpacing: '0.2em', fontFamily: F.sans, textTransform: 'uppercase' }}
-        />
+              autoComplete="off"
+              data-1p-ignore="true"
+              data-lpignore="true"
+              data-bwignore="true"
+              data-form-type="other"
+            />
       </div>
 
       <div style={{ display: 'flex', gap: 14, marginTop: 12, flexWrap: 'wrap' }}>
