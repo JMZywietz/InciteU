@@ -388,7 +388,7 @@ export default function FacilitateYourWay() {
         {submitError && <p style={s.error}>{submitError}</p>}
 
         <div style={s.card}>
-          <label style={s.fieldLabel}>How would you like to appear?</label>
+          <label style={s.fieldLabel}>Your Name</label>
           <input className="fyw-input" style={s.fieldInput} value={contributorName} onChange={e => setContributorName(e.target.value)} placeholder="Leave empty to stay anonymous" />
         </div>
 
