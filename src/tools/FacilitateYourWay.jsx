@@ -437,11 +437,12 @@ export default function FacilitateYourWay() {
         </p>
 
         <div style={card}>
-          <label style={labelBlock}>Your name (optional)</label>
+          <label style={labelBlock}>How would you like to appear? (optional)</label>
           <input
+            type="search"
             value={contributorName}
             onChange={(e) => setContributorName(e.target.value)}
-            placeholder="Leave blank to stay anonymous"
+            placeholder="e.g., Jen, or leave empty for anonymous"
             style={fieldInput}
             />
         </div>
