@@ -15,11 +15,35 @@ const VARIANT_ACCENT = {
   org:  '#8CBAC6',
 };
 
+function pluralize(n, single) { return n === 1 ? single : single + 's'; }
+
+function countString(total, coming) {
+  if (coming === 0) return `${total} ${pluralize(total, 'tool')}`;
+  if (coming === total) return total === 1 ? '1 tool · coming soon' : `${total} ${pluralize(total, 'tool')} · coming soon`;
+  return `${total} ${pluralize(total, 'tool')} · ${coming} coming soon`;
+}
+
 export default function CategoryCard({ label, name, tagline, Icon, iconStyle, tools, toolGroups, navigate, guideTo, variant }) {
   const [hovered, setHovered] = useState(false);
   const [hoveredTool, setHoveredTool] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  const [expandedSubs, setExpandedSubs] = useState({});
   const bgPair = VARIANT_BG[variant] || { base: C.bgCard, hover: C.bgCardHover };
   const accent = VARIANT_ACCENT[variant] || C.sage;
+
+  // Total tool count + coming-soon count for the card summary.
+  let totalTools = 0;
+  let comingTools = 0;
+  if (toolGroups) {
+    toolGroups.forEach((g) => g.tools.forEach((t) => { totalTools++; if (!t.live) comingTools++; }));
+  } else if (tools) {
+    tools.forEach((t) => { totalTools++; if (!t.live) comingTools++; });
+  }
+  const cardCount = countString(totalTools, comingTools);
+
+  const toggleSub = (idx) => {
+    setExpandedSubs((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   // Render a single tool list item with name + description, no Available/Coming-soon badge.
   // Coming-soon tools are dimmed and show "Coming soon" as their description.
@@ -67,48 +91,76 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
 
   return (
     <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-         style={{ background: hovered ? bgPair.hover : bgPair.base, borderRadius: 4, padding: '40px 32px', transition: 'background 0.4s, transform 0.4s', cursor: 'default', position: 'relative', overflow: 'hidden', minHeight: 380, transform: hovered ? 'translateY(-4px)' : 'none' }}>
+         style={{ background: hovered ? bgPair.hover : bgPair.base, borderRadius: 4, padding: '40px 32px', transition: 'background 0.4s, transform 0.4s', cursor: 'default', position: 'relative', overflow: 'hidden', transform: hovered ? 'translateY(-4px)' : 'none' }}>
       <div style={{ position: 'absolute', ...iconStyle, opacity: 0.65, pointerEvents: 'none', transition: 'transform 0.4s', transform: hovered ? 'rotate(-6deg) scale(1.05)' : 'none' }}>
         <Icon />
       </div>
-      <div style={{ position: 'relative', zIndex: 1, marginTop: 80 }}>
-        <div style={{ ...eyebrow, marginBottom: 12 }}>{label}</div>
-        <h2 style={{ ...heading(48), marginBottom: 16 }}>{name}</h2>
-        <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: accent, marginBottom: 24, lineHeight: 1.4 }}>{tagline}</p>
-        {guideTo && (
-          <a onClick={(e) => { e.preventDefault(); navigate(guideTo); }} href="#"
-             style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: accent, textDecoration: 'none', fontFamily: F.serif, fontStyle: 'italic', fontSize: 16, cursor: 'pointer', borderTop: `1px solid ${C.line}`, width: '100%', padding: '18px 0 20px', transition: 'gap 0.3s' }}
-             onMouseEnter={(e) => { e.target.style.gap = '14px'; }}
-             onMouseLeave={(e) => { e.target.style.gap = '8px'; }}>
-            Not sure where to begin? <span style={{ fontStyle: 'normal' }}>→</span>
-          </a>
-        )}
 
-        {/* Grouped rendering: sub-bucket headings + tools in each group */}
-        {toolGroups && (
-          <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 12 }}>
-            {toolGroups.map((group, gi) => (
-              <div key={gi} style={{ marginTop: gi === 0 ? 6 : 18 }}>
-                <h3 style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 20, fontWeight: 500, lineHeight: 1.2, margin: '0 0 6px 0', color: accent }}>{group.label}</h3>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {group.tools.map((t, i) => {
-                    const isLastInGroup = i === group.tools.length - 1;
-                    const isLastGroup = gi === toolGroups.length - 1;
-                    const isLast = isLastInGroup && isLastGroup;
-                    return renderToolItem(t, i, group.tools, isLast, `g${gi}-`);
-                  })}
-                </ul>
+      {/* Clickable card header — toggles card expansion */}
+      <div onClick={() => setExpanded((e) => !e)}
+           style={{ position: 'relative', zIndex: 1, marginTop: 80, cursor: 'pointer', display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ ...eyebrow, marginBottom: 12 }}>{label}</div>
+          <h2 style={{ ...heading(48), marginBottom: 16 }}>{name}</h2>
+          <p style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 18, color: accent, marginBottom: 0, lineHeight: 1.4 }}>{tagline}</p>
+          <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.creamMuted, marginTop: 18 }}>{cardCount}</div>
+        </div>
+        <div style={{ color: accent, fontSize: 20, transition: 'transform 0.3s ease', transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 4, userSelect: 'none', fontFamily: F.sans }}>▸</div>
+      </div>
+
+      {/* Card body — visible only when expanded */}
+      <div style={{ position: 'relative', zIndex: 1, maxHeight: expanded ? 3000 : 0, overflow: 'hidden', transition: 'max-height 0.45s ease' }}>
+        <div style={{ marginTop: 28, paddingTop: 24, borderTop: `1px solid ${C.line}` }}>
+          {guideTo && (
+            <a onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(guideTo); }} href="#"
+               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: accent, textDecoration: 'none', fontFamily: F.serif, fontStyle: 'italic', fontSize: 16, cursor: 'pointer', borderBottom: `1px solid ${C.line}`, width: '100%', padding: '0 0 20px', marginBottom: 16, transition: 'gap 0.3s' }}
+               onMouseEnter={(e) => { e.target.style.gap = '14px'; }}
+               onMouseLeave={(e) => { e.target.style.gap = '8px'; }}>
+              Not sure where to begin? <span style={{ fontStyle: 'normal' }}>→</span>
+            </a>
+          )}
+
+          {/* Grouped rendering: each sub-bucket has its own clickable header */}
+          {toolGroups && toolGroups.map((group, gi) => {
+            const subExpanded = !!expandedSubs[gi];
+            const groupTotal = group.tools.length;
+            const groupComing = group.tools.filter((t) => !t.live).length;
+            const groupCount = countString(groupTotal, groupComing);
+
+            return (
+              <div key={gi} style={{ marginBottom: 4 }}>
+                <div onClick={(e) => { e.stopPropagation(); toggleSub(gi); }}
+                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, padding: '14px 4px', cursor: 'pointer', borderRadius: 2, transition: 'background 0.2s ease' }}
+                     onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(240, 235, 219, 0.04)'; }}
+                     onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>{group.label}</div>
+                    {group.description && (
+                      <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 13, color: 'rgba(240, 235, 219, 0.6)', lineHeight: 1.45 }}>{group.description}</div>
+                    )}
+                    <div style={{ fontFamily: F.sans, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.creamMuted, marginTop: 8 }}>{groupCount}</div>
+                  </div>
+                  <div style={{ fontSize: 14, color: C.creamMuted, transition: 'transform 0.25s ease', transform: subExpanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 2, userSelect: 'none', fontFamily: F.sans }}>▸</div>
+                </div>
+                <div style={{ maxHeight: subExpanded ? 800 : 0, overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
+                  <ul style={{ listStyle: 'none', padding: '8px 4px 12px 4px', margin: 0 }}>
+                    {group.tools.map((t, i) => {
+                      const isLast = i === group.tools.length - 1;
+                      return renderToolItem(t, i, group.tools, isLast, `g${gi}-`);
+                    })}
+                  </ul>
+                </div>
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
 
-        {/* Flat rendering (backward compatible): used when toolGroups not provided */}
-        {!toolGroups && tools && (
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, borderTop: `1px solid ${C.line}`, paddingTop: 20 }}>
-            {tools.map((t, i) => renderToolItem(t, i, tools, i === tools.length - 1))}
-          </ul>
-        )}
+          {/* Flat rendering (backward compatible) */}
+          {!toolGroups && tools && (
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {tools.map((t, i) => renderToolItem(t, i, tools, i === tools.length - 1))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

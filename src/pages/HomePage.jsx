@@ -22,65 +22,79 @@ export default function HomePage() {
             Transformed people<br />
             <span style={{ fontStyle: 'italic', color: C.sage }}>transform</span> people.
           </h1>
-          <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.creamMuted, marginBottom: 56 }}>
+          <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.creamMuted, marginBottom: 0 }}>
             — Richard Rohr
           </div>
-          <p style={{ fontFamily: F.sans, fontSize: 19, color: C.creamMuted, maxWidth: 700, margin: '0 auto', fontWeight: 300, lineHeight: 1.7 }}>
-            For anyone wanting to transform &mdash; <span style={{ color: C.sage }}>themselves or others</span>. The tools are free. <span style={{ color: C.sage }}>Repay by using them to do some good.</span>
-          </p>
         </div>
       </section>
 
       <OrganicDivider />
 
-      <section style={{ padding: '50px 6vw 0', textAlign: 'center', maxWidth: 720, margin: '0 auto' }}>
+      <section style={{ padding: '8px 6vw 24px', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
+        <p style={{ fontFamily: F.sans, fontSize: 19, color: C.creamMuted, fontWeight: 300, lineHeight: 1.7, margin: 0 }}>
+          This webpage is for <span style={{ color: C.sage }}>anyone who wants to transform themselves or others</span>.<br />
+          It hosts a suite of transformational tools that are free to use.<br />
+          <span style={{ color: C.sage }}>If they help you, repay us by spreading them along to anywhere they will do good.</span>
+        </p>
+      </section>
+
+      <section style={{ padding: '40px 6vw 0', textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
         <button onClick={() => navigate('where-to-start')}
-                style={btn('primary')}
-                onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
+                style={{ display: 'inline-block', background: C.sage, color: C.bgDeep, textDecoration: 'none', fontFamily: F.sans, fontSize: 15, fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '22px 48px', border: `1px solid ${C.sage}`, borderRadius: 2, cursor: 'pointer', transition: 'all 0.3s ease', boxShadow: '0 0 0 1px rgba(197, 212, 155, 0), 0 0 40px rgba(197, 212, 155, 0)' }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'transparent';
+                  e.target.style.color = C.sage;
+                  e.target.style.boxShadow = '0 0 0 1px rgba(197, 212, 155, 0.3), 0 0 60px rgba(197, 212, 155, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = C.sage;
+                  e.target.style.color = C.bgDeep;
+                  e.target.style.boxShadow = '0 0 0 1px rgba(197, 212, 155, 0), 0 0 40px rgba(197, 212, 155, 0)';
+                }}>
           Curious where to start? →
         </button>
       </section>
 
       <section id="tools-anchor" style={{ padding: '40px 6vw 120px', maxWidth: 1400, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32 }}>
-          <CategoryCard variant="self" label="Inward" name="Live Well" tagline="The inner work of becoming who you are next." Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, alignItems: 'start' }}>
+          <CategoryCard variant="self" label="Inward" name="Live Well" tagline="Do the inner work needed to become the best version of yourself possible" Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             toolGroups={[
-              { label: 'Who You Are', tools: [
-                { name: 'Identity Box', description: 'Reveal what you work to project vs. what you protect', live: true, to: 'identity-box' },
+              { label: 'Who You Are', description: 'Where you came from, the image you maintain, and what shaped you', tools: [
                 { name: 'Three Moments', description: 'Reflect on what made you who you are today', live: true, to: 'three-moments' },
+                { name: 'Identity Box', description: 'Reveal what you work to project vs. what you protect', live: true, to: 'identity-box' },
               ]},
-              { label: 'What Drives You', tools: [
+              { label: 'What Drives You', description: "What's calling next, and how your emotions can show you the way", tools: [
                 { name: 'Purpose and Small Moves', description: 'Picture multiple lives, find the breadcrumbs leading to who you want to be next, and take a small step to get there', live: true, to: 'purpose-small-moves' },
                 { name: 'Emotions as Information', description: 'Learn how your emotions developed, and how understanding them can create new possibilities', live: true, to: 'emotions-as-information' },
               ]},
-              { label: 'What Sustains You', tools: [
+              { label: 'What Sustains You', description: 'The practices and rhythms that keep you going', tools: [
                 { name: 'State Check', live: false },
               ]},
             ]} />
-          <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Seeing what's actually here, not what you wish were." Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
+          <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Recognize what's actually in front of you, not what you wish was" Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             toolGroups={[
-              { label: 'Understand Yourself', tools: [
+              { label: 'Understand Yourself', description: 'How your leadership shows up, and the patterns underneath it', tools: [
                 { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
               ]},
-              { label: 'Understand Others', tools: [
+              { label: 'Understand Others', description: "Stress-test your idea with opposing views, or gather a group's voices", tools: [
                 { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },
                 { name: 'Open Facilitation', description: 'Gather group input and use AI to sensemake', live: true, to: 'facilitate-your-way' },
               ]},
-              { label: 'Understand Reality', tools: [
+              { label: 'Understand Reality', description: 'Name the kind of challenge in front of you, and what to do about it', tools: [
                 { name: 'Decision Making (Cynefin) & Challenge Mapper', description: 'Understand the challenge you face and match your next steps to what works', live: true, to: 'challenge-mapper' },
               ]},
             ]} />
-          <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Setting direction, making moves, learning from them." Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
+          <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Set a direction, inspire others to join you, and keep experimenting and learning" Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             toolGroups={[
-              { label: 'Set Direction', tools: [
+              { label: 'Set Direction', description: "Articulate where you're going, and surface what could derail it", tools: [
                 { name: 'Culture Change Vision', description: 'Refine or build a compelling chase for change', live: true, to: 'vision' },
                 { name: 'Pre-Mortem', description: 'Imagine failure before it happens, then prevent it', live: true, to: 'pre-mortem' },
               ]},
-              { label: 'Make It Happen', tools: [
-                { name: 'The Squeeze', live: false },
+              { label: 'Make It Happen', description: 'Assess readiness, run small experiments, and learn fast', tools: [
                 { name: 'Culture Readiness Assessment', description: 'Take stock of what your team needs to successfully change its culture', live: true, to: 'readiness' },
+                { name: 'The Squeeze', live: false },
               ]},
-              { label: 'Sustain & Renew', tools: [
+              { label: 'Sustain & Renew', description: 'Look back, harvest the lessons, and keep going', tools: [
                 { name: 'Post-Mortem', live: false },
               ]},
             ]} />
