@@ -105,9 +105,12 @@ export default function FacilitateYourWay() {
         setCode(urlCode);
         setConfig(cfg);
         setAnswers(Object.fromEntries(cfg.questions.map(q => [q.id, ''])));
-        // Check if user has a facilitator token stored - if so, return them to dashboard
+        // Check URL for explicit contributor mode flag (from share links)
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceContributor = urlParams.get('v') === 'c';
+        // Check if user has a facilitator token stored
         const storedToken = loadToken(urlCode);
-        if (storedToken) {
+        if (storedToken && !forceContributor) {
           setFacilitatorToken(storedToken);
           setStep('facilitate-dashboard');
           try {
@@ -241,8 +244,10 @@ export default function FacilitateYourWay() {
     const updateQ = (i, val) => setQuestions(prev => prev.map((q, idx) => idx === i ? { ...q, text: val } : q));
     const create = async () => {
       if (!title.trim()) { setCreateError('Session title is required.'); return; }
-      const activeQs = questions.filter(q => q.text.trim());
-      if (!activeQs.length) { setCreateError('Add at least one question.'); return; }
+      // Validate: ALL visible question fields must be filled (no silent drops)
+      const emptyIdx = questions.findIndex(q => !q.text.trim());
+      if (emptyIdx !== -1) { setCreateError(`Question ${emptyIdx + 1} is empty. Please fill it in or click the X to remove it.`); return; }
+      const activeQs = questions;
       setCreating(true); setCreateError('');
       try {
         const r = await fetch('/api/sessions/create', {
@@ -295,10 +300,26 @@ export default function FacilitateYourWay() {
 
         {questions.map((q, i) => (
           <div key={q.id} style={s.card}>
-            <label style={s.fieldLabel}>Question {i + 1}</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <label style={{ ...s.fieldLabel, marginBottom: 0 }}>Question {i + 1}</label>
+              {questions.length > 1 && (
+                <button
+                  onClick={() => setQuestions(prev => prev.filter((_, idx) => idx !== i))}
+                  style={{ background: 'none', border: 'none', color: 'rgba(240,235,219,0.5)', cursor: 'pointer', fontSize: 18, padding: 4, lineHeight: 1 }}
+                  title="Remove this question"
+                >×</button>
+              )}
+            </div>
             <textarea className="fyw-textarea" style={s.fieldTextarea} value={q.text} onChange={e => updateQ(i, e.target.value)} placeholder={`What do you want input on?`} />
           </div>
         ))}
+        {questions.length < 5 && (
+          <button
+            onClick={() => setQuestions(prev => [...prev, { id: `q${Date.now()}`, text: '' }])}
+            style={{ ...btn('secondary'), marginBottom: 16 }}
+            onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}
+          >+ Add another question</button>
+        )}
 
         {createError && <p style={s.error}>{createError}</p>}
         <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
@@ -378,7 +399,7 @@ export default function FacilitateYourWay() {
 
   // ── STEP: facilitate-dashboard ──
   if (step === 'facilitate-dashboard' && config && code) {
-    const joinUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}${typeof window !== 'undefined' ? window.location.pathname : ''}?code=${encodeURIComponent(code)}`;
+    const joinUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}${typeof window !== 'undefined' ? window.location.pathname : ''}?code=${encodeURIComponent(code)}&v=c`;
     const anySynthLoading = Object.values(synthLoading).some(v => v);
     const byQ = {};
     responses.forEach(r => { r.answers && Object.entries(r.answers).forEach(([qid, text]) => { if (!byQ[qid]) byQ[qid] = []; if (text) byQ[qid].push({ name: r.name, text }); }); });
