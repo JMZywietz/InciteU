@@ -27,6 +27,16 @@ const THINK_PIECES = [
     bg: '#2A4446',
     bgHover: '#354F51',
   },
+  {
+    id: 'culture-change-model',
+    title: 'The Culture Change Model',
+    subtitle: 'Treating culture like the living system it is',
+    abstract: 'Most culture change models treat culture as a process — a project with a start, a plan, and an end state. This one treats it as a living system: complicated enough to require discipline, complex enough to demand humility. A walkthrough of the model, the case studies behind it, and two tools you can use right now to see where your own thinking is sharp and where it breaks down.',
+    readTime: 'Model + tools',
+    accent: '#c9a84c',
+    bg: '#1f4347',
+    bgHover: '#265055',
+  },
 ];
 
 export default function ThinkPage() {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { C, F, GLOBAL_CSS } from './theme.js';
 import { PATHS } from './lib/routes.js';
@@ -26,6 +26,10 @@ import EmotionsAsInformationPage from './tools/EmotionsAsInformation.jsx';
 import FacilitateYourWayPage from './tools/FacilitateYourWay.jsx';
 import FiveLayersDeepPage from './think/FiveLayersDeep.jsx';
 import CynefinPage from './think/CynefinScrollytelling.jsx';
+
+// The Culture Change Model is a 250KB+ self-contained sub-app — lazy-loaded
+// so it doesn't bloat the initial bundle for visitors who never open it.
+const CultureChangeModelPage = lazy(() => import('./apps/CultureChangeModel.jsx'));
 
 // =================================================================
 // ROOT APP
@@ -69,6 +73,30 @@ export default function App() {
           <Route path={PATHS.think} element={<ThinkPage />} />
           <Route path={PATHS.fiveLayersDeep} element={<FiveLayersDeepPage />} />
           <Route path={PATHS.cynefin} element={<CynefinPage />} />
+          <Route
+            path={PATHS.cultureChangeModel}
+            element={
+              <Suspense
+                fallback={
+                  <div style={{
+                    minHeight: '60vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: C.creamMuted,
+                    fontFamily: F.sans,
+                    fontSize: 14,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}>
+                    Loading…
+                  </div>
+                }
+              >
+                <CultureChangeModelPage />
+              </Suspense>
+            }
+          />
           {/* Fallback: any unknown path -> home */}
           <Route path="*" element={<Navigate to={PATHS.home} replace />} />
         </Routes>

@@ -24,6 +24,7 @@ export const PATHS = {
   think: '/think',
   fiveLayersDeep: '/think/five-layers-deep',
   cynefin: '/think/cynefin',
+  cultureChangeModel: '/culture-change-model',
 };
 
 export const STATE_TO_PATH = {
@@ -51,4 +52,5 @@ export const STATE_TO_PATH = {
   think: PATHS.think,
   'five-layers-deep': PATHS.fiveLayersDeep,
   cynefin: PATHS.cynefin,
+  'culture-change-model': PATHS.cultureChangeModel,
 };
