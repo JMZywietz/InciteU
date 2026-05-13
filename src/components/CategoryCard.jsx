@@ -3,8 +3,6 @@ import { C, F } from '../theme.js';
 import { eyebrow, heading } from '../styles.js';
 
 // Map variant string to per-category background + hover from the theme.
-// Falls back to the original bgCard/bgCardHover if no variant is passed,
-// so other tool pages that use this look unchanged.
 const VARIANT_BG = {
   self: { base: C.bgCardSelf, hover: C.bgCardSelfHover },
   team: { base: C.bgCardTeam, hover: C.bgCardTeamHover },
@@ -19,22 +17,50 @@ const VARIANT_ACCENT = {
 
 export default function CategoryCard({ label, name, tagline, Icon, iconStyle, tools, toolGroups, navigate, guideTo, variant }) {
   const [hovered, setHovered] = useState(false);
+  const [hoveredTool, setHoveredTool] = useState(null);
   const bgPair = VARIANT_BG[variant] || { base: C.bgCard, hover: C.bgCardHover };
   const accent = VARIANT_ACCENT[variant] || C.sage;
 
-  // Render a single tool list item (used by both grouped and flat rendering).
-  const renderToolItem = (t, i, allItems, isLast) => {
-    const isLink = !!(t.to || t.external);
-    const onClick = t.to ? () => navigate(t.to) : t.external ? () => window.open(t.external, '_blank', 'noopener') : null;
+  // Render a single tool list item with name + description, no Available/Coming-soon badge.
+  // Coming-soon tools are dimmed and show "Coming soon" as their description.
+  const renderToolItem = (t, i, _allItems, isLast, keyPrefix = '') => {
+    const isLink = !!(t.to || t.external) && t.live !== false;
+    const onClick = isLink && t.to
+      ? () => navigate(t.to)
+      : isLink && t.external
+        ? () => window.open(t.external, '_blank', 'noopener')
+        : null;
+    const key = `${keyPrefix}${i}`;
+    const isHovered = hoveredTool === key;
+    const isComing = !t.live;
+    const description = isComing ? (t.description || 'Coming soon') : (t.description || '');
+
+    const nameColor = isComing
+      ? 'rgba(240, 235, 219, 0.38)'
+      : (isHovered ? accent : C.cream);
+    const descColor = isComing
+      ? 'rgba(240, 235, 219, 0.3)'
+      : 'rgba(240, 235, 219, 0.62)';
+
     return (
-      <li key={i} onClick={onClick}
-          style={{ padding: '10px 0 10px 18px', borderBottom: isLast ? 'none' : `1px solid ${C.line}`, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, fontSize: 15, color: C.cream, cursor: isLink ? 'pointer' : 'default', transition: 'color 0.3s', lineHeight: 1.4 }}
-          onMouseEnter={(e) => { if (isLink) e.currentTarget.style.color = accent; }}
-          onMouseLeave={(e) => { if (isLink) e.currentTarget.style.color = C.cream; }}>
-        <span style={{ flex: '1 1 auto', minWidth: 0 }}>{t.name}</span>
-        <span style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', whiteSpace: 'nowrap', flex: '0 0 auto', minWidth: 95, textAlign: 'right', paddingTop: 2, color: t.live ? accent : C.creamMuted }}>
-          {t.live ? `Available${t.external ? ' ↗' : ''}` : 'Coming soon'}
-        </span>
+      <li key={key}
+          onClick={onClick}
+          onMouseEnter={() => { if (isLink) setHoveredTool(key); }}
+          onMouseLeave={() => setHoveredTool(null)}
+          style={{
+            padding: '12px 0 12px 18px',
+            borderBottom: isLast ? 'none' : `1px solid ${C.line}`,
+            cursor: isLink ? 'pointer' : 'default',
+            transition: 'color 0.3s',
+          }}>
+        <div style={{ fontSize: 15, color: nameColor, fontWeight: 400, lineHeight: 1.35, marginBottom: description ? 4 : 0, transition: 'color 0.3s' }}>
+          {t.name}{t.external && t.live !== false ? ' ↗' : ''}
+        </div>
+        {description && (
+          <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 13, color: descColor, fontWeight: 400, lineHeight: 1.4, transition: 'color 0.3s' }}>
+            {description}
+          </div>
+        )}
       </li>
     );
   };
@@ -69,7 +95,7 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
                     const isLastInGroup = i === group.tools.length - 1;
                     const isLastGroup = gi === toolGroups.length - 1;
                     const isLast = isLastInGroup && isLastGroup;
-                    return renderToolItem(t, i, group.tools, isLast);
+                    return renderToolItem(t, i, group.tools, isLast, `g${gi}-`);
                   })}
                 </ul>
               </div>
