@@ -980,22 +980,13 @@ ${sections}
               </ol>
             )}
 
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 14 }}>
-              <button
-                onClick={() => onSynthesize(q.id)}
-                disabled={loading || items.length === 0}
-                onMouseEnter={btnHoverIn}
-                onMouseLeave={btnHoverOut}
-                style={btn('primary', loading || items.length === 0)}
-              >
-                {loading ? 'Synthesizing…' : synth ? 'Re-synthesize' : 'Synthesize with AI'}
-              </button>
-              {synth ? (
+            {synth ? (
+              <div style={{ marginTop: 14 }}>
                 <span style={{ fontSize: 12, color: C.creamMuted }}>
                   Last synthesized {new Date(synth.synthesizedAt).toLocaleString()} · {synth.responseCount} response{synth.responseCount === 1 ? '' : 's'}
                 </span>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
 
             {synth ? (
               <div style={{
