@@ -59,42 +59,42 @@ export default function HomePage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, alignItems: 'start' }}>
           <CategoryCard variant="self" label="Inward" name="Live Well" tagline="Do the inner work needed to become the best version of yourself possible" Icon={SelfIcon} iconStyle={{ top: -30, right: -30, width: 220, height: 220 }} navigate={navigate}
             toolGroups={[
-              { label: 'Who You Are', description: 'Where you came from, the image you maintain, and what shaped you', tools: [
+              { question: 'Who am I, really?', tools: [
                 { name: 'Three Moments', description: 'Reflect on what made you who you are today', live: true, to: 'three-moments' },
                 { name: 'Identity Box', description: 'Reveal what you work to project vs. what you protect', live: true, to: 'identity-box' },
               ]},
-              { label: 'What Drives You', description: "What's calling next, and how your emotions can show you the way", tools: [
+              { question: "What's calling me next?", tools: [
                 { name: 'Purpose and Small Moves', description: 'Picture multiple lives, find the breadcrumbs leading to who you want to be next, and take a small step to get there', live: true, to: 'purpose-small-moves' },
                 { name: 'Emotions as Information', description: 'Learn how your emotions developed, and how understanding them can create new possibilities', live: true, to: 'emotions-as-information' },
               ]},
-              { label: 'What Sustains You', description: 'The practices and rhythms that keep you going', tools: [
+              { question: 'How do I keep going?', tools: [
                 { name: 'State Check', live: false },
               ]},
             ]} />
           <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Recognize what's actually in front of you, not what you wish was" Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             toolGroups={[
-              { label: 'Understand Yourself', description: 'How your leadership shows up, and the patterns underneath it', tools: [
+              { question: 'How do I actually show up?', tools: [
                 { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
               ]},
-              { label: 'Understand Others', description: "Stress-test your idea with opposing views, or gather a group's voices", tools: [
+              { question: 'What perspectives am I missing?', tools: [
                 { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },
                 { name: 'Open Facilitation', description: 'Gather group input and use AI to sensemake', live: true, to: 'facilitate-your-way' },
               ]},
-              { label: 'Understand Reality', description: 'Name the kind of challenge in front of you, and what to do about it', tools: [
+              { question: 'What am I actually dealing with?', tools: [
                 { name: 'Decision Making (Cynefin) & Challenge Mapper', description: 'Understand the challenge you face and match your next steps to what works', live: true, to: 'challenge-mapper' },
               ]},
             ]} />
           <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Set a direction, inspire others to join you, and keep experimenting and learning" Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             toolGroups={[
-              { label: 'Set Direction', description: "Articulate where you're going, and surface what could derail it", tools: [
+              { question: 'Where are we headed?', tools: [
                 { name: 'Culture Change Vision', description: 'Refine or build a compelling chase for change', live: true, to: 'vision' },
                 { name: 'Pre-Mortem', description: 'Imagine failure before it happens, then prevent it', live: true, to: 'pre-mortem' },
               ]},
-              { label: 'Make It Happen', description: 'Assess readiness, run small experiments, and learn fast', tools: [
+              { question: 'Are we ready to move?', tools: [
                 { name: 'Culture Readiness Assessment', description: 'Take stock of what your team needs to successfully change its culture', live: true, to: 'readiness' },
                 { name: 'The Squeeze', live: false },
               ]},
-              { label: 'Sustain & Renew', description: 'Look back, harvest the lessons, and keep going', tools: [
+              { question: 'What did we learn?', tools: [
                 { name: 'Post-Mortem', live: false },
               ]},
             ]} />

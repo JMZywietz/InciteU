@@ -116,7 +116,9 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
             </a>
           )}
 
-          {/* Grouped rendering: each sub-bucket has its own clickable header */}
+          {/* Grouped rendering: each sub-bucket has its own clickable header.
+              The sub-bucket header is a short, powerful question in italic serif (the section's accent color),
+              with a count + "click to see more / less" CTA line beneath it. */}
           {toolGroups && toolGroups.map((group, gi) => {
             const subExpanded = !!expandedSubs[gi];
             const groupTotal = group.tools.length;
@@ -131,15 +133,12 @@ export default function CategoryCard({ label, name, tagline, Icon, iconStyle, to
                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(240, 235, 219, 0.04)'; }}
                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: F.sans, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: accent, marginBottom: 6 }}>{group.label}</div>
-                    {group.description && (
-                      <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 15, color: 'rgba(240, 235, 219, 0.72)', lineHeight: 1.45 }}>{group.description}</div>
-                    )}
-                    <div style={{ fontFamily: F.sans, fontSize: 12, color: C.creamMuted, marginTop: 8, fontWeight: 300 }}>
+                    <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 22, fontWeight: 400, color: accent, lineHeight: 1.3, marginBottom: 8 }}>{group.question}</div>
+                    <div style={{ fontFamily: F.sans, fontSize: 12, color: C.creamMuted, fontWeight: 300, margin: 0 }}>
                       {groupCount} · <span style={{ fontStyle: 'italic' }}>{seeMoreText}</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: 14, color: C.creamMuted, transition: 'transform 0.25s ease', transform: subExpanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 2, userSelect: 'none', fontFamily: F.sans }}>▸</div>
+                  <div style={{ fontSize: 14, color: C.creamMuted, transition: 'transform 0.25s ease', transform: subExpanded ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0, marginTop: 8, userSelect: 'none', fontFamily: F.sans }}>▸</div>
                 </div>
                 <div style={{ maxHeight: subExpanded ? 800 : 0, overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
                   <ul style={{ listStyle: 'none', padding: '8px 4px 12px 4px', margin: 0 }}>
