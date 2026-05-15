@@ -3,6 +3,7 @@ import { C as baseC, F } from '../theme.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import * as ccStorage from '../lib/ccStorage.js';
+import SEO from '../components/SEO.jsx';
 
 // =============================================================================
 // CREATIVE COLLISION — InciteU team tool
@@ -2761,6 +2762,11 @@ export default function CreativeCollisionPage() {
   // ---- Shared frame wrap ----
   return (
     <>
+      <SEO
+        title="Creative Collision: Surface Real Disagreement Before You Decide | InciteU"
+        description="A team decision-making tool that structures dissent to produce better decisions. Solo with AI or async with a team. Built on Charlan Nemeth's dissent research."
+        path="/tools/team/creative-collision"
+      />
       <div style={{
         background: C.bgDeep, color: C.cream, minHeight: '100vh',
         fontFamily: F.sans, fontWeight: 300, fontSize: 16, lineHeight: 1.6,

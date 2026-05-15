@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { C as baseC, F } from '../theme.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 const C = { ...baseC, creamMuted: 'rgba(240,235,219,0.55)', sageMuted: 'rgba(197,212,155,0.35)', warmAccent: '#E8C87A', alert: '#D4785C' };
 
@@ -218,6 +219,11 @@ export default function ChallengeMapper() {
     <div style={{ minHeight: '80vh' }}>
       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }`}</style>
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '40px 6vw 100px' }}>
+        <SEO
+          title="Cynefin Challenge Mapper: Decision-Making Tool for Leaders | InciteU"
+          description="Map your decision through the Cynefin framework — Clear, Complicated, Complex, Chaotic. Free 5-step interactive tool from InciteU."
+          path="/tools/team/challenge-mapper"
+        />
         <a href="#" onClick={(e) => { e.preventDefault(); navigate('home'); }} style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>\u2190 Back</a>
         {step < totalSteps && <StepIndicator current={step} total={totalSteps} />}
         {step === 0 && <Step1 challenge={challenge} setChallenge={setChallenge} />}

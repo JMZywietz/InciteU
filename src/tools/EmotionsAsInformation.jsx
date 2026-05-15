@@ -2,6 +2,7 @@ import React from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // Landing page for the paired Emotions practice:
@@ -14,6 +15,11 @@ export default function EmotionsAsInformationPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="Emotions as Information: A Paired Practice for Leaders | InciteU"
+        description="A think piece and a tool. Five Layers Deep shows what emotions carry; the Leadership Capacities Analysis helps you apply it to your own patterns."
+        path="/tools/self/emotions-as-information"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools

@@ -2,6 +2,7 @@ import React from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 const PREMORTEM_URL = 'https://claude.ai/public/artifacts/b6fdfb33-8a4a-4237-b58d-0f24d5cb814e';
 
@@ -10,6 +11,11 @@ export default function PreMortemPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
+      <SEO
+        title="Pre-Mortem Tool: Surface Project Risks Before They Happen | InciteU"
+        description="A pre-mortem is a strategic exercise where a team imagines a project has failed, then works backward to determine why. Free interactive tool. Solo or with a team."
+        path="/tools/team/pre-mortem"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools

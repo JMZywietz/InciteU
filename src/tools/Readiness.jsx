@@ -2,6 +2,7 @@ import React from 'react';
 import { C, F } from '../theme.js';
 import { eyebrow, heading } from '../styles.js';
 import { PATHS } from '../lib/routes.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // READINESS — splash redirect
@@ -22,6 +23,11 @@ export default function ReadinessPage() {
   const targetPath = `${PATHS.cultureChangeModel}?section=tools&tool=readiness`;
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '70vh', padding: '120px 6vw 80px', maxWidth: 720, margin: '0 auto' }}>
+      <SEO
+        title="Culture Change Readiness Assessment: A Mirror, Not a Verdict | InciteU"
+        description="An 18-statement self-assessment of your organization's readiness for culture change. 5–7 minutes. Honest, not flattering. Free."
+        path="/tools/org/readiness"
+      />
       <div style={{ ...eyebrow, marginBottom: 16 }}>Readiness self-assessment</div>
       <h1 style={{ ...heading(56), fontSize: 'clamp(34px, 5vw, 56px)', marginBottom: 24 }}>
         How ready are we, <em style={{ color: C.sage, fontStyle: 'italic' }}>really</em>?

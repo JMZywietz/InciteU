@@ -2,6 +2,7 @@ import React from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // Landing page for the paired Purpose practice:
@@ -14,6 +15,11 @@ export default function PurposeSmallMovesPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="Purpose and Small Moves: A Paired Practice for Leaders | InciteU"
+        description="Five Lives surfaces what you actually want more of. Smallest Viable Experiment turns that signal into one tiny move you can make this week. A paired practice."
+        path="/tools/self/purpose-small-moves"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools

@@ -4,6 +4,7 @@ import { btn, btnHoverIn, btnHoverOut, eyebrow, heading, fieldInput } from '../s
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { escapeHTML, downloadHTML } from '../lib/utils.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // DATA
@@ -117,6 +118,11 @@ export default function VisionPage() {
   if (step === 8) {
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '120px 6vw', maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
+        <SEO
+          title="Culture Change Vision Builder: 6 Questions for Leaders | InciteU"
+          description="Build a complete culture change story in six questions — burning platform, north star, values, strategy, leadership, behaviours. With AI polish."
+          path="/tools/org/vision"
+        />
         <div style={{ fontSize: 56, color: C.sage, marginBottom: 24 }}>✦</div>
         <h2 style={{ ...heading(36), marginBottom: 20 }}>Your vision document <em style={{ color: C.sage, fontStyle: 'italic' }}>has been downloaded</em>.</h2>
         <p style={{ fontSize: 16, color: C.creamMuted, lineHeight: 1.7, marginBottom: 32 }}>
@@ -133,6 +139,11 @@ export default function VisionPage() {
   if (step === 7) {
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '80px 6vw', maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
+        <SEO
+          title="Culture Change Vision Builder: 6 Questions for Leaders | InciteU"
+          description="Build a complete culture change story in six questions — burning platform, north star, values, strategy, leadership, behaviours. With AI polish."
+          path="/tools/org/vision"
+        />
         <h2 style={{ ...heading(40), fontSize: 'clamp(28px, 4vw, 40px)', marginBottom: 20 }}>Your vision is <em style={{ color: C.sage, fontStyle: 'italic' }}>ready</em>.</h2>
         <p style={{ fontSize: 16, color: C.creamMuted, lineHeight: 1.7, marginBottom: 32, maxWidth: 480, margin: '0 auto 32px' }}>
           Download as-is in your own words, or let AI polish the language while preserving your voice.
@@ -155,6 +166,11 @@ export default function VisionPage() {
   if (step === 0) {
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
+        <SEO
+          title="Culture Change Vision Builder: 6 Questions for Leaders | InciteU"
+          description="Build a complete culture change story in six questions — burning platform, north star, values, strategy, leadership, behaviours. With AI polish."
+          path="/tools/org/vision"
+        />
         <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
            style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
           ← Back to tools
@@ -190,6 +206,11 @@ export default function VisionPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
+      <SEO
+        title="Culture Change Vision Builder: 6 Questions for Leaders | InciteU"
+        description="Build a complete culture change story in six questions — burning platform, north star, values, strategy, leadership, behaviours. With AI polish."
+        path="/tools/org/vision"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 24, cursor: 'pointer' }}>
         ← Back to tools

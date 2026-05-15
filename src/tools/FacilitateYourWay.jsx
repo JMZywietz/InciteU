@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================
 // Facilitate Your Way — multi-contributor session tool
@@ -192,6 +193,11 @@ export default function FacilitateYourWay() {
   if (step === 'boot' || loading) {
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <p style={{ color: 'rgba(240,235,219,0.5)', fontFamily: F.sans, fontSize: 14 }}>Loading…</p>
       </div>
     );
@@ -201,6 +207,11 @@ export default function FacilitateYourWay() {
   if (step === 'mode') {
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Facilitate Your Way</div>
         <h1 style={s.heading(48)}>Gather what your group thinks.</h1>
         {bootError && <p style={s.error}>{bootError}</p>}
@@ -243,6 +254,11 @@ export default function FacilitateYourWay() {
     };
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Join a session</div>
         <h1 style={s.heading(36)}>Enter your session code.</h1>
         <div style={{ ...s.card, maxWidth: 440 }}>
@@ -303,6 +319,11 @@ export default function FacilitateYourWay() {
     };
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>New session</div>
         <h1 style={s.heading(40)}>Set up your session.</h1>
 
@@ -380,6 +401,11 @@ export default function FacilitateYourWay() {
     };
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Session {code}</div>
         <h1 style={s.heading(40)}>{config.title}</h1>
         {config.contextBlurb && <p style={{ fontFamily: F.sans, fontSize: 15, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, marginBottom: 28 }}>{config.contextBlurb}</p>}
@@ -411,6 +437,11 @@ export default function FacilitateYourWay() {
   if (step === 'contribute-done') {
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Done</div>
         <h1 style={s.heading(40)}>Your responses are in.</h1>
         <p style={{ fontFamily: F.sans, fontSize: 16, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, maxWidth: 520 }}>
@@ -492,6 +523,11 @@ ${sections}
 
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Facilitator dashboard</div>
         <h1 style={s.heading(40)}>{config.title}</h1>
 
@@ -663,6 +699,11 @@ ${sections}
 
     return (
       <div style={s.page} className="fyw-wrap">
+        <SEO
+          title="Open Facilitation: Asynchronous Group Sensemaking | InciteU"
+          description="Pose 1–5 questions to a group, gather responses asynchronously, and use AI to surface patterns, outliers, and absences. A facilitation tool you can run without being in the room."
+          path="/openfacilitation"
+        />
         <div style={s.eyebrow}>Session results</div>
         <h1 style={s.heading(40)}>{config.title}</h1>
         {config.contextBlurb && <p style={{ fontFamily: F.sans, fontSize: 15, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, marginBottom: 28 }}>{config.contextBlurb}</p>}
