@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 13, 2026 — late evening (Culture Change Model v9 lifted into InciteU as a self-contained sub-app at `/culture-change-model`; in-context Readiness with cross-device group mode + shareable URLs is live; Creative Collision shipped earlier the same session)
+**Last updated:** May 15, 2026 — late evening (Culture Change Model v9 lifted into InciteU as a self-contained sub-app at `/culture-change-model`; in-context Readiness with cross-device group mode + shareable URLs is live; Creative Collision shipped earlier the same session)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -76,7 +76,9 @@ JMZywietz/InciteU/
 ├── vite.config.js
 ├── vercel.json                    ← Rewrites paths → /index.html EXCEPT /api/* (so serverless functions work alongside SPA routing)
 ├── public/                        ← Vite static asset root (created May 11 for about-enso.jpg)
-│   └── about-enso.jpg            ← Self-hosted; referenced as src="/about-enso.jpg" in BioPage
+│   ├── about-enso.jpg            ← Self-hosted; referenced as src="/about-enso.jpg" in BioPage
+│   ├── jen-may.jpg               ← Jen's headshot (86 KB); rendered in bio hero as 260px circle
+│   └── og-image.jpg              ← Open Graph image for social sharing (added May 15 SEO session)
 └── index.html
 ```
 
@@ -326,6 +328,14 @@ Full SEO scaffolding added in six atomic commits over a single session, followin
 5. **GitHub API anonymous rate limit (60 req/hour) is easy to hit on a busy session.** When it does hit, fall back to `raw.githubusercontent.com` (different host, no API limit) for read-only fetches, or use Composio's authenticated tools.
 6. **JSX attribute encoding for `&`.** ContactPage's and BioPage's titles contain "& Team Facilitator" / "& Team Facilitation" — encoded as `&amp;` in the JSX source. React decodes that at compile time so the resulting `<title>` element in the browser shows a regular `&`. esbuild validated both files clean.
 
+
+### Recently completed (May 15, 2026 session) — Jen headshot added to bio hero; logo wall expanded
+
+- [x] **Jen headshot added to bio hero** — commit [`10b5d4ae`](https://github.com/JMZywietz/InciteU/commit/10b5d4ae93) (`BioPage.jsx`). `/public/jen-may.jpg` (86 KB, uploaded manually via GitHub web UI) rendered as a 260px circle above "Hello." in the hero section. Styles: `borderRadius: '50%'`, `objectFit: 'cover'`, `objectPosition: 'center 30%'`, `margin: '0 auto 28px'`, ring shadow `0 0 0 1px C.line, 0 12px 40px rgba(0,0,0,0.35)`. **This was NOT in the handover doc** — it was added directly online. Any Claude fetching BioPage for edits must account for this or it will be silently dropped on the next push (exactly what happened in the May 15 logo wall session).
+- [x] **Logo wall expanded from 4 → 15 entries** — commit [`0ab6787`](https://github.com/JMZywietz/InciteU/commit/0ab6787a834cb9b74e482c2c4e1d6a644f2a1804) (`BioPage.jsx`). Icon tiles (SVG, 24×24 viewBox, `fill="currentColor"`): Google, PayPal, Careem · Uber (Uber icon), PepsiCo, Microsoft, WHO. Wordmark tiles (styled uppercase text, same `C.creamMuted` colour): McKinsey, PwC, Novartis, Honeywell, World Bank, Kuwait Finance House, Diageo, Achmea, Cleveland Clinic AD. Wordmark approach used because these B2B/professional services brands have no paths in simple-icons, iconify, or any accessible icon library. Render section updated: `logo.svg ? <svg>...</svg> : <span>wordmark</span>`. Grid widened to `maxWidth: 960`, `auto-fill` (was `auto-fit`), `minHeight: 64` on each cell for visual alignment.
+
+**Key lesson:** Always fetch BioPage from the repo immediately before any edit. Do NOT rely on the handover alone — manually-uploaded assets and direct-web-UI commits will not appear here until explicitly recorded.
+
 ---
 
 ### Recently completed (May 13, 2026 session — late night) — Wizard + WhereToStartPage + Homepage two-level accordion refresh
@@ -514,7 +524,7 @@ The recommended sequence on the two-paths page reflects a deliberate decision Je
 - [ ] Formspree ID — replace `REPLACE_WITH_YOUR_ID` in `src/pages/ContactPage.jsx`.
 - [ ] Self-host hero photo — `HERO_PHOTO` in `theme.js` still points at Wix CDN. (About page's `about-enso.jpg` is the first self-hosted image, lives at `public/about-enso.jpg`. Pattern is established; HERO_PHOTO can follow.)
 - [ ] Wayback Machine archive of old Wix site, then cancel Wix.
-- [ ] **Logo wall vs client chips reconciliation.** The logo wall on the About page shows 4 placeholder logos (Google, Microsoft, PepsiCo, WHO). The new client chips list 13 companies from Jen's bio. Mismatches: Microsoft and WHO are in the wall but not the bio; PayPal, Careem/Uber, Novartis, Honeywell, World Bank, Kuwait Finance House, McKinsey, PWC, Achmea, Diageo, Cleveland Clinic AD are in the bio but not the wall. Jen's call: update wall to match bio, drop the wall, or keep both as redundant.
+- [x] **Logo wall expanded** — wall now shows all 15 client organisations: icon tiles for Google, PayPal, Careem · Uber, PepsiCo, Microsoft, WHO; wordmark tiles for McKinsey, PwC, Novartis, Honeywell, World Bank, Kuwait Finance House, Diageo, Achmea, Cleveland Clinic AD. See May 15 session entry above for full details.
 - [ ] **Tool outcome lines on homepage** — flagged option (a) from earlier sessions, never built. Five tools still need Jen's outcome-line wording: Leadership Capacities Analysis, Purpose (Five Lives), Smallest Viable Experiment, Decision Making, Culture model.
 - [ ] **Wizard URL decision** — wizard now lives at `/tools/quiz`. Jen may want to rename to something less testy (e.g. `/tools/find-your-start` or `/tools/guide`). Trivial single-commit change in routes.js + App.jsx + WhereToStartPage.jsx's quiz card if so.
 
