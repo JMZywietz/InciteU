@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================
 // Smallest Viable Experiment — turns longing into reversible action
@@ -505,6 +506,11 @@ ${scaleSections}
   if (screen === 'intro') {
     return (
       <div className="sve-page" style={s.pageWrap}>
+        <SEO
+          title="Smallest Viable Experiment: Turn Longing Into Reversible Action | InciteU"
+          description="Design small, reversible experiments to explore what's missing in your life — without triggering your own defenses. AI-designed, three scales, three options each."
+          path="/tools/self/smallest-viable-experiment"
+        />
         <div style={s.contentWrap}>
           <h1 className="sve-title" style={{ fontFamily: F.serif, fontSize: 60, fontWeight: 500, color: C.cream, letterSpacing: '-0.015em', lineHeight: 1.0, margin: 0 }}>Smallest Viable<br/>Experiment</h1>
           <div style={{ width: 48, height: 1, background: C.accent, margin: '24px 0 22px' }} />
@@ -626,6 +632,11 @@ ${scaleSections}
   if (screen === 'inputs') {
     return (
       <div className="sve-page" style={s.pageWrap}>
+        <SEO
+          title="Smallest Viable Experiment: Turn Longing Into Reversible Action | InciteU"
+          description="Design small, reversible experiments to explore what's missing in your life — without triggering your own defenses. AI-designed, three scales, three options each."
+          path="/tools/self/smallest-viable-experiment"
+        />
         <div style={s.contentWrap}>
           <div style={s.eyebrow}>{ported ? 'Two things from you · plus duration' : 'Three things from you · plus duration'}</div>
           <h1 className="sve-h-lg" style={s.heading(36)}>Tell me what we're working with.</h1>
@@ -713,6 +724,11 @@ ${scaleSections}
   if (screen === 'synthesizing') {
     return (
       <div className="sve-page" style={s.pageWrap}>
+        <SEO
+          title="Smallest Viable Experiment: Turn Longing Into Reversible Action | InciteU"
+          description="Design small, reversible experiments to explore what's missing in your life — without triggering your own defenses. AI-designed, three scales, three options each."
+          path="/tools/self/smallest-viable-experiment"
+        />
         <div style={{...s.contentWrap, textAlign: 'center', paddingTop: '14vh'}}>
           <div style={{...s.eyebrow, color: C.accent}}>Designing your experiments</div>
           <h1 className="sve-h-lg" style={{...s.heading(34, true), animation: 'sveShimmer 2.4s ease-in-out infinite'}}>nine angles, all reversible</h1>
@@ -733,6 +749,11 @@ ${scaleSections}
   if (screen === 'results') {
     return (
       <div className="sve-page" style={s.pageWrap}>
+        <SEO
+          title="Smallest Viable Experiment: Turn Longing Into Reversible Action | InciteU"
+          description="Design small, reversible experiments to explore what's missing in your life — without triggering your own defenses. AI-designed, three scales, three options each."
+          path="/tools/self/smallest-viable-experiment"
+        />
         <div style={s.contentWrapWide}>
           <div style={s.eyebrow}>Three sets of three · {duration} days each</div>
           <h1 className="sve-h-lg" style={s.heading(38)}>Pick the one that fits.</h1>

@@ -4,6 +4,7 @@ import { btn, btnHoverIn, btnHoverOut, eyebrow, heading, fieldLabel, fieldInput 
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { escapeHTML } from '../lib/utils.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // IDENTITY BOX
@@ -425,6 +426,11 @@ ${synthesis ? `<div class="ai"><h2 style="margin-top:0;border:none;padding:0;">A
   // ==========================================================================
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="The Identity Box: What You Project vs. What You Protect | InciteU"
+        description="A reflective leadership exercise on the labels you work to project — and the ones you work to protect against. Free, 15 minutes, with optional AI synthesis."
+        path="/tools/self/identity-box"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools

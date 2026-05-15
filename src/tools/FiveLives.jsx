@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================
 // Five Lives — purpose-finding tool
@@ -255,6 +256,11 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
   if (screen === 'intro') {
     return (
       <div className="fl-page" style={s.pageWrap}>
+        <SEO
+          title="Five Lives: A Purpose-Finding Exercise for Leaders | InciteU"
+          description="What other five lives would you like to live, if you could? A purpose-finding exercise that surfaces what your current life may be missing."
+          path="/tools/self/five-lives"
+        />
         <div style={s.contentWrap}>
           <h1 className="fl-title" style={{ fontFamily: F.serif, fontSize: 64, fontWeight: 500, color: C.cream, letterSpacing: '-0.015em', lineHeight: 1.0, margin: 0 }}>Five Lives</h1>
           <div style={{ width: 48, height: 1, background: C.accent, margin: '24px 0 22px' }} />
@@ -283,6 +289,11 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
   if (screen === 'titles') {
     return (
       <div className="fl-page" style={s.pageWrap}>
+        <SEO
+          title="Five Lives: A Purpose-Finding Exercise for Leaders | InciteU"
+          description="What other five lives would you like to live, if you could? A purpose-finding exercise that surfaces what your current life may be missing."
+          path="/tools/self/five-lives"
+        />
         <div style={s.contentWrap}>
           <div style={s.eyebrow}>Pass 1 of 2 · Name your five</div>
           <h1 className="fl-h-lg" style={s.heading(36)}>Name your five lives.</h1>
@@ -317,6 +328,11 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
     const life = lives[textureIndex];
     return (
       <div className="fl-page" style={s.pageWrap}>
+        <SEO
+          title="Five Lives: A Purpose-Finding Exercise for Leaders | InciteU"
+          description="What other five lives would you like to live, if you could? A purpose-finding exercise that surfaces what your current life may be missing."
+          path="/tools/self/five-lives"
+        />
         <div style={s.contentWrap} key={textureIndex}>
           <div style={s.eyebrow}>Life {textureIndex + 1} of 5</div>
           <h1 className="fl-h-lg" style={s.heading(32, true)}>{life.title || `Life ${textureIndex + 1}`}</h1>
@@ -347,6 +363,11 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
   if (screen === 'synthesizing') {
     return (
       <div className="fl-page" style={s.pageWrap}>
+        <SEO
+          title="Five Lives: A Purpose-Finding Exercise for Leaders | InciteU"
+          description="What other five lives would you like to live, if you could? A purpose-finding exercise that surfaces what your current life may be missing."
+          path="/tools/self/five-lives"
+        />
         <div style={{...s.contentWrap, textAlign: 'center', paddingTop: '14vh'}}>
           <div style={{...s.eyebrow, color: C.accent}}>Reading the pattern</div>
           <h1 className="fl-h-lg" style={{...s.heading(34, true), animation: 'flShimmer 2.4s ease-in-out infinite'}}>across your five lives</h1>
@@ -367,6 +388,11 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
   if (screen === 'letter') {
     return (
       <div className="fl-page" style={s.pageWrap}>
+        <SEO
+          title="Five Lives: A Purpose-Finding Exercise for Leaders | InciteU"
+          description="What other five lives would you like to live, if you could? A purpose-finding exercise that surfaces what your current life may be missing."
+          path="/tools/self/five-lives"
+        />
         <div style={s.contentWrap}>
           <div style={s.eyebrow}>A letter back to you</div>
           <div style={{ height: 12 }} />

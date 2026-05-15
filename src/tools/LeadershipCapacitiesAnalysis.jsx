@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // LEADERSHIP CAPACITIES ANALYSIS
@@ -3314,6 +3315,11 @@ export default function LeadershipStanceAssessmentPage() {
 
   return (
     <>
+      <SEO
+        title="Leadership Capacities Analysis: Five Core Capacities Assessment | InciteU"
+        description="A scenario-based assessment of five leadership capacities — Hedonist, Warrior, Lover, Strategist, Visionary. Maps your baseline, your pressure response, and your gaps."
+        path="/tools/self/leadership-capacities"
+      />
       <style>{LSA_CSS}</style>
       <div ref={rootRef} className="lsa-root" />
     </>

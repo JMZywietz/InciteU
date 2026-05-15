@@ -3,6 +3,7 @@ import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // DATA
@@ -219,6 +220,11 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
   if (phase === 'intro') {
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+        <SEO
+          title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+          description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
+          path="/tools/self/lcp"
+        />
         {backLink}
         <div style={{ ...eyebrow, marginBottom: 12 }}>The Leadership Circle Profile · A Self tool</div>
         <h1 style={{ ...heading(60), marginBottom: 28 }}>
@@ -271,6 +277,11 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
     const canProceed = topPick && bottomPick;
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+        <SEO
+          title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+          description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
+          path="/tools/self/lcp"
+        />
         {backLink}
         <div style={{ ...eyebrow, marginBottom: 12 }}>Your results</div>
         <h2 style={{ ...heading(48), marginBottom: 24 }}>What did your <em style={{ color: C.sage, fontStyle: 'italic' }}>circle</em> show?</h2>
@@ -331,6 +342,11 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+        description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
+        path="/tools/self/lcp"
+      />
       {backLink}
       <div style={{ ...eyebrow, marginBottom: 12 }}>Your reflection</div>
       <h2 style={{ ...heading(48), marginBottom: 28 }}>
