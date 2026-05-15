@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, heading } from '../styles.js';
+import SEO from '../components/SEO.jsx';
 
 // Belief card with hover lift
 function BeliefCard({ num, children }) {
@@ -65,7 +66,7 @@ export default function BioPage() {
     ['2009', 'Brain Based Coaching'],
   ];
 
-  // Logo wall — svg: JSX path element for icon logos; svg: null for wordmark-only entries
+  // Logo wall — icon logos + wordmark tiles
   const logos = [
     { name: 'Google', svg: <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133c-1.147 1.147-2.933 2.4-6.053 2.4c-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0C5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36c2.16-2.16 2.84-5.213 2.84-7.667c0-.76-.053-1.467-.173-2.053z"/> },
     { name: 'PayPal', svg: <path d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/> },
@@ -86,6 +87,11 @@ export default function BioPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease' }}>
+      <SEO
+        title="About Jennifer May | Executive Coach &amp; Team Facilitator | InciteU"
+        description="Executive coach and top-team facilitator with 20 years' experience. Former McKinsey global director, neuroscientist, and certified Leadership Circle Profile practitioner."
+        path="/bio"
+      />
       {/* Hero — with subtle abstract flourish behind */}
       <section style={{ padding: '100px 6vw 60px', textAlign: 'center', maxWidth: 900, margin: '0 auto', position: 'relative', overflow: 'hidden' }}>
         <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"
@@ -95,6 +101,22 @@ export default function BioPage() {
           <circle cx="400" cy="200" r="3" fill={C.sage} opacity="0.7" />
         </svg>
         <div style={{ position: 'relative', zIndex: 1 }}>
+          <img
+            src="/jen-may.jpg"
+            alt="Jennifer May"
+            style={{
+              display: 'block',
+              width: 260,
+              height: 260,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              objectPosition: 'center 30%',
+              margin: '0 auto 28px',
+              boxShadow: `0 0 0 1px ${C.line}, 0 12px 40px rgba(0,0,0,0.35)`,
+              position: 'relative',
+              zIndex: 2,
+            }}
+          />
           <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 'clamp(22px, 2.5vw, 28px)', color: C.sage, marginBottom: 16 }}>Hello.</div>
           <h1 style={{ ...heading(88), fontSize: 'clamp(48px, 6.5vw, 88px)', marginBottom: 32 }}>I'm Jennifer.</h1>
           <p style={{ fontFamily: F.serif, fontSize: 'clamp(20px, 2.2vw, 26px)', lineHeight: 1.55, color: C.cream, fontWeight: 400, maxWidth: 640, margin: '0 auto' }}>
