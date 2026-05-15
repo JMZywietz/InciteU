@@ -200,7 +200,7 @@ export default function BioPage() {
         <p style={{ fontFamily: F.serif, fontSize: 28, fontWeight: 400, color: C.cream, lineHeight: 1.5, maxWidth: 600, margin: '0 auto 24px' }}>
           If you'd like to <em style={emSage}>think something through together</em>, I'd love to hear from you.
         </p>
-        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoveROut}>Get in touch</a>
+        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
       </section>
     </main>
   );
