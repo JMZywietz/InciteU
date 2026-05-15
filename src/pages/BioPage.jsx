@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, heading } from '../styles.js';
-import SEO from '../components/SEO.jsx';
 
 // Belief card with hover lift
 function BeliefCard({ num, children }) {
@@ -66,21 +65,27 @@ export default function BioPage() {
     ['2009', 'Brain Based Coaching'],
   ];
 
-  // Logo wall data — placeholder representative logos
+  // Logo wall — svg: JSX path element for icon logos; svg: null for wordmark-only entries
   const logos = [
     { name: 'Google', svg: <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133c-1.147 1.147-2.933 2.4-6.053 2.4c-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0C5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36c2.16-2.16 2.84-5.213 2.84-7.667c0-.76-.053-1.467-.173-2.053z"/> },
-    { name: 'Microsoft', svg: <path d="M0 0v11.408h11.408V0zm12.594 0v11.408H24V0zM0 12.594V24h11.408V12.594zm12.594 0V24H24V12.594z"/> },
+    { name: 'PayPal', svg: <path d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/> },
+    { name: 'Careem · Uber', svg: <path d="M0 7.97v4.958c0 1.867 1.302 3.101 3 3.101.826 0 1.562-.316 2.094-.87v.736H6.27V7.97H5.082v4.888c0 1.257-.85 2.106-1.947 2.106-1.11 0-1.946-.827-1.946-2.106V7.971H0zm7.44 0v7.925h1.13v-.725c.521.532 1.257.86 2.06.86a3.006 3.006 0 0 0 3.034-3.01 3.01 3.01 0 0 0-3.033-3.024 2.86 2.86 0 0 0-2.049.861V7.971H7.439zm9.869 2.038c-1.687 0-2.965 1.37-2.965 3 0 1.72 1.334 3.01 3.066 3.01 1.053 0 1.913-.463 2.49-1.233l-.826-.611c-.43.577-.996.847-1.664.847-.973 0-1.753-.7-1.912-1.64h4.697v-.373c0-1.72-1.222-3-2.886-3zm6.295.068c-.634 0-1.098.294-1.381.758v-.713h-1.131v5.774h1.142V12.61c0-.894.544-1.47 1.291-1.47H24v-1.065h-.396zm-6.319.928c.85 0 1.564.588 1.756 1.47H15.52c.203-.882.916-1.47 1.765-1.47zm-6.732.012c1.086 0 1.98.883 1.98 2.004a1.993 1.993 0 0 1-1.98 2.001A1.989 1.989 0 0 1 8.56 13.02a1.99 1.99 0 0 1 1.992-2.004z"/> },
     { name: 'PepsiCo', svg: <path d="M18.43 3.277A10.839 10.839 0 0 0 2.718 17.594c7.455-2.033 13.503-7 15.712-14.317M12 22.84a10.839 10.839 0 0 0 9.21-16.574a7.607 7.607 0 0 1-2.873 8.195c-3.285 2.416-8.06 2.432-14.649 4.494A10.817 10.817 0 0 0 12 22.84M24 12A12 12 0 1 1 12 0a12 12 0 0 1 12 12"/> },
+    { name: 'Microsoft', svg: <path d="M0 0v11.408h11.408V0zm12.594 0v11.408H24V0zM0 12.594V24h11.408V12.594zm12.594 0V24H24V12.594z"/> },
     { name: 'WHO', svg: <path d="M12.021 1.412c-1.064 0-.611 1.579-.527 2.093c0 .025.086 3.57.102 4.379q.245-.065.477-.12l.321-.08c.015-.782.094-4.166.096-4.184c.07-.551.628-2.088-.469-2.088m-.311 12.04c.119-.04.238-.075.345-.11l.23-.071c0-.228.068-3.372.08-3.944a7 7 0 0 0-.732.211zm.392 1.193c-.04.015-.144.059-.21.081c-.065.023-.156.06-.156.085c0 .024.066 3.62.066 3.699c0 .744.379.749.379 0c0-.053.076-3.916.076-3.916zM11.247 4.5a5.5 5.5 0 0 0-.834.339c-.297.098-.714.119-1.15.588a6 6 0 0 0-.397.51c-.13.187-.137.49-.238.653c-.138.238-.105.37-.105.37v.007a.63.63 0 0 1-.16.295a.6.6 0 0 1-.554.221c.198.1.476-.039.476-.039a4 4 0 0 0-.105.393c.222-.501.426-.684.489-.736c.095.022.292.013.659-.197c.414-.238 1.037-.625 1.213-.87a1.6 1.6 0 0 1 .733-.554q-.018-.565-.027-.98M9.499 6.063l-.215.046l.257-.413l.3.01zm1.28 8.64c0 .466.345.714.689.913c0-.079-.014-.801-.014-.813c.007-.144.146-.231.26-.285a6 6 0 0 1 .545-.208c.103-.036.19-.07.287-.099c.69-.208 1.49-.476 1.49-1.31c0-.832-.685-1.19-1.429-1.443c0 .268-.013.66-.019.93c.317.119.526.275.526.514c0 .3-.321.476-.549.562a6 6 0 0 1-.28.097a9 9 0 0 0-.565.19a3 3 0 0 0-.28.12c-.328.164-.662.406-.661.832m4.575-8.15c0-.853-.619-1.8-2.136-2.135a4 4 0 0 0-.463-.054c0 .129-.01.424-.01.424c0 .093-.01.434-.012.508a2 2 0 0 1 .292.04c.882.211 1.197.715 1.197 1.217c0 .81-.692 1.117-1.547 1.347l-.282.074c-.258.065-.524.126-.787.197l-.28.08c-.943.287-1.755.742-1.755 1.904s.926 1.588 1.83 1.866l-.02-1.002c-.399-.187-.68-.433-.68-.848c0-.414.256-.65.648-.833a3 3 0 0 1 .279-.108a9 9 0 0 1 .743-.206l.282-.068c1.273-.297 2.701-.696 2.701-2.403m-2.848 9.536c.428.217.824.517.989 1.085c.073-.94-.455-1.348-.977-1.623zm7.014-10.8c.46.547 1.263.87 1.733 1.419c-.337-1.623-1.59-2.947-3.07-3.264c.723.544.879 1.3 1.337 1.845M1.724 9.402c1.02-2.22 2.542-1.75 3.186-3.864c-.357.648-2.024.922-2.798 2.585c.394-.988.196-2.5.863-3.315C.982 6.278 1.83 8.656 1.724 9.402m1.847 5.324c.183.864-.357 2.112.5 3.304c-.886-.992-2.762-1.245-3.526-2.754c.952 3.69 3.452 2.928 4.57 3.73c-.924-1.328-.168-2.21-1.544-4.28m-.287 2.315c-.546-2.06.427-2.774-.317-4.75c-.077 1.114-.82 1.657-.319 3.69C1.764 14.26.396 13.617 0 12.434c.027 3.235 2.627 3.715 3.284 4.607m3.992 3.452c-.765-1.06-.238-1.658-2.392-3.581c.454.702-.015 1.585 1.435 2.958c-1.419-.833-3.375-.476-4.32-1.596c1.622 3.103 4.47 1.837 5.277 2.222zm10.405-.622c1.45-1.374.98-2.262 1.435-2.96c-2.15 1.924-1.627 2.523-2.392 3.582c.807-.386 3.655.88 5.275-2.219c-.942 1.122-2.9.763-4.318 1.6zm2.248-1.844c.854-1.19.317-2.44.5-3.304c-1.376 2.07-.62 2.952-1.547 4.285c1.124-.801 3.614-.042 4.57-3.73c-.764 1.507-2.637 1.76-3.523 2.752zM12 23a11 11 0 1 1 11-11a11.012 11.012 0 0 1-11 11M12 0a12 12 0 1 0 12 12A12.014 12.014 0 0 0 12 0"/> },
+    { name: 'McKinsey', svg: null },
+    { name: 'PwC', svg: null },
+    { name: 'Novartis', svg: null },
+    { name: 'Honeywell', svg: null },
+    { name: 'World Bank', svg: null },
+    { name: 'Kuwait Finance House', svg: null },
+    { name: 'Diageo', svg: null },
+    { name: 'Achmea', svg: null },
+    { name: 'Cleveland Clinic AD', svg: null },
   ];
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease' }}>
-      <SEO
-        title="About Jennifer May | Executive Coach &amp; Team Facilitator | InciteU"
-        description="Executive coach and top-team facilitator with 20 years' experience. Former McKinsey global director, neuroscientist, and certified Leadership Circle Profile practitioner."
-        path="/bio"
-      />
       {/* Hero — with subtle abstract flourish behind */}
       <section style={{ padding: '100px 6vw 60px', textAlign: 'center', maxWidth: 900, margin: '0 auto', position: 'relative', overflow: 'hidden' }}>
         <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"
@@ -90,22 +95,6 @@ export default function BioPage() {
           <circle cx="400" cy="200" r="3" fill={C.sage} opacity="0.7" />
         </svg>
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <img
-            src="/jen-may.jpg"
-            alt="Jennifer May"
-            style={{
-              display: 'block',
-              width: 260,
-              height: 260,
-              borderRadius: '50%',
-              objectFit: 'cover',
-              objectPosition: 'center 30%',
-              margin: '0 auto 28px',
-              boxShadow: `0 0 0 1px ${C.line}, 0 12px 40px rgba(0,0,0,0.35)`,
-              position: 'relative',
-              zIndex: 2,
-            }}
-          />
           <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 'clamp(22px, 2.5vw, 28px)', color: C.sage, marginBottom: 16 }}>Hello.</div>
           <h1 style={{ ...heading(88), fontSize: 'clamp(48px, 6.5vw, 88px)', marginBottom: 32 }}>I'm Jennifer.</h1>
           <p style={{ fontFamily: F.serif, fontSize: 'clamp(20px, 2.2vw, 26px)', lineHeight: 1.55, color: C.cream, fontWeight: 400, maxWidth: 640, margin: '0 auto' }}>
@@ -146,16 +135,22 @@ export default function BioPage() {
 
       {dividerSvg}
 
-      {/* Logo wall — representative client logos */}
+      {/* Logo wall — icon logos + wordmark tiles */}
       <section style={{ padding: '50px 6vw 50px', maxWidth: 1080, margin: '0 auto', textAlign: 'center' }}>
         <p style={{ fontFamily: F.sans, fontSize: 11, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.sage, marginBottom: 36 }}>Trusted by leaders at</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '36px 24px', maxWidth: 720, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '36px 24px', maxWidth: 960, margin: '0 auto' }}>
           {logos.map((logo) => (
-            <div key={logo.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-              <svg viewBox="0 0 24 24" fill="currentColor" style={{ color: C.creamMuted, width: 36, height: 36, opacity: 0.85 }} aria-label={logo.name}>
-                {logo.svg}
-              </svg>
-              <span style={{ fontFamily: F.sans, fontSize: 10, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.creamMuted }}>{logo.name}</span>
+            <div key={logo.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, minHeight: 64 }}>
+              {logo.svg ? (
+                <>
+                  <svg viewBox="0 0 24 24" fill="currentColor" style={{ color: C.creamMuted, width: 36, height: 36, opacity: 0.85 }} aria-label={logo.name}>
+                    {logo.svg}
+                  </svg>
+                  <span style={{ fontFamily: F.sans, fontSize: 10, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.creamMuted }}>{logo.name}</span>
+                </>
+              ) : (
+                <span style={{ fontFamily: F.sans, fontSize: 11, fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.creamMuted, opacity: 0.85, textAlign: 'center', lineHeight: 1.4 }}>{logo.name}</span>
+              )}
             </div>
           ))}
         </div>
