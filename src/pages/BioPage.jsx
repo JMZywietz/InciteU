@@ -84,6 +84,22 @@ export default function BioPage() {
           <circle cx="400" cy="200" r="3" fill={C.sage} opacity="0.7" />
         </svg>
         <div style={{ position: 'relative', zIndex: 1 }}>
+          <img
+            src="/jen-may.jpg"
+            alt="Jennifer May"
+            style={{
+              display: 'block',
+              width: 260,
+              height: 260,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              objectPosition: 'center 30%',
+              margin: '0 auto 28px',
+              boxShadow: `0 0 0 1px ${C.line}, 0 12px 40px rgba(0,0,0,0.35)`,
+              position: 'relative',
+              zIndex: 2,
+            }}
+          />
           <div style={{ fontFamily: F.serif, fontStyle: 'italic', fontSize: 'clamp(22px, 2.5vw, 28px)', color: C.sage, marginBottom: 16 }}>Hello.</div>
           <h1 style={{ ...heading(88), fontSize: 'clamp(48px, 6.5vw, 88px)', marginBottom: 32 }}>I'm Jennifer.</h1>
           <p style={{ fontFamily: F.serif, fontSize: 'clamp(20px, 2.2vw, 26px)', lineHeight: 1.55, color: C.cream, fontWeight: 400, maxWidth: 640, margin: '0 auto' }}>
@@ -184,7 +200,7 @@ export default function BioPage() {
         <p style={{ fontFamily: F.serif, fontSize: 28, fontWeight: 400, color: C.cream, lineHeight: 1.5, maxWidth: 600, margin: '0 auto 24px' }}>
           If you'd like to <em style={emSage}>think something through together</em>, I'd love to hear from you.
         </p>
-        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
+        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoveROut}>Get in touch</a>
       </section>
     </main>
   );
