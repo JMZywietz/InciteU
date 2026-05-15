@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import SEO from '../components/SEO.jsx';
 
 // ╔═══════════════════════════════════════════════════════════════════════════╗
 // ║ LIFTING INSTRUCTIONS — for porting this file into a different host app    ║
@@ -3049,6 +3050,11 @@ export default function Model() {
 
   return (
     <>
+      <SEO
+        title="The Culture Change Model: A Living Systems Approach | InciteU"
+        description="Most culture change models treat culture as a project. This one treats it as a living system — complicated enough to require discipline, complex enough to demand humility."
+        path="/culture-change-model"
+      />
       <style>{gf + `
         @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
         *{box-sizing:border-box;margin:0;padding:0}
