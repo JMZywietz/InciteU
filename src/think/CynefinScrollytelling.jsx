@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { C as baseC, F } from '../theme.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 const C = { ...baseC, creamMuted: 'rgba(240,235,219,0.55)', sageMuted: 'rgba(197,212,155,0.35)', warmAccent: '#E8C87A', alert: '#D4785C' };
 const DOMAIN_COLORS = { clear: C.cream, complicated: C.warmAccent, complex: C.sage, chaotic: C.alert };
@@ -138,6 +139,11 @@ export default function CynefinScrollytelling() {
 
   return (
     <div style={{ minHeight: '80vh', overflowX: 'hidden' }}>
+      <SEO
+        title="The Cynefin Framework Explained: Not All Problems Are Equal | InciteU"
+        description="A visual walkthrough of the Cynefin framework — from predictable to unpredictable, from holiday dinners to organizational challenges. By Jennifer May."
+        path="/think/cynefin"
+      />
       <style>{`
         @keyframes pulseDown { 0%,100% { opacity:0.3; transform:translateY(0); } 50% { opacity:1; transform:translateY(6px); } }
         @media (max-width: 640px) { .split-row { flex-direction: column !important; } .decision-grid { grid-template-columns: 1fr 1fr !important; } }

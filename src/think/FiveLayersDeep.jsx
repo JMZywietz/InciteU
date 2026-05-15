@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // FIVE LAYERS DEEP — light/cream long-read essay
@@ -173,6 +174,11 @@ export default function FiveLayersDeepPage() {
 
   return (
     <div ref={rootRef} className="fld-root">
+      <SEO
+        title="Five Layers Deep: The Evolutionary Roots of Leadership | InciteU"
+        description="An essay on how humans evolved from single-celled organisms — and how each layer of complexity unlocked new ways to connect, protect, and lead. By Jennifer May."
+        path="/think/five-layers-deep"
+      />
       <style>{FLD_CSS}</style>
 
       {/* HERO */}
