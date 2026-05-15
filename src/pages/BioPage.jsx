@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, heading } from '../styles.js';
+import SEO from '../components/SEO.jsx';
 
 // Belief card with hover lift
 function BeliefCard({ num, children }) {
@@ -75,6 +76,11 @@ export default function BioPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease' }}>
+      <SEO
+        title="About Jennifer May | Executive Coach &amp; Team Facilitator | InciteU"
+        description="Executive coach and top-team facilitator with 20 years' experience. Former McKinsey global director, neuroscientist, and certified Leadership Circle Profile practitioner."
+        path="/bio"
+      />
       {/* Hero — with subtle abstract flourish behind */}
       <section style={{ padding: '100px 6vw 60px', textAlign: 'center', maxWidth: 900, margin: '0 auto', position: 'relative', overflow: 'hidden' }}>
         <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true"

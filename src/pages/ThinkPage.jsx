@@ -2,6 +2,7 @@ import React from 'react';
 import { C, F } from '../theme.js';
 import { eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // ============================================================================
 // DATA — index of think pieces; add new entries here as they're written
@@ -43,6 +44,11 @@ export default function ThinkPage() {
   const navigate = useAppNavigate();
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '80px 6vw', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="Think | Frameworks for Leadership | InciteU"
+        description="Original essays on the frameworks I keep coming back to: the Cynefin framework, Five Layers Deep, the Culture Change Model. Free, in-depth, and visual."
+        path="/think"
+      />
       <div style={{ ...eyebrow, marginBottom: 16 }}>Think</div>
       <h1 style={{ ...heading(72), fontSize: 'clamp(40px, 6vw, 72px)', marginBottom: 32 }}>
         Frames I keep <em style={{ color: C.sage, fontStyle: 'italic' }}>coming back to</em>.

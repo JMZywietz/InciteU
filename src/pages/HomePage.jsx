@@ -6,12 +6,18 @@ import HeroFlourish from '../components/HeroFlourish.jsx';
 import OrganicDivider from '../components/OrganicDivider.jsx';
 import CategoryCard from '../components/CategoryCard.jsx';
 import { SelfIcon, TeamIcon, OrgIcon } from '../components/icons.jsx';
+import SEO from '../components/SEO.jsx';
 
 export default function HomePage() {
   const navigate = useAppNavigate();
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease' }}>
+      <SEO
+        title="InciteU | Free Leadership Tools by Jennifer May, Executive Coach"
+        description="Free interactive tools and frameworks for senior leaders and teams. Built by Jennifer May, executive coach to Fortune 500 leaders (ex-McKinsey)."
+        path="/"
+      />
       <section style={{ position: 'relative', minHeight: '56vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 6vw 40px', overflow: 'hidden' }}>
         <img src={HERO_PHOTO} alt="" aria-hidden="true"
              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0, opacity: 0.7 }} />

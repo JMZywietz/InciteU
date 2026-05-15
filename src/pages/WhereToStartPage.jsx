@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // The sequence through the tools, organized by IA bucket.
 // Identity is the foundation for purpose: inward first, then outward, then forward.
@@ -47,6 +48,11 @@ export default function WhereToStartPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 1100, margin: '0 auto' }}>
+      <SEO
+        title="Where to Start | Leadership Reflection Tools | InciteU"
+        description="Two paths into InciteU's leadership tools — the recommended sequence, or a short quiz that points you to the right tool for what you're working on right now."
+        path="/tools/where-to-start"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools

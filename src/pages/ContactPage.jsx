@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, heading, fieldLabel, fieldInput } from '../styles.js';
+import SEO from '../components/SEO.jsx';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -34,6 +35,11 @@ export default function ContactPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '80px 6vw', maxWidth: 820, margin: '0 auto' }}>
+      <SEO
+        title="Contact Jennifer May | Executive Coaching &amp; Team Facilitation | InciteU"
+        description="Get in touch about executive coaching, team facilitation, or speaking. Working globally with senior leaders and Fortune 500 teams."
+        path="/contact"
+      />
       <div style={{ textAlign: 'center', marginBottom: 60 }}>
         <h1 style={{ ...heading(72), fontSize: 'clamp(40px, 6vw, 72px)', marginBottom: 20 }}>
           Get in <em style={{ color: C.sage, fontStyle: 'italic' }}>touch</em>.

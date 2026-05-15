@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
+import SEO from '../components/SEO.jsx';
 
 // Q1 — Layer
 const Q1 = {
@@ -205,6 +206,11 @@ export default function QuizPage() {
 
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 760, margin: '0 auto' }}>
+      <SEO
+        title="Find Your Starting Tool | InciteU Leadership Tools"
+        description="A short two-question quiz that points you to the right reflection tool for what you're working on — inward work, reading reality, or leading forward."
+        path="/tools/quiz"
+      />
       <a onClick={(e) => { e.preventDefault(); navigate('home'); }} href="#"
          style={{ display: 'inline-block', color: C.creamMuted, textDecoration: 'none', fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 40, cursor: 'pointer' }}>
         ← Back to tools
