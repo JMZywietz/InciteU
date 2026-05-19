@@ -1736,7 +1736,7 @@ const LSA_SCRIPT = `
 // ══════════════════════════════════════════════════════════════════
 // CAPACITY_DETAILS — legacy alias to CAPACITY_DETAIL
 // ══════════════════════════════════════════════════════════════════
-const CAPACITY_DETAILS = CAPACITY_DETAIL;
+// (CAPACITY_DETAILS retained as the legacy object below; no alias needed)
 const CAPACITIES = ['egoist', 'veteran', 'lover', 'strategist', 'visionary'];
 
 // Legacy alias — some helper code references ARCHS as the canonical key list.
