@@ -24,7 +24,7 @@ The InciteU main handover doc (linked above) is the canonical source for everyth
 
 ## TL;DR
 
-The current LCA assessment uses a 5-archetype model (Hedonist, Warrior, Lover, Strategist, Visionary). A May 2026 session with Jen reworked the underlying theory into a **2-drive × 5-capacity** architecture, separating motivational orientation (Thriver / Warrior drives) from evolved apparatus (five capacities: Egoist, Veteran, Lover, Strategist, Visionary). The new assessment needs to be rebuilt to score these two dimensions independently — which is genuine architectural work, not a cosmetic relabel.
+The current LCA assessment uses a 5-archetype model with the legacy names: Hedonist, Warrior, Lover, Strategist, Visionary. A May 2026 session with Jen reworked the underlying theory into a **2-drive × 5-capacity** architecture, separating motivational orientation (Thriving / Protecting drives) from evolved apparatus (five capacities: Egoist, Veteran, Lover, Strategist, Visionary). The new assessment needs to be rebuilt to score these two dimensions independently — which is genuine architectural work, not a cosmetic relabel.
 
 **The big move:** instead of scoring 5 flat archetypes, score (a) drive balance, (b) capacity profile when thriving, (c) capacity profile when under pressure. Three layers, each independently meaningful.
 
@@ -53,10 +53,10 @@ The original model treated five archetypes as one ranked list. The assessment as
 
 | Drive | Description | Sub-types |
 |---|---|---|
-| **Thriver** (approach) | Pursue what supports flourishing | Striver / Savorer / Adventurer |
-| **Warrior** (avoid) | Avoid what threatens survival | Sentinel / Fighter / Escaper |
+| **Thriving** (approach) | Pursue what supports flourishing | Achiever / Hedonist / Adventurer |
+| **Protecting** (avoid) | Avoid what threatens survival | Sentinel / Warrior / Evader |
 
-**Why this matters for the assessment:** two people who both score "Strategist" can have wildly different lived experiences. Thriver-Strategist uses imagination to spot opportunities; Warrior-Strategist uses imagination to anticipate threats and overthink. Same capacity, opposite mode. The flat model couldn't see this.
+**Why this matters for the assessment:** two people who both score "Strategist" can have wildly different lived experiences. Thriving-Strategist uses imagination to spot opportunities; Protecting-Strategist uses imagination to anticipate threats and overthink. Same capacity, opposite mode. The flat model couldn't see this.
 
 **The full 5×5 matrix** (capacities × drive-states) is the back-end engine that powers coaching prompts. The user-facing model is just two questions: "Which drive am I leaning on right now?" and "Which capacity am I leading with?"
 
@@ -70,15 +70,15 @@ Three sections. Each independently meaningful. The user takes them in order; res
 
 ### Section 1 — Drive Balance
 
-**What it measures:** how much someone lives in Thriver (approach) vs. Warrior (avoid) at baseline.
+**What it measures:** how much someone lives in Thriving (approach) vs. Protecting (avoid) at baseline.
 
 **Borrowing from:** Carver & White (1994) BIS/BAS Scales — already partially used in the existing assessment (the `hedonist:drive`, `hedonist:fun_seeking`, `hedonist:reward_responsiveness`, `warrior:threat_sensitivity` items map directly to BAS Drive / BAS Fun Seeking / BAS Reward Responsiveness / BIS subscales). The 20-item BIS/BAS scale is the gold standard for approach/avoid motivation measurement.
 
 **Recommended approach:** keep forced-choice format OR add a short Likert section. The existing items can be repurposed — they already measure these constructs.
 
-**Output:** a balance point on the Thriver↔Warrior axis. Could be expressed as a percentage split (e.g., "62% Thriver / 38% Warrior") or as a single position on a spectrum.
+**Output:** a balance point on the Thriving↔Protecting axis. Could be expressed as a percentage split (e.g., "62% Thriving / 38% Protecting") or as a single position on a spectrum.
 
-### Section 2 — Thriver-Mode Capacities
+### Section 2 — Thriving-Mode Capacities
 
 **What it measures:** which capacities someone leans on when in approach mode (in their element, going after something).
 
@@ -86,7 +86,7 @@ Three sections. Each independently meaningful. The user takes them in order; res
 
 **Output:** top-2 and bottom-2 capacities when thriving.
 
-### Section 3 — Warrior-Mode Capacities
+### Section 3 — Protecting-Mode Capacities
 
 **What it measures:** which capacities someone leans on under pressure (stressed, threatened, defensive).
 
@@ -98,7 +98,7 @@ Three sections. Each independently meaningful. The user takes them in order; res
 
 A two-axis visualization: drive balance on one axis, capacity profile (split by mode) on the other. The 25-cell matrix becomes the back-end map; the coaching prompts target *cells the person doesn't visit*. Example:
 
-> "You're Thriver-leaning at baseline, but under pressure you go straight to overthinking (Warrior-Strategist) and away from connection (Warrior-Lover). When you're stressed, try a Lover-Warrior move — call someone you trust and say 'help me think this through.'"
+> "You're Thriving-leaning at baseline, but under pressure you go straight to overthinking (Protecting-Strategist) and away from connection (Protecting-Lover). When you're stressed, try a Lover-Protecting move — call someone you trust and say 'help me think this through.'"
 
 ---
 
@@ -110,12 +110,12 @@ The existing `LeadershipCapacitiesAnalysis.jsx` file contains a `POOL` array of 
 
 These tell us which validated scales each archetype draws from:
 
-**Hedonist (= Thriver drive — BAS):**
+**`hedonist` archetype in current code (= Thriving drive in new model — BAS scale items):**
 - `drive` — BAS Drive subscale
 - `fun_seeking` — BAS Fun Seeking subscale
 - `reward_responsiveness` — BAS Reward Responsiveness subscale
 
-**Warrior (= Warrior drive — BIS + defensive cascade):**
+**`warrior` archetype in current code (= Protecting drive in new model — BIS + defensive cascade items):**
 - `threat_sensitivity` — BIS subscale
 - `fight` — defensive cascade
 - `flight` — defensive cascade
@@ -137,7 +137,7 @@ These tell us which validated scales each archetype draws from:
 
 ### What's missing
 
-**Egoist (body capacity)** — no scenarios currently. The old "Hedonist" archetype was really the Thriver *drive*, not the body capacity. The body itself wasn't measured.
+**Egoist (body capacity)** — no scenarios currently. The old "Hedonist" archetype was really the Thriving *drive*, not the body capacity. (Note: "Hedonist" is now a sub-type name under the Thriving drive — see naming section.) The body itself wasn't measured.
 
 **Veteran (memory capacity)** — no scenarios currently. Memory as an evolved capacity is a new dimension not in the old model.
 
@@ -149,46 +149,46 @@ The existing scenarios already follow a clean pattern: each archetype pulls from
 
 ### Egoist (body)
 
-**Thriver-Egoist** — the body as approach apparatus:
+**Thriving-Egoist** — the body as approach apparatus:
 - **TEPS** (Temporal Experience of Pleasure Scale; Gard et al. 2006) — Consummatory subscale measures hedonic capacity in the moment. Excellent fit.
 - **Savoring Beliefs Inventory** (Bryant 2003) — Savoring the Moment subscale.
 - **MAIA-2** (Multidimensional Assessment of Interoceptive Awareness, Mehling et al. 2018) — Noticing subscale; Body Listening subscale. The "tuning in to your body in a curious way" dimension.
 
-**Warrior-Egoist** — the body as threat-detection apparatus:
+**Protecting-Egoist** — the body as threat-detection apparatus:
 - **Body Vigilance Scale** (Schmidt, Lerew, & Trakowski 1997) — measures attention to bodily sensations as potential threats.
 - **Anxiety Sensitivity Index-3** (ASI-3; Taylor et al. 2007) — fear of body sensations. Physical Concerns subscale especially.
-- **MAIA-2** — Not-Distracting and Not-Worrying subscales (inverse-scored capture the warrior-body pattern).
+- **MAIA-2** — Not-Distracting and Not-Worrying subscales (inverse-scored capture the protecting-body pattern).
 - **PHQ-15** somatic symptom items — for general body-threat-response patterns.
 
 **Suggested sub-construct tags for new Egoist scenarios:**
-- `sensory_pleasure` (Thriver-Egoist; TEPS Consummatory)
-- `body_savoring` (Thriver-Egoist; SBI Moment)
-- `interoceptive_awareness` (Thriver-Egoist; MAIA Noticing — can serve both modes depending on framing)
-- `body_vigilance` (Warrior-Egoist; BVS)
-- `anxiety_sensitivity` (Warrior-Egoist; ASI-3 Physical)
-- `somatic_threat` (Warrior-Egoist; PHQ-15-style)
+- `sensory_pleasure` (Thriving-Egoist; TEPS Consummatory)
+- `body_savoring` (Thriving-Egoist; SBI Moment)
+- `interoceptive_awareness` (Thriving-Egoist; MAIA Noticing — can serve both modes depending on framing)
+- `body_vigilance` (Protecting-Egoist; BVS)
+- `anxiety_sensitivity` (Protecting-Egoist; ASI-3 Physical)
+- `somatic_threat` (Protecting-Egoist; PHQ-15-style)
 
 ### Veteran (memory)
 
-**Thriver-Veteran** — memory as approach apparatus:
+**Thriving-Veteran** — memory as approach apparatus:
 - **TEPS-Anticipatory** (Gard et al.) — anticipating future pleasure. Direct fit.
 - **Savoring Beliefs Inventory** — Anticipating subscale (looking forward), Reminiscing subscale (looking back at past positives).
 - **Episodic Future Thinking** measures (Atance & O'Neill, Schacter et al.) — positive-valenced future projection.
 - **Behavioral Activation Scale** (BAS) Drive items already overlap here (the "I go after things I want" pattern relies on memory of past rewards).
 
-**Warrior-Veteran** — memory as threat-detection apparatus:
+**Protecting-Veteran** — memory as threat-detection apparatus:
 - **PSWQ** (Penn State Worry Questionnaire; Meyer et al. 1990) — pathological worry; anticipating future threats.
 - **RRS** (Ruminative Responses Scale; Nolen-Hoeksema 1991) — Brooding and Reflection subscales; replaying past negative events.
 - **Intolerance of Uncertainty Scale** (IUS; Freeston, Buhr & Dugas) — discomfort with not-knowing future outcomes.
 - Loss aversion items adapted from Kahneman & Tversky's prospect theory work (though these are typically behavioral, not survey).
 
 **Suggested sub-construct tags for new Veteran scenarios:**
-- `anticipatory_pleasure` (Thriver-Veteran; TEPS-A)
-- `savoring_future` (Thriver-Veteran; SBI Anticipating)
-- `reminiscing_positive` (Thriver-Veteran; SBI Reminiscing)
-- `worry` (Warrior-Veteran; PSWQ)
-- `rumination` (Warrior-Veteran; RRS)
-- `intolerance_uncertainty` (Warrior-Veteran; IUS)
+- `anticipatory_pleasure` (Thriving-Veteran; TEPS-A)
+- `savoring_future` (Thriving-Veteran; SBI Anticipating)
+- `reminiscing_positive` (Thriving-Veteran; SBI Reminiscing)
+- `worry` (Protecting-Veteran; PSWQ)
+- `rumination` (Protecting-Veteran; RRS)
+- `intolerance_uncertainty` (Protecting-Veteran; IUS)
 
 ---
 
@@ -199,7 +199,7 @@ This is a substantial restructuring, not a cosmetic update. Order of operations:
 ### 1. Audit existing scenarios
 
 Go through the 32 scenarios in the `POOL` array. For each scenario, decide:
-- Does it primarily probe **drive balance** (Section 1) — i.e., are the options sorting people on approach-vs-avoid? If yes, the Hedonist/Warrior options become Thriver/Warrior options for Section 1.
+- Does it primarily probe **drive balance** (Section 1) — i.e., are the options sorting people on approach-vs-avoid? If yes, the legacy `hedonist`/`warrior` options become Thriving/Protecting items for Section 1.
 - Does it primarily probe a **capacity in approach mode** (Section 2) — i.e., the scenario is set in a thriving / opportunity / approach context, and the options sort people by which capacity they'd lean on?
 - Does it primarily probe a **capacity in defensive mode** (Section 3) — i.e., the scenario is set in a threat / pressure / stress context, and the options sort by capacity?
 
@@ -207,7 +207,7 @@ Many existing scenarios may fit cleanly into one section. Some may need reframin
 
 ### 2. Write new scenarios for Egoist and Veteran
 
-For each of these two capacities, write Thriver-mode and Warrior-mode items pulling from the literature listed above. Match the existing scenario format (5 forced-choice options, one per capacity in Sections 2-3; or Likert items in Section 1 if going that route).
+For each of these two capacities, write Thriving-mode and Protecting-mode items pulling from the literature listed above. Match the existing scenario format (5 forced-choice options, one per capacity in Sections 2-3; or Likert items in Section 1 if going that route).
 
 ### 3. Decide format
 
@@ -216,21 +216,23 @@ Open question: keep forced-choice throughout, or use Likert for the drive-balanc
 ### 4. Restructure the scoring code
 
 The `LSA_SCRIPT` block in `LeadershipCapacitiesAnalysis.jsx` does the scoring math. Currently scores 5 archetypes flat. Needs to:
-- Score Section 1 separately as a Thriver/Warrior balance
+- Score Section 1 separately as a Thriving/Protecting balance
 - Score Sections 2 and 3 separately as 5-capacity profiles in each mode
 - Generate a results object with three layers: `driveBalance`, `thriverCapacities`, `warriorCapacities`
 
 ### 5. Restructure the results page
 
 The current results page shows the top-1 or top-3 archetypes with descriptions. New version needs:
-- Drive balance visualization (Thriver↔Warrior axis)
-- Capacity profile under Thriver mode (which 5 you use most when in approach)
-- Capacity profile under Warrior mode (which 5 you use most under pressure)
+- Drive balance visualization (Thriving↔Protecting axis)
+- Capacity profile under Thriving mode (which 5 you use most when in approach)
+- Capacity profile under Protecting mode (which 5 you use most under pressure)
 - Coaching prompts that target underused cells in the 25-cell matrix (especially the cell at *current-drive-mode × least-used-capacity*)
 
-### 6. Rename Hedonist → Thriver throughout
+### 6. Apply the full rename throughout
 
-Currently the code still says "Hedonist." The theoretical work has renamed this to "Thriver." The rename is mechanical (find/replace) but touches the LCA file, results display, descriptions, and the chain widget on the Foundations page. **Don't do this in isolation — it should ride along with the bigger restructuring.**
+The naming has been finalized (see "Decisions already made" below). The current code uses `hedonist` and `warrior` as the OLD archetype identifiers. The new model splits these into separate drives (Thriving, Protecting) and sub-types (Achiever / Hedonist / Adventurer; Sentinel / Warrior / Evader). Note that **Hedonist has been relocated, not deleted** — it used to be the drive name; now it's a sub-type under Thriving. **Warrior has also been relocated** — it used to be the drive name; now it's a sub-type under Protecting.
+
+The rename is mechanical in code but conceptually significant — every existing `hedonist`/`warrior` code reference needs to be re-classified by whether it's measuring (a) the drive itself, which becomes Thriving/Protecting, or (b) a sub-type style of expressing the drive, which becomes Achiever/Hedonist/Adventurer or Sentinel/Warrior/Evader. **Don't do this in isolation — it should ride along with the bigger restructuring.**
 
 ---
 
@@ -239,8 +241,8 @@ Currently the code still says "Hedonist." The theoretical work has renamed this 
 These were settled in the May 2026 sessions. The new chat should treat them as fixed:
 
 - **Capacities/substrates are vertical** in all diagrams; **drives are horizontal**. Never flip orientation.
-- **Naming locked:** Thriver (drive), Warrior (drive), Egoist, Veteran, Lover, Strategist, Visionary (capacities). Sub-types: Striver/Savorer/Adventurer (Thriver), Sentinel/Fighter/Escaper (Warrior).
-- **Hedonist is dead.** Replaced by Thriver as the drive name. Don't resurrect the old word.
+- **Naming locked:** Thriving (drive), Protecting (drive), Egoist, Veteran, Lover, Strategist, Visionary (capacities). Sub-types: Achiever/Hedonist/Adventurer (Thriving), Sentinel/Warrior/Evader (Protecting).
+- **Hedonist and Warrior have been relocated, not deleted.** Both used to be drive names; both are now sub-types. Hedonist is now a sub-type under the Thriving drive (Achiever / Hedonist / Adventurer). Warrior is now a sub-type under the Protecting drive (Sentinel / Warrior / Evader). Do not put them back as drive names.
 - **Universal anchor + sub-types pattern** for certain cells in the 25-cell matrix (see the architecture diagrams HTML).
 - **URL path `/tools/self/leadership-stance` is stable** for share-link continuity — do not change.
 - **The assessment scoring restructure does not require restructuring the assessment's URL or page wrapper** — keep `LeadershipStanceAssessmentPage` as the export.
