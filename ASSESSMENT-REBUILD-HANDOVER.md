@@ -1,3 +1,42 @@
+# InciteU Assessment Rebuild — Absence Mode Run 2026-05-19
+
+## Status: rebuild applied, JSX validated, pushed to main
+
+Absence mode run on 2026-05-19 produced a comprehensive rebuild of `src/tools/LeadershipCapacitiesAnalysis.jsx`:
+
+### Applied changes
+- **POOL** completely replaced — 15 scenarios in new shape (5 drive + 5 thriving + 5 protecting). Section keys renamed `baseline/pressure/identity` → `drive/thriving/protecting`.
+- **New constants**: `DRIVES`, `SUB_ARCHS`, `SUB_ARCH_BY_DRIVE`, `CAPACITIES`, `DRIVE_DETAIL`, `SUB_ARCH_DETAIL`, `CAPACITY_DETAIL`, `SUB_ARCH_PROMPTS`, `CAPACITY_PROMPTS`. Old `ARCHS` and `AD` retained as compatibility aliases (`ARCHS = CAPACITIES`; `AD` spreads CAPACITY_DETAIL + DRIVE_DETAIL with hedonist/warrior keys mapped to drives).
+- **SUBSCALES** rebuilt with new sub-archetype tags (BAS Drive / Reward Responsiveness / Fun Seeking, BIS Threat Sensitivity, FFFQ Fight / Flight) and new capacity sub-construct tags (TEPS, SBI, MAIA-2, BVS, ASI-3, PHQ-15, TEPS-A, PSWQ, RRS, IUS for Egoist + Veteran; existing IRI / NFC / CFS / CFC / MLQ / TCI tags preserved for Lover/Strategist/Visionary).
+- **SUBSCALE_COUNTS** stubbed to `{}` (legacy keys invalid in new model).
+- **CAPACITY_DETAILS** aliased to `CAPACITY_DETAIL`.
+- **calcScores** completely rewritten — returns `{ drive: {thrivingPct, protectingPct, raw, max}, subArch: {raw, pct}, capacity: {raw, pct, max}, counts }`.
+- **showResults / renderResults** rewritten — produces drive slider + click-to-expand sub-archetype panels + side-by-side capacity bar charts + coaching prompts.
+- **buildSession** updated for new section names; section order now fixed (drive → thriving → protecting), not shuffled across sections.
+- **renderScenario phaseLabels** updated.
+- **CSS additions** (`.drive-slider`, `.subarch-panel`, `.cap-bars-grid`, `.r-prompts`) injected into LSA_CSS.
+- **pg-foundations** new section added at top: "v3 model — two drives, five capacities" with full theoretical anchors (Panksepp SEEKING/FEAR/RAGE, Carver & White BAS, Gray BIS, FFFQ, Damasio somatic markers, Lisa Feldman Barrett constructed emotion, Robert Kegan subject-object, Susanne Cook-Greuter post-conventional stages).
+
+### Known limitations / out of scope this run
+- **pg-intro archetype boxes** still show old labels (Hedonist / Warrior / Lover / Strategist / Visionary). Modals gracefully no-op when clicked (guarded against missing legacy fields). Needs content update in iteration mode.
+- **Existing pg-foundations cards** (HEDONIST / WARRIOR / LOVER / STRATEGIST / VISIONARY) preserved below the new v3 model section. They use old terminology and could be refactored or removed.
+- **Email-results share link** disabled — encodeResults / decodeResults no longer match the new scoring shape.
+- **buildBarSVG / buildRadarSVG / calcOverall / calcGap** retained as dead code (no callers; safe to delete later).
+- **Coaching content** is a starter library — 1 strength + 1 limit per sub-archetype, 1 prompt per capacity per (thriving/protecting × high/low). Ready for content expansion.
+
+### Validation
+- esbuild JSX validation: clean (rc=0)
+- File size: 255,007 chars (vs original 235,684, delta +19,323)
+- Runtime flow verified by inspection: take assessment → buildSession → renderScenario × 15 → runProcessing → showResults → calcScores + renderResults → drive slider + capacity bars + prompts visible.
+
+---
+
+
+
+---
+
+# Earlier handover
+
 # InciteU — Assessment Rebuild Handover
 
 **Last updated:** May 19, 2026

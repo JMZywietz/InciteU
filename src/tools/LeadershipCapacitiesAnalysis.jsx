@@ -530,6 +530,52 @@ const LSA_CSS = `
   .lsa-root .r-headline {font-size:18px}
 }
 
+
+/* ── NEW RESULTS UI — slider, sub-archetype panels, capacity bars ── */
+.lsa-root .r-headline { font-size: 18px; line-height: 1.55; margin-bottom: 28px; padding: 20px 24px; background: var(--surface2); border-left: 3px solid var(--H); border-radius: 0 4px 4px 0; }
+.lsa-root .r-headline-line { margin: 8px 0; }
+.lsa-root .r-sec-title { font-family: var(--fd); font-size: 24px; font-weight: 700; margin: 40px 0 8px; }
+.lsa-root .r-sec-sub { font-size: 14px; color: var(--text3); margin-bottom: 18px; }
+
+.lsa-root .drive-slider { margin: 16px 0 8px; }
+.lsa-root .drive-slider-bar { position: relative; height: 32px; border-radius: 16px; overflow: hidden; display: flex; background: var(--surface2); border: 1px solid var(--border); }
+.lsa-root .drive-slider-thr, .lsa-root .drive-slider-prt { height: 100%; transition: width 0.4s ease; }
+.lsa-root .drive-slider-marker { position: absolute; top: -4px; bottom: -4px; width: 3px; background: var(--text); transform: translateX(-1.5px); }
+.lsa-root .drive-slider-labels { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--fm); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.lsa-root .subarch-panel { margin: 14px 0; border-radius: 4px; border-left: 3px solid; padding: 12px 16px; }
+.lsa-root .subarch-summary { cursor: pointer; font-family: var(--fm); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 0; }
+.lsa-root .subarch-body { padding-top: 12px; }
+.lsa-root .subarch-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.lsa-root .subarch-item:last-child { border-bottom: none; }
+.lsa-root .subarch-top { background: var(--surface2); padding: 12px; border-radius: 4px; margin-bottom: 8px; }
+.lsa-root .subarch-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.lsa-root .subarch-name { font-size: 16px; font-weight: 700; }
+.lsa-root .subarch-pct { font-family: var(--fm); font-size: 11px; color: var(--text3); }
+.lsa-root .subarch-tagline { font-style: italic; color: var(--text3); font-size: 12px; margin-bottom: 8px; }
+.lsa-root .subarch-access, .lsa-root .subarch-limit { font-size: 14px; margin: 6px 0; line-height: 1.55; }
+.lsa-root .subarch-prompt { font-size: 14px; margin: 8px 0; color: var(--text2); padding-left: 14px; border-left: 2px solid var(--border2); }
+
+.lsa-root .cap-bars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 16px 0; }
+@media (max-width: 700px) { .lsa-root .cap-bars-grid { grid-template-columns: 1fr; } }
+.lsa-root .cap-col { padding: 16px; background: var(--surface2); border-radius: 4px; }
+.lsa-root .cap-col-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.lsa-root .cap-col-sub { font-size: 12px; color: var(--text3); margin-bottom: 14px; }
+.lsa-root .cap-bar-row { display: grid; grid-template-columns: 110px 1fr 38px; align-items: center; gap: 8px; margin: 6px 0; padding: 4px 0; }
+.lsa-root .cap-bar-label { font-size: 13px; font-weight: 600; }
+.lsa-root .cap-bar-track { background: var(--surface); height: 14px; border-radius: 7px; overflow: hidden; }
+.lsa-root .cap-bar-fill { height: 100%; transition: width 0.4s ease; }
+.lsa-root .cap-bar-pct { font-family: var(--fm); font-size: 12px; color: var(--text3); text-align: right; }
+.lsa-root .cap-bar-top { background: rgba(212,168,84,.06); border-left: 2px solid var(--H); padding-left: 6px; }
+.lsa-root .cap-bar-bot { opacity: 0.55; }
+.lsa-root .cap-legend { display: flex; gap: 18px; font-size: 12px; color: var(--text3); margin-top: 12px; padding-left: 16px; }
+.lsa-root .cap-legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.lsa-root .cap-legend .cap-bar-top { background: var(--H); border: none; padding: 0; width: 10px; height: 10px; }
+.lsa-root .cap-legend .cap-bar-bot { background: var(--text4); border: none; padding: 0; width: 10px; height: 10px; opacity: 1; }
+
+.lsa-root .r-prompts { list-style: none; padding: 0; margin: 14px 0; }
+.lsa-root .r-prompts li { padding: 10px 14px; margin: 8px 0; background: var(--surface2); border-radius: 4px; font-size: 14px; line-height: 1.55; border-left: 2px solid var(--border2); }
+
 `;
 
 const LSA_BODY_HTML = `
@@ -747,13 +793,98 @@ const LSA_BODY_HTML = `
       <p class="r-sub">The theory, the deeper dive into each capacity, and how this assessment was built</p>
 
       <nav class="found-jump-nav" aria-label="Jump to section">
+        <button class="found-jump-btn" onclick="foundJump(event,'found-v3-model')">v3 model</button>
         <button class="found-jump-btn" onclick="foundJump(event,'found-grounding')">Scientific grounding</button>
         <button class="found-jump-btn" onclick="foundJump(event,'found-tia')">Theory in action</button>
         <button class="found-jump-btn" onclick="foundJump(event,'found-method')">Assessment methodology</button>
       </nav>
     </div>
 
-    <!-- ═══ SECTION 1: SCIENTIFIC GROUNDING ═══ -->
+    
+    <!-- ═══ V3 MODEL UPDATE (Thriving/Protecting × 5 Capacities) ═══ -->
+    <section class="found-section" id="found-v3-model">
+      <h2 class="found-section-title">The v3 model — two drives, five capacities</h2>
+
+      <div class="found-intro">
+        <p>This assessment now uses a two-tier model: <strong>drives</strong> (motivational orientation — what pulls you toward or away) and <strong>capacities</strong> (the evolved apparatus you use to engage). The drives organize Section 1; the capacities organize Sections 2 and 3.</p>
+      </div>
+
+      <div class="fcard" style="border-left-color:var(--H)">
+        <div class="fcard-hdr">
+          <span class="fcard-icon">☀</span>
+          <span class="fcard-name" style="color:var(--H)">Thriving — the approach drive</span>
+        </div>
+        <div class="fcard-theory">Behavioral Activation System · SEEKING (Panksepp)</div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Theoretical anchors</div>
+          <div class="fcard-rbody">Jaak Panksepp's <em>Affective Neuroscience</em> (1998, 2012) names <strong>SEEKING</strong> as the core mammalian appetitive system — the dopaminergic engine of approach. Carver &amp; White's BAS (1994) operationalizes this in humans as Drive, Reward Responsiveness, and Fun Seeking. The three Thriving sub-archetypes — <strong>Achiever</strong> (BAS Drive), <strong>Hedonist</strong> (BAS Reward Responsiveness), <strong>Adventurer</strong> (BAS Fun Seeking) — map cleanly to these three validated subscales.</div>
+        </div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Sub-archetypes</div>
+          <div class="fcard-rbody">
+            <ul>
+              <li><strong>Achiever</strong> — sustained pursuit; output as identity</li>
+              <li><strong>Hedonist</strong> — present pleasure; savoring; vitality</li>
+              <li><strong>Adventurer</strong> — novelty; exploration; openness to experience</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="fcard" style="border-left-color:var(--W)">
+        <div class="fcard-hdr">
+          <span class="fcard-icon">⚔</span>
+          <span class="fcard-name" style="color:var(--W)">Protecting — the avoid drive</span>
+        </div>
+        <div class="fcard-theory">Behavioral Inhibition System · FEAR + RAGE (Panksepp) · Fight–Flight–Freeze</div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Theoretical anchors</div>
+          <div class="fcard-rbody">Panksepp's <strong>FEAR</strong> system (anticipatory threat detection) and <strong>RAGE</strong> system (active defense) map to the avoid orientation. Gray's BIS (Behavioral Inhibition System) and the Fight-Flight-Freeze framework (Maack, Buchanan &amp; Young, 2015) operationalize defensive responses in three modes. The three Protecting sub-archetypes — <strong>Sentinel</strong> (BIS Threat Sensitivity), <strong>Warrior</strong> (Fight), <strong>Evader</strong> (Flight) — track these.</div>
+        </div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Sub-archetypes</div>
+          <div class="fcard-rbody">
+            <ul>
+              <li><strong>Sentinel</strong> — vigilance; anticipation; preparation for risk</li>
+              <li><strong>Warrior</strong> — active defense; confrontation; holding ground</li>
+              <li><strong>Evader</strong> — withdrawal; disengagement; conserving energy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="found-intro" style="margin-top:32px">
+        <h3 style="font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:12px">The five capacities</h3>
+        <p>The capacities are the evolved <em>apparatus</em> through which both drives operate. Each capacity has a Thriving-mode expression (approach) and a Protecting-mode expression (avoid). They run roughly in evolutionary order — body first, meaning last:</p>
+        <ul>
+          <li><strong>Egoist (body)</strong> — sensation, interoception, instinct. Where Damasio's <em>somatic markers</em> originate. Pre-conceptual knowing.</li>
+          <li><strong>Veteran (memory)</strong> — pattern encoding, anticipation, recall. The bridge between body and concept.</li>
+          <li><strong>Lover (empathy)</strong> — the shared social brain. Reading others, feeling-with, building connection.</li>
+          <li><strong>Strategist (imagination)</strong> — private simulation, counterfactual reasoning, modeling futures.</li>
+          <li><strong>Visionary (meaning)</strong> — values, purpose, the moral and existential frame. The newest layer.</li>
+        </ul>
+      </div>
+
+      <div class="fcard" style="border-left-color:var(--text3);margin-top:24px">
+        <div class="fcard-hdr">
+          <span class="fcard-name" style="color:var(--text)">Additional theoretical anchors</span>
+        </div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Affect &amp; emotion</div>
+          <div class="fcard-rbody"><strong>Lisa Feldman Barrett</strong>'s <em>How Emotions Are Made</em> (2017) and the theory of constructed emotion frame each capacity not as a discrete module but as a <em>predictive interface</em> — the brain constructing experience from interoception, prior memory, and conceptual frame. The capacity sequence (body → memory → empathy → imagination → meaning) maps to her account of how the affective body becomes the meaning-making mind.</div>
+        </div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Developmental scaffolding</div>
+          <div class="fcard-rbody"><strong>Robert Kegan</strong>'s <em>In Over Our Heads</em> (1994) and the subject-object theory describe how capacities that begin as <em>subject</em> (we are them) become <em>object</em> (we have them) — the developmental work of becoming able to use a capacity rather than being driven by it. The Thriving/Protecting framing of each capacity in this assessment is meant to surface exactly this: which capacities you can <em>wield</em> in each mode, and which still wield you.</div>
+        </div>
+        <div class="fcard-row">
+          <div class="fcard-rlbl">Late-stage development</div>
+          <div class="fcard-rbody"><strong>Susanne Cook-Greuter</strong>'s ego-development research (1999, 2010) extends Kegan's stages into the post-conventional range. Visionary at full strength corresponds to her <em>construct-aware</em> and <em>unitive</em> stages — the capacity to hold meaning <em>and</em> see meaning-making itself as a constructed move. This is what allows the Visionary in Protecting mode to refuse moral rigidity even while holding deep conviction.</div>
+        </div>
+      </div>
+    </section>
+
+<!-- ═══ SECTION 1: SCIENTIFIC GROUNDING ═══ -->
     <section class="found-section" id="found-grounding">
       <h2 class="found-section-title">Scientific grounding</h2>
 
@@ -1603,130 +1734,262 @@ const LSA_BODY_HTML = `
 
 const LSA_SCRIPT = `
 // ══════════════════════════════════════════════════════════════════
-// DATA
+// CAPACITY_DETAILS — legacy alias to CAPACITY_DETAIL
 // ══════════════════════════════════════════════════════════════════
+const CAPACITY_DETAILS = CAPACITY_DETAIL;
+const CAPACITIES = ['egoist', 'veteran', 'lover', 'strategist', 'visionary'];
 
-const ARCHS = ['hedonist','warrior','lover','strategist','visionary'];
+// Legacy alias — some helper code references ARCHS as the canonical key list.
+// In the new model, ARCHS is contextual: SUB_ARCHS in Section 1 (drive), CAPACITIES in Sections 2-3.
+const ARCHS = CAPACITIES;
 
+// ══════════════════════════════════════════════════════════════════
+// DRIVE DETAIL — the two primary motivational orientations
+// ══════════════════════════════════════════════════════════════════
+const DRIVE_DETAIL = {
+  thriving: {
+    name: 'Thriving',
+    tagline: 'The approach drive',
+    color: '#D4A854', bg: 'rgba(212,168,84,.08)', border: 'rgba(212,168,84,.35)',
+    lead: "Pursue what supports flourishing. The Thriving drive orients you toward what's alive, energizing, and worth approaching. When it's online you move toward people, ideas, and experiences that expand you.",
+  },
+  protecting: {
+    name: 'Protecting',
+    tagline: 'The avoid drive',
+    color: '#A85454', bg: 'rgba(168,84,84,.08)', border: 'rgba(168,84,84,.35)',
+    lead: "Avoid what threatens survival. The Protecting drive orients you toward what's risky, costly, or worth guarding against. When it's online you watch for danger and act to preserve what matters.",
+  },
+};
+
+// ══════════════════════════════════════════════════════════════════
+// SUB-ARCHETYPE DETAIL — the six flavors of how drives express
+// Each has an 'access' (what this gives you) and 'limit' (where it caps you).
+// This is the coaching content surfaced when a sub-archetype is identified.
+// ══════════════════════════════════════════════════════════════════
+const SUB_ARCH_DETAIL = {
+  achiever: {
+    name: 'Achiever', drive: 'thriving',
+    tagline: 'Drive — sustained pursuit',
+    access: "Momentum, direction, the ability to set a target and push toward it. You build things, finish things, and people can count on you to deliver.",
+    limit: "Identity fused with output. Burnout when you can't perform. Relationships and rest can feel like obstacles to optimize around.",
+  },
+  hedonist: {
+    name: 'Hedonist', drive: 'thriving',
+    tagline: 'Reward responsiveness — present pleasure',
+    access: "Vitality, presence, the ability to take in good things fully. You can feel what's alive in a moment and let it move you.",
+    limit: "Avoiding discomfort that needs facing. \"If it doesn't feel good, it isn't right\" can become a trap that keeps you from hard truths.",
+  },
+  adventurer: {
+    name: 'Adventurer', drive: 'thriving',
+    tagline: 'Fun seeking — novelty and exploration',
+    access: "Curiosity, openness, willingness to try. You expand what's possible. New environments, new ideas, new people energize rather than threaten you.",
+    limit: "Sustained focus and mastery can feel deadening. \"What's next?\" crowds out \"what is.\" Commitments can chafe.",
+  },
+  sentinel: {
+    name: 'Sentinel', drive: 'protecting',
+    tagline: 'Threat sensitivity — vigilance and anticipation',
+    access: "Foresight, preparation, seeing what others miss. You spot risks early and plan around them. People feel safer because you're watching.",
+    limit: "Anticipation crowds out the present. Vigilance becomes exhausting. Threats appear where there are none. Hard to rest.",
+  },
+  warrior: {
+    name: 'Warrior', drive: 'protecting',
+    tagline: 'Fight — active defense',
+    access: "The capacity to confront, hold ground, refuse to back down. You\'ll defend what matters when others freeze. People know where you stand.",
+    limit: "Fights you didn't need to pick. Conflict as default. The cost of constantly being on guard — to your body, your relationships, your peace.",
+  },
+  evader: {
+    name: 'Evader', drive: 'protecting',
+    tagline: 'Flight — strategic withdrawal',
+    access: "The ability to step back, disengage, protect your energy. You know which battles to skip. You preserve yourself for what actually matters.",
+    limit: "Avoidance dressed up as wisdom. Problems compound when not addressed. Isolation. The exit becomes the default instead of the option.",
+  },
+};
+
+// ══════════════════════════════════════════════════════════════════
+// CAPACITY DETAIL — the five evolved capacities you USE to engage the world
+// Each has a strength + shadow in BOTH Thriving and Protecting modes.
+// ══════════════════════════════════════════════════════════════════
+const CAPACITY_DETAIL = {
+  egoist: {
+    name: 'Egoist', tagline: 'The body capacity', shortTag: 'Body',
+    icon: '◉', color: '#C77C58', bg: 'rgba(199,124,88,.08)', border: 'rgba(199,124,88,.35)',
+    lead: "Where pleasure and pain register. Sensation, interoception, instinct. The oldest capacity — the body itself, sensing the world before any thought arrives.",
+    thrivingStrength: "Sensing what energizes you. Savoring pleasure. Being at home in your body. Trusting your gut as a source of information.",
+    thrivingShadow: "Pursuit of pleasure becomes its own end. Disconnection from longer-term consequences. \"If it feels good, it must be right.\"",
+    protectingStrength: "Body wisdom. The gut-no. Embodied early-warning of threat or wrongness. Listening when your body says stop.",
+    protectingShadow: "Hypervigilance about bodily sensations. Somatic anxiety. Treating every signal as alarm. The body as enemy rather than ally.",
+  },
+  veteran: {
+    name: 'Veteran', tagline: 'The memory capacity', shortTag: 'Memory',
+    icon: '⟲', color: '#7B8189', bg: 'rgba(123,129,137,.08)', border: 'rgba(123,129,137,.35)',
+    lead: "Where the body's wisdom gets encoded as patterns. Learned associations, anticipation, expectation. Memory as a working resource for the present.",
+    thrivingStrength: "Drawing on experience. Anticipating with pleasure. Learning from what's worked. Letting past wins fuel current effort.",
+    thrivingShadow: "Living in the past. Recycling old satisfactions. Resistance to the new. Pattern that no longer fits the territory.",
+    protectingStrength: "Pattern recognition for threat. Cautioning from past harm. Not repeating mistakes. Memory as a sentinel that warns.",
+    protectingShadow: "Worry and rumination. What-if loops. Replaying old wounds. Not allowing the past to be the past.",
+  },
+  lover: {
+    name: 'Lover', tagline: 'The empathy capacity', shortTag: 'Empathy',
+    icon: '♡', color: '#8B5E5E', bg: 'rgba(139,94,94,.08)', border: 'rgba(139,94,94,.35)',
+    lead: "The shared social brain — what Play built between us. Reading others, feeling with others, building connection. The capacity most universally shared.",
+    thrivingStrength: "Genuine connection. Reading people accurately. Offering warmth and presence. Building trust that lasts.",
+    thrivingShadow: "Losing yourself in others' needs. Identity through relationships. Hard to know what you want apart from those around you.",
+    protectingStrength: "Sensing others' distress. Protecting relationships. Reading the room. Knowing when something is off between people.",
+    protectingShadow: "People-pleasing as armor. Boundary collapse. Avoiding conflict that's needed. Caretaking that costs the self.",
+  },
+  strategist: {
+    name: 'Strategist', tagline: 'The imagination capacity', shortTag: 'Imagination',
+    icon: '◈', color: '#5B6B8B', bg: 'rgba(91,107,139,.08)', border: 'rgba(91,107,139,.35)',
+    lead: "Private simulation. Modeling future moves, weighing options, seeing patterns. The capacity for analytical reasoning and counterfactual thinking.",
+    thrivingStrength: "Modeling futures. Finding creative paths. Seeing patterns others miss. Building elegant plans that actually work.",
+    thrivingShadow: "Living in models more than reality. Planning instead of doing. The map mistaken for the territory.",
+    protectingStrength: "Anticipating contingencies. Troubleshooting in advance. Risk assessment. Holding the long-arc consequences in view.",
+    protectingShadow: "Analysis paralysis. Solving feelings instead of feeling them. Control as defense against uncertainty.",
+  },
+  visionary: {
+    name: 'Visionary', tagline: 'The meaning capacity', shortTag: 'Meaning',
+    icon: '✧', color: '#6B5B8B', bg: 'rgba(107,91,139,.08)', border: 'rgba(107,91,139,.35)',
+    lead: "Where individual purpose and moral frame get constructed. Meaning-making, values, the sense that life has direction. The newest capacity.",
+    thrivingStrength: "Sense of purpose. Meaning-making. Orientation toward what matters. The deep yes that carries you through difficulty.",
+    thrivingShadow: "Idealism that ignores practical reality. Living for what should be at the cost of what is.",
+    protectingStrength: "Holding the bigger picture under pressure. Refusing to compromise what matters. Moral courage when the heat rises.",
+    protectingShadow: "Moral rigidity. Self-righteousness. Using meaning as an escape from messy reality. Principle over person.",
+  },
+};
+
+
+// Legacy AD alias for old code that references AD[archetype]
 const AD = {
+  ...CAPACITY_DETAIL,
+  ...DRIVE_DETAIL,
+  hedonist: { ...DRIVE_DETAIL.thriving, name: 'Thriving' },
+  warrior: { ...DRIVE_DETAIL.protecting, name: 'Protecting' },
+};
+
+// ══════════════════════════════════════════════════════════════════
+// COACHING LIBRARY — reflection prompts for the results page
+// Starter set. Each sub-archetype gets one access + one limit prompt;
+// each capacity gets one strength + one shadow per mode.
+// ══════════════════════════════════════════════════════════════════
+const SUB_ARCH_PROMPTS = {
+  achiever: {
+    strength: "Where is your drive serving you right now? Notice the wins, the building, the momentum you've created.",
+    limit: "Where is your worth getting tangled with your output? What would it cost to rest without earning it first?",
+  },
   hedonist: {
-    icon:'☀', name:'Hedonist', tagline:'The seeking drive',
-    color:'#D4A854', bg:'rgba(212,168,84,.08)', border:'rgba(212,168,84,.35)',
-    lead:"You navigate the world through pleasure, energy, and instinct. You're drawn to what feels alive and resist what feels deadening. Your gift is bringing vitality and appetite to everything you do. Watch for: avoiding discomfort that actually needs to be faced.",
-    pressure:"You escape. You seek comfort, distraction, or pleasure to avoid pain. This can look like procrastination, avoidance, or \\"it'll be fine\\" optimism that isn't grounded.",
-    underuse:"You may struggle with burnout, joylessness, or inability to rest. You've lost touch with what feels good and what gives you energy.",
+    strength: "Where are you actually savoring what's alive in your week? Name the moments you let yourself receive.",
+    limit: "What discomfort have you been avoiding that probably needs facing? What would it cost to stay with it?",
+  },
+  adventurer: {
+    strength: "Where is your appetite for the new opening doors right now? What experiments are paying off?",
+    limit: "What practice or relationship needs your sustained presence — not your next move, but your staying?",
+  },
+  sentinel: {
+    strength: "Where is your vigilance protecting something real right now? What have you caught early because you were watching?",
+    limit: "Where are you scanning for threats that aren't there? What's the cost of always being on?",
   },
   warrior: {
-    icon:'⚔', name:'Warrior', tagline:'The protective drive',
-    color:'#A85454', bg:'rgba(168,84,84,.08)', border:'rgba(168,84,84,.35)',
-    lead:"You navigate the world through vigilance and resilience. You see threats others miss and you don't back down. Your gift is protecting what matters when others freeze. Watch for: seeing threats everywhere, even where there's safety.",
-    pressure:"You fight or fortify. You get reactive, defensive, or hyper-focused on threat. This can look like aggression, rigidity, or an inability to trust.",
-    underuse:"You may have weak boundaries, difficulty saying no, or a pattern of being taken advantage of. You struggle to protect yourself or others.",
+    strength: "Where is your willingness to confront serving what matters? What have you held the line on that needed holding?",
+    limit: "What fight have you been picking that doesn't actually need fighting? Where could you stand down without losing yourself?",
+  },
+  evader: {
+    strength: "Where is your strategic withdrawal genuinely protective right now? What did stepping back preserve?",
+    limit: "What is compounding because you've been avoiding it? Where would showing up actually serve you?",
+  },
+};
+
+const CAPACITY_PROMPTS = {
+  egoist: {
+    thrivingHigh: "Your body is a reliable source of information for you right now. Where else could you trust it more?",
+    thrivingLow: "What signals from your body have you been overriding to keep performing? What would it cost to listen?",
+    protectingHigh: "Your body knows when something is wrong before your mind does. How are you tracking that intelligence?",
+    protectingLow: "When your body sends an alarm, do you treat it as data — or as something to push through? What's the cost of either?",
+  },
+  veteran: {
+    thrivingHigh: "Your past experience is feeding the present well. Which patterns are still serving — and which have outlived their use?",
+    thrivingLow: "What past wins could you draw on more deliberately? What would shift if you stopped starting from scratch?",
+    protectingHigh: "Pattern recognition is keeping you safe. Where is past data still the right map — and where is the territory new?",
+    protectingLow: "Where are old loops running on autopilot? What worry or rumination has stopped paying its rent?",
   },
   lover: {
-    icon:'♡', name:'Lover', tagline:'The empathy capacity',
-    color:'#8B5E5E', bg:'rgba(139,94,94,.08)', border:'rgba(139,94,94,.35)',
-    lead:"You navigate the world through connection. You feel what others feel, often before they can name it. Your gift is building trust and making people feel seen. Watch for: losing yourself in others' needs, avoiding conflict to preserve harmony.",
-    pressure:"You merge or people-please. You prioritize others' feelings over your own needs or the truth. This can look like boundary collapse or conflict avoidance.",
-    underuse:"You may feel isolated, have difficulty with intimacy, or treat relationships instrumentally. Others may experience you as cold or detached.",
+    thrivingHigh: "Your capacity for genuine connection is alive. Who in your life is being met by it — and who's being missed?",
+    thrivingLow: "Where have you let connection thin out? What relationship would deepen with even a small move toward it?",
+    protectingHigh: "You read people sensitively under pressure. Where is that protective — and where does it tip into managing everyone's feelings instead of your own?",
+    protectingLow: "Where is connection being sacrificed to avoid difficulty? What honest conversation are you holding back?",
   },
   strategist: {
-    icon:'◈', name:'Strategist', tagline:'The imagination capacity',
-    color:'#5B6B8B', bg:'rgba(91,107,139,.08)', border:'rgba(91,107,139,.35)',
-    lead:"You navigate the world through analysis and planning. You model futures, weigh options, and see patterns. Your gift is clarity in complexity. Watch for: analysis paralysis, disconnecting from emotion to stay in your head.",
-    pressure:"You overthink. You retreat into analysis, planning, and control. This can look like paralysis, emotional detachment, or \\"solving\\" feelings instead of feeling them.",
-    underuse:"You may feel overwhelmed by complexity, make reactive decisions, or struggle to plan ahead. You're often surprised by foreseeable problems.",
+    thrivingHigh: "Your analytical edge is finding good paths. Where is the planning serving — and where is it substituting for action?",
+    thrivingLow: "What complexity have you been white-knuckling without a real model? Where would slowing down to think actually help?",
+    protectingHigh: "Your ability to anticipate contingencies is real. Where is that foresight protective — and where has it tipped into trying to control the uncontrollable?",
+    protectingLow: "What feeling have you been solving instead of feeling? What problem looks technical but is actually emotional?",
   },
   visionary: {
-    icon:'✧', name:'Visionary', tagline:'The meaning capacity',
-    color:'#6B5B8B', bg:'rgba(107,91,139,.08)', border:'rgba(107,91,139,.35)',
-    lead:"You navigate the world through meaning. You ask \\"why\\" before \\"how\\" and hold the long view. Your gift is keeping purpose alive when others get lost in tactics. Watch for: disconnection from practical reality, moral rigidity.",
-    pressure:"You moralize or dissociate. You retreat to abstract principles or existential questioning. This can look like self-righteousness, impracticality, or checking out from the messy reality.",
-    underuse:"You may feel adrift, purposeless, or stuck in routine. You do things without knowing why, and major decisions feel arbitrary.",
+    thrivingHigh: "Your sense of purpose is online. How is it shaping your choices right now — and where could it shape them more?",
+    thrivingLow: "What have you been doing without remembering why? Where has the meaning gone flat?",
+    protectingHigh: "Your moral compass holds under pressure. Where is that protective — and where does it cross into rigidity?",
+    protectingLow: "Where have you compromised something that matters and called it pragmatism? What's the cost?",
   },
 };
 
-// ══════════════════════════════════════════════════════════════════
-// REFLECTION PROMPTS — used in 'Sit with this' results section
-// ══════════════════════════════════════════════════════════════════
-const REFLECTION_PROMPTS = {
-  hedonist: [
-    "When did you most recently avoid discomfort that probably needed to be faced? What was the cost?",
-    "Where in your week is your appetite for life genuinely alive — and where has it gone flat?",
-  ],
-  warrior: [
-    "When did you last see a threat where there was actually safety? What did vigilance cost in that moment?",
-    "Where are you holding the line that protects what matters — and where are you holding it out of habit?",
-  ],
-  lover: [
-    "When did you last lose yourself in someone else's need? What were you afraid would happen if you stopped?",
-    "Where in your relationships do you protect harmony at the expense of truth?",
-  ],
-  strategist: [
-    "When did you last analyze your way out of a feeling that needed to be felt?",
-    "Where have you traded clarity-in-complexity for actual movement?",
-  ],
-  visionary: [
-    "When did you last retreat to abstraction to avoid messy reality?",
-    "What would change if you took your sense of meaning seriously enough to actually do something about it?",
-  ],
-};
 
-const GAP_PROMPTS = {
-  hedonist: "What does it look like when your sense of vitality starts to drop under stress? What's the earliest signal?",
-  warrior: "When you feel your protective edge softening under pressure, what's the smallest move that brings it back online?",
-  lover: "When connection starts to slip away under stress, what does that feel like — and what brings it back?",
-  strategist: "Under pressure, when your analytical clarity drops, what's the smallest move that brings the model back online?",
-  visionary: "When stress narrows you to tactics, what reminds you of the larger why?",
-};
-
-const UNDERUSE_PROMPTS = {
-  hedonist: "If you let yourself draw on more pleasure and vitality, what would you have to set aside or stop doing?",
-  warrior: "If you let yourself protect more fiercely, who or what would you actually defend — and from what?",
-  lover: "If you let yourself feel into others more, what would you have to slow down to notice?",
-  strategist: "If you let yourself plan further ahead, what familiar reactive pattern would have to give way?",
-  visionary: "If you let meaning lead more often, what tactical comfort would you have to relinquish?",
-};
-
-
-// Subscale catalog — drawn from validated reference instruments (BIS/BAS, FFFQ, IRI, CFC/NFC, MLQ/TCI). See Foundations.
+// Subscale catalog — drawn from validated reference instruments. See Foundations.
 const SUBSCALES = {
-  hedonist:   { reward_responsiveness:'Reward Responsiveness', drive:'Drive', fun_seeking:'Fun Seeking' },
-  warrior:    { threat_sensitivity:'Threat Sensitivity', fight:'Fight', flight:'Flight' },
-  lover:      { empathic_concern:'Empathic Concern', perspective_taking:'Perspective Taking', personal_distress:'Personal Distress' },
-  strategist: { analytical_thinking:'Analytical Thinking', cognitive_flexibility:'Cognitive Flexibility', future_consequences:'Future Consequences' },
-  visionary:  { presence_of_meaning:'Presence of Meaning', search_for_meaning:'Search for Meaning', self_transcendence:'Self-Transcendence' },
-};
-
-// Item counts per subscale per section — used for normalization in subscale analysis
-const SUBSCALE_COUNTS = {
+  // ── Section 1 sub-archetypes: BAS, BIS, FFFQ ──
+  achiever: {
+    drive:                  { name: 'Drive',                  src: 'BAS Drive'           },
+  },
   hedonist: {
-    reward_responsiveness: { baseline:2, pressure:1, identity:1, total:4 },
-    drive:                 { baseline:2, pressure:1, identity:1, total:4 },
-    fun_seeking:           { baseline:2, pressure:1, identity:0, total:3 },
+    reward_responsiveness:  { name: 'Reward Responsiveness',  src: 'BAS Reward Responsiveness' },
+  },
+  adventurer: {
+    fun_seeking:            { name: 'Fun Seeking',            src: 'BAS Fun Seeking'     },
+  },
+  sentinel: {
+    threat_sensitivity:     { name: 'Threat Sensitivity',     src: 'BIS'                 },
   },
   warrior: {
-    threat_sensitivity: { baseline:5, pressure:2, identity:0, total:7 },
-    fight:              { baseline:1, pressure:3, identity:2, total:6 },
-    flight:             { baseline:0, pressure:2, identity:0, total:2 },
+    fight:                  { name: 'Fight',                  src: 'FFFQ Fight'          },
+  },
+  evader: {
+    flight:                 { name: 'Flight',                 src: 'FFFQ Flight'         },
+  },
+  // ── Section 2/3 capacities ──
+  egoist: {
+    sensory_pleasure:       { name: 'Sensory Pleasure',       src: 'TEPS Consummatory'   },
+    body_savoring:          { name: 'Body Savoring',          src: 'SBI Moment'          },
+    interoceptive_awareness:{ name: 'Interoceptive Awareness',src: 'MAIA-2 Noticing'     },
+    body_vigilance:         { name: 'Body Vigilance',         src: 'BVS'                 },
+    anxiety_sensitivity:    { name: 'Anxiety Sensitivity',    src: 'ASI-3 Physical'      },
+    somatic_threat:         { name: 'Somatic Threat',         src: 'PHQ-15'              },
+  },
+  veteran: {
+    anticipatory_pleasure:  { name: 'Anticipatory Pleasure',  src: 'TEPS-A'              },
+    savoring_future:        { name: 'Savoring Future',        src: 'SBI Anticipating'    },
+    reminiscing_positive:   { name: 'Reminiscing',            src: 'SBI Reminiscing'     },
+    worry:                  { name: 'Worry',                  src: 'PSWQ'                },
+    rumination:             { name: 'Rumination',             src: 'RRS Brooding'        },
+    intolerance_uncertainty:{ name: 'Intolerance of Uncertainty', src: 'IUS'             },
   },
   lover: {
-    empathic_concern:   { baseline:4, pressure:3, identity:1, total:8 },
-    perspective_taking: { baseline:2, pressure:2, identity:1, total:5 },
-    personal_distress:  { baseline:0, pressure:2, identity:0, total:2 },
+    empathic_concern:   { name: 'Empathic Concern',   src: 'IRI Empathic Concern' },
+    perspective_taking: { name: 'Perspective Taking', src: 'IRI Perspective Taking' },
+    personal_distress:  { name: 'Personal Distress',  src: 'IRI Personal Distress' },
   },
   strategist: {
-    analytical_thinking:   { baseline:5, pressure:5, identity:1, total:11 },
-    cognitive_flexibility: { baseline:1, pressure:1, identity:0, total:2 },
-    future_consequences:   { baseline:0, pressure:1, identity:1, total:2 },
+    analytical_thinking:  { name: 'Analytical Thinking',  src: 'NFC'                  },
+    cognitive_flexibility:{ name: 'Cognitive Flexibility', src: 'Cognitive Flexibility Scale' },
+    future_consequences:  { name: 'Future Consequences',  src: 'CFC'                  },
   },
   visionary: {
-    presence_of_meaning: { baseline:5, pressure:2, identity:1, total:8 },
-    search_for_meaning:  { baseline:1, pressure:4, identity:0, total:5 },
-    self_transcendence:  { baseline:0, pressure:1, identity:1, total:2 },
+    presence_of_meaning: { name: 'Presence of Meaning', src: 'MLQ Presence'    },
+    search_for_meaning:  { name: 'Search for Meaning',  src: 'MLQ Search'      },
+    self_transcendence:  { name: 'Self-Transcendence',  src: 'TCI / Reed'      },
+    positive_reframing:  { name: 'Positive Reframing',  src: 'Brief COPE'      },
   },
 };
 
+// SUBSCALE_COUNTS — legacy, stubbed for backward compat
+const SUBSCALE_COUNTS = {};
 // ══════════════════════════════════════════════════════════════════
 // CAPACITY DETAILS — source content for home modal + results deep-dive
 // ══════════════════════════════════════════════════════════════════
@@ -1918,120 +2181,124 @@ const CAPACITY_DETAILS = {
 // ══════════════════════════════════════════════════════════════════
 
 const POOL = [
-  // ───── BASELINE (6) ─────
-  { id:'B1', section:'baseline', text:"You're starting a new project at work.", options:[
-    {arch:'hedonist',  sub:'drive',                 text:"Jump into the parts that excite you most"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Identify the biggest risks and figure out how to mitigate them early"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Make sure the right people are involved and everyone feels good about their role"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Build a plan with milestones, dependencies, and contingencies"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Get clear on why this project matters before diving into how"},
+  // ════════ SECTION 1 — DRIVE BALANCE + SUB-ARCHETYPES (5) ════════
+  { id:'D1', section:'drive', text:"You wake up on a Saturday with no obligations.", options:[
+    {arch:'achiever',   sub:'drive',                  text:"Get a head start on something important — set yourself up for the week"},
+    {arch:'hedonist',   sub:'reward_responsiveness',  text:"Sleep in, make something delicious, do whatever feels good"},
+    {arch:'adventurer', sub:'fun_seeking',            text:"Do something you've never done before — get out of routine, find some novelty"},
+    {arch:'sentinel',   sub:'threat_sensitivity',     text:"Catch up on things that have been nagging at you — clear the decks"},
+    {arch:'warrior',    sub:'fight',                  text:"Get physical and intense — train hard, compete, push your body"},
+    {arch:'evader',     sub:'flight',                 text:"Pull back from everything. Rest. Disconnect."},
   ]},
-  { id:'B2', section:'baseline', text:"You receive unexpected praise from someone you respect.", options:[
-    {arch:'hedonist',  sub:'reward_responsiveness', text:"Feel great — soak it in, enjoy the moment"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Wonder what they might want, or whether you've missed something"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Feel closer to them — it strengthens the relationship"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Think about what specifically you did well so you can replicate it"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Feel affirmed that you're on the right path"},
+  { id:'D2', section:'drive', text:"You disagree with a decision your organization is making.", options:[
+    {arch:'achiever',   sub:'drive',                  text:"Build the counter-proposal — make a better answer the obvious choice"},
+    {arch:'hedonist',   sub:'reward_responsiveness',  text:"Voice your frustration honestly — say what doesn't feel right"},
+    {arch:'adventurer', sub:'fun_seeking',            text:"Treat it as a creative opening — what if we did this completely differently?"},
+    {arch:'sentinel',   sub:'threat_sensitivity',     text:"Watch and document — gather information before you do anything"},
+    {arch:'warrior',    sub:'fight',                  text:"Prepare your objections and push back hard at the right moment"},
+    {arch:'evader',     sub:'flight',                 text:"Stay out of it — protect your energy, pick your battles"},
   ]},
-  { id:'B3', section:'baseline', text:"You have to make a decision and there's no clear right answer.", options:[
-    {arch:'hedonist',  sub:'drive',                 text:"Go with your gut — what feels right"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Choose the option with the least downside"},
-    {arch:'lover',     sub:'perspective_taking',    text:"Talk it through with people you trust"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Analyze the options systematically — pros, cons, probabilities"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Ask which option best serves what you ultimately care about"},
+  { id:'D3', section:'drive', text:"Your workload has become unsustainable.", options:[
+    {arch:'achiever',   sub:'drive',                  text:"Strip everything but the highest-impact items — make the cut and execute"},
+    {arch:'hedonist',   sub:'reward_responsiveness',  text:"Find the small pleasures in it — make the work as enjoyable as possible"},
+    {arch:'adventurer', sub:'fun_seeking',            text:"Change something — your environment, your routine, the order — keep it fresh"},
+    {arch:'sentinel',   sub:'threat_sensitivity',     text:"Quietly catalog what's at risk — what could break, where to put guardrails"},
+    {arch:'warrior',    sub:'fight',                  text:"Power through — push harder, you can survive this"},
+    {arch:'evader',     sub:'flight',                 text:"Pull back — disconnect, take time off, get away from it"},
   ]},
-  { id:'B4', section:'baseline', text:"A team you're part of is brainstorming ideas.", options:[
-    {arch:'hedonist',  sub:'fun_seeking',           text:"Throw out bold, interesting ideas without worrying if they're practical yet"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Point out which ideas have fatal flaws before the group gets too attached"},
-    {arch:'lover',     sub:'perspective_taking',    text:"Make sure quieter voices are heard and people feel safe contributing"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Organize the ideas into categories and evaluate them against criteria"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Keep bringing the group back to the bigger picture — what are we actually trying to achieve?"},
+  { id:'D4', section:'drive', text:"You're facing a major life decision with significant consequences.", options:[
+    {arch:'achiever',   sub:'drive',                  text:"Pick what opens the biggest doors — go where you can build something"},
+    {arch:'hedonist',   sub:'reward_responsiveness',  text:"Trust your gut — which one feels most alive when you imagine it?"},
+    {arch:'adventurer', sub:'fun_seeking',            text:"Pick the one that scares you a little — the unknown is where the growth is"},
+    {arch:'sentinel',   sub:'threat_sensitivity',     text:"Focus on minimizing regret — what's safest, what protects what you've built"},
+    {arch:'warrior',    sub:'fight',                  text:"Choose what you're willing to defend — commit and don't back down"},
+    {arch:'evader',     sub:'flight',                 text:"Take the path of least disruption — keep your options open"},
   ]},
-  { id:'B5', section:'baseline', text:"You learn something that changes your understanding of a topic you care about.", options:[
-    {arch:'hedonist',  sub:'fun_seeking',           text:"Feel a rush of curiosity — want to explore more immediately"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Reassess what you thought you knew — what else might be wrong?"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Want to share it with someone and discuss it together"},
-    {arch:'strategist',sub:'cognitive_flexibility', text:"Start revising your mental model — how does this change your predictions?"},
-    {arch:'visionary', sub:'search_for_meaning',    text:"Wonder what this means at a deeper level — how does this shift what matters?"},
-  ]},
-  { id:'B6', section:'baseline', text:"You disagree with a decision your organization is making.", options:[
-    {arch:'hedonist',  sub:'reward_responsiveness', text:"Express your frustration — it just doesn't feel right"},
-    {arch:'warrior',   sub:'fight',                 text:"Prepare your objections carefully and pick the right moment to push back"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Talk to others who might feel the same — see if there's shared concern"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Build a clear case with evidence and alternative proposals"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Challenge whether the decision is consistent with the organization's stated values"},
+  { id:'D5', section:'drive', text:"You're in a negotiation and the other side is being difficult.", options:[
+    {arch:'achiever',   sub:'drive',                  text:"Stay focused on the outcome — keep driving toward what you came for"},
+    {arch:'hedonist',   sub:'reward_responsiveness',  text:"Find the rhythm — the back-and-forth can be its own kind of fun"},
+    {arch:'adventurer', sub:'fun_seeking',            text:"Get creative — what's a totally different angle nobody's brought up?"},
+    {arch:'sentinel',   sub:'threat_sensitivity',     text:"Slow down — watch for what they're going to do next, don't get caught off guard"},
+    {arch:'warrior',    sub:'fight',                  text:"Hold firm — don't give ground because they're pushing"},
+    {arch:'evader',     sub:'flight',                 text:"Look for an exit — find a way to disengage with minimal damage"},
   ]},
 
-  // ───── PRESSURE (7) ─────
-  { id:'P1', section:'pressure', text:"You're running late to something important.", options:[
-    {arch:'hedonist',  sub:null,                    text:"Don't stress too much — it'll be fine, people will understand"},
-    {arch:'warrior',   sub:'flight',                text:"Drive faster, find shortcuts, do whatever it takes to minimize the damage"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Text ahead to let people know — you don't want them to worry"},
-    {arch:'strategist',sub:'cognitive_flexibility', text:"Quickly calculate the fastest route and adjust the plan"},
-    {arch:'visionary', sub:'search_for_meaning',    text:"Ask yourself whether being late to this actually matters in the big picture"},
+  // ════════ SECTION 2 — THRIVING-MODE CAPACITIES (5) ════════
+  { id:'T1', section:'thriving', text:"You're starting a new project at work.", options:[
+    {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which parts of this you actually want. What parts give you energy or a feeling of enjoyment?"},
+    {arch:'veteran',    sub:'anticipatory_pleasure',   text:"Let yourself anticipate what will feel good about this happening, and let that feeling sustain you"},
+    {arch:'lover',      sub:'empathic_concern',        text:"Make sure the right people are involved and everyone feels good about their role"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Build a plan with milestones, dependencies, and contingencies"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"Get clear on why this project matters before diving into how"},
   ]},
-  { id:'P2', section:'pressure', text:"Someone you care about is angry with you and you're not sure why.", options:[
-    {arch:'hedonist',  sub:null,                    text:"Try to lighten the mood or wait for it to blow over"},
-    {arch:'warrior',   sub:'fight',                 text:"Brace yourself — figure out what you did and prepare to defend or fix it"},
-    {arch:'lover',     sub:'personal_distress',     text:"Feel their pain — it hurts that they're hurting, regardless of who's right"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Try to understand the root cause — what specifically triggered this?"},
-    {arch:'visionary', sub:'search_for_meaning',    text:"Reflect on whether this conflict points to a deeper misalignment in values"},
+  { id:'T2', section:'thriving', text:"You receive unexpected praise from someone you respect.", options:[
+    {arch:'egoist',     sub:'body_savoring',           text:"Let it really land. Notice what you feel when you take it in."},
+    {arch:'veteran',    sub:'reminiscing_positive',    text:"Come back to those words later. Let yourself enjoy the feeling again."},
+    {arch:'lover',      sub:'empathic_concern',        text:"Feel closer to them — it strengthens the relationship"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Think about what specifically you did well so you can replicate it"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"Feel affirmed that you're on the right path"},
   ]},
-  { id:'P3', section:'pressure', text:"You witness an injustice — someone being treated unfairly.", options:[
-    {arch:'hedonist',  sub:'reward_responsiveness', text:"Feel outraged — your whole body reacts"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Assess the situation — is it safe to intervene? What are the risks?"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Feel the other person's pain — your heart goes out to them"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Think about the most effective way to address this — who has authority, what are the channels?"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"See it as a moral imperative — this is wrong and it matters beyond this moment"},
+  { id:'T3', section:'thriving', text:"You have to make a decision and there's no clear right answer.", options:[
+    {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which option your body leans toward — there's information in the pull"},
+    {arch:'veteran',    sub:'reminiscing_positive',    text:"Think back to similar choices and how they actually played out — what does your experience say?"},
+    {arch:'lover',      sub:'perspective_taking',      text:"Talk it through with people you trust"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Analyze the options systematically — pros, cons, probabilities"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"Ask which option best serves what you ultimately care about"},
   ]},
-  { id:'P4', section:'pressure', text:"You receive critical feedback that stings.", options:[
-    {arch:'hedonist',  sub:null,                    text:"Brush it off initially — you'll process it later when it doesn't sting so much"},
-    {arch:'warrior',   sub:'fight',                 text:"Defend yourself — push back on the parts that are unfair"},
-    {arch:'lover',     sub:'personal_distress',     text:"Wonder if the relationship is damaged — is the person upset with you?"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Extract the useful information — what's accurate, what can you improve?"},
-    {arch:'visionary', sub:'search_for_meaning',    text:"Ask whether this feedback points to a gap between who you are and who you want to be"},
+  { id:'T4', section:'thriving', text:"A team you're part of is brainstorming ideas.", options:[
+    {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which ideas spark something in you — where the energy goes when people speak"},
+    {arch:'veteran',    sub:'reminiscing_positive',    text:"Build on what's worked before — what patterns can you bring in from past projects?"},
+    {arch:'lover',      sub:'perspective_taking',      text:"Make sure quieter voices are heard and people feel safe contributing"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Organize the ideas into categories and evaluate them against criteria"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"Keep bringing the group back to the bigger picture — what are we actually trying to achieve?"},
   ]},
-  { id:'P5', section:'pressure', text:"You're in a group where conflict is rising and people are getting emotional.", options:[
-    {arch:'hedonist',  sub:'fun_seeking',           text:"Try to inject humor or lightness to break the tension"},
-    {arch:'warrior',   sub:'fight',                 text:"Hold your ground — don't let the emotional chaos make you back down"},
-    {arch:'lover',     sub:'perspective_taking',    text:"Acknowledge what people are feeling — name the emotions in the room"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Try to separate the emotional reactions from the actual problem to be solved"},
-    {arch:'visionary', sub:'presence_of_meaning',   text:"Remind the group what they're all here for — the shared purpose that transcends this disagreement"},
-  ]},
-  { id:'P6', section:'pressure', text:"You're facing a major life decision with significant consequences.", options:[
-    {arch:'hedonist',  sub:'drive',                 text:"Trust your instincts — you usually know what feels right"},
-    {arch:'warrior',   sub:'threat_sensitivity',    text:"Focus on protecting what you've built — minimize regret"},
-    {arch:'lover',     sub:'perspective_taking',    text:"Consider how it affects the people closest to you"},
-    {arch:'strategist',sub:'analytical_thinking',   text:"Build decision matrices, seek data, consult experts"},
-    {arch:'visionary', sub:'self_transcendence',    text:"Ask what you'll wish you had chosen when you look back at the end of your life"},
-  ]},
-  { id:'P7', section:'pressure', text:"You hear rumors about layoffs at your organization.", options:[
-    {arch:'hedonist',  sub:null,                    text:"Try not to think about it too much — worrying won't help"},
-    {arch:'warrior',   sub:'flight',                text:"Update your resume, secure your position, prepare for the worst"},
-    {arch:'lover',     sub:'empathic_concern',      text:"Check in with colleagues — how are people feeling? Who's vulnerable?"},
-    {arch:'strategist',sub:'future_consequences',   text:"Assess the situation — read the financial signals, figure out which teams are at risk"},
-    {arch:'visionary', sub:'search_for_meaning',    text:"Reflect on whether this organization still aligns with what you want your career to stand for"},
+  { id:'T5', section:'thriving', text:"You learn something that changes your understanding of a topic you care about.", options:[
+    {arch:'egoist',     sub:'body_savoring',           text:"Notice how it lands in your body — the click of something falling into place"},
+    {arch:'veteran',    sub:'anticipatory_pleasure',   text:"Imagine where this could take you — what becomes possible now that you couldn't see before?"},
+    {arch:'lover',      sub:'empathic_concern',        text:"Want to share it with someone and discuss it together"},
+    {arch:'strategist', sub:'cognitive_flexibility',   text:"Start revising your mental model — how does this change your predictions?"},
+    {arch:'visionary',  sub:'search_for_meaning',      text:"Wonder what this means at a deeper level — how does this shift what matters?"},
   ]},
 
-  // ───── IDENTITY (2) ─────
-  { id:'I1', section:'identity', text:"You're asked to compromise on something you believe in to keep the peace.", options:[
-    {arch:'hedonist',  sub:null,                                  text:"It depends on how much it affects you personally — some battles aren't worth fighting"},
-    {arch:'warrior',   sub:'fight',                               text:"Refuse — if you compromise on this, where does it end?"},
-    {arch:'lover',     sub:'perspective_taking',                  text:"Weigh the relationship — is the connection more important than being right?"},
-    {arch:'strategist',sub:'future_consequences',                 text:"Assess the strategic implications — what precedent does this set?"},
-    {arch:'visionary', sub:'presence_of_meaning',                 text:"This is non-negotiable — some things matter more than peace"},
+  // ════════ SECTION 3 — PROTECTING-MODE CAPACITIES (5) ════════
+  { id:'P1', section:'protecting', text:"You're running late to something important.", options:[
+    {arch:'egoist',     sub:'body_vigilance',          text:"Feel your body tighten — adrenaline kicking in, urgency taking over"},
+    {arch:'veteran',    sub:'worry',                   text:"Run through what's likely to go wrong — the awkward entrance, the catch-up afterward"},
+    {arch:'lover',      sub:'empathic_concern',        text:"Text ahead to let people know — you don't want them to worry"},
+    {arch:'strategist', sub:'cognitive_flexibility',   text:"Quickly calculate the fastest route and adjust the plan"},
+    {arch:'visionary',  sub:'search_for_meaning',      text:"Ask yourself whether being late to this actually matters in the big picture"},
   ]},
-  { id:'I2', section:'identity', text:"In the final hours of your life, what matters most to you?", options:[
-    {arch:'hedonist',  sub:['reward_responsiveness','drive'],     text:"That you lived fully — tasted everything, held nothing back"},
-    {arch:'warrior',   sub:'fight',                               text:"That you protected the people and things that mattered — you held the line"},
-    {arch:'lover',     sub:'empathic_concern',                    text:"That you loved well and were loved — the relationships were real"},
-    {arch:'strategist',sub:'analytical_thinking',                 text:"That you made smart choices — built something, left things better than you found them"},
-    {arch:'visionary', sub:'self_transcendence',                  text:"That your life meant something — you served something larger than yourself"},
+  { id:'P2', section:'protecting', text:"Someone you care about is angry with you and you're not sure why.", options:[
+    {arch:'egoist',     sub:'anxiety_sensitivity',     text:"Notice it in your body first — the knot in your stomach already knows something's wrong"},
+    {arch:'veteran',    sub:'rumination',              text:"Replay recent interactions — when did something shift? What did you miss?"},
+    {arch:'lover',      sub:'personal_distress',       text:"Feel their pain — it hurts that they're hurting, regardless of who's right"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Try to understand the root cause — what specifically triggered this?"},
+    {arch:'visionary',  sub:'search_for_meaning',      text:"Reflect on whether this conflict points to a deeper misalignment in values"},
+  ]},
+  { id:'P3', section:'protecting', text:"You witness an injustice — someone being treated unfairly.", options:[
+    {arch:'egoist',     sub:'somatic_threat',          text:"Feel the heat rise — your whole body registering the wrongness of it"},
+    {arch:'veteran',    sub:'worry',                   text:"Recognize the pattern — when have you seen this before? Where does it lead if no one stops it?"},
+    {arch:'lover',      sub:'empathic_concern',        text:"Feel the other person's pain — your heart goes out to them"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Think about the most effective way to address this — who has authority, what are the channels?"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"See it as a moral imperative — this is wrong and it matters beyond this moment"},
+  ]},
+  { id:'P4', section:'protecting', text:"You're in a group where conflict is rising and people are getting emotional.", options:[
+    {arch:'egoist',     sub:'body_vigilance',          text:"Tune in to the room — the tightness, the rising heat, your own body's response"},
+    {arch:'veteran',    sub:'worry',                   text:"Watch for what's coming — who's about to crack, where this is heading"},
+    {arch:'lover',      sub:'perspective_taking',      text:"Acknowledge what people are feeling — name the emotions in the room"},
+    {arch:'strategist', sub:'analytical_thinking',     text:"Try to separate the emotional reactions from the actual problem to be solved"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"Remind the group what they're all here for — the shared purpose that transcends this disagreement"},
+  ]},
+  { id:'P5', section:'protecting', text:"You're asked to compromise on something you believe in to keep the peace.", options:[
+    {arch:'egoist',     sub:'interoceptive_awareness', text:"Feel where the no lives in your body — the part of you that won't move"},
+    {arch:'veteran',    sub:'rumination',              text:"Run through what's happened other times you've compromised — what did it cost?"},
+    {arch:'lover',      sub:'perspective_taking',      text:"Weigh the relationship — is the connection more important than being right?"},
+    {arch:'strategist', sub:'future_consequences',     text:"Assess the strategic implications — what precedent does this set?"},
+    {arch:'visionary',  sub:'presence_of_meaning',     text:"This is non-negotiable — some things matter more than peace"},
   ]},
 ];
 
-// Section composition — uses all 15 scenarios; order is randomized per session
-const SESSION_COMPOSITION = { baseline: 6, pressure: 7, identity: 2 };
+const SESSION_COMPOSITION = { drive: 5, thriving: 5, protecting: 5 };
 const TOTAL_Q = 15;
 
 // ══════════════════════════════════════════════════════════════════
@@ -2055,15 +2322,17 @@ function shuffle(arr){
 
 function buildSession(){
   const byType = {
-    baseline:  POOL.filter(s=>s.section==='baseline'),
-    pressure:  POOL.filter(s=>s.section==='pressure'),
-    identity:  POOL.filter(s=>s.section==='identity'),
+    drive:      POOL.filter(s=>s.section==='drive'),
+    thriving:   POOL.filter(s=>s.section==='thriving'),
+    protecting: POOL.filter(s=>s.section==='protecting'),
   };
   const picked = [];
-  for(const [section, n] of Object.entries(SESSION_COMPOSITION)){
+  // Section order is fixed: drive (Sec 1) -> thriving (Sec 2) -> protecting (Sec 3)
+  for(const section of ['drive','thriving','protecting']){
+    const n = SESSION_COMPOSITION[section];
     picked.push(...shuffle(byType[section]).slice(0, n));
   }
-  state.sessionScenarios = shuffle(picked);
+  state.sessionScenarios = picked;
   state.currentIdx = 0;
   state.answers = {};
   state.optionShuffles = {};
@@ -2190,7 +2459,7 @@ function renderScenario(){
     </button>\`;
   }).join('');
 
-  const phaseLabels = { baseline:'Everyday scenarios', pressure:'Under pressure', identity:'Identity and values' };
+  const phaseLabels = { drive:'Drive — what pulls you', thriving:'Thriving — approach mode', protecting:'Protecting — pressure mode' };
   const phaseScens = state.sessionScenarios.filter(x => x.section === s.section);
   const withinIdx = phaseScens.findIndex(x => x.id === s.id);
   const phaseLine = (phaseLabels[s.section] || s.section) + ' \u00b7 <span class="qphase-num">' + (withinIdx + 1) + ' of ' + phaseScens.length + '</span>';
@@ -2254,345 +2523,315 @@ function runProcessing(){
 }
 
 // ══════════════════════════════════════════════════════════════════
-// SCORING
+// SCORING — new model
+// Section 1 (drive): scores Thriving vs Protecting balance + sub-archetype distribution
+// Sections 2 & 3 (thriving/protecting): score capacity profile in each mode
 // ══════════════════════════════════════════════════════════════════
 
 const POINTS = [3, 2, 1]; // 1st pick = 3, 2nd = 2, 3rd = 1
 
 function calcScores(){
-  const blank = () => ({hedonist:0,warrior:0,lover:0,strategist:0,visionary:0});
-  const scores = { baseline: blank(), pressure: blank(), identity: blank() };
-  const counts = { baseline: 0, pressure: 0, identity: 0 };
+  const blankCap = () => ({egoist:0, veteran:0, lover:0, strategist:0, visionary:0});
+  const blankSub = () => ({achiever:0, hedonist:0, adventurer:0, sentinel:0, warrior:0, evader:0});
 
-  // Subscale scores: subRaw[arch][subKey] = { baseline, pressure, identity }
-  const subRaw = {};
-  for(const arch of ARCHS){
-    subRaw[arch] = {};
-    for(const subKey of Object.keys(SUBSCALES[arch])){
-      subRaw[arch][subKey] = { baseline:0, pressure:0, identity:0 };
-    }
-  }
+  const subArchScores = blankSub();          // Section 1 sub-archetype totals
+  const driveScores = { thriving:0, protecting:0 }; // Section 1 drive aggregate
+  const capScores = { thriving: blankCap(), protecting: blankCap() }; // Sections 2 & 3
+  const counts = { drive:0, thriving:0, protecting:0 };
 
   state.sessionScenarios.forEach(s => {
     counts[s.section]++;
     const ans = state.answers[s.id] || [];
-    ans.forEach((arch, i) => {
-      if(i < POINTS.length){
-        scores[s.section][arch] += POINTS[i];
-        // Subscale tracking — find the option to look up its subscale tag
-        const opt = s.options.find(o => o.arch === arch);
-        if(opt && opt.sub){
-          const subKeys = Array.isArray(opt.sub) ? opt.sub : [opt.sub];
-          subKeys.forEach(sk => {
-            if(subRaw[arch][sk]) subRaw[arch][sk][s.section] += POINTS[i];
-          });
+    ans.forEach((pick, i) => {
+      if(i >= POINTS.length) return;
+      const pts = POINTS[i];
+      if(s.section === 'drive'){
+        // pick is a sub-archetype key
+        if(subArchScores[pick] !== undefined){
+          subArchScores[pick] += pts;
+          const drv = SUB_ARCH_BY_DRIVE.thriving.includes(pick) ? 'thriving' : 'protecting';
+          driveScores[drv] += pts;
+        }
+      } else {
+        // pick is a capacity key; s.section is 'thriving' or 'protecting'
+        if(capScores[s.section] && capScores[s.section][pick] !== undefined){
+          capScores[s.section][pick] += pts;
         }
       }
     });
   });
 
-  // Max possible per section per capacity: count * 3 (always 1st pick)
-  const maxes = {
-    baseline: counts.baseline * 3,
-    pressure: counts.pressure * 3,
-    identity: counts.identity * 3,
-  };
+  // Max possible per scenario = 3+2+1 = 6 (if user uses all 3 picks)
+  const maxPer = 6;
+  const driveMax = counts.drive * maxPer;
+  const capMax = { thriving: counts.thriving * maxPer, protecting: counts.protecting * maxPer };
 
-  // Normalize to 0-100% per section
-  const pct = {};
-  for(const sec of ['baseline','pressure','identity']){
-    pct[sec] = {};
-    for(const a of ARCHS){
-      pct[sec][a] = maxes[sec] > 0 ? Math.round((scores[sec][a] / maxes[sec]) * 100) : 0;
+  // Drive balance as a 0-100 split favoring thriving (50 = balanced, >50 = more thriving)
+  const driveTotal = driveScores.thriving + driveScores.protecting;
+  const drivePct = driveTotal > 0
+    ? Math.round((driveScores.thriving / driveTotal) * 100)
+    : 50;
+
+  // Sub-archetype as % of total Section 1 points
+  const subPct = {};
+  for(const k of SUB_ARCHS){
+    subPct[k] = driveTotal > 0 ? Math.round((subArchScores[k] / driveTotal) * 100) : 0;
+  }
+
+  // Capacity % of max per section
+  const capPct = { thriving:{}, protecting:{} };
+  for(const sec of ['thriving','protecting']){
+    for(const c of CAPACITIES){
+      capPct[sec][c] = capMax[sec] > 0 ? Math.round((capScores[sec][c] / capMax[sec]) * 100) : 0;
     }
   }
 
-  return { raw: scores, max: maxes, pct, subRaw };
+  return {
+    drive: { thrivingPct: drivePct, protectingPct: 100 - drivePct, raw: driveScores, max: driveMax },
+    subArch: { raw: subArchScores, pct: subPct },
+    capacity: { raw: capScores, pct: capPct, max: capMax },
+    counts,
+  };
 }
 
-function topN(scoreObj, n=2){
-  return [...ARCHS]
-    .sort((a,b) => scoreObj[b] - scoreObj[a])
-    .slice(0, n);
+function topNCap(scoreObj, n=2){
+  return [...CAPACITIES].sort((a,b) => scoreObj[b] - scoreObj[a]).slice(0, n);
 }
-
-function bottomN(scoreObj, n=2){
-  return [...ARCHS]
-    .sort((a,b) => scoreObj[a] - scoreObj[b])
-    .slice(0, n);
+function bottomNCap(scoreObj, n=2){
+  return [...CAPACITIES].sort((a,b) => scoreObj[a] - scoreObj[b]).slice(0, n);
 }
-
-function calcOverall(pct){
-  // Average across all three sections per capacity
-  const out = {};
-  for(const a of ARCHS){
-    out[a] = (pct.baseline[a] + pct.pressure[a] + pct.identity[a]) / 3;
-  }
-  return out;
-}
-
-function calcGap(pct){
-  // baseline minus pressure per capacity
-  const gap = {};
-  for(const a of ARCHS){
-    gap[a] = pct.baseline[a] - pct.pressure[a];
-  }
-  return gap;
+function topSubArch(scoreObj, drive){
+  const subs = SUB_ARCH_BY_DRIVE[drive];
+  return [...subs].sort((a,b) => scoreObj[b] - scoreObj[a]);
 }
 
 // ══════════════════════════════════════════════════════════════════
-// RESULTS
+// RENDER RESULTS — new model
+// 1. Drive slider (Thriving :: Protecting) with click-to-expand sub-archetype detail
+// 2. Side-by-side bar charts (Thriving-mode capacities | Protecting-mode capacities)
+// 3. Coaching prompts based on top sub-archetypes + top/bottom capacities
 // ══════════════════════════════════════════════════════════════════
 
+// ══════════════════════════════════════════════════════════════════
+// SHOW RESULTS — bridge from completed assessment to rendered results
+// ══════════════════════════════════════════════════════════════════
 function showResults(){
   const scored = calcScores();
-  const overall = calcOverall(scored.pct);
-  const gap = calcGap(scored.pct);
-
-  const leadTop = topN(scored.pct.baseline, 2);
-  const pressTop = topN(scored.pct.pressure, 2);
-  const underTop = bottomN(overall, 2);
-
-  // Biggest positive gap = capacity that drops most under pressure
-  const gapEntries = Object.entries(gap).sort((a,b) => b[1] - a[1]);
-  const biggestGapArch = gapEntries[0][0];
-  const biggestGapVal = gapEntries[0][1];
-
-  renderResults(scored, leadTop, pressTop, underTop, biggestGapArch, biggestGapVal, gap);
+  _lastScored = scored;  // legacy global for emailResults/share link
+  const resultsContent = document.getElementById('results-content');
+  if(resultsContent){
+    resultsContent.innerHTML = renderResults(scored);
+  }
   showPage('pg-results');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function renderResults(scored, leadTop, pressTop, underTop, gapArch, gapVal, gap){
-  const top1 = leadTop[0];
-  const top2 = leadTop[1];
-  const gAD = AD[gapArch];
-  const top1AD = AD[top1];
-  const top2AD = AD[top2];
-  const underArch = underTop[0];
-  const underAD = AD[underArch];
+function renderResults(scored){
+  const drvT = scored.drive.thrivingPct;
+  const drvP = scored.drive.protectingPct;
+  const thrCaps = scored.capacity.pct.thriving;
+  const prtCaps = scored.capacity.pct.protecting;
 
-  const bar = buildBarSVG(scored.pct.baseline, scored.pct.pressure, gap);
-  const radar = buildRadarSVG(scored.pct.baseline, scored.pct.pressure);
+  // Top sub-archetypes within each drive
+  const topThriverSubs = topSubArch(scored.subArch.raw, 'thriving');
+  const topProtectorSubs = topSubArch(scored.subArch.raw, 'protecting');
 
-  // ── HEADLINE TAKEAWAY ──
-  let headlineHTML;
-  if(gapVal >= 25){
-    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> going offline under pressure.\`;
-  } else if(gapVal >= 15){
-    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> weakening under pressure.\`;
-  } else if(gapVal >= 0){
-    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, holding most capacities steady across conditions.\`;
-  } else {
-    headlineHTML = \`You lead with <strong style="color:\${top1AD.color}">The \${top1AD.name}</strong> and <strong style="color:\${top2AD.color}">The \${top2AD.name}</strong>, with <strong style="color:\${gAD.color}">The \${gAD.name}</strong> rising under pressure.\`;
-  }
+  // Top + bottom capacities per mode
+  const thrTop = topNCap(thrCaps, 2);
+  const thrBot = bottomNCap(thrCaps, 2);
+  const prtTop = topNCap(prtCaps, 2);
+  const prtBot = bottomNCap(prtCaps, 2);
 
-  // ── WATCH-FOR PARSER ──
-  const watchForOf = (k) => {
-    const lead = AD[k].lead;
-    const m = lead.match(/Watch for:\s*(.+?)\.?$/);
-    return m ? m[1].trim().replace(/\.$/, '') : '';
-  };
+  // ── Drive slider ──
+  const driveSlider = buildDriveSlider(drvT, drvP);
 
-  // ── HELPERS ──
-  const archPill = (k) => {
-    const a = AD[k];
-    return \`<span class="r-archpill" style="color:\${a.color};border-color:\${a.border};background:\${a.bg}"><span class="ic">\${a.icon}</span>\${a.name}</span>\`;
-  };
+  // ── Sub-archetype expandable panels ──
+  const subPanels = buildSubArchPanels(scored.subArch.pct, topThriverSubs, topProtectorSubs);
 
-  // ── WATCH-FOR CARDS ──
-  const wfArchs = [top1, top2];
-  if(!wfArchs.includes(gapArch) && gapVal >= 15) wfArchs.push(gapArch);
-  const watchForHTML = wfArchs.map(arch => {
-    const a = AD[arch];
-    const wf = watchForOf(arch);
-    return \`<div class="watchfor-card" style="--wf-color:\${a.color};--wf-bg:\${a.bg};--wf-border:\${a.border}">
-      <div class="watchfor-arch">\${a.icon} The \${a.name}</div>
-      <div class="watchfor-body">\${wf}.</div>
-      <a href="#" class="watchfor-link" onclick="event.preventDefault();openArchModal('\${arch}')">Learn more about the \${a.name} →</a>
-    </div>\`;
-  }).join('');
+  // ── Capacity bar charts (side by side) ──
+  const capBars = buildCapacityBars(thrCaps, prtCaps, thrTop, prtTop, thrBot, prtBot);
 
-  // ── REFLECTION PROMPTS ──
-  const reflectItems = [];
-  REFLECTION_PROMPTS[top1].forEach(q => reflectItems.push(\`<li><strong style="color:\${top1AD.color}">\${top1AD.name}</strong>\${q}</li>\`.replace('</strong>', '</strong> ')));
-  REFLECTION_PROMPTS[top2].forEach(q => reflectItems.push(\`<li><strong style="color:\${top2AD.color}">\${top2AD.name}</strong> \${q}</li>\`));
-  if(GAP_PROMPTS[gapArch] && gapVal >= 15){
-    reflectItems.push(\`<li><strong style="color:\${gAD.color}">Gap (\${gAD.name})</strong> \${GAP_PROMPTS[gapArch]}</li>\`);
-  }
-  if(UNDERUSE_PROMPTS[underArch]){
-    reflectItems.push(\`<li><strong style="color:\${underAD.color}">Underuse (\${underAD.name})</strong> \${UNDERUSE_PROMPTS[underArch]}</li>\`);
-  }
+  // ── Headline ──
+  const drvDom = drvT >= 55 ? 'thriving' : (drvP >= 55 ? 'protecting' : 'balanced');
+  const headlineHTML = buildHeadline(drvDom, drvT, drvP, topThriverSubs[0], topProtectorSubs[0], thrTop[0], prtTop[0]);
 
-  // ── GAP INTERPRETATION ──
-  let gapHeadline, gapBody;
-  if(gapVal >= 30){
-    gapHeadline = \`\${gAD.icon} \${gAD.name} drops sharply under pressure\`;
-    gapBody = \`\${gAD.name} is one of your strengths at baseline — but loses \${gapVal} points (out of 100) when stakes are high. This is a significant gap. The work of leadership under pressure is noticing when \${gAD.name} goes offline, and reaching for it deliberately when stress is asking you to abandon it.\`;
-  } else if(gapVal >= 15){
-    gapHeadline = \`\${gAD.icon} \${gAD.name} weakens under pressure\`;
-    gapBody = \`\${gAD.name} drops by \${gapVal} points when conditions get hard. A moderate gap — present but not collapse. Worth tracking in real time: when do you feel \${gAD.name} starting to recede, and what brings it back?\`;
-  } else if(gapVal >= 0){
-    gapHeadline = \`Stable across baseline and pressure\`;
-    gapBody = \`Your largest baseline-to-pressure gap is only \${gapVal} points (\${gAD.name}). You hold most of your capacities consistently across conditions, which is unusual. The question worth sitting with: are there capacities you might be less aware of because nothing dramatic shifts?\`;
-  } else {
-    const absGap = Math.abs(gapVal);
-    gapHeadline = \`\${gAD.icon} \${gAD.name} actually rises under pressure\`;
-    gapBody = \`Interestingly, \${gAD.name} is \${absGap} points stronger under pressure than at baseline. This suggests \${gAD.name} is a stress response — something you reach for when things get hard, not your default mode. Worth examining whether this is adaptive or compensatory.\`;
-  }
+  // ── Coaching prompts ──
+  const promptsHTML = buildCoachingPrompts(topThriverSubs[0], topProtectorSubs[0], thrTop, thrBot, prtTop, prtBot);
 
-  // ── GOING DEEPER (per-capacity descriptions with subscale score icons) ──
-  const goingDeeperHTML = ARCHS.map(arch => {
-    const ad = AD[arch];
-    const subData = scored.subRaw ? scored.subRaw[arch] : null;
-    let subscaleHTML = '';
-    if(subData){
-      const subEntries = Object.entries(SUBSCALES[arch]).map(([key, label]) => {
-        const sd = subData[key];
-        const userScore = sd.baseline + sd.pressure + sd.identity;
-        const counts = SUBSCALE_COUNTS[arch][key];
-        const maxScore = counts.total * 3;
-        const fill = maxScore > 0 ? Math.round((userScore / maxScore) * 100) : 0;
-        return \`<div class="gd-subscale">
-          <div class="gd-subscale-label">\${label}</div>
-          <div class="gd-subscale-bar"><div class="gd-subscale-fill" style="width:\${fill}%;background:\${ad.color}"></div></div>
-          <div class="gd-subscale-score">\${userScore} of \${maxScore}</div>
-        </div>\`;
-      }).join('');
-      subscaleHTML = \`<div class="gd-subscales">\${subEntries}</div>\`;
-    }
-    return \`<div class="gd-card" style="--gd-color:\${ad.color}">
-      <div class="gd-arch-hdr"><span class="gd-icon" style="color:\${ad.color}">\${ad.icon}</span> The \${ad.name} <span class="gd-tagline">— \${ad.tagline}</span></div>
-      <p class="gd-body">\${ad.lead}</p>
-      \${subscaleHTML}
-    </div>\`;
-  }).join('');
+  return \`
+    <div class="r-headline">\${headlineHTML}</div>
 
-  // ── DEEP-DIVES (filtered to relevant + show-all) ──
-  const relevantSet = new Set([top1, top2, gapArch, underArch]);
-  const relevantArchs = ARCHS.filter(a => relevantSet.has(a));
-  const otherArchs = ARCHS.filter(a => !relevantSet.has(a));
-  const archDeepBtn = (arch) => {
-    const ad = AD[arch];
-    return \`<button class="arch-deep-btn" id="arch-deep-btn-\${arch}" style="border-color:\${ad.color}40" onclick="toggleArchDeep('\${arch}')" data-arch-color="\${ad.color}">
-      <span class="arch-deep-icon" style="color:\${ad.color}">\${ad.icon}</span>
-      <span class="arch-deep-name" style="color:\${ad.color}">The \${ad.name}</span>
-      <span class="arch-deep-arrow" id="arch-deep-arrow-\${arch}">→</span>
-    </button>\`;
-  };
+    <h2 class="r-sec-title">Your drive balance</h2>
+    <p class="r-sec-sub">Where you tend to live by default — leaning into what supports flourishing, or guarding against what threatens.</p>
+    \${driveSlider}
+    \${subPanels}
 
-  const html = \`
-  <div class="r-headline-block fade-up">
-    <div class="r-eyebrow">Your Capacity Profile</div>
-    <p class="r-headline">\${headlineHTML}</p>
-  </div>
+    <h2 class="r-sec-title">Your capacity profile</h2>
+    <p class="r-sec-sub">Which of the five capacities you lean on most — split by whether you're in approach mode or under pressure.</p>
+    \${capBars}
 
-  <div class="r-graph fade-up">
-    <div class="graph-toggle" role="tablist">
-      <button class="graph-toggle-btn active" id="graph-tog-bar" onclick="setGraphMode('bar')">Bar comparison</button>
-      <button class="graph-toggle-btn" id="graph-tog-radar" onclick="setGraphMode('radar')">Radar chart</button>
-    </div>
-    <div class="graph-container">
-      <div class="graph-mode-bar" id="graph-bar">\${bar}</div>
-      <div class="graph-mode-radar" id="graph-radar" style="display:none">\${radar}</div>
-    </div>
-    <div class="graph-legend">
-      <div class="rleg"><div class="rleg-swatch" style="background:#D4A854;opacity:.5"></div>Baseline</div>
-      <div class="rleg"><div class="rleg-swatch" style="background:#A85454;opacity:.5"></div>Under pressure</div>
-    </div>
-  </div>
-
-  <div class="sec-divider">So what</div>
-
-  <div class="gapbox fade-up">
-    <div class="gapbox-lbl">Largest baseline-to-pressure shift</div>
-    <div class="gapbox-headline" style="color:\${gAD.color}">\${gapHeadline}</div>
-    <div class="gapbox-body">\${gapBody}</div>
-  </div>
-
-  <div class="sowhat-watchfor fade-up">
-    <div class="sowhat-hdr">Watch for</div>
-    <div class="watchfor-grid">
-      \${watchForHTML}
-    </div>
-  </div>
-
-  <div class="sowhat-reflect fade-up">
-    <div class="sowhat-hdr">Sit with this</div>
-    <ul class="reflect-list">
-      \${reflectItems.join('')}
-    </ul>
-  </div>
-
-  <div class="sec-divider">You may underuse…</div>
-  <div class="rblock fade-up" style="border-style:dashed">
-    <div class="rblock-lbl">Lowest 1–2 across all sections</div>
-    <div class="rblock-archs">\${underTop.map(archPill).join('')}</div>
-    \${underTop.map(k => \`<div class="rblock-body"><strong>\${AD[k].icon} \${AD[k].name}</strong> — \${AD[k].underuse}</div>\`).join('')}
-  </div>
-
-  \${scored.subRaw ? \`
-  <div class="going-deeper-section fade-up">
-    <div class="sub-section-hdr">Going deeper</div>
-    <p class="sub-prompt">Each capacity is composed of multiple components, some of which can be surprising and enlightening. If you want to see more, click here.</p>
-    <div class="sub-toggle-wrap">
-      <button class="btn-sub-toggle" onclick="toggleGoingDeeper()" id="going-deeper-toggle">Show component scores ▼</button>
-    </div>
-    <div class="going-deeper-content" id="going-deeper-content" style="display:none">
-      \${goingDeeperHTML}
-    </div>
-  </div>
-
-  <div class="sub-section fade-up">
-    <div class="sub-section-hdr">About each capacity</div>
-    <p class="sub-prompt">Detailed descriptions of the capacities most relevant to your profile.</p>
-    <div class="arch-deep-grid">
-      \${relevantArchs.map(archDeepBtn).join('')}
-    </div>
-    \${otherArchs.length > 0 ? \`
-    <div class="show-all-wrap">
-      <button class="btn-show-all" onclick="showAllCapacities()" id="show-all-btn">Show all 5 capacities ▼</button>
-    </div>
-    <div class="arch-deep-grid arch-deep-grid-others" id="arch-deep-grid-others" style="display:none">
-      \${otherArchs.map(archDeepBtn).join('')}
-    </div>\` : ''}
-    <div class="arch-deep-panel" id="arch-deep-panel" aria-live="polite"></div>
-  </div>\` : ''}
-
-  <div class="r-actions fade-up">
-    <button class="btn btn-dark" onclick="emailResults()">Email me my results</button>
-    <button class="btn btn-ghost" onclick="copyShare()">Copy shareable link</button>
-  </div>
-
-  <div style="text-align:center;margin-top:22px">
-    <a class="found-link" href="#foundations" onclick="openFoundations(event)">Theoretical foundations →</a>
-  </div>
-
-  <div class="footer">© Jennifer May / Incite Leadership</div>\`;
-
-  document.getElementById('results-content').innerHTML = html;
-
-  _lastScored = scored;
-
-  try{
-    _lastShareHash = encodeResults(scored.pct);
-  } catch(e){ _lastShareHash = ''; }
-
-  try{
-    if(_lastShareHash) history.replaceState(null, '', '#r=' + _lastShareHash);
-  } catch(e){ /* sandboxed iframe */ }
+    <h2 class="r-sec-title">Reflections</h2>
+    \${promptsHTML}
+  \`;
 }
 
-
-// ══════════════════════════════════════════════════════════════════
-// EMAIL RESULTS (mailto: — opens user's email client with pre-filled link)
-// ══════════════════════════════════════════════════════════════════
-function emailResults(){
-  // Build URL with hash. Fallback: try to construct one if _lastShareHash is empty.
-  let hash = _lastShareHash;
-  if(!hash){
-    try { hash = encodeResults(_lastScored.pct); } catch(e){ hash = ''; }
+function buildHeadline(domStr, drvT, drvP, topThr, topPro, topThrCap, topProCap){
+  const subThr = SUB_ARCH_DETAIL[topThr];
+  const subPro = SUB_ARCH_DETAIL[topPro];
+  const capThr = CAPACITY_DETAIL[topThrCap];
+  const capPro = CAPACITY_DETAIL[topProCap];
+  let drvLine;
+  if(domStr === 'thriving'){
+    drvLine = \`You default into <strong style="color:\${DRIVE_DETAIL.thriving.color}">Thriving</strong> (\${drvT}% / \${drvP}%) — approach is your home base.\`;
+  } else if(domStr === 'protecting'){
+    drvLine = \`You default into <strong style="color:\${DRIVE_DETAIL.protecting.color}">Protecting</strong> (\${drvT}% / \${drvP}%) — guarding is your home base.\`;
+  } else {
+    drvLine = \`You balance <strong style="color:\${DRIVE_DETAIL.thriving.color}">Thriving</strong> and <strong style="color:\${DRIVE_DETAIL.protecting.color}">Protecting</strong> (\${drvT}% / \${drvP}%) — flexible across both.\`;
   }
+  return \`
+    <p class="r-headline-line">\${drvLine}</p>
+    <p class="r-headline-line">When Thriving is active, you lead with <strong style="color:\${subThr.drive === 'thriving' ? DRIVE_DETAIL.thriving.color : DRIVE_DETAIL.protecting.color}">\${subThr.name}</strong> energy and reach for the <strong style="color:\${capThr.color}">\${capThr.name}</strong> capacity.</p>
+    <p class="r-headline-line">When Protecting is active, you lead with <strong style="color:\${DRIVE_DETAIL.protecting.color}">\${subPro.name}</strong> energy and reach for the <strong style="color:\${capPro.color}">\${capPro.name}</strong> capacity.</p>
+  \`;
+}
+
+function buildDriveSlider(thrPct, prtPct){
+  const tColor = DRIVE_DETAIL.thriving.color;
+  const pColor = DRIVE_DETAIL.protecting.color;
+  return \`
+    <div class="drive-slider">
+      <div class="drive-slider-bar">
+        <div class="drive-slider-thr" style="width:\${thrPct}%;background:\${tColor}"></div>
+        <div class="drive-slider-prt" style="width:\${prtPct}%;background:\${pColor}"></div>
+        <div class="drive-slider-marker" style="left:\${thrPct}%"></div>
+      </div>
+      <div class="drive-slider-labels">
+        <span class="drive-label-l" style="color:\${tColor}">Thriving \${thrPct}%</span>
+        <span class="drive-label-r" style="color:\${pColor}">Protecting \${prtPct}%</span>
+      </div>
+    </div>
+  \`;
+}
+
+function buildSubArchPanels(subPct, topThr, topPro){
+  const panelFor = (drv, topList) => {
+    const driveD = DRIVE_DETAIL[drv];
+    const items = topList.map((k, i) => {
+      const d = SUB_ARCH_DETAIL[k];
+      const p = SUB_ARCH_PROMPTS[k];
+      const isTop = i === 0;
+      const pct = subPct[k] || 0;
+      return \`
+        <div class="subarch-item\${isTop ? ' subarch-top' : ''}">
+          <div class="subarch-head">
+            <span class="subarch-name" style="color:\${driveD.color}">\${d.name}</span>
+            <span class="subarch-pct">\${pct}% of Section 1 picks</span>
+          </div>
+          <div class="subarch-tagline">\${d.tagline}</div>
+          <div class="subarch-access"><strong>Gives you access to:</strong> \${d.access}</div>
+          <div class="subarch-limit"><strong>Limits you here:</strong> \${d.limit}</div>
+          \${isTop ? \`<div class="subarch-prompt"><em>\${p.strength}</em></div><div class="subarch-prompt"><em>\${p.limit}</em></div>\` : ''}
+        </div>
+      \`;
+    }).join('');
+    return \`
+      <details class="subarch-panel" style="border-color:\${driveD.border};background:\${driveD.bg}">
+        <summary class="subarch-summary" style="color:\${driveD.color}">
+          \${driveD.name} sub-archetypes — click to expand
+        </summary>
+        <div class="subarch-body">\${items}</div>
+      </details>
+    \`;
+  };
+  return panelFor('thriving', topThr) + panelFor('protecting', topPro);
+}
+
+function buildCapacityBars(thrPcts, prtPcts, thrTop, prtTop, thrBot, prtBot){
+  const max = Math.max(
+    ...CAPACITIES.map(c => thrPcts[c] || 0),
+    ...CAPACITIES.map(c => prtPcts[c] || 0),
+    1
+  );
+  const barFor = (cap, pct, isTop, isBot) => {
+    const d = CAPACITY_DETAIL[cap];
+    const w = Math.round((pct / max) * 100);
+    const cls = isTop ? 'cap-bar-top' : (isBot ? 'cap-bar-bot' : '');
+    return \`
+      <div class="cap-bar-row \${cls}">
+        <span class="cap-bar-label" style="color:\${d.color}">\${d.icon} \${d.name}</span>
+        <div class="cap-bar-track">
+          <div class="cap-bar-fill" style="width:\${w}%;background:\${d.color}"></div>
+        </div>
+        <span class="cap-bar-pct">\${pct}</span>
+      </div>
+    \`;
+  };
+  const column = (title, pcts, top, bot, drvKey) => {
+    const titleColor = DRIVE_DETAIL[drvKey].color;
+    const rows = CAPACITIES.map(c => barFor(c, pcts[c] || 0, top.includes(c), bot.includes(c))).join('');
+    return \`
+      <div class="cap-col">
+        <h3 class="cap-col-title" style="color:\${titleColor}">\${title}</h3>
+        <p class="cap-col-sub">When \${drvKey} is active</p>
+        \${rows}
+      </div>
+    \`;
+  };
+  return \`
+    <div class="cap-bars-grid">
+      \${column('Thriving-mode capacities', thrPcts, thrTop, thrBot, 'thriving')}
+      \${column('Protecting-mode capacities', prtPcts, prtTop, prtBot, 'protecting')}
+    </div>
+    <div class="cap-legend">
+      <span><span class="cap-legend-dot cap-bar-top"></span>strongest in that mode</span>
+      <span><span class="cap-legend-dot cap-bar-bot"></span>least used in that mode</span>
+    </div>
+  \`;
+}
+
+function buildCoachingPrompts(topThr, topPro, thrTop, thrBot, prtTop, prtBot){
+  const lines = [];
+  // Top sub-archetype prompts for each drive
+  if(topThr){
+    const p = SUB_ARCH_PROMPTS[topThr];
+    const d = SUB_ARCH_DETAIL[topThr];
+    lines.push(\`<li><strong style="color:\${DRIVE_DETAIL.thriving.color}">\${d.name}</strong> — \${p.strength}</li>\`);
+    lines.push(\`<li><strong style="color:\${DRIVE_DETAIL.thriving.color}">\${d.name}</strong> — \${p.limit}</li>\`);
+  }
+  if(topPro){
+    const p = SUB_ARCH_PROMPTS[topPro];
+    const d = SUB_ARCH_DETAIL[topPro];
+    lines.push(\`<li><strong style="color:\${DRIVE_DETAIL.protecting.color}">\${d.name}</strong> — \${p.strength}</li>\`);
+    lines.push(\`<li><strong style="color:\${DRIVE_DETAIL.protecting.color}">\${d.name}</strong> — \${p.limit}</li>\`);
+  }
+  // Top capacity in Thriving + bottom capacity in Thriving
+  if(thrTop[0]){
+    const d = CAPACITY_DETAIL[thrTop[0]];
+    const p = CAPACITY_PROMPTS[thrTop[0]];
+    lines.push(\`<li><strong style="color:\${d.color}">\${d.name} (Thriving)</strong> — \${p.thrivingHigh}</li>\`);
+  }
+  if(thrBot[0]){
+    const d = CAPACITY_DETAIL[thrBot[0]];
+    const p = CAPACITY_PROMPTS[thrBot[0]];
+    lines.push(\`<li><strong style="color:\${d.color}">\${d.name} (Thriving)</strong> — \${p.thrivingLow}</li>\`);
+  }
+  // Top capacity in Protecting + bottom capacity in Protecting
+  if(prtTop[0]){
+    const d = CAPACITY_DETAIL[prtTop[0]];
+    const p = CAPACITY_PROMPTS[prtTop[0]];
+    lines.push(\`<li><strong style="color:\${d.color}">\${d.name} (Protecting)</strong> — \${p.protectingHigh}</li>\`);
+  }
+  if(prtBot[0]){
+    const d = CAPACITY_DETAIL[prtBot[0]];
+    const p = CAPACITY_PROMPTS[prtBot[0]];
+    lines.push(\`<li><strong style="color:\${d.color}">\${d.name} (Protecting)</strong> — \${p.protectingLow}</li>\`);
+  }
+  return \`<ul class="r-prompts">\${lines.join('')}</ul>\`;
+}
+
+function emailResults(){
+  // v3 model: share-link encoding disabled (incompatible with new scoring shape)
+  let hash = '';
   const base = window.location.origin + window.location.pathname;
   const url  = hash ? (base + '#r=' + hash) : base;
   const subject = encodeURIComponent('My Leadership Capacities Analysis results');
@@ -2619,6 +2858,8 @@ function openArchModal(arch, scored){
   const details = CAPACITY_DETAILS[arch];
   if(!details) return;
   const ad = AD[arch];
+  // v3 model: bail out cleanly if legacy modal fields are missing
+  if(!details.subscales || !Array.isArray(details.subscales)) return;
   const backdrop = document.getElementById('arch-modal-backdrop');
   const content = document.getElementById('arch-modal-content');
   if(!backdrop || !content) return;
@@ -3188,11 +3429,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const pct = decoded;
       const overall = calcOverall(pct);
       const gap = calcGap(pct);
-      const leadTop = topN(pct.baseline, 2);
-      const pressTop = topN(pct.pressure, 2);
-      const underTop = bottomN(overall, 2);
-      const gapEntries = Object.entries(gap).sort((a,b) => b[1] - a[1]);
-      renderResults({pct}, leadTop, pressTop, underTop, gapEntries[0][0], gapEntries[0][1], gap);
+      // legacy share-link decoder block disabled (incompatible with new scoring shape)
       showPage('pg-results');
     }
   }
