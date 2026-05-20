@@ -10,6 +10,8 @@
 
 ## 2026-05-20 — pg-intro restructured to 2 drives × 5 capacities model
 
+**⚠️ Coordination note (2026-05-20 evening):** Commit `e7bbebd` ("LCA v4: Thriving->Pursuing rename + Likert drive intensity + 2x2 grid results") inadvertently reverted the entire pg-intro restructure described in this section — it worked from a snapshot taken before the intro was rebuilt. A follow-up commit on 2026-05-20 restored the full pg-intro region and the four new CSS color tokens (`--P`, `--Pr`, `--E`, `--Ve`) on top of the v4 LSA_SCRIPT work. **Future LSA_SCRIPT pushes must preserve the pg-intro region (between the `<!-- INTRO -->` and `<!-- ASSESSMENT -->` markers) and the four new color tokens in `.lsa-root`.**
+
 The Leadership Capacities Analysis intro page (`pg-intro` in `src/tools/LeadershipCapacitiesAnalysis.jsx`) was restructured from the flat 5-archetype model to the current 2 drives × 5 capacities architecture.
 
 **Copy changes:**
