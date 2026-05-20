@@ -7,6 +7,35 @@
 
 ---
 
+
+## 2026-05-20 — pg-intro restructured to 2 drives × 5 capacities model
+
+The Leadership Capacities Analysis intro page (`pg-intro` in `src/tools/LeadershipCapacitiesAnalysis.jsx`) was restructured from the flat 5-archetype model to the current 2 drives × 5 capacities architecture.
+
+**Copy changes:**
+- Title: "Five Core Capacities" → "Assess your Motivation and Capacity"
+- Subtitle (new): "Two motivating drivers, Five abilities to navigate complexity"
+- Three body paragraphs rewritten to introduce the evolutionary frame: amoeba-to-human drives + human-specific developmental capacities
+- Two new section blocks: "— The Two Drives —" (Pursuing + Protecting) and "— The Five Capacities —" (Egoist + Veteran + Lover + Strategist + Visionary)
+- Each section now has its own introductory paragraph (drives: predisposition vs momentary activation; capacities: complexity ordering with universal access)
+- New "— Begin the assessment —" section header before the existing button block
+- Typo fixes: "Chose" → "Choose"; "scenarions" → "scenarios"; "log in" → "login"
+
+**Visual changes:**
+- 4 new CSS color tokens added to `.lsa-root`: `--P` (Pursuing, gold), `--Pr` (Protecting, red), `--E` (Egoist, terracotta), `--Ve` (Veteran, slate)
+- 4 new SVG icons drafted: Pursuing (rising sun + forward arrow), Protecting (watchful eye), Egoist (vertical flame), Veteran (4 upward chevron service stripes, stroke-opacity gradient)
+- Hedonist/Warrior boxes removed from intro (they are now sub-archetypes under Pursuing/Protecting in the deeper model — not top-level peers)
+- Lover/Strategist/Visionary SVG icons retained; their copy tightened to single-verb box-names matching the body paragraph's "sense / remember / connect / imagine / find meaning" framing
+
+**Modal-handler coordination caveat:**
+- Drive boxes call `openArchModal('thriving')` / `openArchModal('protecting')` — modal data lives in the rebuilt `DRIVE_DETAIL` but the existing `openArchModal` legacy routing keys off `CAPACITY_DETAILS`, which doesn't have these keys. Result: tap is silent (graceful no-op via existing guards). Wiring those modals to the new data is a future pass.
+- Egoist/Veteran boxes call `openArchModal('egoist')` / `openArchModal('veteran')` — same situation; data exists in new `CAPACITY_DETAIL` but legacy routing doesn't see it. Silent no-op until wired.
+- Lover/Strategist/Visionary modals keep their existing keys and continue to work as before.
+
+**Net file delta:** ~+3,600 chars in `src/tools/LeadershipCapacitiesAnalysis.jsx`. LSA_SCRIPT region untouched.
+
+---
+
 ## TL;DR for Claude
 
 Jen has a working React/Vite/Vercel site at `JMZywietz/InciteU`. It's a leadership development site with 9 working tools, 2 think pieces (including the Cynefin scrollytelling and Challenge Mapper added this session), and supporting pages. The homepage, About page, footer, and where-to-start wizard were all overhauled in the May 11 session.

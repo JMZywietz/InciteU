@@ -38,6 +38,10 @@ const LSA_CSS = `
   --L:#8B5E5E;--L-bg:rgba(139,94,94,.08);--L-b:rgba(139,94,94,.32);
   --S:#5B6B8B;--S-bg:rgba(91,107,139,.08);--S-b:rgba(91,107,139,.32);
   --V:#6B5B8B;--V-bg:rgba(107,91,139,.08);--V-b:rgba(107,91,139,.32);
+  --P:#D4A854;--P-bg:rgba(212,168,84,.08);--P-b:rgba(212,168,84,.32);
+  --Pr:#A85454;--Pr-bg:rgba(168,84,84,.08);--Pr-b:rgba(168,84,84,.32);
+  --E:#C77C58;--E-bg:rgba(199,124,88,.08);--E-b:rgba(199,124,88,.32);
+  --Ve:#7B8189;--Ve-bg:rgba(123,129,137,.08);--Ve-b:rgba(123,129,137,.32);
   --fd:'Playfair Display',Georgia,serif;
   --fb:'Source Serif 4','Source Serif Pro',Georgia,serif;
   --fm:'IBM Plex Mono',monospace;
@@ -586,83 +590,112 @@ const LSA_BODY_HTML = `
   <div class="inner-w">
     <div class="intro-text-narrow">
       <div class="intro-eyebrow">Incite Leadership · Five Layers Deep</div>
-      <h1 class="intro-title">Five Core Capacities</h1>
-      <p class="intro-sub">Which of your Five Core Capacities do you lead with at baseline — and which one takes over when you're under pressure?</p>
+      <h1 class="intro-title">Assess your Motivation and Capacity</h1>
+      <p class="intro-sub">Two motivating drivers, Five abilities to navigate complexity</p>
 
-      <p class="intro-body">This assessment maps three things: which capacities you draw on in everyday conditions, which you default to when stakes are high, and which you may underuse overall. The most diagnostic finding is the <em>gap</em> — the capacity that goes offline when you're stressed.</p>
+      <p class="intro-body">Life on earth, including human beings, evolved a consistent and predictable set of skills that keep us alive in an ever changing world. From amoebas to humans, all organisms are driven by two core motivations: to <em>pursue</em> the things that they enjoy (and that keep them alive) and to <em>protect</em> themselves from the things that cause them harm.</p>
+
+      <p class="intro-body">Where humans differ from more basic organisms is our ability to tap into five separate developmental capacities. These capacities allow us to sense what is good or bad for us, remember the past, connect with others, imagine the future, and find meaning in something greater than ourselves.</p>
+
+      <p class="intro-body">Understanding how these two drives motivate you, and which of these five capacities you default to, can give you a lot of insight on how you can develop next.</p>
     </div>
 
-    <!-- ─── BASIC DRIVE CAPACITIES ─── -->
+    <!-- ─── THE TWO DRIVES ─── -->
     <div class="intro-section">
-      <div class="intro-section-label">— Basic drive capacities —</div>
-      <div class="intro-section-tagline">Motivational systems that move you</div>
+      <div class="intro-section-label">— The Two Drives —</div>
+      <div class="intro-section-tagline">Pursue what enlivens · Protect against harm</div>
+      <div class="intro-text-narrow" style="margin:8px auto 22px">
+        <p class="intro-body">Each of us has an innate drive to pursue and protect. These are separate drives, meaning they can activate independently or simultaneously. We each have a <em>predisposition</em> — a state of activation of these drives that tends to be our default — as well as a <em>momentary activation</em> — a prevailing combination of these drives that is serving us at this specific moment (e.g., when we are faced with a big opportunity or a scary threat).</p>
+      </div>
       <div class="arch-grid">
 
-        <!-- HEDONIST -->
-        <div class="archbox" style="border-color:var(--H-b)" onclick="openArchModal('hedonist')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('hedonist')}" role="button" tabindex="0" aria-label="Learn more about The Hedonist">
-          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Hedonist sun">
-            <title>Hedonist sun</title>
+        <!-- PURSUING -->
+        <div class="archbox" style="border-color:var(--P-b)" onclick="openArchModal('thriving')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('thriving')}" role="button" tabindex="0" aria-label="Learn more about Pursuing">
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Pursuing rising sun">
+            <title>Pursuing rising sun</title>
             <circle cx="60" cy="60" r="54" fill="rgba(212,168,84,0.06)"/>
-            <g stroke="#D4A854" stroke-width="2" stroke-linecap="round">
-              <line x1="60" y1="14" x2="60" y2="26"/>
-              <line x1="60" y1="94" x2="60" y2="106"/>
-              <line x1="14" y1="60" x2="26" y2="60"/>
-              <line x1="94" y1="60" x2="106" y2="60"/>
-              <line x1="27.5" y1="27.5" x2="36" y2="36"/>
-              <line x1="84" y1="84" x2="92.5" y2="92.5"/>
-              <line x1="92.5" y1="27.5" x2="84" y2="36"/>
-              <line x1="36" y1="84" x2="27.5" y2="92.5"/>
+            <line x1="20" y1="80" x2="100" y2="80" stroke="#D4A854" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.55"/>
+            <path d="M 34 80 Q 60 38 86 80 Z" fill="rgba(212,168,84,0.18)" stroke="#D4A854" stroke-width="2.2" stroke-linejoin="round"/>
+            <g stroke="#D4A854" stroke-width="1.8" stroke-linecap="round">
+              <line x1="60" y1="20" x2="60" y2="30"/>
+              <line x1="38" y1="32" x2="44" y2="40"/>
+              <line x1="82" y1="32" x2="76" y2="40"/>
+              <line x1="22" y1="52" x2="32" y2="56"/>
+              <line x1="98" y1="52" x2="88" y2="56"/>
             </g>
-            <g stroke="#D4A854" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.6">
-              <line x1="40" y1="18" x2="43.5" y2="27.5"/>
-              <line x1="80" y1="18" x2="76.5" y2="27.5"/>
-              <line x1="40" y1="102" x2="43.5" y2="92.5"/>
-              <line x1="80" y1="102" x2="76.5" y2="92.5"/>
-              <line x1="18" y1="40" x2="27.5" y2="43.5"/>
-              <line x1="18" y1="80" x2="27.5" y2="76.5"/>
-              <line x1="102" y1="40" x2="92.5" y2="43.5"/>
-              <line x1="102" y1="80" x2="92.5" y2="76.5"/>
-            </g>
-            <circle cx="60" cy="60" r="20" fill="rgba(212,168,84,0.08)" stroke="#D4A854" stroke-width="1.8"/>
-            <circle cx="60" cy="60" r="3" fill="#D4A854"/>
+            <path d="M 86 88 L 96 92 L 86 96" fill="none" stroke="#D4A854" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
           </svg>
-          <div class="archbox-eyebrow" style="color:var(--H)">The Hedonist</div>
-          <div class="archbox-name">Vitality and appetite</div>
-          <div class="archbox-desc">You move toward what feels alive. Pleasure, energy, instinct — the life force itself, expressed.</div>
+          <div class="archbox-eyebrow" style="color:var(--P)">Pursuing</div>
+          <div class="archbox-name">Toward what enlivens</div>
+          <div class="archbox-desc">The drive to move toward the things you enjoy and that keep you alive.</div>
           <div class="archbox-hint">Tap for more →</div>
         </div>
 
-        <!-- WARRIOR -->
-        <div class="archbox" style="border-color:var(--W-b)" onclick="openArchModal('warrior')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('warrior')}" role="button" tabindex="0" aria-label="Learn more about The Warrior">
-          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Warrior shield">
-            <title>Warrior shield</title>
+        <!-- PROTECTING -->
+        <div class="archbox" style="border-color:var(--Pr-b)" onclick="openArchModal('protecting')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('protecting')}" role="button" tabindex="0" aria-label="Learn more about Protecting">
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Protecting watchful eye">
+            <title>Protecting watchful eye</title>
             <circle cx="60" cy="60" r="54" fill="rgba(168,84,84,0.06)"/>
-            <path d="M 60 24 L 92 32 L 92 60 Q 92 84 60 102 Q 28 84 28 60 L 28 32 Z" fill="rgba(168,84,84,0.08)" stroke="#A85454" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M 60 32 L 84 38 L 84 60 Q 84 78 60 92 Q 36 78 36 60 L 36 38 Z" fill="none" stroke="#A85454" stroke-width="0.8" stroke-opacity="0.5"/>
-            <circle cx="60" cy="22" r="3.2" fill="none" stroke="#A85454" stroke-width="1.5"/>
-            <line x1="60" y1="25" x2="60" y2="38" stroke="#A85454" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="46" y1="40" x2="74" y2="40" stroke="#A85454" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="60" y1="42" x2="60" y2="86" stroke="#A85454" stroke-width="2.6" stroke-linecap="round"/>
-            <path d="M 56 82 L 60 90 L 64 82" fill="none" stroke="#A85454" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
-            <circle cx="42" cy="40" r="1.5" fill="#A85454"/>
-            <circle cx="78" cy="40" r="1.5" fill="#A85454"/>
+            <path d="M 22 60 Q 60 32 98 60 Q 60 88 22 60 Z" fill="rgba(168,84,84,0.08)" stroke="#A85454" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="60" cy="60" r="14" fill="rgba(168,84,84,0.18)" stroke="#A85454" stroke-width="1.6"/>
+            <circle cx="60" cy="60" r="5" fill="#A85454"/>
+            <line x1="14" y1="60" x2="20" y2="60" stroke="#A85454" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="100" y1="60" x2="106" y2="60" stroke="#A85454" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="60" y1="22" x2="60" y2="28" stroke="#A85454" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.55"/>
+            <line x1="60" y1="92" x2="60" y2="98" stroke="#A85454" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.55"/>
           </svg>
-          <div class="archbox-eyebrow" style="color:var(--W)">The Warrior</div>
-          <div class="archbox-name">Vigilance and resolve</div>
-          <div class="archbox-desc">You scan for threat, hold the line, and confront what others avoid. Boundaries, courage, protection.</div>
+          <div class="archbox-eyebrow" style="color:var(--Pr)">Protecting</div>
+          <div class="archbox-name">Away from harm</div>
+          <div class="archbox-desc">The drive to guard against the things that cause you harm.</div>
           <div class="archbox-hint">Tap for more →</div>
         </div>
 
       </div>
     </div>
 
-    <!-- ─── ENHANCED COGNITIVE CAPACITIES ─── -->
+    <!-- ─── THE FIVE CAPACITIES ─── -->
     <div class="intro-section">
-      <div class="intro-section-label">— Enhanced cognitive capacities —</div>
-      <div class="intro-section-tagline">Resources you bring to bear when the world gets complex</div>
+      <div class="intro-section-label">— The Five Capacities —</div>
+      <div class="intro-section-tagline">Sense · Remember · Connect · Imagine · Find meaning</div>
+      <div class="intro-text-narrow" style="margin:8px auto 22px">
+        <p class="intro-body">How you sense, think and behave. These capacities are presented in order of complexity — oldest first — but you have access to all of them at any time.</p>
+      </div>
       <div class="arch-grid">
 
-        <!-- LOVER -->
+        <!-- EGOIST (BODY) — flame -->
+        <div class="archbox" style="border-color:var(--E-b)" onclick="openArchModal('egoist')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('egoist')}" role="button" tabindex="0" aria-label="Learn more about The Egoist">
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Egoist flame">
+            <title>Egoist flame</title>
+            <circle cx="60" cy="60" r="54" fill="rgba(199,124,88,0.06)"/>
+            <path d="M 60 22 C 52 38 42 46 42 64 C 42 84 50 96 60 100 C 70 96 78 84 78 64 C 78 46 68 38 60 22 Z" fill="rgba(199,124,88,0.10)" stroke="#C77C58" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M 60 42 C 54 54 48 60 48 72 C 48 84 53 92 60 94 C 67 92 72 84 72 72 C 72 60 66 54 60 42 Z" fill="rgba(199,124,88,0.20)" stroke="#C77C58" stroke-width="1.4" stroke-linejoin="round"/>
+            <ellipse cx="60" cy="78" rx="4.5" ry="9" fill="#C77C58"/>
+          </svg>
+          <div class="archbox-eyebrow" style="color:var(--E)">The Egoist</div>
+          <div class="archbox-name">Sense</div>
+          <div class="archbox-desc">The oldest capacity. Knowing what is good or bad for you through the body itself.</div>
+          <div class="archbox-hint">Tap for more →</div>
+        </div>
+
+        <!-- VETERAN (MEMORY) — service stripes -->
+        <div class="archbox" style="border-color:var(--Ve-b)" onclick="openArchModal('veteran')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('veteran')}" role="button" tabindex="0" aria-label="Learn more about The Veteran">
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Veteran service stripes">
+            <title>Veteran service stripes</title>
+            <circle cx="60" cy="60" r="54" fill="rgba(123,129,137,0.06)"/>
+            <g stroke="#7B8189" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+              <path d="M 28 92 L 60 76 L 92 92" stroke-opacity="0.22"/>
+              <path d="M 28 76 L 60 60 L 92 76" stroke-opacity="0.45"/>
+              <path d="M 28 60 L 60 44 L 92 60" stroke-opacity="0.70"/>
+              <path d="M 28 44 L 60 28 L 92 44" stroke-opacity="1"/>
+            </g>
+          </svg>
+          <div class="archbox-eyebrow" style="color:var(--Ve)">The Veteran</div>
+          <div class="archbox-name">Remember</div>
+          <div class="archbox-desc">Pattern recognition. Carrying what you've learned from the past forward.</div>
+          <div class="archbox-hint">Tap for more →</div>
+        </div>
+
+        <!-- LOVER (EMPATHY) -->
         <div class="archbox" style="border-color:var(--L-b)" onclick="openArchModal('lover')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('lover')}" role="button" tabindex="0" aria-label="Learn more about The Lover">
           <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Lover — adult holding child">
             <title>Lover — adult holding child</title>
@@ -674,12 +707,12 @@ const LSA_BODY_HTML = `
             <line x1="22" y1="102" x2="96" y2="102" stroke="#8B5E5E" stroke-width="0.8" stroke-opacity="0.35" stroke-linecap="round"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--L)">The Lover</div>
-          <div class="archbox-name">Care and connection</div>
-          <div class="archbox-desc">You feel with others, hold what is fragile, tend the bonds that matter.</div>
+          <div class="archbox-name">Connect</div>
+          <div class="archbox-desc">Feeling with others. Tending the bonds that matter to you.</div>
           <div class="archbox-hint">Tap for more →</div>
         </div>
 
-        <!-- STRATEGIST -->
+        <!-- STRATEGIST (IMAGINATION) -->
         <div class="archbox" style="border-color:var(--S-b)" onclick="openArchModal('strategist')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('strategist')}" role="button" tabindex="0" aria-label="Learn more about The Strategist">
           <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Strategist — node map">
             <title>Strategist — node map</title>
@@ -703,12 +736,12 @@ const LSA_BODY_HTML = `
             <circle cx="92" cy="86" r="3" fill="rgba(91,107,139,0.1)" stroke="#5B6B8B" stroke-width="1"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--S)">The Strategist</div>
-          <div class="archbox-name">Pattern and plan</div>
-          <div class="archbox-desc">You map the system, weigh the trade-offs, find the path through complexity.</div>
+          <div class="archbox-name">Imagine</div>
+          <div class="archbox-desc">Simulating futures. Mapping the path through complexity before walking it.</div>
           <div class="archbox-hint">Tap for more →</div>
         </div>
 
-        <!-- VISIONARY -->
+        <!-- VISIONARY (MEANING) -->
         <div class="archbox" style="border-color:var(--V-b)" onclick="openArchModal('visionary')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('visionary')}" role="button" tabindex="0" aria-label="Learn more about The Visionary">
           <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Visionary compass">
             <title>Visionary compass</title>
@@ -726,18 +759,21 @@ const LSA_BODY_HTML = `
             <line x1="98" y1="60" x2="102" y2="60" stroke="#6B5B8B" stroke-width="1" stroke-linecap="round" stroke-opacity="0.6"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--V)">The Visionary</div>
-          <div class="archbox-name">Meaning and direction</div>
-          <div class="archbox-desc">You orient by what matters most, keep true north visible, see beyond the moment.</div>
+          <div class="archbox-name">Find meaning</div>
+          <div class="archbox-desc">Orienting by what matters most. Finding meaning in something greater than yourself.</div>
           <div class="archbox-hint">Tap for more →</div>
         </div>
 
       </div>
     </div>
 
-    <div class="intro-text-narrow" style="margin-top:36px;text-align:center">
-      <p class="intro-body" style="text-align:left">For each scenario, you'll pick your top one to three responses — in order. Your first pick weighs most. There are no wrong answers.</p>
+    <div class="intro-section">
+      <div class="intro-section-label">— Begin the assessment —</div>
+    </div>
+    <div class="intro-text-narrow" style="margin-top:8px;text-align:center">
+      <p class="intro-body" style="text-align:left">For each scenario, you'll pick <em>up to three</em> responses. The order you choose them in matters. Choose the most accurate response first. There are no wrong answers.</p>
 
-      <p class="intro-note">15 scenarios · about 5 minutes · choose what's truest, not what sounds best.</p>
+      <p class="intro-note">15 scenarios · ~5 min · no login or fees requested</p>
 
       <button class="btn btn-dark" onclick="startAssessment()">Begin the assessment →</button>
       <div style="margin-top:22px">
