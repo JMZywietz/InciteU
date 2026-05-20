@@ -239,13 +239,13 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
-              <div className="fld-drive-label">Seek</div>
-              <div className="fld-drive-value">Pleasure (food)</div>
+              <div className="fld-drive-label">Pursues</div>
+              <div className="fld-drive-value">Pleasure (food, light, warmth)</div>
               <div className="fld-drive-desc">Move toward nutrient, warmth</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
-              <div className="fld-drive-label">Protect</div>
-              <div className="fld-drive-value">Withdraw / escape</div>
+              <div className="fld-drive-label">Protects</div>
+              <div className="fld-drive-value">Withdrawals / Escapes</div>
               <div className="fld-drive-desc">Move away from damage</div>
             </div>
           </div>
@@ -285,12 +285,12 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
-              <div className="fld-drive-label">Seek</div>
+              <div className="fld-drive-label">Pursues</div>
               <div className="fld-drive-value">Anticipation</div>
               <div className="fld-drive-desc">Pursue known rewards, return to safe places</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
-              <div className="fld-drive-label">Protect</div>
+              <div className="fld-drive-label">Protects</div>
               <div className="fld-drive-value">Fight / flight / freeze</div>
               <div className="fld-drive-desc">React to remembered threats</div>
             </div>
@@ -334,12 +334,12 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
-              <div className="fld-drive-label">Seek</div>
+              <div className="fld-drive-label">Pursues</div>
               <div className="fld-drive-value">Love</div>
               <div className="fld-drive-desc">Bond, nurture, cooperate, attune</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
-              <div className="fld-drive-label">Protect</div>
+              <div className="fld-drive-label">Protects</div>
               <div className="fld-drive-value">Defend group over self</div>
               <div className="fld-drive-desc">Protect offspring, pack, tribe</div>
             </div>
@@ -382,12 +382,12 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
-              <div className="fld-drive-label">Seek</div>
+              <div className="fld-drive-label">Pursues</div>
               <div className="fld-drive-value">Hope</div>
               <div className="fld-drive-desc">Plan, envision, create, build toward imagined futures</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
-              <div className="fld-drive-label">Protect</div>
+              <div className="fld-drive-label">Protects</div>
               <div className="fld-drive-value">Defend the future</div>
               <div className="fld-drive-desc">Anticipate threats, set boundaries, act preemptively</div>
             </div>
@@ -430,12 +430,12 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-drive-cards">
             <div className="fld-drive-card fld-seek fld-reveal fld-d3">
-              <div className="fld-drive-label">Seek</div>
+              <div className="fld-drive-label">Pursues</div>
               <div className="fld-drive-value">Devotion</div>
               <div className="fld-drive-desc">Commit, sacrifice, build what will outlast you</div>
             </div>
             <div className="fld-drive-card fld-protect fld-reveal fld-d3">
-              <div className="fld-drive-label">Protect</div>
+              <div className="fld-drive-label">Protects</div>
               <div className="fld-drive-value">Die for / save what I believe in</div>
               <div className="fld-drive-desc">Or psychological defense: denial, rationalization</div>
             </div>
