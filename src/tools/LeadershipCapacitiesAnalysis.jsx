@@ -662,14 +662,13 @@ const LSA_BODY_HTML = `
       </div>
       <div class="arch-grid">
 
-        <!-- EGOIST (BODY) — flame -->
+        <!-- EGOIST (BODY) — heartbeat -->
         <div class="archbox" style="border-color:var(--E-b)" onclick="openArchModal('egoist')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('egoist')}" role="button" tabindex="0" aria-label="Learn more about The Egoist">
-          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Egoist flame">
-            <title>Egoist flame</title>
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Egoist heartbeat">
+            <title>Egoist heartbeat — sensation and instinct</title>
             <circle cx="60" cy="60" r="54" fill="rgba(199,124,88,0.06)"/>
-            <path d="M 60 22 C 52 38 42 46 42 64 C 42 84 50 96 60 100 C 70 96 78 84 78 64 C 78 46 68 38 60 22 Z" fill="rgba(199,124,88,0.10)" stroke="#C77C58" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M 60 42 C 54 54 48 60 48 72 C 48 84 53 92 60 94 C 67 92 72 84 72 72 C 72 60 66 54 60 42 Z" fill="rgba(199,124,88,0.20)" stroke="#C77C58" stroke-width="1.4" stroke-linejoin="round"/>
-            <ellipse cx="60" cy="78" rx="4.5" ry="9" fill="#C77C58"/>
+            <line x1="22" y1="60" x2="98" y2="60" stroke="#C77C58" stroke-width="0.8" stroke-opacity="0.25" stroke-linecap="round"/>
+            <path d="M 22 60 L 38 60 L 42 56 L 48 64 L 52 36 L 58 80 L 62 60 L 70 60 L 74 54 L 80 60 L 98 60" fill="none" stroke="#C77C58" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--E)">The Egoist</div>
           <div class="archbox-name">Sense</div>
