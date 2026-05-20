@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LCA Results — Mockup</title>
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --surface1: #232323;
+    --surface2: #2a2a2a;
+    --surface3: #333333;
+    --text1: #f0ede5;
+    --text2: #d4ccba;
+    --text3: #a89e88;
+    --text4: #807868;
+    --border1: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --H: #D4A854;
+    --pursuing: #D4A854;
+    --pursuingBg: rgba(212,168,84,0.10);
+    --pursuingBorder: rgba(212,168,84,0.40);
+    --protecting: #A85454;
+    --protectingBg: rgba(168,84,84,0.10);
+    --protectingBorder: rgba(168,84,84,0.40);
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text1); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; margin: 0; padding: 40px 20px; line-height: 1.5; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 6px; color: var(--text1); }
+  h2.r-sec-title { font-size: 19px; font-weight: 600; color: var(--text1); margin: 48px 0 6px; padding-top: 32px; border-top: 1px solid var(--border1); }
+  p.r-sec-sub { font-size: 14px; color: var(--text3); margin: 0 0 22px; line-height: 1.55; }
+  .mockup-tag { display: inline-block; background: var(--H); color: #1a1a1a; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.5px; vertical-align: middle; margin-left: 10px; }
+
+  /* Headline (unchanged from current) */
+  .r-headline { background: var(--surface2); border: 1px solid var(--border1); border-radius: 8px; padding: 20px 24px; margin: 0 0 32px; }
+  .r-headline-line { margin: 6px 0; font-size: 15px; line-height: 1.6; color: var(--text2); }
+
+  /* 2x2 grid (existing — shown for context, slightly scaled down) */
+  .grid-2x2-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; margin: 18px 0; padding: 14px; background: var(--surface2); border-radius: 8px; border: 1px solid var(--border1); }
+  .grid-2x2 { width: 100%; max-width: 360px; height: auto; display: block; }
+  .grid-2x2-quadrant { width: 100%; max-width: 460px; text-align: center; padding: 4px 12px 0; }
+  .grid-2x2-label { font-size: 18px; font-weight: 700; color: var(--text1); margin-bottom: 8px; }
+  .grid-2x2-desc { font-size: 14px; line-height: 1.5; color: var(--text3); margin-bottom: 12px; }
+  .grid-2x2-scores { display: flex; justify-content: center; gap: 22px; font-size: 14px; font-weight: 600; flex-wrap: wrap; }
+
+  /* NEW: Subscale overview — 6 cards in 3x2 grid */
+  .subscale-overview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+  .sub-card { background: var(--surface2); border: 1px solid var(--border1); border-left: 3px solid var(--text4); border-radius: 6px; padding: 14px 16px; }
+  .sub-card.pursuing { border-left-color: var(--pursuing); }
+  .sub-card.protecting { border-left-color: var(--protecting); }
+  .sub-card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .sub-card-name { font-size: 15px; font-weight: 600; color: var(--text1); }
+  .sub-card-pct { font-size: 13px; font-weight: 600; color: var(--text3); font-variant-numeric: tabular-nums; }
+  .sub-card-pursuing .sub-card-name { color: var(--pursuing); }
+  .sub-card-protecting .sub-card-name { color: var(--protecting); }
+  .sub-card-tag { font-size: 12px; color: var(--text4); margin-bottom: 10px; line-height: 1.4; }
+  .sub-card-track { background: var(--surface3); height: 6px; border-radius: 3px; overflow: hidden; }
+  .sub-card-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .sub-card-pursuing .sub-card-fill { background: var(--pursuing); }
+  .sub-card-protecting .sub-card-fill { background: var(--protecting); }
+  @media (max-width: 720px) { .subscale-overview { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .subscale-overview { grid-template-columns: 1fr; } }
+
+  /* NEW: Capacity profile — 5 cards with icon + dual bars + click to expand */
+  .cap-grid-v2 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 18px; }
+  @media (max-width: 1000px) { .cap-grid-v2 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .cap-grid-v2 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) { .cap-grid-v2 { grid-template-columns: 1fr; } }
+  .cap-card-v2 { background: var(--surface2); border: 1px solid var(--border1); border-left: 3px solid; border-radius: 6px; padding: 18px 14px 14px; cursor: pointer; transition: all 0.18s ease; position: relative; }
+  .cap-card-v2:hover { background: var(--surface3); border-color: var(--border2); }
+  .cap-card-v2.open { background: var(--surface3); }
+  .cap-icon { font-size: 38px; line-height: 1; text-align: center; margin-bottom: 10px; display: block; }
+  .cap-name { font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 2px; }
+  .cap-short { font-size: 11px; text-align: center; color: var(--text4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+  .cap-bar-row { margin: 6px 0; }
+  .cap-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+  .cap-bar-label-l { font-weight: 600; }
+  .cap-bar-label-r { font-variant-numeric: tabular-nums; }
+  .cap-bar-track-v2 { background: var(--surface1); height: 5px; border-radius: 3px; overflow: hidden; border: 1px solid var(--border1); }
+  .cap-bar-fill-v2 { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .cap-bar-fill-pursuing { background: var(--pursuing); }
+  .cap-bar-fill-protecting { background: var(--protecting); }
+  .cap-chevron { position: absolute; top: 8px; right: 10px; font-size: 11px; color: var(--text4); transition: transform 0.18s ease; }
+  .cap-card-v2.open .cap-chevron { transform: rotate(180deg); }
+  .cap-reflect { display: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border1); font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .cap-card-v2.open .cap-reflect { display: block; }
+  .cap-reflect-prompt { margin: 8px 0; padding-left: 10px; border-left: 2px solid; font-style: italic; }
+  .cap-reflect-prompt.pursuing-prompt { border-left-color: var(--pursuing); }
+  .cap-reflect-prompt.protecting-prompt { border-left-color: var(--protecting); }
+
+  /* Comparison "before" — current state — shown collapsed for reference */
+  details.before-after { margin: 24px 0; }
+  details.before-after summary { cursor: pointer; padding: 10px 14px; background: var(--surface2); border-radius: 4px; font-size: 13px; color: var(--text3); border: 1px solid var(--border1); }
+  details.before-after[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  details.before-after .before-body { padding: 16px; background: var(--surface1); border-radius: 0 0 4px 4px; border: 1px solid var(--border1); border-top: none; }
+  details.before-after .before-body img { width: 100%; max-width: 700px; border-radius: 4px; }
+  .before-note { font-size: 12px; color: var(--text4); margin: 0 0 12px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>LCA Results — Redesign Mockup</h1>
+<p class="r-sec-sub">Sample profile: pursuing-dominant. All numbers are illustrative.</p>
+
+<!-- Headline (unchanged) -->
+<div class="r-headline">
+  <p class="r-headline-line">Your <strong style="color:var(--pursuing)">Pursuing</strong> drive is strong (72%) while <strong style="color:var(--protecting)">Protecting</strong> is quieter (35%) — you lean bold and approach-oriented.</p>
+  <p class="r-headline-line">When Pursuing is active, you lead with <strong style="color:var(--pursuing)">Achiever</strong> energy and reach for the <strong style="color:#5B6B8B">Strategist</strong> capacity.</p>
+  <p class="r-headline-line">When Protecting is active, you lead with <strong style="color:var(--protecting)">Sentinel</strong> energy and reach for the <strong style="color:#7B8189">Veteran</strong> capacity.</p>
+</div>
+
+<!-- ───────── 2x2 Grid (existing) ───────── -->
+<h2 class="r-sec-title">Your drive balance</h2>
+<p class="r-sec-sub">Each drive is rated independently. Both can be high (driven), both low (disengaged), or one dominant. Your dot marks where you sit.</p>
+<div class="grid-2x2-wrap">
+  <svg class="grid-2x2" viewBox="-14 -10 132 124" preserveAspectRatio="xMidYMid meet">
+    <rect x="0"  y="0"  width="50" height="50" fill="rgba(255,193,7,0.18)"/>
+    <rect x="50" y="0"  width="50" height="50" fill="rgba(255,255,255,0.025)"/>
+    <rect x="0"  y="50" width="50" height="50" fill="rgba(255,255,255,0.025)"/>
+    <rect x="50" y="50" width="50" height="50" fill="rgba(255,255,255,0.025)"/>
+    <rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.6"/>
+    <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+    <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+    <text x="25" y="7"  text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Bold</text>
+    <text x="25" y="11" text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">risk-taking</text>
+    <text x="75" y="7"  text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Driven</text>
+    <text x="75" y="11" text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">conflicted</text>
+    <text x="25" y="94" text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Disengaged</text>
+    <text x="25" y="98" text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">low / low</text>
+    <text x="75" y="94" text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Guarded</text>
+    <text x="75" y="98" text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">withdrawn</text>
+    <text x="50" y="-3.5" text-anchor="middle" font-size="3.4" fill="var(--pursuing)" font-weight="600">↑ Pursuing</text>
+    <text x="104" y="51" text-anchor="start" font-size="3.4" fill="var(--protecting)" font-weight="600">Protecting →</text>
+    <circle cx="35" cy="28" r="4.5" fill="none" stroke="#fff" stroke-width="0.7" opacity="0.5"/>
+    <circle cx="35" cy="28" r="2.6" fill="#fff" stroke="#000" stroke-width="0.5"/>
+  </svg>
+  <div class="grid-2x2-quadrant">
+    <div class="grid-2x2-label">Bold / Risk-taking</div>
+    <div class="grid-2x2-desc">Approach is strong, threat awareness is muted. You move on opportunities, sometimes before checking the downside.</div>
+    <div class="grid-2x2-scores">
+      <span style="color:var(--pursuing)">Pursuing 72%</span>
+      <span style="color:var(--protecting)">Protecting 35%</span>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── NEW: Subscale overview ───────── -->
+<h2 class="r-sec-title">Sub-archetype activation <span class="mockup-tag">NEW</span></h2>
+<p class="r-sec-sub">All six sub-archetypes at a glance. Bar shows how often each came up in your Section 1 picks. Same scale across all six — easy to compare.</p>
+<div class="subscale-overview">
+  <div class="sub-card sub-card-pursuing pursuing">
+    <div class="sub-card-head"><span class="sub-card-name">Achiever</span><span class="sub-card-pct">25%</span></div>
+    <div class="sub-card-tag">Drive — sustained pursuit</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:75%"></div></div>
+  </div>
+  <div class="sub-card sub-card-pursuing pursuing">
+    <div class="sub-card-head"><span class="sub-card-name">Hedonist</span><span class="sub-card-pct">17%</span></div>
+    <div class="sub-card-tag">Reward responsiveness — present pleasure</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:51%"></div></div>
+  </div>
+  <div class="sub-card sub-card-pursuing pursuing">
+    <div class="sub-card-head"><span class="sub-card-name">Adventurer</span><span class="sub-card-pct">8%</span></div>
+    <div class="sub-card-tag">Fun seeking — novelty and exploration</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:24%"></div></div>
+  </div>
+  <div class="sub-card sub-card-protecting protecting">
+    <div class="sub-card-head"><span class="sub-card-name">Sentinel</span><span class="sub-card-pct">18%</span></div>
+    <div class="sub-card-tag">Threat sensitivity — vigilance and anticipation</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:54%"></div></div>
+  </div>
+  <div class="sub-card sub-card-protecting protecting">
+    <div class="sub-card-head"><span class="sub-card-name">Warrior</span><span class="sub-card-pct">12%</span></div>
+    <div class="sub-card-tag">Fight — active defense</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:36%"></div></div>
+  </div>
+  <div class="sub-card sub-card-protecting protecting">
+    <div class="sub-card-head"><span class="sub-card-name">Evader</span><span class="sub-card-pct">5%</span></div>
+    <div class="sub-card-tag">Flight — strategic withdrawal</div>
+    <div class="sub-card-track"><div class="sub-card-fill" style="width:15%"></div></div>
+  </div>
+</div>
+
+<!-- ───────── NEW: Capacity profile (5 cards, click to expand reflections) ───────── -->
+<h2 class="r-sec-title">Capacity profile <span class="mockup-tag">NEW</span></h2>
+<p class="r-sec-sub">Each capacity shown with how strongly you use it in each drive mode. Click any card to reveal reflection questions for that capacity.</p>
+<div class="cap-grid-v2">
+  <div class="cap-card-v2" data-cap="egoist" style="border-left-color:#C77C58">
+    <span class="cap-chevron">▾</span>
+    <div class="cap-icon" style="color:#C77C58">◉</div>
+    <div class="cap-name">Egoist</div>
+    <div class="cap-short">Body</div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--pursuing)">Pursuing</span><span class="cap-bar-label-r">40%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-pursuing" style="width:40%"></div></div>
+    </div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--protecting)">Protecting</span><span class="cap-bar-label-r">30%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-protecting" style="width:30%"></div></div>
+    </div>
+    <div class="cap-reflect">
+      <div class="cap-reflect-prompt pursuing-prompt">When Pursuing is on, your body wakes up to what's alive — sensation, appetite, vitality. Where this week did you trust your gut?</div>
+      <div class="cap-reflect-prompt protecting-prompt">Body wisdom signals threat early. Where might somatic anxiety be turning every signal into alarm?</div>
+    </div>
+  </div>
+  <div class="cap-card-v2" data-cap="veteran" style="border-left-color:#7B8189">
+    <span class="cap-chevron">▾</span>
+    <div class="cap-icon" style="color:#7B8189">⟲</div>
+    <div class="cap-name">Veteran</div>
+    <div class="cap-short">Memory</div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--pursuing)">Pursuing</span><span class="cap-bar-label-r">60%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-pursuing" style="width:60%"></div></div>
+    </div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--protecting)">Protecting</span><span class="cap-bar-label-r">70%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-protecting" style="width:70%"></div></div>
+    </div>
+    <div class="cap-reflect">
+      <div class="cap-reflect-prompt pursuing-prompt">Past wins fuel current effort — what experience are you drawing on most right now?</div>
+      <div class="cap-reflect-prompt protecting-prompt">Pattern recognition for threat is strong. Watch for what-if loops that don't help.</div>
+    </div>
+  </div>
+  <div class="cap-card-v2" data-cap="lover" style="border-left-color:#8B5E5E">
+    <span class="cap-chevron">▾</span>
+    <div class="cap-icon" style="color:#8B5E5E">♡</div>
+    <div class="cap-name">Lover</div>
+    <div class="cap-short">Empathy</div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--pursuing)">Pursuing</span><span class="cap-bar-label-r">20%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-pursuing" style="width:20%"></div></div>
+    </div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--protecting)">Protecting</span><span class="cap-bar-label-r">10%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-protecting" style="width:10%"></div></div>
+    </div>
+    <div class="cap-reflect">
+      <div class="cap-reflect-prompt pursuing-prompt">Genuine connection energizes you when Pursuing — where are you investing this energy lately?</div>
+      <div class="cap-reflect-prompt protecting-prompt">Empathy can become enmeshment. Where might you be losing yourself in others' needs?</div>
+    </div>
+  </div>
+  <div class="cap-card-v2 open" data-cap="strategist" style="border-left-color:#5B6B8B">
+    <span class="cap-chevron">▾</span>
+    <div class="cap-icon" style="color:#5B6B8B">◈</div>
+    <div class="cap-name">Strategist</div>
+    <div class="cap-short">Imagination</div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--pursuing)">Pursuing</span><span class="cap-bar-label-r">80%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-pursuing" style="width:80%"></div></div>
+    </div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--protecting)">Protecting</span><span class="cap-bar-label-r">60%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-protecting" style="width:60%"></div></div>
+    </div>
+    <div class="cap-reflect">
+      <div class="cap-reflect-prompt pursuing-prompt">Strategy is your top approach capacity — you imagine paths forward and build them. What futures are you architecting right now?</div>
+      <div class="cap-reflect-prompt protecting-prompt">Anticipation can flip into overplanning. Where are scenarios crowding out action?</div>
+    </div>
+  </div>
+  <div class="cap-card-v2" data-cap="visionary" style="border-left-color:#6B5B8B">
+    <span class="cap-chevron">▾</span>
+    <div class="cap-icon" style="color:#6B5B8B">✧</div>
+    <div class="cap-name">Visionary</div>
+    <div class="cap-short">Meaning</div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--pursuing)">Pursuing</span><span class="cap-bar-label-r">70%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-pursuing" style="width:70%"></div></div>
+    </div>
+    <div class="cap-bar-row">
+      <div class="cap-bar-label"><span class="cap-bar-label-l" style="color:var(--protecting)">Protecting</span><span class="cap-bar-label-r">40%</span></div>
+      <div class="cap-bar-track-v2"><div class="cap-bar-fill-v2 cap-bar-fill-protecting" style="width:40%"></div></div>
+    </div>
+    <div class="cap-reflect">
+      <div class="cap-reflect-prompt pursuing-prompt">Meaning fuels your approach — your "why" is clear. What does it ask of you next?</div>
+      <div class="cap-reflect-prompt protecting-prompt">When Protecting, the larger story can feel threatened. What are you guarding from being lost?</div>
+    </div>
+  </div>
+</div>
+<p style="margin-top: 18px; font-size: 13px; color: var(--text4); font-style: italic;">↑ Strategist shown expanded to demonstrate the click-to-reveal interaction.</p>
+
+</div>
+
+<script>
+  document.querySelectorAll('.cap-card-v2').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+  });
+</script>
+</body>
+</html>
