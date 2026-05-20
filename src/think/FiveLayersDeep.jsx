@@ -486,12 +486,12 @@ export default function FiveLayersDeepPage() {
                     <div className="fld-lt-info">Raw sensation: gradients, temperature, pressure</div>
                   </td>
                   <td className="fld-seek-td">Pleasure (food)</td>
-                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Satisfaction</td>
-                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Empty</td>
-                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Tantrum</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Pleasure ◇</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Listless / Numb ◆</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Distress / Disgust ◆</td>
                   <td className="fld-protect-td">Withdraw / escape</td>
-                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Relief</td>
-                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Pain itself</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Relief ◇</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Pain / Startle ◆</td>
                   <td className="fld-pain-td">Physical pain</td>
                 </tr>
                 <tr>
@@ -500,12 +500,12 @@ export default function FiveLayersDeepPage() {
                     <div className="fld-lt-info">Patterns, recognition, memory</div>
                   </td>
                   <td className="fld-seek-td">Anticipation</td>
-                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Pattern completed</td>
-                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Frustration</td>
-                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Rage</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Eager / Savoring / Curious ▲</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Frustration / Thwarted / Yearning / Restless ⊕</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Rage / Aversion ◆ ⚠</td>
                   <td className="fld-protect-td">Fight / flight / freeze</td>
-                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Vindication</td>
-                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Trauma</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Vindicated / Victorious / Freed ▲</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Fear / Rage / Panic ▲ ⚠</td>
                   <td className="fld-pain-td">Fear <div className="fld-pn">pain remembered &amp; anticipated</div></td>
                 </tr>
                 <tr>
@@ -514,12 +514,12 @@ export default function FiveLayersDeepPage() {
                     <div className="fld-lt-info">Emotional states of others, social signals, trust</div>
                   </td>
                   <td className="fld-seek-td">Love</td>
-                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Belonging, joy</td>
-                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Lonely</td>
-                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Betrayal</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Play / Love / Compassion / Connection ★</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Lonely / Shame ◆</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Betrayed / Contempt ◆</td>
                   <td className="fld-protect-td">Defend group over self</td>
-                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Pride</td>
-                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Grief</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Pride ◇</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Panic / Sadness / Grief ▲</td>
                   <td className="fld-pain-td">Fear for others <div className="fld-pn">empathic pain</div></td>
                 </tr>
                 <tr>
@@ -528,12 +528,12 @@ export default function FiveLayersDeepPage() {
                     <div className="fld-lt-info">Hypothetical futures, causal chains</div>
                   </td>
                   <td className="fld-seek-td">Hope</td>
-                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Fulfillment, achievement</td>
-                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Inferiority</td>
-                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Outrage</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Triumph / Delight / Thrill ▲</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Inferior / Bleak / Stuck ▲</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Outrage / Repugnance ◆</td>
                   <td className="fld-protect-td">Defend the future</td>
-                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Confidence</td>
-                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Despair</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Clarity / Confidence / Resolution ▲</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Overwhelmed / Despair / Trapped ▲</td>
                   <td className="fld-pain-td">Anxiety <div className="fld-pn">pain about things that haven't happened</div></td>
                 </tr>
                 <tr>
@@ -542,12 +542,12 @@ export default function FiveLayersDeepPage() {
                     <div className="fld-lt-info">Meaning, values, identity, legacy</div>
                   </td>
                   <td className="fld-seek-td">Devotion</td>
-                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Meaning, purpose</td>
-                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Hopeless</td>
-                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Moral fury</td>
+                  <td style={{ background: 'rgba(212,168,84,0.06)' }}>Pride / Gratitude / Awe ▲</td>
+                  <td style={{ background: 'rgba(184,145,105,0.06)' }}>Hollow / Bereft / Stagnant ▲</td>
+                  <td style={{ background: 'rgba(199,124,88,0.06)' }}>Moral Fury / Moral Disgust ◆</td>
                   <td className="fld-protect-td">Die for / save what I believe in</td>
-                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Honor</td>
-                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Existential crisis</td>
+                  <td style={{ background: 'rgba(111,139,94,0.06)' }}>Honor / Glory / Whole ▲</td>
+                  <td style={{ background: 'rgba(168,84,84,0.06)' }}>Anhedonia / Disillusioned / Nihilistic / Disassociated ⊕</td>
                   <td className="fld-pain-td">Existential pain <div className="fld-pn">falling short, mortality, meaninglessness</div></td>
                 </tr>
               </tbody>
