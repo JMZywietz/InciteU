@@ -25,7 +25,7 @@ The Leadership Capacities Analysis intro page (`pg-intro` in `src/tools/Leadersh
 
 **Visual changes:**
 - 4 new CSS color tokens added to `.lsa-root`: `--P` (Pursuing, gold), `--Pr` (Protecting, red), `--E` (Egoist, terracotta), `--Ve` (Veteran, slate)
-- 4 new SVG icons: Pursuing (rising sun + forward arrow), Protecting (watchful eye), Egoist (heartbeat / EKG pulse line — swapped from flame in same-day revision per user feedback), Veteran (4 upward chevron service stripes, stroke-opacity gradient)
+- 4 new SVG icons: Pursuing (arrow in flight with motion lines — swapped from rising sun in same-day icon iteration), Protecting (battlement wall fortress with central gate — swapped from watchful eye in same-day icon iteration), Egoist (heartbeat / EKG pulse line — swapped from flame in same-day revision), Veteran (4 upward chevron service stripes, stroke-opacity gradient)
 - Hedonist/Warrior boxes removed from intro (they are now sub-archetypes under Pursuing/Protecting in the deeper model — not top-level peers)
 - Lover/Strategist/Visionary SVG icons retained; their copy tightened to single-verb box-names matching the body paragraph's "sense / remember / connect / imagine / find meaning" framing
 

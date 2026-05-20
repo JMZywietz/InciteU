@@ -634,19 +634,13 @@ const LSA_BODY_HTML = `
 
         <!-- PURSUING -->
         <div class="archbox" style="border-color:var(--P-b)" onclick="openArchModal('thriving')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('thriving')}" role="button" tabindex="0" aria-label="Learn more about Pursuing">
-          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Pursuing rising sun">
-            <title>Pursuing rising sun</title>
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Pursuing arrow in flight">
+            <title>Pursuing arrow in flight</title>
             <circle cx="60" cy="60" r="54" fill="rgba(212,168,84,0.06)"/>
-            <line x1="20" y1="80" x2="100" y2="80" stroke="#D4A854" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.55"/>
-            <path d="M 34 80 Q 60 38 86 80 Z" fill="rgba(212,168,84,0.18)" stroke="#D4A854" stroke-width="2.2" stroke-linejoin="round"/>
-            <g stroke="#D4A854" stroke-width="1.8" stroke-linecap="round">
-              <line x1="60" y1="20" x2="60" y2="30"/>
-              <line x1="38" y1="32" x2="44" y2="40"/>
-              <line x1="82" y1="32" x2="76" y2="40"/>
-              <line x1="22" y1="52" x2="32" y2="56"/>
-              <line x1="98" y1="52" x2="88" y2="56"/>
-            </g>
-            <path d="M 86 88 L 96 92 L 86 96" fill="none" stroke="#D4A854" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
+            <line x1="18" y1="48" x2="40" y2="48" stroke="#D4A854" stroke-width="2" stroke-linecap="round" stroke-opacity="0.35"/>
+            <line x1="14" y1="60" x2="44" y2="60" stroke="#D4A854" stroke-width="2.4" stroke-linecap="round" stroke-opacity="0.5"/>
+            <line x1="18" y1="72" x2="40" y2="72" stroke="#D4A854" stroke-width="2" stroke-linecap="round" stroke-opacity="0.35"/>
+            <path d="M 48 32 L 100 60 L 48 88 L 62 60 Z" fill="rgba(212,168,84,0.20)" stroke="#D4A854" stroke-width="2.4" stroke-linejoin="round"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--P)">Pursuing</div>
           <div class="archbox-name">Toward what enlivens</div>
@@ -656,16 +650,14 @@ const LSA_BODY_HTML = `
 
         <!-- PROTECTING -->
         <div class="archbox" style="border-color:var(--Pr-b)" onclick="openArchModal('protecting')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openArchModal('protecting')}" role="button" tabindex="0" aria-label="Learn more about Protecting">
-          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Protecting watchful eye">
-            <title>Protecting watchful eye</title>
+          <svg class="archbox-icon" viewBox="0 0 120 120" role="img" aria-label="Protecting battlement wall">
+            <title>Protecting battlement wall</title>
             <circle cx="60" cy="60" r="54" fill="rgba(168,84,84,0.06)"/>
-            <path d="M 22 60 Q 60 32 98 60 Q 60 88 22 60 Z" fill="rgba(168,84,84,0.08)" stroke="#A85454" stroke-width="2" stroke-linejoin="round"/>
-            <circle cx="60" cy="60" r="14" fill="rgba(168,84,84,0.18)" stroke="#A85454" stroke-width="1.6"/>
-            <circle cx="60" cy="60" r="5" fill="#A85454"/>
-            <line x1="14" y1="60" x2="20" y2="60" stroke="#A85454" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="100" y1="60" x2="106" y2="60" stroke="#A85454" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="60" y1="22" x2="60" y2="28" stroke="#A85454" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.55"/>
-            <line x1="60" y1="92" x2="60" y2="98" stroke="#A85454" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.55"/>
+            <path d="M 22 50 L 30 50 L 30 42 L 42 42 L 42 50 L 54 50 L 54 42 L 66 42 L 66 50 L 78 50 L 78 42 L 90 42 L 90 50 L 98 50 L 98 90 L 22 90 Z" fill="rgba(168,84,84,0.18)" stroke="#A85454" stroke-width="2.2" stroke-linejoin="round"/>
+            <line x1="22" y1="62" x2="98" y2="62" stroke="#A85454" stroke-width="0.6" stroke-opacity="0.4"/>
+            <line x1="22" y1="76" x2="98" y2="76" stroke="#A85454" stroke-width="0.6" stroke-opacity="0.4"/>
+            <path d="M 54 90 L 54 74 Q 54 68 60 68 Q 66 68 66 74 L 66 90 Z" fill="#A85454"/>
+            <line x1="14" y1="90" x2="106" y2="90" stroke="#A85454" stroke-width="1" stroke-linecap="round"/>
           </svg>
           <div class="archbox-eyebrow" style="color:var(--Pr)">Protecting</div>
           <div class="archbox-name">Away from harm</div>
