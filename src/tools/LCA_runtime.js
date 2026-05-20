@@ -5,6 +5,13 @@
 // (CAPACITY_DETAILS retained as the legacy object below; no alias needed)
 const CAPACITIES = ['egoist', 'veteran', 'lover', 'strategist', 'visionary'];
 
+// Sub-archetypes: 3 per drive. Used by calcScores + topSubArch.
+const SUB_ARCHS = ['achiever', 'hedonist', 'adventurer', 'sentinel', 'warrior', 'evader'];
+const SUB_ARCH_BY_DRIVE = {
+  thriving:   ['achiever', 'hedonist', 'adventurer'],
+  protecting: ['sentinel', 'warrior', 'evader'],
+};
+
 // Legacy alias — some helper code references ARCHS as the canonical key list.
 // In the new model, ARCHS is contextual: SUB_ARCHS in Section 1 (drive), CAPACITIES in Sections 2-3.
 const ARCHS = CAPACITIES;
