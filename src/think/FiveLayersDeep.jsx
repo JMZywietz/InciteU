@@ -455,8 +455,7 @@ export default function FiveLayersDeepPage() {
         <div style={{ maxWidth: 960, width: '100%' }}>
           <h2 className="fld-h2 fld-reveal">The complete model</h2>
           <p className="fld-text fld-reveal fld-d1" style={{ color: 'var(--fld-text2)', fontSize: 15, marginBottom: 16 }}>
-            Five substrates of complexity. Two drives running through them all. The Hedonist (seek pleasure)
-            and the Warrior (avoid pain) each produce different emotional states at each substrate — when the
+            Five substrates of complexity. Two drives running through them all. Pursuing (seek pleasure) and Protecting (avoid pain) each produce different emotional states at each substrate — when the
             drive works, when it doesn't. The hardest case is when seeking is thwarted: the same block produces
             either a turn <em>inward</em> (inadequacy) or a turn <em>outward</em> (anger), and which way it
             goes is one of the most diagnostic things about a person.
@@ -466,8 +465,8 @@ export default function FiveLayersDeepPage() {
               <thead>
                 <tr>
                   <th style={{ borderBottom: '2px solid #a89d8f' }} rowSpan={2}>Substrate</th>
-                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-seek)', background: 'var(--fld-seek-bg)', color: 'var(--fld-seek)', textAlign: 'center' }} colSpan={4}>Hedonist · seek pleasure</th>
-                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-protect)', background: 'var(--fld-protect-bg)', color: 'var(--fld-protect)', textAlign: 'center' }} colSpan={3}>Warrior · avoid pain</th>
+                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-seek)', background: 'var(--fld-seek-bg)', color: 'var(--fld-seek)', textAlign: 'center' }} colSpan={4}>Pursuing · seek pleasure</th>
+                  <th style={{ borderBottom: 'none', borderTop: '2px solid var(--fld-protect)', background: 'var(--fld-protect-bg)', color: 'var(--fld-protect)', textAlign: 'center' }} colSpan={3}>Protecting · avoid pain</th>
                   <th style={{ borderBottom: '2px solid var(--fld-pain)', color: 'var(--fld-pain)' }} rowSpan={2}>Background pain</th>
                 </tr>
                 <tr>
@@ -580,14 +579,14 @@ export default function FiveLayersDeepPage() {
           </div>
           <div className="fld-arch-cards fld-reveal fld-d2">
             <div className="fld-arch-card" style={{ borderColor: 'rgba(212,168,84,0.35)', background: 'var(--fld-seek-bg)' }}>
-              <span className="fld-ac-icon">☀</span>
-              <div className="fld-ac-name" style={{ color: 'var(--fld-seek)' }}>Hedonist</div>
+              <span className="fld-ac-icon" style={{ color: 'var(--fld-seek)' }}><svg viewBox="0 0 120 120" width="32" height="32" style={{ display: 'inline-block', verticalAlign: 'middle' }} role="img" aria-label="Pursuing arrow"><title>Pursuing arrow</title><line x1="18" y1="48" x2="40" y2="48" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.35"/><line x1="14" y1="60" x2="44" y2="60" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.5"/><line x1="18" y1="72" x2="40" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.35"/><path d="M 48 32 L 100 60 L 48 88 L 62 60 Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round"/></svg></span>
+              <div className="fld-ac-name" style={{ color: 'var(--fld-seek)' }}>Pursuing</div>
               <div className="fld-ac-what">The seeking drive. Goes <em>toward</em> — at every substrate, from food to meaning.</div>
               <div className="fld-ac-feels">Achieved: pleasure, anticipation, love, fulfillment, purpose · Thwarted: empty/tantrum, frustration/rage, lonely/betrayal, inferiority/outrage, hopeless/moral fury</div>
             </div>
             <div className="fld-arch-card" style={{ borderColor: 'rgba(168,84,84,0.35)', background: 'var(--fld-protect-bg)' }}>
-              <span className="fld-ac-icon">⚔</span>
-              <div className="fld-ac-name" style={{ color: 'var(--fld-protect)' }}>Warrior</div>
+              <span className="fld-ac-icon" style={{ color: 'var(--fld-protect)' }}><svg viewBox="0 0 120 120" width="32" height="32" style={{ display: 'inline-block', verticalAlign: 'middle' }} role="img" aria-label="Protecting fortress"><title>Protecting fortress</title><path d="M 22 50 L 30 50 L 30 42 L 42 42 L 42 50 L 54 50 L 54 42 L 66 42 L 66 50 L 78 50 L 78 42 L 90 42 L 90 50 L 98 50 L 98 90 L 22 90 Z" fill="currentColor" fillOpacity="0.18" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/><line x1="22" y1="62" x2="98" y2="62" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.4"/><line x1="22" y1="76" x2="98" y2="76" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.4"/><path d="M 54 90 L 54 74 Q 54 68 60 68 Q 66 68 66 74 L 66 90 Z" fill="currentColor"/><line x1="14" y1="90" x2="106" y2="90" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/></svg></span>
+              <div className="fld-ac-name" style={{ color: 'var(--fld-protect)' }}>Protecting</div>
               <div className="fld-ac-what">The protective drive. Avoids — at every substrate, from damage to meaninglessness.</div>
               <div className="fld-ac-feels">Worked: relief, vindication, pride, confidence, honor · Triggered: pain, fear/trauma, grief, despair, existential crisis</div>
             </div>
@@ -632,7 +631,7 @@ export default function FiveLayersDeepPage() {
 
           <div className="fld-reveal fld-d2" style={{ background: '#f0ede8', borderLeft: '3px solid var(--fld-text3)', padding: '20px 24px', borderRadius: 4, marginTop: 28 }}>
             <p style={{ fontFamily: 'var(--fld-fdisplay)', fontSize: 16, color: 'var(--fld-text2)', lineHeight: 1.65, fontStyle: 'italic', margin: 0 }}>
-              The two drives are ancient and always active — the Hedonist seeks pleasure, the Warrior avoids
+              The two drives are ancient and always active — Pursuing seeks pleasure, Protecting avoids
               pain, and they run through every substrate from amoeba to human. The five substrate-archetypes
               are levels of complexity the nervous system can hold. When we struggle, we often find we're
               over-relying on one of these drives or archetypes. Thinking about what else we can access often
@@ -651,8 +650,7 @@ export default function FiveLayersDeepPage() {
           <p className="fld-text fld-reveal fld-d1" style={{ marginBottom: 24 }}>
             Under pressure, the most recently evolved capacities often go quiet first.
             Meaning fades. Then strategic thinking narrows. Then empathy contracts.
-            What remains are the two ancient drives — the <strong>Hedonist</strong> and the
-            <strong> Warrior</strong> — running without the <strong>Lover</strong>,
+            What remains are the two ancient drives — <strong>Pursuing</strong> and <strong>Protecting</strong> — running without the <strong>Lover</strong>,
             <strong> Strategist</strong>, or <strong>Visionary</strong> to guide them.
             The work of leadership under pressure is noticing which archetypes have gone offline
             and bringing them back.
@@ -674,13 +672,13 @@ export default function FiveLayersDeepPage() {
               <span className="fld-pr-status">◉ offline</span>
             </div>
             <div className="fld-pressure-row fld-online fld-reveal fld-d3" style={{ borderColor: 'var(--fld-protect)', background: 'var(--fld-protect-bg)' }}>
-              <span className="fld-pr-icon">⚔</span>
-              <span className="fld-pr-name">Warrior</span>
+              <span className="fld-pr-icon" style={{ color: 'var(--fld-protect)' }}><svg viewBox="0 0 120 120" width="18" height="18" style={{ display: 'inline-block', verticalAlign: 'middle' }} role="img" aria-label="Protecting fortress"><title>Protecting fortress</title><path d="M 22 50 L 30 50 L 30 42 L 42 42 L 42 50 L 54 50 L 54 42 L 66 42 L 66 50 L 78 50 L 78 42 L 90 42 L 90 50 L 98 50 L 98 90 L 22 90 Z" fill="currentColor" fillOpacity="0.25" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/><path d="M 54 90 L 54 76 Q 54 70 60 70 Q 66 70 66 76 L 66 90 Z" fill="currentColor"/></svg></span>
+              <span className="fld-pr-name">Protecting</span>
               <span className="fld-pr-online-note">active — raw protect</span>
             </div>
             <div className="fld-pressure-row fld-online fld-reveal fld-d4" style={{ borderColor: 'var(--fld-seek)', background: 'var(--fld-seek-bg)' }}>
-              <span className="fld-pr-icon">☀</span>
-              <span className="fld-pr-name">Hedonist</span>
+              <span className="fld-pr-icon" style={{ color: 'var(--fld-seek)' }}><svg viewBox="0 0 120 120" width="18" height="18" style={{ display: 'inline-block', verticalAlign: 'middle' }} role="img" aria-label="Pursuing arrow"><title>Pursuing arrow</title><line x1="14" y1="60" x2="44" y2="60" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.6"/><path d="M 48 32 L 100 60 L 48 88 L 62 60 Z" fill="currentColor" fillOpacity="0.28" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/></svg></span>
+              <span className="fld-pr-name">Pursuing</span>
               <span className="fld-pr-online-note">active — raw seek</span>
             </div>
           </div>
