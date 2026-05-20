@@ -5,12 +5,9 @@
 // (CAPACITY_DETAILS retained as the legacy object below; no alias needed)
 const CAPACITIES = ['egoist', 'veteran', 'lover', 'strategist', 'visionary'];
 
-// Sub-archetypes: 3 per drive. Used by calcScores + topSubArch.
+// Sub-archetype ordered list — 3 Pursuing + 3 Protecting.
+// Used by calcScores to iterate and compute per-sub percentages.
 const SUB_ARCHS = ['achiever', 'hedonist', 'adventurer', 'sentinel', 'warrior', 'evader'];
-const SUB_ARCH_BY_DRIVE = {
-  thriving:   ['achiever', 'hedonist', 'adventurer'],
-  protecting: ['sentinel', 'warrior', 'evader'],
-};
 
 // Legacy alias — some helper code references ARCHS as the canonical key list.
 // In the new model, ARCHS is contextual: SUB_ARCHS in Section 1 (drive), CAPACITIES in Sections 2-3.
@@ -20,11 +17,11 @@ const ARCHS = CAPACITIES;
 // DRIVE DETAIL — the two primary motivational orientations
 // ══════════════════════════════════════════════════════════════════
 const DRIVE_DETAIL = {
-  thriving: {
-    name: 'Thriving',
+  pursuing: {
+    name: 'Pursuing',
     tagline: 'The approach drive',
     color: '#D4A854', bg: 'rgba(212,168,84,.08)', border: 'rgba(212,168,84,.35)',
-    lead: "Pursue what supports flourishing. The Thriving drive orients you toward what's alive, energizing, and worth approaching. When it's online you move toward people, ideas, and experiences that expand you.",
+    lead: "Pursue what supports flourishing. The Pursuing drive orients you toward what's alive, energizing, and worth approaching. When it's online you move toward people, ideas, and experiences that expand you.",
   },
   protecting: {
     name: 'Protecting',
@@ -41,19 +38,19 @@ const DRIVE_DETAIL = {
 // ══════════════════════════════════════════════════════════════════
 const SUB_ARCH_DETAIL = {
   achiever: {
-    name: 'Achiever', drive: 'thriving',
+    name: 'Achiever', drive: 'pursuing',
     tagline: 'Drive — sustained pursuit',
     access: "Momentum, direction, the ability to set a target and push toward it. You build things, finish things, and people can count on you to deliver.",
     limit: "Identity fused with output. Burnout when you can't perform. Relationships and rest can feel like obstacles to optimize around.",
   },
   hedonist: {
-    name: 'Hedonist', drive: 'thriving',
+    name: 'Hedonist', drive: 'pursuing',
     tagline: 'Reward responsiveness — present pleasure',
     access: "Vitality, presence, the ability to take in good things fully. You can feel what's alive in a moment and let it move you.",
     limit: "Avoiding discomfort that needs facing. \"If it doesn't feel good, it isn't right\" can become a trap that keeps you from hard truths.",
   },
   adventurer: {
-    name: 'Adventurer', drive: 'thriving',
+    name: 'Adventurer', drive: 'pursuing',
     tagline: 'Fun seeking — novelty and exploration',
     access: "Curiosity, openness, willingness to try. You expand what's possible. New environments, new ideas, new people energize rather than threaten you.",
     limit: "Sustained focus and mastery can feel deadening. \"What's next?\" crowds out \"what is.\" Commitments can chafe.",
@@ -78,17 +75,28 @@ const SUB_ARCH_DETAIL = {
   },
 };
 
+
+// ══════════════════════════════════════════════════════════════════
+// SUB_ARCH_BY_DRIVE — maps drive → its 3 sub-archetype keys
+// Used by calcScores to attribute Section 1 picks to the right drive
+// and by topSubArch to sort sub-archetypes within a drive.
+// ══════════════════════════════════════════════════════════════════
+const SUB_ARCH_BY_DRIVE = {
+  pursuing:   ['achiever', 'hedonist', 'adventurer'],
+  protecting: ['sentinel', 'warrior', 'evader'],
+};
+
 // ══════════════════════════════════════════════════════════════════
 // CAPACITY DETAIL — the five evolved capacities you USE to engage the world
-// Each has a strength + shadow in BOTH Thriving and Protecting modes.
+// Each has a strength + shadow in BOTH Pursuing and Protecting modes.
 // ══════════════════════════════════════════════════════════════════
 const CAPACITY_DETAIL = {
   egoist: {
     name: 'Egoist', tagline: 'The body capacity', shortTag: 'Body',
     icon: '◉', color: '#C77C58', bg: 'rgba(199,124,88,.08)', border: 'rgba(199,124,88,.35)',
     lead: "Where pleasure and pain register. Sensation, interoception, instinct. The oldest capacity — the body itself, sensing the world before any thought arrives.",
-    thrivingStrength: "Sensing what energizes you. Savoring pleasure. Being at home in your body. Trusting your gut as a source of information.",
-    thrivingShadow: "Pursuit of pleasure becomes its own end. Disconnection from longer-term consequences. \"If it feels good, it must be right.\"",
+    pursuingStrength: "Sensing what energizes you. Savoring pleasure. Being at home in your body. Trusting your gut as a source of information.",
+    pursuingShadow: "Pursuit of pleasure becomes its own end. Disconnection from longer-term consequences. \"If it feels good, it must be right.\"",
     protectingStrength: "Body wisdom. The gut-no. Embodied early-warning of threat or wrongness. Listening when your body says stop.",
     protectingShadow: "Hypervigilance about bodily sensations. Somatic anxiety. Treating every signal as alarm. The body as enemy rather than ally.",
   },
@@ -96,8 +104,8 @@ const CAPACITY_DETAIL = {
     name: 'Veteran', tagline: 'The memory capacity', shortTag: 'Memory',
     icon: '⟲', color: '#7B8189', bg: 'rgba(123,129,137,.08)', border: 'rgba(123,129,137,.35)',
     lead: "Where the body's wisdom gets encoded as patterns. Learned associations, anticipation, expectation. Memory as a working resource for the present.",
-    thrivingStrength: "Drawing on experience. Anticipating with pleasure. Learning from what's worked. Letting past wins fuel current effort.",
-    thrivingShadow: "Living in the past. Recycling old satisfactions. Resistance to the new. Pattern that no longer fits the territory.",
+    pursuingStrength: "Drawing on experience. Anticipating with pleasure. Learning from what's worked. Letting past wins fuel current effort.",
+    pursuingShadow: "Living in the past. Recycling old satisfactions. Resistance to the new. Pattern that no longer fits the territory.",
     protectingStrength: "Pattern recognition for threat. Cautioning from past harm. Not repeating mistakes. Memory as a sentinel that warns.",
     protectingShadow: "Worry and rumination. What-if loops. Replaying old wounds. Not allowing the past to be the past.",
   },
@@ -105,8 +113,8 @@ const CAPACITY_DETAIL = {
     name: 'Lover', tagline: 'The empathy capacity', shortTag: 'Empathy',
     icon: '♡', color: '#8B5E5E', bg: 'rgba(139,94,94,.08)', border: 'rgba(139,94,94,.35)',
     lead: "The shared social brain — what Play built between us. Reading others, feeling with others, building connection. The capacity most universally shared.",
-    thrivingStrength: "Genuine connection. Reading people accurately. Offering warmth and presence. Building trust that lasts.",
-    thrivingShadow: "Losing yourself in others' needs. Identity through relationships. Hard to know what you want apart from those around you.",
+    pursuingStrength: "Genuine connection. Reading people accurately. Offering warmth and presence. Building trust that lasts.",
+    pursuingShadow: "Losing yourself in others' needs. Identity through relationships. Hard to know what you want apart from those around you.",
     protectingStrength: "Sensing others' distress. Protecting relationships. Reading the room. Knowing when something is off between people.",
     protectingShadow: "People-pleasing as armor. Boundary collapse. Avoiding conflict that's needed. Caretaking that costs the self.",
   },
@@ -114,8 +122,8 @@ const CAPACITY_DETAIL = {
     name: 'Strategist', tagline: 'The imagination capacity', shortTag: 'Imagination',
     icon: '◈', color: '#5B6B8B', bg: 'rgba(91,107,139,.08)', border: 'rgba(91,107,139,.35)',
     lead: "Private simulation. Modeling future moves, weighing options, seeing patterns. The capacity for analytical reasoning and counterfactual thinking.",
-    thrivingStrength: "Modeling futures. Finding creative paths. Seeing patterns others miss. Building elegant plans that actually work.",
-    thrivingShadow: "Living in models more than reality. Planning instead of doing. The map mistaken for the territory.",
+    pursuingStrength: "Modeling futures. Finding creative paths. Seeing patterns others miss. Building elegant plans that actually work.",
+    pursuingShadow: "Living in models more than reality. Planning instead of doing. The map mistaken for the territory.",
     protectingStrength: "Anticipating contingencies. Troubleshooting in advance. Risk assessment. Holding the long-arc consequences in view.",
     protectingShadow: "Analysis paralysis. Solving feelings instead of feeling them. Control as defense against uncertainty.",
   },
@@ -123,8 +131,8 @@ const CAPACITY_DETAIL = {
     name: 'Visionary', tagline: 'The meaning capacity', shortTag: 'Meaning',
     icon: '✧', color: '#6B5B8B', bg: 'rgba(107,91,139,.08)', border: 'rgba(107,91,139,.35)',
     lead: "Where individual purpose and moral frame get constructed. Meaning-making, values, the sense that life has direction. The newest capacity.",
-    thrivingStrength: "Sense of purpose. Meaning-making. Orientation toward what matters. The deep yes that carries you through difficulty.",
-    thrivingShadow: "Idealism that ignores practical reality. Living for what should be at the cost of what is.",
+    pursuingStrength: "Sense of purpose. Meaning-making. Orientation toward what matters. The deep yes that carries you through difficulty.",
+    pursuingShadow: "Idealism that ignores practical reality. Living for what should be at the cost of what is.",
     protectingStrength: "Holding the bigger picture under pressure. Refusing to compromise what matters. Moral courage when the heat rises.",
     protectingShadow: "Moral rigidity. Self-righteousness. Using meaning as an escape from messy reality. Principle over person.",
   },
@@ -135,7 +143,7 @@ const CAPACITY_DETAIL = {
 const AD = {
   ...CAPACITY_DETAIL,
   ...DRIVE_DETAIL,
-  hedonist: { ...DRIVE_DETAIL.thriving, name: 'Thriving' },
+  hedonist: { ...DRIVE_DETAIL.pursuing, name: 'Pursuing' },
   warrior: { ...DRIVE_DETAIL.protecting, name: 'Protecting' },
 };
 
@@ -173,32 +181,32 @@ const SUB_ARCH_PROMPTS = {
 
 const CAPACITY_PROMPTS = {
   egoist: {
-    thrivingHigh: "Your body is a reliable source of information for you right now. Where else could you trust it more?",
-    thrivingLow: "What signals from your body have you been overriding to keep performing? What would it cost to listen?",
+    pursuingHigh: "Your body is a reliable source of information for you right now. Where else could you trust it more?",
+    pursuingLow: "What signals from your body have you been overriding to keep performing? What would it cost to listen?",
     protectingHigh: "Your body knows when something is wrong before your mind does. How are you tracking that intelligence?",
     protectingLow: "When your body sends an alarm, do you treat it as data — or as something to push through? What's the cost of either?",
   },
   veteran: {
-    thrivingHigh: "Your past experience is feeding the present well. Which patterns are still serving — and which have outlived their use?",
-    thrivingLow: "What past wins could you draw on more deliberately? What would shift if you stopped starting from scratch?",
+    pursuingHigh: "Your past experience is feeding the present well. Which patterns are still serving — and which have outlived their use?",
+    pursuingLow: "What past wins could you draw on more deliberately? What would shift if you stopped starting from scratch?",
     protectingHigh: "Pattern recognition is keeping you safe. Where is past data still the right map — and where is the territory new?",
     protectingLow: "Where are old loops running on autopilot? What worry or rumination has stopped paying its rent?",
   },
   lover: {
-    thrivingHigh: "Your capacity for genuine connection is alive. Who in your life is being met by it — and who's being missed?",
-    thrivingLow: "Where have you let connection thin out? What relationship would deepen with even a small move toward it?",
+    pursuingHigh: "Your capacity for genuine connection is alive. Who in your life is being met by it — and who's being missed?",
+    pursuingLow: "Where have you let connection thin out? What relationship would deepen with even a small move toward it?",
     protectingHigh: "You read people sensitively under pressure. Where is that protective — and where does it tip into managing everyone's feelings instead of your own?",
     protectingLow: "Where is connection being sacrificed to avoid difficulty? What honest conversation are you holding back?",
   },
   strategist: {
-    thrivingHigh: "Your analytical edge is finding good paths. Where is the planning serving — and where is it substituting for action?",
-    thrivingLow: "What complexity have you been white-knuckling without a real model? Where would slowing down to think actually help?",
+    pursuingHigh: "Your analytical edge is finding good paths. Where is the planning serving — and where is it substituting for action?",
+    pursuingLow: "What complexity have you been white-knuckling without a real model? Where would slowing down to think actually help?",
     protectingHigh: "Your ability to anticipate contingencies is real. Where is that foresight protective — and where has it tipped into trying to control the uncontrollable?",
     protectingLow: "What feeling have you been solving instead of feeling? What problem looks technical but is actually emotional?",
   },
   visionary: {
-    thrivingHigh: "Your sense of purpose is online. How is it shaping your choices right now — and where could it shape them more?",
-    thrivingLow: "What have you been doing without remembering why? Where has the meaning gone flat?",
+    pursuingHigh: "Your sense of purpose is online. How is it shaping your choices right now — and where could it shape them more?",
+    pursuingLow: "What have you been doing without remembering why? Where has the meaning gone flat?",
     protectingHigh: "Your moral compass holds under pressure. Where is that protective — and where does it cross into rigidity?",
     protectingLow: "Where have you compromised something that matters and called it pragmatism? What's the cost?",
   },
@@ -497,35 +505,35 @@ const POOL = [
   ]},
 
   // ════════ SECTION 2 — THRIVING-MODE CAPACITIES (5) ════════
-  { id:'T1', section:'thriving', text:"You're starting a new project at work.", options:[
+  { id:'T1', section:'pursuing', text:"You're starting a new project at work.", options:[
     {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which parts of this you actually want. What parts give you energy or a feeling of enjoyment?"},
     {arch:'veteran',    sub:'anticipatory_pleasure',   text:"Let yourself anticipate what will feel good about this happening, and let that feeling sustain you"},
     {arch:'lover',      sub:'empathic_concern',        text:"Make sure the right people are involved and everyone feels good about their role"},
     {arch:'strategist', sub:'analytical_thinking',     text:"Build a plan with milestones, dependencies, and contingencies"},
     {arch:'visionary',  sub:'presence_of_meaning',     text:"Get clear on why this project matters before diving into how"},
   ]},
-  { id:'T2', section:'thriving', text:"You receive unexpected praise from someone you respect.", options:[
+  { id:'T2', section:'pursuing', text:"You receive unexpected praise from someone you respect.", options:[
     {arch:'egoist',     sub:'body_savoring',           text:"Let it really land. Notice what you feel when you take it in."},
     {arch:'veteran',    sub:'reminiscing_positive',    text:"Come back to those words later. Let yourself enjoy the feeling again."},
     {arch:'lover',      sub:'empathic_concern',        text:"Feel closer to them — it strengthens the relationship"},
     {arch:'strategist', sub:'analytical_thinking',     text:"Think about what specifically you did well so you can replicate it"},
     {arch:'visionary',  sub:'presence_of_meaning',     text:"Feel affirmed that you're on the right path"},
   ]},
-  { id:'T3', section:'thriving', text:"You have to make a decision and there's no clear right answer.", options:[
+  { id:'T3', section:'pursuing', text:"You have to make a decision and there's no clear right answer.", options:[
     {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which option your body leans toward — there's information in the pull"},
     {arch:'veteran',    sub:'reminiscing_positive',    text:"Think back to similar choices and how they actually played out — what does your experience say?"},
     {arch:'lover',      sub:'perspective_taking',      text:"Talk it through with people you trust"},
     {arch:'strategist', sub:'analytical_thinking',     text:"Analyze the options systematically — pros, cons, probabilities"},
     {arch:'visionary',  sub:'presence_of_meaning',     text:"Ask which option best serves what you ultimately care about"},
   ]},
-  { id:'T4', section:'thriving', text:"A team you're part of is brainstorming ideas.", options:[
+  { id:'T4', section:'pursuing', text:"A team you're part of is brainstorming ideas.", options:[
     {arch:'egoist',     sub:'interoceptive_awareness', text:"Notice which ideas spark something in you — where the energy goes when people speak"},
     {arch:'veteran',    sub:'reminiscing_positive',    text:"Build on what's worked before — what patterns can you bring in from past projects?"},
     {arch:'lover',      sub:'perspective_taking',      text:"Make sure quieter voices are heard and people feel safe contributing"},
     {arch:'strategist', sub:'analytical_thinking',     text:"Organize the ideas into categories and evaluate them against criteria"},
     {arch:'visionary',  sub:'presence_of_meaning',     text:"Keep bringing the group back to the bigger picture — what are we actually trying to achieve?"},
   ]},
-  { id:'T5', section:'thriving', text:"You learn something that changes your understanding of a topic you care about.", options:[
+  { id:'T5', section:'pursuing', text:"You learn something that changes your understanding of a topic you care about.", options:[
     {arch:'egoist',     sub:'body_savoring',           text:"Notice how it lands in your body — the click of something falling into place"},
     {arch:'veteran',    sub:'anticipatory_pleasure',   text:"Imagine where this could take you — what becomes possible now that you couldn't see before?"},
     {arch:'lover',      sub:'empathic_concern',        text:"Want to share it with someone and discuss it together"},
@@ -571,7 +579,29 @@ const POOL = [
   ]},
 ];
 
-const SESSION_COMPOSITION = { drive: 5, thriving: 5, protecting: 5 };
+// ══════════════════════════════════════════════════════════════════
+// LIKERT BLOCK — Drive intensity (BAS/BIS independent measures)
+// Injected after Section 1 forced-choice scenarios. Rated 1-5.
+// Pursuing and Protecting scores are computed INDEPENDENTLY from
+// these items and plotted on the 2x2 results grid.
+// ══════════════════════════════════════════════════════════════════
+const LIKERT_BLOCK = {
+  id: 'likert-drive',
+  type: 'likert',
+  section: 'likert',
+  text: 'How strongly is each drive active in you right now?',
+  hint: 'Rate each statement on a 1-5 scale. 1 = not at all, 5 = very strongly. Both drives can be high at the same time.',
+  items: [
+    { id: 'p1', drive: 'pursuing',   text: 'I feel drawn toward new opportunities and possibilities.' },
+    { id: 'p2', drive: 'pursuing',   text: 'I find myself energized by what could go well.' },
+    { id: 'p3', drive: 'pursuing',   text: 'I am focused on what I want and how to reach it.' },
+    { id: 'b1', drive: 'protecting', text: 'I feel attuned to what could go wrong.' },
+    { id: 'b2', drive: 'protecting', text: 'I find myself energized by preventing problems.' },
+    { id: 'b3', drive: 'protecting', text: 'I am focused on what I need to guard against.' },
+  ],
+};
+
+const SESSION_COMPOSITION = { drive: 5, pursuing: 5, protecting: 5 };
 const TOTAL_Q = 15;
 
 // ══════════════════════════════════════════════════════════════════
@@ -583,6 +613,7 @@ let state = {
   currentIdx: 0,
   answers: {},        // scenarioId -> ordered array of capacity keys (max 3)
   optionShuffles: {}, // scenarioId -> shuffled options array
+  likertAnswers: {},  // Likert itemId -> 1-5 rating
 };
 let _prevPage = null;
 
@@ -596,19 +627,23 @@ function shuffle(arr){
 function buildSession(){
   const byType = {
     drive:      POOL.filter(s=>s.section==='drive'),
-    thriving:   POOL.filter(s=>s.section==='thriving'),
+    pursuing:   POOL.filter(s=>s.section==='pursuing'),
     protecting: POOL.filter(s=>s.section==='protecting'),
   };
   const picked = [];
-  // Section order is fixed: drive (Sec 1) -> thriving (Sec 2) -> protecting (Sec 3)
-  for(const section of ['drive','thriving','protecting']){
+  // Section order: drive (Sec 1) -> Likert intensity check -> pursuing (Sec 2) -> protecting (Sec 3)
+  for(const section of ['drive','pursuing','protecting']){
     const n = SESSION_COMPOSITION[section];
     picked.push(...shuffle(byType[section]).slice(0, n));
+    if(section === 'drive'){
+      picked.push(LIKERT_BLOCK);
+    }
   }
   state.sessionScenarios = picked;
   state.currentIdx = 0;
   state.answers = {};
   state.optionShuffles = {};
+  state.likertAnswers = {};
 }
 
 function currentScenario(){return state.sessionScenarios[state.currentIdx]}
@@ -638,8 +673,13 @@ function navBack(){
 
 function navNext(){
   const s = currentScenario();
-  const ans = state.answers[s.id];
-  if(!ans || ans.length === 0) return;
+  if(s.type === 'likert'){
+    const allAns = s.items.every(item => state.likertAnswers[item.id] !== undefined);
+    if(!allAns) return;
+  } else {
+    const ans = state.answers[s.id];
+    if(!ans || ans.length === 0) return;
+  }
   if(isLast()){runProcessing();return}
   state.currentIdx++;
   renderScenario();
@@ -701,8 +741,67 @@ function foundJump(e, targetId){
 // RENDER SCENARIO
 // ══════════════════════════════════════════════════════════════════
 
+function renderLikert(block){
+  const idx = state.currentIdx;
+  const total = state.sessionScenarios.length;
+  const pct = Math.round(((idx) / total) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-lbl-l').textContent = 'Drive intensity check';
+  document.getElementById('prog-lbl-r').textContent = answeredCount() + ' answered';
+  document.getElementById('btn-back').style.visibility = idx === 0 ? 'hidden' : 'visible';
+
+  const area = document.getElementById('slide-area');
+  area.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'fade-up';
+
+  const itemsHTML = block.items.map(item => {
+    const v = state.likertAnswers[item.id];
+    const buttons = [1,2,3,4,5].map(n => {
+      const sel = v === n;
+      return `<button class="likert-btn${sel?' sel':''}" data-item="${item.id}" data-val="${n}">${n}</button>`;
+    }).join('');
+    return `<div class="likert-item">
+      <div class="likert-text">${item.text}</div>
+      <div class="likert-scale">${buttons}</div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `<div class="qcard">
+    <div class="qphase"><span class="qphase-bar"></span>Drive intensity \u00b7 <span class="qphase-num">${block.items.length} items</span></div>
+    <p class="qtext">${block.text}</p>
+    <p class="qhint">${block.hint}</p>
+    <div class="likert-scale-legend"><span>1 \u2014 not at all</span><span>5 \u2014 very strongly</span></div>
+    <div class="likert-items">${itemsHTML}</div>
+  </div>`;
+
+  area.appendChild(wrap);
+
+  const next = document.getElementById('btn-next');
+  const allAnswered = block.items.every(item => state.likertAnswers[item.id] !== undefined);
+  next.disabled = !allAnswered;
+  next.textContent = isLast() ? 'See your results \u2192' : 'Continue \u2192';
+
+  wrap.querySelectorAll('.likert-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const itemId = btn.dataset.item;
+      const val = parseInt(btn.dataset.val, 10);
+      state.likertAnswers[itemId] = val;
+      wrap.querySelectorAll(`.likert-btn[data-item="${itemId}"]`).forEach(b => {
+        b.classList.toggle('sel', parseInt(b.dataset.val,10) === val);
+      });
+      const allAns = block.items.every(item => state.likertAnswers[item.id] !== undefined);
+      document.getElementById('btn-next').disabled = !allAns;
+    });
+  });
+}
+
 function renderScenario(){
   const s = currentScenario();
+  if(s.type === 'likert'){
+    renderLikert(s);
+    return;
+  }
   const idx = state.currentIdx;
   const total = state.sessionScenarios.length;
 
@@ -732,7 +831,7 @@ function renderScenario(){
     </button>`;
   }).join('');
 
-  const phaseLabels = { drive:'Drive — what pulls you', thriving:'Thriving — approach mode', protecting:'Protecting — pressure mode' };
+  const phaseLabels = { drive:'Drive — what pulls you', pursuing:'Pursuing — approach mode', protecting:'Protecting — pressure mode' };
   const phaseScens = state.sessionScenarios.filter(x => x.section === s.section);
   const withinIdx = phaseScens.findIndex(x => x.id === s.id);
   const phaseLine = (phaseLabels[s.section] || s.section) + ' \u00b7 <span class="qphase-num">' + (withinIdx + 1) + ' of ' + phaseScens.length + '</span>';
@@ -797,8 +896,8 @@ function runProcessing(){
 
 // ══════════════════════════════════════════════════════════════════
 // SCORING — new model
-// Section 1 (drive): scores Thriving vs Protecting balance + sub-archetype distribution
-// Sections 2 & 3 (thriving/protecting): score capacity profile in each mode
+// Section 1 (drive): scores Pursuing vs Protecting balance + sub-archetype distribution
+// Sections 2 & 3 (pursuing/protecting): score capacity profile in each mode
 // ══════════════════════════════════════════════════════════════════
 
 const POINTS = [3, 2, 1]; // 1st pick = 3, 2nd = 2, 3rd = 1
@@ -808,9 +907,9 @@ function calcScores(){
   const blankSub = () => ({achiever:0, hedonist:0, adventurer:0, sentinel:0, warrior:0, evader:0});
 
   const subArchScores = blankSub();          // Section 1 sub-archetype totals
-  const driveScores = { thriving:0, protecting:0 }; // Section 1 drive aggregate
-  const capScores = { thriving: blankCap(), protecting: blankCap() }; // Sections 2 & 3
-  const counts = { drive:0, thriving:0, protecting:0 };
+  const driveScores = { pursuing:0, protecting:0 }; // Section 1 drive aggregate
+  const capScores = { pursuing: blankCap(), protecting: blankCap() }; // Sections 2 & 3
+  const counts = { drive:0, pursuing:0, protecting:0 };
 
   state.sessionScenarios.forEach(s => {
     counts[s.section]++;
@@ -822,11 +921,11 @@ function calcScores(){
         // pick is a sub-archetype key
         if(subArchScores[pick] !== undefined){
           subArchScores[pick] += pts;
-          const drv = SUB_ARCH_BY_DRIVE.thriving.includes(pick) ? 'thriving' : 'protecting';
+          const drv = SUB_ARCH_BY_DRIVE.pursuing.includes(pick) ? 'pursuing' : 'protecting';
           driveScores[drv] += pts;
         }
       } else {
-        // pick is a capacity key; s.section is 'thriving' or 'protecting'
+        // pick is a capacity key; s.section is 'pursuing' or 'protecting'
         if(capScores[s.section] && capScores[s.section][pick] !== undefined){
           capScores[s.section][pick] += pts;
         }
@@ -837,12 +936,22 @@ function calcScores(){
   // Max possible per scenario = 3+2+1 = 6 (if user uses all 3 picks)
   const maxPer = 6;
   const driveMax = counts.drive * maxPer;
-  const capMax = { thriving: counts.thriving * maxPer, protecting: counts.protecting * maxPer };
+  const capMax = { pursuing: counts.pursuing * maxPer, protecting: counts.protecting * maxPer };
 
-  // Drive balance as a 0-100 split favoring thriving (50 = balanced, >50 = more thriving)
-  const driveTotal = driveScores.thriving + driveScores.protecting;
+  // INDEPENDENT drive scores from Likert items (1-5 scale).
+  // Each drive's score is the normalized mean of its 3 items, 0-100.
+  // Pursuing and Protecting can both be high, both be low, or any combination.
+  const pItems = LIKERT_BLOCK.items.filter(i => i.drive === 'pursuing');
+  const bItems = LIKERT_BLOCK.items.filter(i => i.drive === 'protecting');
+  const sumLikert = (items) => items.reduce((acc, item) => acc + (state.likertAnswers[item.id] || 0), 0);
+  // Normalize: raw min = n (all 1s), raw max = 5n (all 5s). Map to 0-100.
+  const normLikert = (sum, n) => n > 0 ? Math.round(((sum - n) / (4 * n)) * 100) : 0;
+  const pursuingScore   = Math.max(0, Math.min(100, normLikert(sumLikert(pItems), pItems.length)));
+  const protectingScore = Math.max(0, Math.min(100, normLikert(sumLikert(bItems), bItems.length)));
+  // Legacy zero-sum balance preserved as a back-compat field (used by some legacy code paths).
+  const driveTotal = driveScores.pursuing + driveScores.protecting;
   const drivePct = driveTotal > 0
-    ? Math.round((driveScores.thriving / driveTotal) * 100)
+    ? Math.round((driveScores.pursuing / driveTotal) * 100)
     : 50;
 
   // Sub-archetype as % of total Section 1 points
@@ -852,15 +961,24 @@ function calcScores(){
   }
 
   // Capacity % of max per section
-  const capPct = { thriving:{}, protecting:{} };
-  for(const sec of ['thriving','protecting']){
+  const capPct = { pursuing:{}, protecting:{} };
+  for(const sec of ['pursuing','protecting']){
     for(const c of CAPACITIES){
       capPct[sec][c] = capMax[sec] > 0 ? Math.round((capScores[sec][c] / capMax[sec]) * 100) : 0;
     }
   }
 
   return {
-    drive: { thrivingPct: drivePct, protectingPct: 100 - drivePct, raw: driveScores, max: driveMax },
+    drive: {
+      pursuingScore: pursuingScore,         // INDEPENDENT 0-100 from Likert
+      protectingScore: protectingScore,     // INDEPENDENT 0-100 from Likert
+      // Back-compat aliases (legacy code reads these)
+      pursuingPct: pursuingScore,
+      protectingPct: protectingScore,
+      // Legacy zero-sum balance (forced-choice only; preserved for any old callers)
+      legacyBalancePct: drivePct,
+      raw: driveScores, max: driveMax
+    },
     subArch: { raw: subArchScores, pct: subPct },
     capacity: { raw: capScores, pct: capPct, max: capMax },
     counts,
@@ -880,8 +998,8 @@ function topSubArch(scoreObj, drive){
 
 // ══════════════════════════════════════════════════════════════════
 // RENDER RESULTS — new model
-// 1. Drive slider (Thriving :: Protecting) with click-to-expand sub-archetype detail
-// 2. Side-by-side bar charts (Thriving-mode capacities | Protecting-mode capacities)
+// 1. Drive slider (Pursuing :: Protecting) with click-to-expand sub-archetype detail
+// 2. Side-by-side bar charts (Pursuing-mode capacities | Protecting-mode capacities)
 // 3. Coaching prompts based on top sub-archetypes + top/bottom capacities
 // ══════════════════════════════════════════════════════════════════
 
@@ -900,13 +1018,13 @@ function showResults(){
 }
 
 function renderResults(scored){
-  const drvT = scored.drive.thrivingPct;
+  const drvT = scored.drive.pursuingPct;
   const drvP = scored.drive.protectingPct;
-  const thrCaps = scored.capacity.pct.thriving;
+  const thrCaps = scored.capacity.pct.pursuing;
   const prtCaps = scored.capacity.pct.protecting;
 
   // Top sub-archetypes within each drive
-  const topThriverSubs = topSubArch(scored.subArch.raw, 'thriving');
+  const topThriverSubs = topSubArch(scored.subArch.raw, 'pursuing');
   const topProtectorSubs = topSubArch(scored.subArch.raw, 'protecting');
 
   // Top + bottom capacities per mode
@@ -915,8 +1033,8 @@ function renderResults(scored){
   const prtTop = topNCap(prtCaps, 2);
   const prtBot = bottomNCap(prtCaps, 2);
 
-  // ── Drive slider ──
-  const driveSlider = buildDriveSlider(drvT, drvP);
+  // ── 2x2 Drive Grid (Pursuing vs Protecting, independent) ──
+  const driveGrid = build2x2Grid(drvT, drvP);
 
   // ── Sub-archetype expandable panels ──
   const subPanels = buildSubArchPanels(scored.subArch.pct, topThriverSubs, topProtectorSubs);
@@ -924,9 +1042,14 @@ function renderResults(scored){
   // ── Capacity bar charts (side by side) ──
   const capBars = buildCapacityBars(thrCaps, prtCaps, thrTop, prtTop, thrBot, prtBot);
 
+  // ── Quadrant for headline interpretation ──
+  const quadrant = drvT >= 50 && drvP < 50  ? 'bold'
+                 : drvT >= 50 && drvP >= 50 ? 'driven'
+                 : drvT < 50  && drvP >= 50 ? 'guarded'
+                 : 'disengaged';
+
   // ── Headline ──
-  const drvDom = drvT >= 55 ? 'thriving' : (drvP >= 55 ? 'protecting' : 'balanced');
-  const headlineHTML = buildHeadline(drvDom, drvT, drvP, topThriverSubs[0], topProtectorSubs[0], thrTop[0], prtTop[0]);
+  const headlineHTML = buildHeadline(quadrant, drvT, drvP, topThriverSubs[0], topProtectorSubs[0], thrTop[0], prtTop[0]);
 
   // ── Coaching prompts ──
   const promptsHTML = buildCoachingPrompts(topThriverSubs[0], topProtectorSubs[0], thrTop, thrBot, prtTop, prtBot);
@@ -935,8 +1058,8 @@ function renderResults(scored){
     <div class="r-headline">${headlineHTML}</div>
 
     <h2 class="r-sec-title">Your drive balance</h2>
-    <p class="r-sec-sub">Where you tend to live by default — leaning into what supports flourishing, or guarding against what threatens.</p>
-    ${driveSlider}
+    <p class="r-sec-sub">Each drive is rated independently. Both can be high (driven), both low (disengaged), or one dominant. Your dot marks where you sit.</p>
+    ${driveGrid}
     ${subPanels}
 
     <h2 class="r-sec-title">Your capacity profile</h2>
@@ -948,28 +1071,90 @@ function renderResults(scored){
   `;
 }
 
-function buildHeadline(domStr, drvT, drvP, topThr, topPro, topThrCap, topProCap){
+function buildHeadline(quadrant, drvT, drvP, topThr, topPro, topThrCap, topProCap){
   const subThr = SUB_ARCH_DETAIL[topThr];
   const subPro = SUB_ARCH_DETAIL[topPro];
   const capThr = CAPACITY_DETAIL[topThrCap];
   const capPro = CAPACITY_DETAIL[topProCap];
-  let drvLine;
-  if(domStr === 'thriving'){
-    drvLine = `You default into <strong style="color:${DRIVE_DETAIL.thriving.color}">Thriving</strong> (${drvT}% / ${drvP}%) — approach is your home base.`;
-  } else if(domStr === 'protecting'){
-    drvLine = `You default into <strong style="color:${DRIVE_DETAIL.protecting.color}">Protecting</strong> (${drvT}% / ${drvP}%) — guarding is your home base.`;
-  } else {
-    drvLine = `You balance <strong style="color:${DRIVE_DETAIL.thriving.color}">Thriving</strong> and <strong style="color:${DRIVE_DETAIL.protecting.color}">Protecting</strong> (${drvT}% / ${drvP}%) — flexible across both.`;
-  }
+  const pCol = DRIVE_DETAIL.pursuing.color;
+  const bCol = DRIVE_DETAIL.protecting.color;
+  const quadLines = {
+    bold:       `Your <strong style="color:${pCol}">Pursuing</strong> drive is strong (${drvT}%) while <strong style="color:${bCol}">Protecting</strong> is quieter (${drvP}%) \u2014 you lean bold and approach-oriented.`,
+    driven:     `Both your <strong style="color:${pCol}">Pursuing</strong> (${drvT}%) and <strong style="color:${bCol}">Protecting</strong> (${drvP}%) drives are running hot \u2014 the high-output, internally-conflicted pattern.`,
+    guarded:    `Your <strong style="color:${bCol}">Protecting</strong> drive is strong (${drvP}%) while <strong style="color:${pCol}">Pursuing</strong> is quieter (${drvT}%) \u2014 vigilance over expansion right now.`,
+    disengaged: `Both your <strong style="color:${pCol}">Pursuing</strong> (${drvT}%) and <strong style="color:${bCol}">Protecting</strong> (${drvP}%) drives are quiet \u2014 could be rest, restoration, or a need for re-engagement.`,
+  };
+  const drvLine = quadLines[quadrant] || quadLines.driven;
   return `
     <p class="r-headline-line">${drvLine}</p>
-    <p class="r-headline-line">When Thriving is active, you lead with <strong style="color:${subThr.drive === 'thriving' ? DRIVE_DETAIL.thriving.color : DRIVE_DETAIL.protecting.color}">${subThr.name}</strong> energy and reach for the <strong style="color:${capThr.color}">${capThr.name}</strong> capacity.</p>
-    <p class="r-headline-line">When Protecting is active, you lead with <strong style="color:${DRIVE_DETAIL.protecting.color}">${subPro.name}</strong> energy and reach for the <strong style="color:${capPro.color}">${capPro.name}</strong> capacity.</p>
+    <p class="r-headline-line">When Pursuing is active, you lead with <strong style="color:${subThr.drive === 'pursuing' ? pCol : bCol}">${subThr.name}</strong> energy and reach for the <strong style="color:${capThr.color}">${capThr.name}</strong> capacity.</p>
+    <p class="r-headline-line">When Protecting is active, you lead with <strong style="color:${bCol}">${subPro.name}</strong> energy and reach for the <strong style="color:${capPro.color}">${capPro.name}</strong> capacity.</p>
   `;
 }
 
+function build2x2Grid(pursuingScore, protectingScore){
+  const tColor = DRIVE_DETAIL.pursuing.color;
+  const pColor = DRIVE_DETAIL.protecting.color;
+  // SVG viewBox: 100x100 inner, with margin for axis labels.
+  // X-axis = Protecting (0 left -> 100 right). Y-axis = Pursuing (100 top -> 0 bottom, so cy = 100 - pursuing).
+  const cx = Math.max(0, Math.min(100, protectingScore));
+  const cy = Math.max(0, Math.min(100, 100 - pursuingScore));
+  const highPursue  = pursuingScore  >= 50;
+  const highProtect = protectingScore >= 50;
+  const quadrant = highPursue && !highProtect ? 'bold'
+                 : highPursue && highProtect  ? 'driven'
+                 : !highPursue && highProtect ? 'guarded'
+                 : 'disengaged';
+  const quadLabels = {
+    bold:       { name: 'Bold / Risk-taking',   desc: 'Approach is strong, threat awareness is muted. You move on opportunities, sometimes before checking the downside.' },
+    driven:     { name: 'Driven / Conflicted',  desc: 'Both systems are running hot. High output, often paired with internal tension \u2014 the classic anxious-achiever pattern.' },
+    guarded:    { name: 'Guarded / Withdrawn',  desc: 'Threat awareness is strong, approach is muted. You prioritize safety, sometimes at the cost of opportunity.' },
+    disengaged: { name: 'Disengaged / At rest', desc: 'Neither system is strongly active. Could be rest, recovery, or burnout \u2014 context matters.' },
+  };
+  const q = quadLabels[quadrant];
+  const shade = (qkey) => qkey === quadrant ? 'rgba(255,193,7,0.18)' : 'rgba(255,255,255,0.025)';
+  return `
+    <div class="grid-2x2-wrap">
+      <svg class="grid-2x2" viewBox="-14 -10 132 124" preserveAspectRatio="xMidYMid meet">
+        <rect x="0"  y="0"  width="50" height="50" fill="${shade('bold')}"       />
+        <rect x="50" y="0"  width="50" height="50" fill="${shade('driven')}"     />
+        <rect x="0"  y="50" width="50" height="50" fill="${shade('disengaged')}" />
+        <rect x="50" y="50" width="50" height="50" fill="${shade('guarded')}"    />
+        <rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.6"/>
+        <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(255,255,255,0.25)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <text x="25" y="7"   text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Bold</text>
+        <text x="25" y="11"  text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">risk-taking</text>
+        <text x="75" y="7"   text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Driven</text>
+        <text x="75" y="11"  text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">conflicted</text>
+        <text x="25" y="94"  text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Disengaged</text>
+        <text x="25" y="98"  text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">low / low</text>
+        <text x="75" y="94"  text-anchor="middle" font-size="3.6" fill="rgba(255,255,255,0.85)" font-weight="600">Guarded</text>
+        <text x="75" y="98"  text-anchor="middle" font-size="2.6" fill="rgba(255,255,255,0.55)">withdrawn</text>
+        <text x="50" y="-3.5" text-anchor="middle" font-size="3.4" fill="${tColor}" font-weight="600">\u2191 Pursuing</text>
+        <text x="-2"  y="51"  text-anchor="end"    font-size="2.4" fill="rgba(255,255,255,0.55)">low</text>
+        <text x="-2"  y="2.5" text-anchor="end"    font-size="2.4" fill="rgba(255,255,255,0.55)">high</text>
+        <text x="104" y="51"  text-anchor="start"  font-size="3.4" fill="${pColor}" font-weight="600">Protecting \u2192</text>
+        <text x="0"   y="108" text-anchor="middle" font-size="2.4" fill="rgba(255,255,255,0.55)">low</text>
+        <text x="100" y="108" text-anchor="middle" font-size="2.4" fill="rgba(255,255,255,0.55)">high</text>
+        <circle cx="${cx}" cy="${cy}" r="4.5" fill="none" stroke="#fff" stroke-width="0.7" opacity="0.5"/>
+        <circle cx="${cx}" cy="${cy}" r="2.6" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      </svg>
+      <div class="grid-2x2-quadrant">
+        <div class="grid-2x2-label">${q.name}</div>
+        <div class="grid-2x2-desc">${q.desc}</div>
+        <div class="grid-2x2-scores">
+          <span style="color:${tColor}">Pursuing ${pursuingScore}%</span>
+          <span style="color:${pColor}">Protecting ${protectingScore}%</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Legacy linear slider kept for any callers that still reference it
 function buildDriveSlider(thrPct, prtPct){
-  const tColor = DRIVE_DETAIL.thriving.color;
+  const tColor = DRIVE_DETAIL.pursuing.color;
   const pColor = DRIVE_DETAIL.protecting.color;
   return `
     <div class="drive-slider">
@@ -979,7 +1164,7 @@ function buildDriveSlider(thrPct, prtPct){
         <div class="drive-slider-marker" style="left:${thrPct}%"></div>
       </div>
       <div class="drive-slider-labels">
-        <span class="drive-label-l" style="color:${tColor}">Thriving ${thrPct}%</span>
+        <span class="drive-label-l" style="color:${tColor}">Pursuing ${thrPct}%</span>
         <span class="drive-label-r" style="color:${pColor}">Protecting ${prtPct}%</span>
       </div>
     </div>
@@ -1016,7 +1201,7 @@ function buildSubArchPanels(subPct, topThr, topPro){
       </details>
     `;
   };
-  return panelFor('thriving', topThr) + panelFor('protecting', topPro);
+  return panelFor('pursuing', topThr) + panelFor('protecting', topPro);
 }
 
 function buildCapacityBars(thrPcts, prtPcts, thrTop, prtTop, thrBot, prtBot){
@@ -1052,7 +1237,7 @@ function buildCapacityBars(thrPcts, prtPcts, thrTop, prtTop, thrBot, prtBot){
   };
   return `
     <div class="cap-bars-grid">
-      ${column('Thriving-mode capacities', thrPcts, thrTop, thrBot, 'thriving')}
+      ${column('Pursuing-mode capacities', thrPcts, thrTop, thrBot, 'pursuing')}
       ${column('Protecting-mode capacities', prtPcts, prtTop, prtBot, 'protecting')}
     </div>
     <div class="cap-legend">
@@ -1068,8 +1253,8 @@ function buildCoachingPrompts(topThr, topPro, thrTop, thrBot, prtTop, prtBot){
   if(topThr){
     const p = SUB_ARCH_PROMPTS[topThr];
     const d = SUB_ARCH_DETAIL[topThr];
-    lines.push(`<li><strong style="color:${DRIVE_DETAIL.thriving.color}">${d.name}</strong> — ${p.strength}</li>`);
-    lines.push(`<li><strong style="color:${DRIVE_DETAIL.thriving.color}">${d.name}</strong> — ${p.limit}</li>`);
+    lines.push(`<li><strong style="color:${DRIVE_DETAIL.pursuing.color}">${d.name}</strong> — ${p.strength}</li>`);
+    lines.push(`<li><strong style="color:${DRIVE_DETAIL.pursuing.color}">${d.name}</strong> — ${p.limit}</li>`);
   }
   if(topPro){
     const p = SUB_ARCH_PROMPTS[topPro];
@@ -1077,16 +1262,16 @@ function buildCoachingPrompts(topThr, topPro, thrTop, thrBot, prtTop, prtBot){
     lines.push(`<li><strong style="color:${DRIVE_DETAIL.protecting.color}">${d.name}</strong> — ${p.strength}</li>`);
     lines.push(`<li><strong style="color:${DRIVE_DETAIL.protecting.color}">${d.name}</strong> — ${p.limit}</li>`);
   }
-  // Top capacity in Thriving + bottom capacity in Thriving
+  // Top capacity in Pursuing + bottom capacity in Pursuing
   if(thrTop[0]){
     const d = CAPACITY_DETAIL[thrTop[0]];
     const p = CAPACITY_PROMPTS[thrTop[0]];
-    lines.push(`<li><strong style="color:${d.color}">${d.name} (Thriving)</strong> — ${p.thrivingHigh}</li>`);
+    lines.push(`<li><strong style="color:${d.color}">${d.name} (Pursuing)</strong> — ${p.pursuingHigh}</li>`);
   }
   if(thrBot[0]){
     const d = CAPACITY_DETAIL[thrBot[0]];
     const p = CAPACITY_PROMPTS[thrBot[0]];
-    lines.push(`<li><strong style="color:${d.color}">${d.name} (Thriving)</strong> — ${p.thrivingLow}</li>`);
+    lines.push(`<li><strong style="color:${d.color}">${d.name} (Pursuing)</strong> — ${p.pursuingLow}</li>`);
   }
   // Top capacity in Protecting + bottom capacity in Protecting
   if(prtTop[0]){
