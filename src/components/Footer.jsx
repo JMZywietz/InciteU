@@ -7,8 +7,8 @@ export default function Footer() {
   const linkStyle = { color: C.creamMuted, textDecoration: 'none', cursor: 'pointer', transition: 'color 0.3s' };
   const supportLinkStyle = { color: C.sage, textDecoration: 'none', cursor: 'pointer', transition: 'color 0.3s' };
   return (
-    <footer style={{ padding: '24px 6vw', borderTop: `1px solid ${C.line}`, textAlign: 'center' }}>
-      <small style={{ fontSize: 11, letterSpacing: '0.18em', color: C.creamMuted, textTransform: 'uppercase', display: 'block', marginBottom: 8 }}>
+    <footer style={{ padding: '24px 6vw', borderTop: `1px solid ${C.line}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+      <small style={{ fontSize: 11, letterSpacing: '0.18em', color: C.creamMuted, textTransform: 'uppercase' }}>
         © InciteU · Jennifer May
       </small>
       <div style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
