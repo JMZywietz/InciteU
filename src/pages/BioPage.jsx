@@ -218,12 +218,46 @@ export default function BioPage() {
         <p style={p}>I grew up in rural Kansas, somehow made it to 71 countries, and called Amsterdam and Dubai home for a long stretch. I have two kids. I raise chickens and drink wine, usually not at the same time.</p>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '120px 6vw 140px', textAlign: 'center', borderTop: `1px solid ${C.line}`, maxWidth: 1400, margin: '0 auto' }}>
-        <p style={{ fontFamily: F.serif, fontSize: 28, fontWeight: 400, color: C.cream, lineHeight: 1.5, maxWidth: 600, margin: '0 auto 24px' }}>
-          If you'd like to <em style={emSage}>think something through together</em>, I'd love to hear from you.
-        </p>
-        <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
+      {/* Combined CTA: Help us keep improving — Get in touch + Support InciteU stacked */}
+      <section style={{ padding: '100px 6vw 120px', borderTop: `1px solid ${C.line}`, maxWidth: 1400, margin: '0 auto' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          {/* Combining header */}
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <p style={{ fontFamily: F.sans, fontSize: 11, fontWeight: 500, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.sage, margin: '0 0 12px 0' }}>Two ways to engage</p>
+            <h2 style={{ fontFamily: F.serif, fontWeight: 400, fontSize: 'clamp(30px, 3.4vw, 40px)', lineHeight: 1.2, color: C.cream, margin: 0 }}>Help us keep <em style={emSage}>improving</em></h2>
+          </div>
+
+          {/* Get in Touch card */}
+          <div style={{ background: C.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '32px 32px', marginBottom: 22 }}>
+            <h3 style={{ fontFamily: F.serif, fontWeight: 400, fontSize: 26, color: C.cream, margin: '0 0 18px 0' }}>Get in touch</h3>
+            <p style={{ fontFamily: F.sans, fontSize: 15, lineHeight: 1.75, color: C.cream, fontWeight: 300, margin: '0 0 14px 0' }}>Drop me a line if you:</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0' }}>
+              {[
+                'Loved a tool',
+                'Found something annoying or broken that we can fix',
+                'Still have questions or want a new tool added',
+                'thinkSomethingThrough',
+                'Want a facilitator to come run these tools with you',
+              ].map((item, i) => (
+                <li key={i} style={{ fontFamily: F.sans, fontSize: 15, lineHeight: 1.75, color: C.cream, fontWeight: 300, paddingLeft: 22, position: 'relative', marginBottom: 4 }}>
+                  <span style={{ position: 'absolute', left: 6, color: C.sage }}>·</span>
+                  {item === 'thinkSomethingThrough'
+                    ? <>Want to <em style={emSage}>think something through together</em></>
+                    : item}
+                </li>
+              ))}
+            </ul>
+            <a href="mailto:jen@inciteu.com" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Get in touch</a>
+          </div>
+
+          {/* Support InciteU card */}
+          <div style={{ background: C.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '32px 32px' }}>
+            <h3 style={{ fontFamily: F.serif, fontWeight: 400, fontSize: 26, color: C.cream, margin: '0 0 18px 0' }}>Support Incite<span style={inlineU}>U</span></h3>
+            <p style={{ fontFamily: F.sans, fontSize: 15, lineHeight: 1.75, color: C.cream, fontWeight: 300, margin: '0 0 14px 0' }}>Honestly? Don't buy me a coffee. I've got a great cappuccino machine at home, and the last thing I need is more caffeine.</p>
+            <p style={{ fontFamily: F.sans, fontSize: 15, lineHeight: 1.75, color: C.cream, fontWeight: 300, margin: '0 0 24px 0' }}>But if these tools have helped you &mdash; or helped someone you're coaching, leading, or walking alongside &mdash; your donation goes toward hosting fees, AI costs, and whatever it takes to keep these tools online and free for the next person.</p>
+            <a href="https://ko-fi.com/inciteu" target="_blank" rel="noopener noreferrer" style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Support Incite<span style={inlineU}>U</span> &rarr;</a>
+          </div>
+        </div>
       </section>
     </main>
   );
