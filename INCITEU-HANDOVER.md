@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 23, 2026 (evening) — SEO scan audit run + handover-doc updated with web_fetch vs Composio API read-path lesson (no code changes shipped this session; earlier session that day shipped commit `48f0e89` — canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix)
+**Last updated:** May 23, 2026 (late evening) — Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -377,6 +377,29 @@ The first four are the most important. The rest were here in the previous versio
 
 ## §6 — Outstanding setup (running list)
 
+### Recently completed (May 23, 2026 session — late evening) — Person.image + Formspree shipped
+
+Two small commits closing out concrete items from the post-audit outstanding list. Standard pre-push re-fetch discipline followed; both target files unchanged between fetch and push.
+
+- [x] **Person.image added to JSON-LD** — commit [`650fc8e`](https://github.com/JMZywietz/InciteU/commit/650fc8e61e0231085ad61eb0c60d30fa49d22e77) (`index.html`). One-line insertion of `"image": "https://inciteu.com/jen-may.jpg"` between `"email"` and `"sameAs"` in the schema.org Person block. The headshot at `/public/jen-may.jpg` (86 KB, shipped May 15) is now machine-discoverable for Google Knowledge Panel + entity disambiguation. No visible change to users.
+- [x] **Formspree wired on contact form** — same commit (`src/pages/ContactPage.jsx`). Placeholder `REPLACE_WITH_YOUR_ID` replaced with Jen's real Formspree endpoint ID (`xqejlbrk`). Free tier: 50 submissions/month, delivered to `jen@inciteu.com`. The mailto fallback path is preserved in code but no longer triggers (placeholder check now passes). First-submission confirmation email from Formspree is expected on the first real send — that's a one-time Formspree workflow step, not a bug.
+- [x] **Item verifications during this session — no code changes needed:**
+  * **`/public/favicon.svg` exists** (448 bytes, sage-on-deep-teal "iU" mark). The "favicon referenced but missing" flag in the prior two handover entries was wrong — the file is there and the browser tab favicon renders correctly. Both pending bullets cleared below.
+  * **ANTHROPIC_API_KEY in Vercel** confirmed working (AI synthesis tools all functional).
+  * **inciteu.com custom domain** confirmed working (apex resolves).
+  * **Tool browser-tab titles already match Jen's preferred approach** ("keep descriptive subtitle" + "keep individual names for Five Lives / SVE"). The May 15 SEO work shipped them this way already — the §6 "tool page titles don't match homepage labels" item from older entries is closed.
+
+**Outstanding from this session:**
+
+- [ ] **Confirm first Formspree submission** — Jen should submit the form on `inciteu.com/contact` once Vercel finishes deploying (~60 sec). Formspree will email `jen@inciteu.com` asking her to confirm the form is hers; she clicks the link, and every submission after that lands cleanly. Standard Formspree onboarding step.
+- [ ] **Google Search Console sitemap submission** — still outstanding from May 15. Sitemap is at `https://inciteu.com/sitemap.xml`. Manual GSC step Jen does.
+
+**Key patterns / lessons from this session:**
+
+1. **Some "outstanding items" in the handover are stale, not real.** Today the favicon was listed as missing in two separate places (the May 15 SEO entry and the May 23-evening entry I added earlier today). A 5-second Composio fetch of `public/` showed it's been there the whole time. **When closing outstanding items, verify each one against the live repo rather than trusting handover history.** Same lesson as pitfall #13 / §3 read-path subsection, just applied to a different failure mode.
+2. **Composio MCP for one-string-edit commits is genuinely fast.** Two surgical replacements + push + verify took under 60 seconds. The §3 fallback (hand to Jen for manual upload) is only needed for >30 KB binary or large new files — for tiny text edits like these, Composio is the right tool.
+3. **The contact form's mailto fallback is good defensive code.** Even before today's Formspree wire-up, the form did the right thing (opened the user's mail client with the message pre-filled). Worth keeping the pattern for any future external integrations — fail-soft to a working path the user can act on.
+
 ### Recently completed (May 23, 2026 session — evening) — SEO scan audit + handover update (no code shipped)
 
 Session worked through the six-scan SEO audit (Schema / SEO / Canonical / Breadcrumb / Meta / Robots) and produced a printable DOCX report. **No code commits this session.** Drafted three fix files — `index.html`, `public/robots.txt`, `public/sitemap.xml` — but pre-push verification via Composio revealed that an earlier session that same day (commit `48f0e89`) plus the May 15 SEO foundation work had already shipped everything the audit recommended. Pushing the drafts would have been a no-op at best and a clobber at worst.
@@ -393,8 +416,8 @@ Session worked through the six-scan SEO audit (Schema / SEO / Canonical / Breadc
 **Outstanding from this session:**
 
 - [ ] **The audit DOCX is worth a 5-minute read for Jen** even though nothing needs to change — sections on what each scan looks for, plus the recommended external scans (PageSpeed Insights, Rich Results Test, Schema Validator, LinkedIn Post Inspector). External validation is the natural next step.
-- [ ] **Person `image` field in JSON-LD** — still flagged as a "future enhancement" from the May 15 session. `/public/jen-may.jpg` exists; one-line add to `index.html` if Jen wants it.
-- [ ] **`favicon.svg` referenced but missing** — pre-existing dangling reference (also flagged May 15). Still not fixed.
+- [x] **Person `image` field in JSON-LD** — shipped same day in commit `650fc8e`. See next §6 entry above.
+- [x] **`favicon.svg` referenced but missing** — verified false in commit `650fc8e` session. The file does exist at `/public/favicon.svg` (448 bytes); previous handover entries were wrong about this. No fix needed.
 
 **Key patterns / lessons from this session:**
 
@@ -421,9 +444,9 @@ Full SEO scaffolding added in six atomic commits over a single session, followin
 **Outstanding from this session:**
 
 - [ ] **Step 7 — Google Search Console submission** — Jen confirmed GSC is already set up. Jen to submit `https://inciteu.com/sitemap.xml`, run URL Inspection on 3-4 key URLs, then wait 2-7 days for indexing. Manual step.
-- [ ] **Person.image not yet added** — `/public/jen-may.jpg` (86 KB) exists in repo but isn't referenced from the schema.org Person block. One-line `"image": "https://inciteu.com/jen-may.jpg"` addition if Jen wants it.
+- [x] **Person.image added** — shipped May 23 in commit `650fc8e`.
 - [ ] **Organization.logo not yet added** — `/public/logo.png` doesn't exist. Drop the file + uncomment the `"logo"` line in `index.html`'s JSON-LD if Jen wants it.
-- [ ] **favicon.svg referenced but missing** — `index.html` still links to `/favicon.svg`, which is not in `/public`. Pre-existing dangling reference, NOT touched in this session (out of SEO scope). Worth flagging because the browser tab will show no favicon until either the file is added or the link is changed/removed.
+- [x] **favicon.svg verified to exist** — May 23 verification confirmed `/public/favicon.svg` (448 bytes) is present and rendering. The original flag was incorrect.
 - [ ] **Vite SSG decision deferred** — The SEO handover notes that full prerendering via Vite SSG is the biggest possible SEO win but a meaningful refactor. Helmet-only is "a no-regrets first step." Once Search Console data comes back, Jen can decide whether the SSG lift is worth it.
 
 **Key patterns / lessons from this session:**
@@ -628,7 +651,7 @@ The recommended sequence on the two-paths page reflects a deliberate decision Je
 - [ ] **Eventually: same treatment for `/tools/org/vision`** — v9 already has a Vision tool; once v9 ships, the standalone Vision becomes a splash too.
 - [ ] `ANTHROPIC_API_KEY` in Vercel env vars — without this, AI tools fall back to "unavailable" but site otherwise works.
 - [ ] Custom domain `inciteu.com` — point GoDaddy DNS to Vercel.
-- [ ] Formspree ID — replace `REPLACE_WITH_YOUR_ID` in `src/pages/ContactPage.jsx`.
+- [x] Formspree ID — shipped May 23 in commit `650fc8e`. ID `xqejlbrk`, free tier (50/mo), delivers to jen@inciteu.com.
 - [ ] Self-host hero photo — `HERO_PHOTO` in `theme.js` still points at Wix CDN. (About page's `about-enso.jpg` is the first self-hosted image, lives at `public/about-enso.jpg`. Pattern is established; HERO_PHOTO can follow.)
 - [ ] Wayback Machine archive of old Wix site, then cancel Wix.
 - [x] **Logo wall expanded** — wall now shows all 15 client organisations: icon tiles for Google, PayPal, Careem · Uber, PepsiCo, Microsoft, WHO; wordmark tiles for McKinsey, PwC, Novartis, Honeywell, World Bank, Kuwait Finance House, Diageo, Achmea, Cleveland Clinic AD. See May 15 session entry above for full details.
