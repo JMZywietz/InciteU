@@ -1,6 +1,6 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 23, 2026 — SEO scan + first-pass fixes shipped (canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix; commit `48f0e89`)
+**Last updated:** May 23, 2026 (evening) — SEO scan audit run + handover-doc updated with web_fetch vs Composio API read-path lesson (no code changes shipped this session; earlier session that day shipped commit `48f0e89` — canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
@@ -253,6 +253,19 @@ COMPOSIO_SEARCH_TOOLS query: {"use_case": "create or update file in GitHub repo 
 
 If it shows `has_active_connection: true` → proceed. If not → user reconnects via Composio.
 
+### Reading files from the repo — use Composio, NOT `web_fetch`
+
+**Canonical read path:** `GITHUB_GET_REPOSITORY_CONTENT` via Composio (or the COMPOSIO_MULTI_EXECUTE_TOOL form). Returns base64-encoded current `main` content with no cache lag. This is the source of truth.
+
+**`web_fetch` on `raw.githubusercontent.com` is NOT reliable for repo files.** It serves through a CDN that can lag by minutes to hours behind `main`, and the lag is not advertised in the response. Two cases burned in real sessions:
+
+1. *May 15 session* (already documented in §6 pitfall #4): a freshly-pushed commit was invisible via raw URL for ~5 min while the API saw it instantly. Workaround there was to pin to a commit SHA on the API.
+2. *May 23 (evening) session*: Claude opened the session by fetching `App.jsx` via `web_fetch` and got a version that was **~10 days stale**, missing the IdentityBox / CreativeCollision / FacilitateYourWay / Quiz / paired-flow / Culture Change Model imports. The handover doc described all of these as live; Claude assumed the handover was ahead of the code and was about to draft a sitemap that omitted ~half the live routes. Only switching to the Composio API path surfaced the truth: the code was current; `web_fetch` was lying.
+
+**Rule:** at session start and any time before a push, fetch the file via Composio. If you must use `web_fetch` (e.g. to follow a URL from the §2 list as a quick orientation), treat the result as approximate and re-verify via Composio before relying on it for any edit decision.
+
+For diffing what's about to be pushed against what's actually live, this is non-negotiable — see pitfall #13.
+
 ---
 
 
@@ -356,11 +369,39 @@ The first four are the most important. The rest were here in the previous versio
 
 13. **Don't assume your earlier file fetch is still current.** `GITHUB_COMMIT_MULTIPLE_FILES` overwrites the target paths with whatever's in the payload, so if a parallel session has touched the same files since your fetch, your commit will silently revert their work (or yours will get reverted by theirs, depending on push order). Two protections: (a) re-fetch the files you're about to modify immediately before pushing, especially if hours have passed or another session is open in parallel; (b) keep commits scoped narrowly — a smaller commit has a smaller surface area for clobbering. We hit this twice in a single session: once when the `de17854a` two-paths commit clobbered the Identity Box wire-up to routes.js/App.jsx/HomePage.jsx (tool file survived in a different directory; homepage card reverted to placeholder); and once on this very file — the handover doc itself was updated by a parallel session mid-draft, requiring a re-fetch and re-anchor before the update could land. **Applies to this doc as much as any source file.**
 
+   *Sub-lesson (May 23 evening):* Pre-push re-fetches save you not just from parallel-session clobbers but also from your own stale tool reads. The May 23 evening session opened with a `web_fetch` of `index.html`, `App.jsx`, and `routes.js` that turned out to be a CDN-cached snapshot from before the May 15 SEO commits. Drafted files based on that snapshot would have overwritten the live `index.html` (which already had canonical, theme-color, og dimensions added in commit `48f0e89`) with whitespace-only changes — and would have downgraded the live sitemap.xml from 23 URLs to 16. Only the pre-push verification (Composio fetch immediately before push) caught it. **Always re-fetch via Composio API immediately before push, regardless of how recently you fetched.** See also the new "Reading files from the repo" subsection in §3.
+
 14. **Upstash Redis env var name gotcha.** Vercel's Marketplace integration ("Upstash for Redis") provisions credentials under the legacy `KV_REST_API_URL` and `KV_REST_API_TOKEN` names (kept for backward compat with Vercel's original KV product, which was sunset in December 2024). The `Redis.fromEnv()` constructor in `@upstash/redis` looks for `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` and will silently fail (returns an unconfigured client) if you rely on it. Construct the client explicitly instead: `new Redis({ url: process.env.KV_REST_API_URL, token: process.env.KV_REST_API_TOKEN })`. See `api/cc-storage.js` and `api/sessions/*.js` — both follow this pattern. Note: the integration also provisions `KV_REST_API_READ_ONLY_TOKEN`, `KV_URL`, and `REDIS_URL` — those are for other client patterns (read-only client, TCP-style connection strings) and aren't needed for the REST-based `@upstash/redis` SDK we're using.
 
 ---
 
 ## §6 — Outstanding setup (running list)
+
+### Recently completed (May 23, 2026 session — evening) — SEO scan audit + handover update (no code shipped)
+
+Session worked through the six-scan SEO audit (Schema / SEO / Canonical / Breadcrumb / Meta / Robots) and produced a printable DOCX report. **No code commits this session.** Drafted three fix files — `index.html`, `public/robots.txt`, `public/sitemap.xml` — but pre-push verification via Composio revealed that an earlier session that same day (commit `48f0e89`) plus the May 15 SEO foundation work had already shipped everything the audit recommended. Pushing the drafts would have been a no-op at best and a clobber at worst.
+
+- [x] **SEO scan DOCX produced** — `/mnt/user-data/outputs/inciteu-seo-scan-2026-05-23.docx`, ~21 KB, six-section audit with pass/warn/fail tables and prioritized fix list. Suitable for handing to a developer or keeping as a record. Generated from repo audit (Composio reads of `index.html`, `vercel.json`, `package.json`, `App.jsx`, `routes.js`) plus live `web_fetch` of `inciteu.com` and `inciteu.com/bio` (which confirmed the per-route head problem before the May 15 Helmet work was discovered). Not committed to the repo — `present_files`-only deliverable.
+- [x] **Verified live state of SEO infrastructure** — all the audit's recommended fixes are already on `main`:
+  * `index.html` has canonical, theme-color, robots meta, og:image dimensions + alt + locale, full @graph JSON-LD with Person + Organization (the latter was already there from May 15).
+  * `public/robots.txt` exists with `Disallow: /api/` and Sitemap pointer.
+  * `public/sitemap.xml` exists with all 23 live routes (matches `routes.js` exactly).
+  * `public/og-image.jpg` exists (55 KB, was a flagged concern in the audit before this was confirmed).
+  * `react-helmet-async` is installed AND `<SEO>` component wired into all 23 page components per the May 15 work — so the per-route titles/descriptions/canonicals concern raised in the audit is also already addressed.
+- [x] **Handover doc updated** — new §3 subsection on canonical read path; new pitfall #13 sub-lesson on `web_fetch` staleness; this §6 entry.
+
+**Outstanding from this session:**
+
+- [ ] **The audit DOCX is worth a 5-minute read for Jen** even though nothing needs to change — sections on what each scan looks for, plus the recommended external scans (PageSpeed Insights, Rich Results Test, Schema Validator, LinkedIn Post Inspector). External validation is the natural next step.
+- [ ] **Person `image` field in JSON-LD** — still flagged as a "future enhancement" from the May 15 session. `/public/jen-may.jpg` exists; one-line add to `index.html` if Jen wants it.
+- [ ] **`favicon.svg` referenced but missing** — pre-existing dangling reference (also flagged May 15). Still not fixed.
+
+**Key patterns / lessons from this session:**
+
+1. **`web_fetch` of `raw.githubusercontent.com` can serve content that is days or weeks stale.** Claude opened this session by fetching `App.jsx` and got a snapshot missing 10+ days of commits. The handover doc was ahead, the code was actually ahead too, but Claude's tool was stuck in the past. The fix is to make `GITHUB_GET_REPOSITORY_CONTENT` via Composio the canonical read path (now documented in §3) and re-fetch immediately before any push (added as a sub-lesson under pitfall #13).
+2. **The pre-push re-fetch discipline pays off even when no parallel session is open.** Today's near-miss wasn't a clobber-race — it was Claude's own stale read. The same re-fetch step caught both. Worth doing for every commit, every time, regardless of perceived risk.
+3. **An audit that produces no shippable changes is still valuable** when it confirms what is and isn't in place. The DOCX is the audit record; "all green except per-route" was a real finding before May 15 and "all green" is a real finding now. Jen now has documentation of the SEO state suitable for sharing with anyone who asks.
+4. **Read pitfall #13 before doing anything that pushes — even an "obvious" small commit.** A second-guess re-fetch saved this session from a no-op-but-noisy commit (best case) or a downgrade of the live sitemap (worst case).
 
 ### Recently completed (May 15, 2026 session) — SEO foundation shipped (Helmet + 23 per-page tags + sitemap)
 
