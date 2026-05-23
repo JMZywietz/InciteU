@@ -12,7 +12,7 @@ export default function ContactPage() {
 
   function submit(e) {
     e.preventDefault();
-    const FORMSPREE = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
+    const FORMSPREE = 'https://formspree.io/f/xqejlbrk';
     if (FORMSPREE.includes('REPLACE_WITH')) {
       const subject = encodeURIComponent(`Message from ${name} via inciteu.com`);
       const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${message}`);
