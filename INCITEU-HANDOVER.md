@@ -1,12 +1,47 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 15, 2026 — late evening (Culture Change Model v9 lifted into InciteU as a self-contained sub-app at `/culture-change-model`; in-context Readiness with cross-device group mode + shareable URLs is live; Creative Collision shipped earlier the same session)
+**Last updated:** May 23, 2026 — SEO scan + first-pass fixes shipped (canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix; commit `48f0e89`)
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-23 — SEO scan + first-pass fixes (commit `48f0e89`)
+
+A Claude session ran the six standard SEO scans on inciteu.com (schema, SEO, canonical, breadcrumb, meta, robots) at Jen's request and shipped the safe, additive-only fixes from that audit. No changes to React components, theme.js, styles.js, or any user-facing copy.
+
+**Shipped in commit [`48f0e89`](https://github.com/JMZywietz/InciteU/commit/48f0e89d06bff65e0f311783dcba75939eab76c5):**
+
+- **`index.html`** — added 7 tags inline, preserving the existing 4-space indentation and all original content verbatim:
+  - `<meta name="robots" content="index, follow" />` (explicit indexability)
+  - `<meta name="theme-color" content="#1F3937" />` (colorizes mobile browser chrome with `bgDeep`)
+  - `<link rel="canonical" href="https://inciteu.com/" />` (homepage self-referencing canonical; per-route canonicals will need react-helmet-async wiring, not done in this commit)
+  - `<meta property="og:image:width" content="1200" />`, `og:image:height` 630, `og:image:alt`, `og:locale` en_US
+- **`public/robots.txt`** — added `Disallow: /api/` so crawlers stop wasting budget on the serverless endpoints (`/api/sessions/*`, `/api/synthesize`)
+- **`public/sitemap.xml`** — fixed `/openfacilitation` → `/OpenFacilitation` so the sitemap entry actually matches the case-sensitive route in `routes.js`. The lowercase version would have hit the catch-all redirect to `/`.
+
+The audit findings beyond what was shipped: per-route titles/descriptions are still served from `index.html` defaults on the initial HTML response (every URL returns the same `<title>` — confirmed with `web_fetch` on `/` and `/bio`). `react-helmet-async` is installed but only affects the JS-rendered DOM, so social previews (LinkedIn, Slack, iMessage) and most raw-HTML SEO crawlers see the homepage tags everywhere. **Three meaningful follow-ups deferred** for a future session that can touch every page component: (1) per-route `<Helmet>` blocks with route-specific title, description, canonical, og:url; (2) `BreadcrumbList` JSON-LD per tool/think page; (3) `Article` schema on the `/think` pieces. Optional fourth: prerender at build time via a Vite plugin so the per-route meta is in the initial HTML response, not just the rendered DOM — that's the biggest single SEO improvement available but requires a build-system change worth scoping separately.
+
+**Audit report delivered** to Jen as `inciteu-seo-scan-2026-05-23.docx` (not in repo; lives in her Claude outputs). External-tool follow-ups recommended in the doc: Google Search Console (step zero — confirms what's actually indexed), PageSpeed Insights, Google Rich Results Test, LinkedIn Post Inspector. The schema validator and Rich Results Test should both pass on the existing Person + Organization `@graph` — it's well-formed.
+
+**Confirmed during the session:**
+- `public/og-image.jpg` exists (55KB, blob `d13107c`). The OG image is real, social previews will render.
+- The current `App.jsx` on `main` (commit `a597e9d`) has all 24 routes wired including Identity Box, Creative Collision, Facilitate Your Way, Quiz, Purpose Small Moves, Emotions as Information, Culture Change Model. The handover doc is correct on what's live.
+- The sitemap already existed pre-session (committed at some earlier point) with 23 URLs — same count as `routes.js` (one URL per PATH). This session's only sitemap change was the casing fix.
+
+**Key gotcha for future Claudes** (worth a §5 entry if pitfall #15 ever gets added): **`web_fetch` against raw.githubusercontent.com returns a CDN-cached older version of files than what's actually on `main`.** This session initially fetched `App.jsx` via `web_fetch` and got a stale version missing all the routes added since May 12 — which would have caused the sitemap to omit half the active tools. The fix: use `GITHUB_GET_REPOSITORY_CONTENT` via Composio (per the §3 fallback note), which goes through the API and returns the current SHA. The web_fetch path is fine for reading the handover doc itself or other content where mild staleness is OK, but not for source files you're about to edit. The diff between the two was significant — about a dozen missing imports and routes.
+
+**Outstanding setup updated:**
+- [ ] Per-route meta via react-helmet-async (the package is already installed)
+- [ ] `BreadcrumbList` JSON-LD per tool/think page
+- [ ] `Article` schema on `/think` pieces
+- [ ] (Optional, heavier) Build-time prerender so initial HTML response carries per-route meta — biggest social-preview / SEO crawler payoff
+- [ ] Verify post-deploy: `https://inciteu.com/robots.txt` shows `Disallow: /api/`; `/sitemap.xml` shows the corrected `/OpenFacilitation` casing; homepage view-source shows the new canonical + theme-color + og:image dimensions
+- [ ] Submit `https://inciteu.com/sitemap.xml` to Google Search Console (assuming GSC is set up; verification meta is already in `index.html` from before this session)
+
+---
 
 ## 2026-05-20 — pg-intro restructured to 2 drives × 5 capacities model
 
