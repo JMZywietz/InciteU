@@ -37,13 +37,21 @@ export default async function handler(req, res) {
     if (!ev) return res.status(401).json({ error: 'Invalid or expired invite token' });
     if (ev.status === 'completed') return res.status(409).json({ error: 'Responses already submitted for this invite' });
 
-    if (nameOverride && typeof nameOverride === 'string' && nameOverride.trim()) ev.name = nameOverride.trim();
-    if (relationshipOverride && typeof relationshipOverride === 'string' && relationshipOverride.trim()) ev.relationship = relationshipOverride.trim();
+    // Apply any info corrections the evaluator made on the landing screen
+    if (nameOverride && typeof nameOverride === 'string' && nameOverride.trim()) {
+      ev.name = nameOverride.trim();
+    }
+    if (relationshipOverride && typeof relationshipOverride === 'string' && relationshipOverride.trim()) {
+      ev.relationship = relationshipOverride.trim();
+    }
     ev.status = 'completed';
     ev.completedAt = new Date().toISOString();
 
+    // Store response (keyed by evaluatorId — NOT by name, for anonymity)
     const response = { evaluatorId: ev.id, answers, submittedAt: new Date().toISOString() };
     await redis.set(`mm:${uc}:response:${ev.id}`, JSON.stringify(response), { ex: TTL });
+
+    // Update evals list (status + any info corrections)
     await saveEvals(uc, evals);
     await refreshTTL(uc);
 
