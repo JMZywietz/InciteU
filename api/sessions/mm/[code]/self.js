@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     if (!config) return res.status(404).json({ error: 'Session not found or expired' });
     if (!isSubject(req, config)) return res.status(401).json({ error: 'Subject token required' });
 
+    // Don't allow re-submission after a report exists
     const reportExists = await redis.exists(`mm:${uc}:report`);
     if (reportExists) return res.status(409).json({ error: 'Cannot submit self-survey after report has been generated' });
 
