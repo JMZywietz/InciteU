@@ -111,14 +111,33 @@ async function handleResponses(req, res, uc, config) {
   const evals = await loadEvals(uc);
   const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
   const { evaluatorInviteToken, answers = {}, nameOverride, relationshipOverride } = body;
-  if (!evaluatorInviteToken) return res.status(400).json({ error: 'evaluatorInviteToken is required' });
 
-  const ev = findEvaluatorByToken(evals, evaluatorInviteToken.trim());
-  if (!ev) return res.status(401).json({ error: 'Invalid or expired invite token' });
-  if (ev.status === 'completed') return res.status(409).json({ error: 'Responses already submitted for this invite' });
+  let ev;
+  if (evaluatorInviteToken && evaluatorInviteToken.trim()) {
+    // Invited (token-verified) evaluator
+    ev = findEvaluatorByToken(evals, evaluatorInviteToken.trim());
+    if (!ev) return res.status(401).json({ error: 'Invalid or expired invite token' });
+    if (ev.status === 'completed') return res.status(409).json({ error: 'Responses already submitted for this invite' });
+    if (nameOverride && typeof nameOverride === 'string' && nameOverride.trim()) ev.name = nameOverride.trim();
+    if (relationshipOverride && typeof relationshipOverride === 'string' && relationshipOverride.trim()) ev.relationship = relationshipOverride.trim();
+  } else {
+    // Open share-link submission: no token, so create a new evaluator from the
+    // self-entered identity. Names here are self-reported, not verified (by design).
+    const name = (nameOverride && typeof nameOverride === 'string') ? nameOverride.trim() : '';
+    if (!name) return res.status(400).json({ error: 'name is required' });
+    const relationship = (relationshipOverride && typeof relationshipOverride === 'string' && relationshipOverride.trim()) ? relationshipOverride.trim() : 'Peer';
+    ev = {
+      id: `ev_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      name,
+      relationship,
+      status: 'pending',
+      addedAt: new Date().toISOString(),
+      completedAt: null,
+      inviteToken: randomToken(),
+    };
+    evals.push(ev);
+  }
 
-  if (nameOverride && typeof nameOverride === 'string' && nameOverride.trim()) ev.name = nameOverride.trim();
-  if (relationshipOverride && typeof relationshipOverride === 'string' && relationshipOverride.trim()) ev.relationship = relationshipOverride.trim();
   ev.status = 'completed';
   ev.completedAt = new Date().toISOString();
 

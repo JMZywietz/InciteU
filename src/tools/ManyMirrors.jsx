@@ -597,7 +597,14 @@ export default function ManyMirrorsPage() {
 
   // ── API: submit evaluator response ───────────────────────────────────────
   async function submitEvaluatorResponse() {
-    setSubmitError(''); setSubmitting(true);
+    setSubmitError('');
+    // Open share-link submissions have no token, so a name is required to attribute the response.
+    const identityName = (editingEvalInfo ? evalInfoDraft.name : evaluatorInfo.name) || '';
+    if (!inviteToken && !identityName.trim()) {
+      setSubmitError('Please add your name before submitting.');
+      return;
+    }
+    setSubmitting(true);
     try {
       const payload = Object.fromEntries(
         Object.entries(answers).filter(([, v]) => (v || '').trim())
@@ -607,10 +614,11 @@ export default function ManyMirrorsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           evaluatorInviteToken: inviteToken,
-          // The backend reads name + relationship from the evaluator record (looked up via token).
-          // If user edited their info, send the override; backend will update the record.
-          nameOverride: editingEvalInfo ? evalInfoDraft.name : undefined,
-          relationshipOverride: editingEvalInfo ? evalInfoDraft.relationship : undefined,
+          // Always send the current identity. For invited evaluators this matches (or
+          // updates) their record; for open share-link submits (no token) the backend
+          // creates a new evaluator from this self-entered name.
+          nameOverride: (editingEvalInfo ? evalInfoDraft.name : evaluatorInfo.name) || undefined,
+          relationshipOverride: (editingEvalInfo ? evalInfoDraft.relationship : evaluatorInfo.relationship) || undefined,
           answers: payload,
         }),
       });
