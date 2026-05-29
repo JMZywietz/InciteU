@@ -35,6 +35,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'questionOrder is required' });
     }
 
+    // Unique code with collision check
     let code = null;
     for (let attempt = 0; attempt < 5; attempt++) {
       const candidate = generateCode();
@@ -43,15 +44,20 @@ export default async function handler(req, res) {
     }
     if (!code) return res.status(500).json({ error: 'Could not generate a unique session code; try again' });
 
+    // Subject token — returned once, only hash stored
     const subjectToken = randomToken();
     const subjectTokenHash = sha256(subjectToken);
+
     const name = subjectName.trim();
     const firstName = name.split(/\s+/)[0];
 
     const config = {
-      code, subjectName: name, subjectFirstName: firstName,
+      code,
+      subjectName: name,
+      subjectFirstName: firstName,
       questions: questions.map(q => ({ id: q.id, text: (q.text || '').trim() })),
-      questionOrder, subjectTokenHash,
+      questionOrder,
+      subjectTokenHash,
       createdAt: new Date().toISOString(),
       weeklyUpdatesOptIn: !!weeklyUpdatesOptIn,
       subjectEmail: weeklyUpdatesOptIn ? (subjectEmail || '').trim() : '',
@@ -59,21 +65,44 @@ export default async function handler(req, res) {
 
     await redis.set(`mm:${code}:config`, JSON.stringify(config), { ex: TTL });
 
+    // Build evaluator records with invite tokens; send emails where provided
     const origin = (req.headers.origin || req.headers.host || 'https://inciteu.com').replace(/\/$/, '');
     const basePath = `${origin}/tools/self/many-mirrors`;
 
     const evalRecords = [];
     const emailJobs = [];
+
     for (const raw of rawEvaluators) {
       if (!raw.name || !raw.name.trim()) continue;
-      const id = `ev_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+      const id = `ev_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       const inviteToken = randomToken();
       const inviteURL = `${basePath}?code=${code}&v=e&t=${inviteToken}`;
-      evalRecords.push({ id, name: raw.name.trim(), relationship: raw.relationship || 'Peer', status: 'pending', addedAt: new Date().toISOString(), completedAt: null, inviteToken, inviteURL  });
-      if (raw.email && raw.email.trim()) emailJobs.push(sendInviteEmail({ toEmail: raw.email.trim(), toName: raw.name.trim(), subjectName: name, inviteURL }));
+      evalRecords.push({
+        id,
+        name: raw.name.trim(),
+        relationship: raw.relationship || 'Peer',
+        status: 'pending',
+        addedAt: new Date().toISOString(),
+        completedAt: null,
+        inviteToken,
+        inviteURL,  // convenience; also reconstructable from token + code
+      });
+      if (raw.email && raw.email.trim()) {
+        emailJobs.push(sendInviteEmail({
+          toEmail: raw.email.trim(),
+          toName: raw.name.trim(),
+          subjectName: name,
+          inviteURL,
+        }));
+      }
     }
+
     await saveEvals(code, evalRecords);
-    if (emailJobs.length > 0) Promise.allSettled(emailJobs).catch(e => console.error('Email batch error:', e));
+
+    // Fire emails in parallel; don't fail the request if they error
+    if (emailJobs.length > 0) {
+      Promise.allSettled(emailJobs).catch(e => console.error('Email batch error:', e));
+    }
 
     const shareURL = `${basePath}?code=${code}&v=e`;
     return res.status(200).json({ code, subjectToken, shareURL });
