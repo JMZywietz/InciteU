@@ -99,9 +99,13 @@ export default async function handler(req, res) {
 
     await saveEvals(code, evalRecords);
 
-    // Fire emails in parallel; don't fail the request if they error
+    // Send emails in parallel; AWAIT so they complete before the function is
+    // frozen (Vercel tears down the instance once we return). A failed email
+    // must not fail the request — the evaluator is already saved.
     if (emailJobs.length > 0) {
-      Promise.allSettled(emailJobs).catch(e => console.error('Email batch error:', e));
+      const results = await Promise.allSettled(emailJobs);
+      const failed = results.filter(r => r.status === 'rejected');
+      if (failed.length) console.error(`mm create: ${failed.length}/${emailJobs.length} invite emails failed`, failed.map(f => String(f.reason?.message || f.reason)));
     }
 
     const shareURL = `${basePath}?code=${code}&v=e`;

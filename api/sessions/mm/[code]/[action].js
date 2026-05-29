@@ -76,7 +76,10 @@ async function handleEvaluators(req, res, uc, config) {
     evals.push({ id, name: name.trim(), relationship, status: 'pending', addedAt: new Date().toISOString(), completedAt: null, inviteToken, inviteURL });
     await saveEvals(uc, evals);
     await refreshTTL(uc);
-    if (email.trim()) sendInviteEmail({ toEmail: email.trim(), toName: name.trim(), subjectName: config.subjectName, inviteURL }).catch(e => console.error('Add evaluator email error:', e));
+    if (email.trim()) {
+      try { await sendInviteEmail({ toEmail: email.trim(), toName: name.trim(), subjectName: config.subjectName, inviteURL }); }
+      catch (e) { console.error('Add evaluator email error:', e); }
+    }
     return res.status(200).json({ ok: true, id, inviteToken });
   }
 
@@ -91,7 +94,8 @@ async function handleEvaluators(req, res, uc, config) {
     if (!ev) return res.status(404).json({ error: 'Evaluator not found' });
     if (ev.status === 'completed') return res.status(409).json({ error: 'This evaluator has already submitted' });
     const inviteURL = `${basePath}?code=${uc}&v=e&t=${ev.inviteToken}`;
-    sendInviteEmail({ toEmail: email.trim(), toName: ev.name, subjectName: config.subjectName, inviteURL }).catch(e => console.error('Remind email error:', e));
+    try { await sendInviteEmail({ toEmail: email.trim(), toName: ev.name, subjectName: config.subjectName, inviteURL }); }
+    catch (e) { console.error('Remind email error:', e); }
     await refreshTTL(uc);
     return res.status(200).json({ ok: true });
   }
