@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 
     const evals = await loadEvals(uc);
 
+    // Collect all keys to delete
     const keys = [
       `mm:${uc}:config`,
       `mm:${uc}:evals`,
@@ -30,6 +31,7 @@ export default async function handler(req, res) {
       ...evals.map(e => `mm:${uc}:response:${e.id}`),
     ];
 
+    // Scan for any results tokens
     let cursor = 0;
     do {
       const [next, batch] = await redis.scan(cursor, { match: `mm:${uc}:rtok:*`, count: 50 });
@@ -37,7 +39,9 @@ export default async function handler(req, res) {
       if (Array.isArray(batch)) keys.push(...batch);
     } while (cursor !== 0);
 
-    if (keys.length > 0) await redis.del(...keys);
+    if (keys.length > 0) {
+      await redis.del(...keys);
+    }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
