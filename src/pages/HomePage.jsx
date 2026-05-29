@@ -81,6 +81,7 @@ export default function HomePage() {
             toolGroups={[
               { question: 'How do I actually show up?', tools: [
                 { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
+                { name: 'Many Mirrors', description: 'Invite a small group across different areas of your life to reflect what they see — confidential, anonymous, honest', live: true, to: 'many-mirrors' },
               ]},
               { question: 'What perspectives am I missing?', tools: [
                 { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },

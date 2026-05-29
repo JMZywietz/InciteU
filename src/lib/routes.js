@@ -25,6 +25,7 @@ export const PATHS = {
   fiveLayersDeep: '/think/five-layers-deep',
   cynefin: '/think/cynefin',
   cultureChangeModel: '/culture-change-model',
+  manyMirrors: '/tools/self/many-mirrors',
 };
 
 export const STATE_TO_PATH = {
@@ -53,4 +54,5 @@ export const STATE_TO_PATH = {
   'five-layers-deep': PATHS.fiveLayersDeep,
   cynefin: PATHS.cynefin,
   'culture-change-model': PATHS.cultureChangeModel,
+  'many-mirrors': PATHS.manyMirrors,
 };
