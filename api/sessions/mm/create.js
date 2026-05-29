@@ -7,7 +7,7 @@
  */
 import {
   redis, TTL, sha256, randomToken, generateCode,
-  saveEvals, sendInviteEmail,
+  saveEvals, sendInviteEmail, sendDashboardLinkEmail,
 } from './_lib.js';
 
 export default async function handler(req, res) {
@@ -109,6 +109,18 @@ export default async function handler(req, res) {
     }
 
     const shareURL = `${basePath}?code=${code}&v=e`;
+
+    // Send the subject a dashboard link email so they can always find their session
+    if (subjectEmail) {
+      try {
+        await sendDashboardLinkEmail({
+          toEmail: subjectEmail,
+          subjectName: config.subjectFirstName || config.subjectName,
+          dashboardURL: `${basePath}?code=${code}`,
+        });
+      } catch (e) { console.error('Dashboard link email error:', e); }
+    }
+
     return res.status(200).json({ code, subjectToken, shareURL });
   } catch (err) {
     console.error('mm create error:', err);

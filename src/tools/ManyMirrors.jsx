@@ -294,6 +294,8 @@ export default function ManyMirrorsPage() {
   const [showShareResultsModal, setShowShareResultsModal] = useState(false);
   const [creatingResultsLink, setCreatingResultsLink] = useState(false);
   const [reportError, setReportError] = useState('');
+  const [overviewExpanded, setOverviewExpanded] = useState(false);
+  const [selectedQid, setSelectedQid] = useState(null); // null = show all questions
 
   // Welcome / choose-questions / add-evaluators UI toggles
   const [showReadMore, setShowReadMore] = useState(false);
@@ -1993,6 +1995,51 @@ inciteu.com`}
     )).join(', ');
     const completedCount = evaluators.filter(e => e.status === 'completed').length;
 
+    const downloadReportAsWord = () => {
+      const h = s => escapeHTML(s || '');
+      const subName = config?.subjectName || '';
+      const dateStr = report.generatedAt
+        ? new Date(report.generatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        : '';
+      const lines = [
+        `<html xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta charset="utf-8">`,
+        `<style>body{font-family:Georgia,serif;color:#1a1a1a;max-width:700px;margin:40px auto;line-height:1.65;}h1{font-size:26px;font-weight:400;}h2{font-size:18px;margin-top:36px;border-bottom:1px solid #ddd;padding-bottom:4px;}p{font-size:14px;margin:8px 0;}.label{font-weight:bold;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-top:18px;margin-bottom:2px;}.quote{font-style:italic;padding:8px 14px;border-left:3px solid #bbb;margin:6px 0;}</style></head><body>`,
+        `<p style="font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:#999;">Many Mirrors · InciteU</p>`,
+        `<h1>Many Mirrors Report: ${h(subName)}</h1>`,
+        dateStr ? `<p style="color:#666;font-size:12px;">Generated ${h(dateStr)} · ${completedCount} evaluator${completedCount === 1 ? '' : 's'}</p>` : '',
+      ];
+      if (report.overview?.themes?.length) {
+        lines.push('<h2>Overview</h2>');
+        lines.push('<p style="font-style:italic;color:#555;">The headlines, if you read nothing else.</p>');
+        report.overview.themes.forEach(t => lines.push(`<p>${h(t)}</p>`));
+      }
+      if (Array.isArray(report.perQuestion)) {
+        orderedIds.forEach((qid, i) => {
+          const synth = report.perQuestion.find(p => p.questionId === qid);
+          if (!synth) return;
+          lines.push(`<h2>Q${i + 1}: ${h(questionTextById(qid))}</h2>`);
+          if (synth.quotes?.length) { lines.push('<p class="label">Selected Quotes</p>'); synth.quotes.forEach(q => lines.push(`<p class="quote">&ldquo;${h(q)}&rdquo;</p>`)); }
+          if (synth.patterns?.length) { lines.push('<p class="label">Patterns</p>'); synth.patterns.forEach(p => lines.push(`<p>${h(p)}</p>`)); }
+          if (synth.outliers?.length) { lines.push('<p class="label">Outliers</p>'); synth.outliers.forEach(p => lines.push(`<p>${h(p)}</p>`)); }
+          if (synth.absences?.length) { lines.push('<p class="label">Notably Absent</p>'); synth.absences.forEach(p => lines.push(`<p>${h(p)}</p>`)); }
+          if (synth.categoryNote) lines.push(`<p style="font-style:italic;color:#666;">${h(synth.categoryNote)}</p>`);
+        });
+      }
+      if (report.selfReflection) {
+        lines.push('<h2>Self-survey vs Others</h2>');
+        if (report.selfReflection.alignments?.length) { lines.push('<p class="label">Where you aligned</p>'); report.selfReflection.alignments.forEach(a => lines.push(`<p>${h(a)}</p>`)); }
+        if (report.selfReflection.gaps?.length) { lines.push('<p class="label">Where you differed</p>'); report.selfReflection.gaps.forEach(g => lines.push(`<p>${h(g)}</p>`)); }
+      }
+      lines.push('</body></html>');
+      const blob = new Blob([lines.join('
+')], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url;
+      a.download = `many-mirrors-report-${code || 'report'}.doc`;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    };
+
     return (
       <main style={pageWrap}>
         <SEO
@@ -2018,27 +2065,57 @@ inciteu.com`}
             </p>
           )}
 
-          {/* Overview */}
+          {/* Overview — distinct box, collapsible when long */}
           {report.overview && Array.isArray(report.overview.themes) && report.overview.themes.length > 0 && (
-            <section style={{ marginBottom: 48 }}>
-              <h2 style={{ ...heading(28), marginBottom: 8 }}>Overview</h2>
-              <p style={{ fontFamily: F.serif, fontSize: 15, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 24 }}>
+            <section style={{ background: 'rgba(232,217,168,0.09)', border: '1px solid rgba(232,217,168,0.22)', borderRadius: 8, padding: '24px 28px', marginBottom: 48 }}>
+              <h2 style={{ ...heading(26), marginBottom: 6, marginTop: 0 }}>Overview</h2>
+              <p style={{ fontFamily: F.serif, fontSize: 14, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 18 }}>
                 The headlines, if you read nothing else.
               </p>
-              {report.overview.themes.map((t, i) => (
-                <p key={i} style={{ fontFamily: F.sans, fontSize: 16, color: C.cream, lineHeight: 1.75, marginBottom: 22, maxWidth: 720 }}>
-                  {t}
-                </p>
-              ))}
+              <div style={{ overflow: 'hidden', maxHeight: overviewExpanded ? 'none' : '8.5rem', position: 'relative' }}>
+                {report.overview.themes.map((t, i) => (
+                  <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 18, maxWidth: 680 }}>
+                    {t}
+                  </p>
+                ))}
+                {!overviewExpanded && report.overview.themes.length > 2 && (
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3rem', background: 'linear-gradient(transparent, rgba(20,43,92,0.95))', pointerEvents: 'none' }} />
+                )}
+              </div>
+              {report.overview.themes.length > 2 && (
+                <button
+                  onClick={() => setOverviewExpanded(e => !e)}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: palette.accent, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 14 }}
+                >
+                  {overviewExpanded ? 'Show less ↑' : 'Read more ↓'}
+                </button>
+              )}
             </section>
           )}
 
-          {/* Per-question synthesis */}
+          {/* Per-question synthesis — chips to pop out individual questions */}
           {Array.isArray(report.perQuestion) && report.perQuestion.length > 0 && (
             <section style={{ marginBottom: 48 }}>
-              <h2 style={{ ...heading(28), marginBottom: 24 }}>Per-question synthesis</h2>
-              {/* Render in display order using orderedIds; backend may already be ordered, but be defensive */}
+              <h2 style={{ ...heading(28), marginBottom: 16 }}>By question</h2>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 32 }}>
+                {orderedIds.map((qid, i) => (
+                  <button
+                    key={qid}
+                    onClick={() => setSelectedQid(selectedQid === qid ? null : qid)}
+                    style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === qid ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === qid ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === qid ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
+                  >
+                    Q{i + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setSelectedQid(null)}
+                  style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === null ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === null ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === null ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
+                >
+                  Show all
+                </button>
+              </div>
               {orderedIds.map((qid, displayIdx) => {
+                if (selectedQid !== null && qid !== selectedQid) return null;
                 const synth = report.perQuestion.find(p => p.questionId === qid);
                 if (!synth) return null;
                 const qText = questionTextById(qid);
@@ -2047,6 +2124,14 @@ inciteu.com`}
                     <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
                     <p style={{ fontFamily: F.serif, fontSize: 19, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 20, fontStyle: 'italic' }}>{qText}</p>
 
+                    {Array.isArray(synth.quotes) && synth.quotes.length > 0 && (
+                      <div style={{ background: 'rgba(240,235,219,0.05)', border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 22 }}>
+                        <div style={{ ...fieldLabel, marginBottom: 12 }}>Selected quotes</div>
+                        {synth.quotes.map((q, i) => (
+                          <p key={i} style={{ fontFamily: F.serif, fontSize: 15, fontStyle: 'italic', color: C.cream, lineHeight: 1.7, marginBottom: 12 }}>&ldquo;{q}&rdquo;</p>
+                        ))}
+                      </div>
+                    )}
                     {Array.isArray(synth.patterns) && synth.patterns.length > 0 && (
                       <div style={{ marginBottom: 22 }}>
                         <div style={{ ...fieldLabel, marginBottom: 12 }}>Patterns</div>
@@ -2075,14 +2160,6 @@ inciteu.com`}
                       <p style={{ fontFamily: F.sans, fontSize: 14, color: C.creamMuted, fontStyle: 'italic', lineHeight: 1.7, marginBottom: 18, paddingLeft: 14, borderLeft: `2px solid ${palette.accentMuted}` }}>
                         {synth.categoryNote}
                       </p>
-                    )}
-                    {Array.isArray(synth.quotes) && synth.quotes.length > 0 && (
-                      <div style={{ background: 'rgba(240,235,219,0.05)', border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginTop: 8 }}>
-                        <div style={{ ...fieldLabel, marginBottom: 12 }}>Selected quotes</div>
-                        {synth.quotes.map((q, i) => (
-                          <p key={i} style={{ fontFamily: F.serif, fontSize: 15, fontStyle: 'italic', color: C.cream, lineHeight: 1.7, marginBottom: 12 }}>&ldquo;{q}&rdquo;</p>
-                        ))}
-                      </div>
                     )}
                   </div>
                 );
@@ -2119,14 +2196,7 @@ inciteu.com`}
           {/* Footer actions (subject only) */}
           {!isPublicView && (
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 48, paddingTop: 28, borderTop: `1px solid ${C.line}` }}>
-              <button
-                onClick={() => {
-                  // TODO(.docx): real .docx generation is a separate decision — see MANY-MIRRORS-SPEC §9 footer + handover learning.
-                  // For now, surface a clear placeholder rather than shipping an HTML-as-.doc fallback that doesn't match the spec.
-                  alert('Word doc download is being built — coming soon. (Tell Jen which path she picked.)');
-                }}
-                style={btn('secondary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}
-              >
+              <button onClick={downloadReportAsWord} style={btn('secondary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>
                 Download as Word doc
               </button>
               <button onClick={() => setShowShareResultsModal(true)} style={btn('secondary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>

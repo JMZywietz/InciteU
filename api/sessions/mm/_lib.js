@@ -117,3 +117,31 @@ export async function sendInviteEmail({ toEmail, toName, subjectName, inviteURL 
 function escHtml(s) {
   return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
+
+export async function sendDashboardLinkEmail({ toEmail, subjectName, dashboardURL }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) { console.warn('RESEND_API_KEY not set — skipping dashboard link email'); return; }
+  const firstName = (subjectName || '').trim().split(/\s+/)[0] || subjectName;
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#142B5C;font-family:Georgia,serif;">
+  <div style="max-width:600px;margin:0 auto;padding:48px 32px;color:#F0EBDB;">
+    <p style="font-family:-apple-system,sans-serif;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#E8D9A8;margin:0 0 32px;">Many Mirrors · InciteU</p>
+    <h1 style="font-size:26px;font-weight:400;line-height:1.3;color:#F0EBDB;margin:0 0 24px;">Your Many Mirrors dashboard</h1>
+    <p style="font-size:16px;line-height:1.7;margin:0 0 18px;">Hi ${escHtml(firstName)},</p>
+    <p style="font-size:16px;line-height:1.7;margin:0 0 18px;">Your Many Mirrors session is live. Use the link below to check who has responded, take your self-survey, and generate your report when you're ready.</p>
+    <p style="font-size:15px;line-height:1.7;margin:0 0 32px;color:#B5A878;"><strong>Keep this email</strong> — it's the easiest way back to your dashboard. If your browser data is cleared you'll need it.</p>
+    <a href="${dashboardURL}" style="display:inline-block;padding:14px 32px;background:#E8D9A8;color:#142B5C;text-decoration:none;font-family:-apple-system,sans-serif;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;">Go to dashboard →</a>
+    <p style="font-family:-apple-system,sans-serif;font-size:12px;color:#9E9C97;margin:48px 0 0;line-height:1.6;">You're receiving this because you created a Many Mirrors session on InciteU.</p>
+  </div>
+</body>
+</html>`.trim();
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+    body: JSON.stringify({ from: FROM, to: [toEmail], subject: 'Your Many Mirrors dashboard link', html }),
+  });
+  if (!r.ok) { const text = await r.text(); console.error('Resend dashboard email error:', r.status, text.slice(0, 300)); }
+}
