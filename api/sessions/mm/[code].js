@@ -25,13 +25,20 @@ export default async function handler(req, res) {
     const config = await loadConfig(code.toUpperCase());
     if (!config) return res.status(404).json({ error: 'Session not found or expired' });
 
+    // Strip sensitive fields before returning
     const { subjectTokenHash, subjectEmail, ...publicConfig } = config;
 
+    // If an invite token was supplied, look up the matching evaluator
     if (inviteToken && typeof inviteToken === 'string') {
       const evals = await loadEvals(code.toUpperCase());
       const ev = findEvaluatorByToken(evals, inviteToken.trim());
       if (ev) {
-        publicConfig.evaluator = { id: ev.id, name: ev.name, relationship: ev.relationship, status: ev.status };
+        publicConfig.evaluator = {
+          id: ev.id,
+          name: ev.name,
+          relationship: ev.relationship,
+          status: ev.status,
+        };
       }
     }
 
