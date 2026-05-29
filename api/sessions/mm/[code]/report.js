@@ -19,7 +19,9 @@ export default async function handler(req, res) {
     const config = await loadConfig(uc);
     if (!config) return res.status(404).json({ error: 'Session not found or expired' });
 
+    // ── GET ──────────────────────────────────────────────────────────────────
     if (req.method === 'GET') {
+      // Auth: subject token OR valid results token
       let authorized = isSubject(req, config);
       if (!authorized && queryToken) {
         const tokenHash = sha256(queryToken.trim());
@@ -36,6 +38,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ report });
     }
 
+    // ── POST ─────────────────────────────────────────────────────────────────
     if (req.method === 'POST') {
       if (!isSubject(req, config)) return res.status(401).json({ error: 'Subject token required' });
 
