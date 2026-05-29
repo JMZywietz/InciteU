@@ -1,12 +1,26 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 23, 2026 (late evening) — Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
+**Last updated:** May 28, 2026 — Many Mirrors 360 tool shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-28 — Many Mirrors shipped + GitHub REST API push path + `[action]` router pattern
+
+**Shipped:** Many Mirrors — a free 360-feedback tool ("A 360 for yourself"), sibling to LCP under Face What Is. Route `/tools/self/many-mirrors`. Main file `src/tools/ManyMirrors.jsx` (~2,340 lines). Backend under `api/sessions/mm/`. New dependency `resend` (email). Needs Vercel env var `RESEND_API_KEY` for invite emails (build and page work without it; only the email step is skipped).
+
+**The big lesson — Vercel's 12-function Hobby cap.** On Vite (not Next.js) every file under `api/` is its own Serverless Function — there is no bundling. The Hobby plan allows no more than 12 functions per deployment. Files whose name starts with `_` (e.g. `_lib.js`, `_synth.js`) are libraries and do NOT count. Many Mirrors was first built as 8 separate endpoints; with the 9 functions already in the repo that totalled 17 and every deploy failed ("No more than 12 Serverless Functions…").
+
+**The fix — the `[action]` router pattern (now the standard for collaborative tools).** The six per-session sub-endpoints (evaluators, responses, self, report, synthesize, delete) were consolidated into ONE dynamic function `api/sessions/mm/[code]/[action].js` that dispatches on `req.query.action` + method. URLs are unchanged, so `ManyMirrors.jsx` needed no edits. The synthesis/LLM logic moved to `api/sessions/mm/_synth.js` (underscore = free). Many Mirrors now costs 3 functions instead of 8 (commit `80024ee`).
+
+**Current function budget: 12 / 12 — at the cap, zero headroom.** Any further collaborative tool will fail the build until either an existing tool is consolidated the same way (FacilitateYourWay's 5 endpoints are the next candidate → ~2-3) or the project moves to Vercel Pro (removes the ceiling; also the compliant plan for commercial/public use). Build every new collaborative tool with the `[action]` router from the start — never one-file-per-endpoint. See §5 and §11.
+
+**New push path — see §3.** Established a direct GitHub REST API push path (Git Data API from `bash_tool`; `api.github.com` is allowlisted) using Jen's PAT, because the Composio web connector is currently broken (a claude.ai bug: after OAuth, the `Authorization: Bearer` header is not attached to MCP requests → "No Authorization: Bearer header on request"; not fixable from inside the chat). The REST API path is now primary; Composio is the fallback for when it works again.
+
+---
 
 ## 2026-05-23 — SEO scan + first-pass fixes (commit `48f0e89`)
 
@@ -202,6 +216,7 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 - IdentityBox: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/IdentityBox.jsx
 - ThreeMoments: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ThreeMoments.jsx
 - LCP (Working with your circle): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/LCP.jsx
+- ManyMirrors ("A 360 for yourself" — free 360-feedback; sibling to LCP): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/ManyMirrors.jsx
 - LeadershipCapacitiesAnalysis: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/LeadershipCapacitiesAnalysis.jsx
 - FiveLives (Purpose): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/FiveLives.jsx
 - SmallestViableExperiment: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/SmallestViableExperiment.jsx
@@ -220,6 +235,13 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 - [code]/responses: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/responses.js
 - [code]/synthesize: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/synthesize.js
 - [code]/results: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/%5Bcode%5D/results.js
+
+### Multi-contributor backend (Many Mirrors) — `[action]` router pattern
+- _lib.js (shared helpers; `_`-prefixed = NOT a counted function): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/mm/_lib.js
+- _synth.js (synthesis/LLM pipeline; `_`-prefixed = NOT counted): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/mm/_synth.js
+- create: https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/mm/create.js
+- [code] (public config for evaluator landing): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/mm/%5Bcode%5D.js
+- [code]/[action] (ROUTER — evaluators | responses | self | synthesize | report | delete, dispatched on req.query.action + method): https://raw.githubusercontent.com/JMZywietz/InciteU/main/api/sessions/mm/%5Bcode%5D/%5Baction%5D.js
 
 ### Tools (Org / At scale)
 - Readiness: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/tools/Readiness.jsx
@@ -240,6 +262,25 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 ---
 
 ## §3 — Connecting to GitHub
+
+### Primary push path (current): GitHub REST API from `bash_tool`
+
+As of 2026-05-28 the primary way to read and write the repo is the GitHub REST API directly from `bash_tool` — `api.github.com` is in the allowed network domains, so it works with no Composio and no local-filesystem access.
+
+- Auth: Jen supplies her GitHub Personal Access Token in-session. ⚠️ NEVER commit the token to the repo (this file lives in a PUBLIC repo) and never store it in memory. Pass it only in the `Authorization` header.
+- Atomic multi-file commit (preferred — one commit, one clean Vercel deploy, no partial states):
+  1. `GET /repos/JMZywietz/InciteU/git/ref/heads/main` → base commit sha
+  2. `GET …/git/commits/{sha}` → base tree sha
+  3. `POST …/git/trees` with `base_tree` + entries: adds/updates as `{path, mode:"100644", type:"blob", content}`; deletions as `{path, mode:"100644", type:"blob", sha:null}`
+  4. `POST …/git/commits` `{message, tree, parents:[base sha]}`
+  5. `PATCH …/git/refs/heads/main` `{sha: new commit sha}`
+- Single-file change (simpler): Contents API `PUT`/`DELETE /repos/.../contents/{path}` (needs the existing `sha` to update/delete), but it commits one file at a time → one deploy per file. Prefer the Git Data API for multi-file changes.
+- Verify after push via the API (authenticated, no CDN lag), not `raw.githubusercontent.com` (caches ~5 min).
+- Vercel auto-deploys on every push to `main`.
+
+### Fallback path: Composio (use when it is working again)
+
+⚠️ As of 2026-05-28 the Composio web connector is broken for claude.ai chat: after OAuth completes, claude.ai fails to attach the `Authorization: Bearer` header to MCP requests, so every Composio call 401s ("No Authorization: Bearer header on request"). This is an Anthropic-side bug (GitHub↔Composio itself is healthy) and cannot be fixed from inside the chat. When it works again, the Composio path below is fine for small edits.
 
 Composio MCP is connected on Jen's account.
 - **Account:** `github_tum-horse` (login: JMZywietz)
@@ -333,11 +374,16 @@ cd /home/claude/inciteu && npx vite build
 ```
 
 ### Step 6: Commit
-Use one atomic commit per logical change. `GITHUB_COMMIT_MULTIPLE_FILES` overwrites with the contents passed — always send the complete file contents.
+Use one atomic commit per logical change. Primary path: the GitHub REST API (Git Data API) from `bash_tool` — see §3. Send complete file contents (the tree `content` field replaces the whole file). Composio's `GITHUB_COMMIT_MULTIPLE_FILES` is the fallback for when the connector works again; it also overwrites with the contents passed, so always send the complete file.
+
+Before committing a new collaborative (multi-endpoint) tool, check the function budget: the repo is at 12/12 on Vercel Hobby. Build new backends with the `[action]` router pattern (see §5 and §11), not one-file-per-endpoint.
 
 ---
 
 ## §5 — Common pitfalls to avoid
+
+**⚠️ Vercel Hobby caps Serverless Functions at 12 per deployment.** On Vite, every file under `api/` is one function (no bundling); `_`-prefixed files do not count. The repo is currently at 12/12. A one-file-per-endpoint collaborative backend WILL fail the build ("No more than 12 Serverless Functions…"). Build multi-endpoint tools with the `[action]` router pattern (one dynamic `[code]/[action].js` dispatching on `req.query.action` + method; heavy logic in `_`-prefixed helpers) — see §11 and the 2026-05-28 entry. To grow further: consolidate FacilitateYourWay's endpoints the same way, or move to Vercel Pro.
+
 
 The first four are the most important. The rest were here in the previous version and remain.
 
@@ -810,3 +856,43 @@ The contributor name as key means **one submission per named contributor** — r
 ---
 
 *End of handover. This document lives in the repo; keep it current. When components are added, renamed, or moved, update §2 in the same commit.*
+
+
+---
+
+## §11 — Multi-contributor session architecture (Many Mirrors)
+
+Parallel to §10 (Facilitate Your Way) but built with the `[action]` router pattern to stay under Vercel's 12-function cap. This is the template for all future collaborative tools.
+
+### Redis key schema (namespace `mm:`)
+- `mm:{code}:config` — session config (subjectTokenHash, subjectName, questions, questionOrder)
+- `mm:{code}:evals` — array of evaluators (id, name, relationship, status, inviteToken)
+- `mm:{code}:response:{evaluatorId}` — one evaluator's answers
+- `mm:{code}:self` — subject's self-survey answers
+- `mm:{code}:report` — synthesized report
+- `mm:{code}:rtok:{sha256(resultsToken)}` — read-only results-link tokens
+- 180-day TTL on all keys, refreshed on activity.
+
+### Auth model
+- Subject actions: Bearer subject token (`isSubject` compares `sha256(token)` to `config.subjectTokenHash`).
+- Evaluator submission: per-evaluator `inviteToken` in the body (no subject token).
+- Results share link: GET `report` accepts `?t={resultsToken}` as read-only access in place of the subject token.
+
+### Endpoints
+- `POST /api/sessions/mm/create` → `{code, subjectToken, shareURL}` (file `create.js`)
+- `GET /api/sessions/mm/{code}` → public config for evaluator landing (file `[code].js`)
+- `/api/sessions/mm/{code}/{action}` → ROUTER (file `[code]/[action].js`), action ∈:
+  - `evaluators` — GET list / POST add / PATCH remind (subject)
+  - `responses` — POST submit (evaluator invite token)
+  - `self` — POST self-survey (subject)
+  - `synthesize` — POST generate report (subject); pipeline in `_synth.js`
+  - `report` — GET report (subject or `?t=resultsToken`) / POST create results link (subject)
+  - `delete` — POST delete all session data (subject)
+
+### Function budget
+Many Mirrors = 3 counted functions (`create`, `[code]`, `[code]/[action]`); `_lib.js` and `_synth.js` are free. Repo is at 12/12 — the next collaborative tool needs an existing one consolidated or a move to Vercel Pro.
+
+### Required Vercel setup
+- `KV_REST_API_URL`, `KV_REST_API_TOKEN` (shared Upstash Redis, already set)
+- `ANTHROPIC_API_KEY` (already set)
+- `RESEND_API_KEY` — NEW; required for invite emails. Without it, build and page still work; only email sending is skipped.
