@@ -73,6 +73,16 @@ const RECOMMENDED_QUESTIONS = [
   { id: 'q6', text: "What's the word, phrase, analogy or 'meme' that comes to mind when you think of this person?" },
 ];
 
+// Second-person phrasing for the self-survey (subject answering about themselves).
+// q5 is intentionally omitted — you can't meaningfully report your own blind spot.
+const RECOMMENDED_QUESTIONS_SELF = {
+  q1: "When you are at your best, what are you doing? If possible, use specific examples — a real win, a helpful habit or way of interacting, or something you've caught yourself doing well.",
+  q2: 'If you could change one thing, what one thing would make the biggest difference? What impact would that change have?',
+  q3: "What's the impact you have — on the work, and on the people around you?",
+  q4: 'How do you tend to show up under pressure or in conflict — at your best, and at your worst?',
+  q6: "What's the word, phrase, analogy or 'meme' that comes to mind when you think of yourself?",
+};
+
 const RECOMMENDED_ORDER = ['q1', 'q4', 'q3', 'q2', 'q5', 'q6'];
 
 const MIN_RESPONSES_FOR_REPORT = 3;
@@ -352,6 +362,10 @@ export default function ManyMirrorsPage() {
           const cfg = await r.json();
           setConfig(cfg);
           setAnswers(Object.fromEntries((cfg.questionOrder || []).map(qid => [qid, ''])));
+          try {
+            const savedDraft = localStorage.getItem(`mm_draft_${params.code}_eval_${params.inviteToken || 'shared'}`);
+            if (savedDraft) setAnswers(prev => ({ ...prev, ...JSON.parse(savedDraft) }));
+          } catch (_) {}
           if (cfg.evaluator) {
             setEvaluatorInfo({ id: cfg.evaluator.id, name: cfg.evaluator.name, relationship: cfg.evaluator.relationship });
             setEvalInfoDraft({ name: cfg.evaluator.name, relationship: cfg.evaluator.relationship });
@@ -410,6 +424,19 @@ export default function ManyMirrorsPage() {
     window.addEventListener('focus', onFocus);
     return () => window.removeEventListener('focus', onFocus);
   }, [step, code, subjectToken]);
+
+  // ── Autosave survey answers to the browser (survives refresh / dropped tab) ─
+  useEffect(() => {
+    if (!code) return;
+    const role = step.startsWith('self') ? 'self' : (step.startsWith('eval') ? 'eval' : null);
+    if (!role) return;
+    const key = role === 'self' ? `mm_draft_${code}_self` : `mm_draft_${code}_eval_${inviteToken || 'shared'}`;
+    try {
+      if (answers && Object.values(answers).some(v => (v || '').trim())) {
+        localStorage.setItem(key, JSON.stringify(answers));
+      }
+    } catch (_) {}
+  }, [answers, step, code, inviteToken]);
 
   // ── API: load evaluators + self-submitted flag + report (if any) ─────────
   async function loadDashboardData(sessionCode, token) {
@@ -586,6 +613,7 @@ export default function ManyMirrorsPage() {
       const data = await r.json();
       if (!r.ok) throw new Error(data.error || `Failed (${r.status})`);
       setSelfSubmitted(true);
+      try { localStorage.removeItem(`mm_draft_${code}_self`); } catch (_) {}
       setStep('self-done');
       window.scrollTo({ top: 0 });
     } catch (e) {
@@ -627,6 +655,7 @@ export default function ManyMirrorsPage() {
         if (r.status === 409) throw new Error('Looks like you already submitted earlier. Responses can only be submitted once.');
         throw new Error(data.error || `Failed (${r.status})`);
       }
+      try { localStorage.removeItem(`mm_draft_${code}_eval_${inviteToken || 'shared'}`); } catch (_) {}
       setStep('eval-done');
       window.scrollTo({ top: 0 });
     } catch (e) {
@@ -769,9 +798,26 @@ export default function ManyMirrorsPage() {
       : (config.questions || []).map(q => q.id);
   }
 
+  // ── Self-survey helpers: second-person text + drop q5 (recommended set only) ─
+  function isRecommendedQuestionSet() {
+    if (!config || !Array.isArray(config.questions) || config.questions.length !== RECOMMENDED_QUESTIONS.length) return false;
+    return RECOMMENDED_QUESTIONS.every(rq => {
+      const f = config.questions.find(q => q.id === rq.id);
+      return f && f.text === rq.text;
+    });
+  }
+  function selfOrderedIds() {
+    const ids = currentOrderedIds();
+    return isRecommendedQuestionSet() ? ids.filter(id => id !== 'q5') : ids;
+  }
+  function selfQuestionTextById(qid) {
+    if (isRecommendedQuestionSet() && RECOMMENDED_QUESTIONS_SELF[qid]) return RECOMMENDED_QUESTIONS_SELF[qid];
+    return questionTextById(qid);
+  }
+
   // ── Shared question screen render (used by self-survey AND evaluator) ────
-  function renderQuestionScreen({ totalQuestions, currentQid, onSkip, onPrev, onNext, isLast, contextLabel }) {
-    const qText = questionTextById(currentQid);
+  function renderQuestionScreen({ totalQuestions, currentQid, onSkip, onPrev, onNext, isLast, contextLabel, isSelf }) {
+    const qText = isSelf ? selfQuestionTextById(currentQid) : questionTextById(currentQid);
     const value = answers[currentQid] || '';
     const updateAnswer = (v) => setAnswers(a => ({ ...a, [currentQid]: v }));
     const canSpeak = speechSupported && inputMode === 'speak';
@@ -1511,7 +1557,11 @@ inciteu.com`}
               </p>
               <button
                 onClick={() => {
-                  setAnswers(Object.fromEntries(currentOrderedIds().map(qid => [qid, ''])));
+                  setAnswers(Object.fromEntries(selfOrderedIds().map(qid => [qid, ''])));
+                  try {
+                    const saved = localStorage.getItem(`mm_draft_${code}_self`);
+                    if (saved) setAnswers(prev => ({ ...prev, ...JSON.parse(saved) }));
+                  } catch (_) {}
                   setQIndex(0);
                   setStep('self-survey-intro');
                 }}
@@ -1824,7 +1874,7 @@ inciteu.com`}
   // STEP: self-question (per question)
   // ========================================================================
   if (step === 'self-question' && config) {
-    const orderedIds = currentOrderedIds();
+    const orderedIds = selfOrderedIds();
     const currentQid = orderedIds[qIndex];
     const total = orderedIds.length;
     return (
@@ -1833,6 +1883,7 @@ inciteu.com`}
           totalQuestions: total,
           currentQid,
           contextLabel: 'Your self-survey',
+          isSelf: true,
           isLast: qIndex === total - 1,
           onSkip: () => {
             setAnswers(a => ({ ...a, [currentQid]: '' }));
@@ -1853,7 +1904,7 @@ inciteu.com`}
   // STEP: self-review
   // ========================================================================
   if (step === 'self-review' && config) {
-    const orderedIds = currentOrderedIds();
+    const orderedIds = selfOrderedIds();
     return (
       <main style={pageWrap}>
         <SEO
@@ -1869,7 +1920,7 @@ inciteu.com`}
           </p>
 
           {orderedIds.map((qid, displayIdx) => {
-            const qText = questionTextById(qid);
+            const qText = selfQuestionTextById(qid);
             const ans = (answers[qid] || '').trim();
             return (
               <div key={qid} style={{ background: palette.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 14 }}>
