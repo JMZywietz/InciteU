@@ -67,10 +67,10 @@ export default function HomePage() {
             toolGroups={[
               { question: 'Who am I, really?', tools: [
                 { name: 'Three Moments', description: 'Reflect on what made you who you are today', live: true, to: 'three-moments' },
-                { name: 'Identity Box', description: 'Reveal what you work to project vs. what you protect', live: true, to: 'identity-box' },
+                { name: 'Identity Box', description: 'We all spend energy to make sure others view us in a good light. This exercise shows you how you do this, and the hidden costs it might have', live: true, to: 'identity-box' },
               ]},
               { question: "What's calling me next?", tools: [
-                { name: 'Purpose and Small Moves', description: 'Picture multiple lives, find the breadcrumbs leading to who you want to be next, and take a small step to get there', live: true, to: 'purpose-small-moves' },
+                { name: 'Many Lives', description: 'Picture multiple lives, find the breadcrumbs leading to who you want to be next, and take a small step to get there', live: true, to: 'purpose-small-moves' },
                 { name: 'Emotions as Information', description: 'Learn how your emotions developed, and how understanding them can create new possibilities', live: true, to: 'emotions-as-information' },
               ]},
               { question: 'How do I keep going?', tools: [
@@ -81,7 +81,7 @@ export default function HomePage() {
             toolGroups={[
               { question: 'How do I actually show up?', tools: [
                 { name: 'Many Mirrors', description: 'Invite a small group across different areas of your life to reflect what they see — confidential, anonymous, honest', live: true, to: 'many-mirrors' },
-                { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
+                { name: 'Understanding your Leadership Circle Profile', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
               ]},
               { question: 'What perspectives am I missing?', tools: [
                 { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },
@@ -94,7 +94,7 @@ export default function HomePage() {
           <CategoryCard variant="org" label="Onward" name="Lead Well" tagline="Set a direction, inspire others to join you, and keep experimenting and learning" Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             toolGroups={[
               { question: 'Where are we headed?', tools: [
-                { name: 'Culture Change Vision', description: 'Refine or build a compelling chase for change', live: true, to: 'vision' },
+                { name: 'Culture Change Vision', description: 'Refine or build a compelling case for change', live: true, to: 'vision' },
                 { name: 'Pre-Mortem', description: 'Imagine failure before it happens, then prevent it', live: true, to: 'pre-mortem' },
               ]},
               { question: 'Are we ready to move?', tools: [
