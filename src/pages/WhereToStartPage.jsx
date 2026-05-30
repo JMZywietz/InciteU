@@ -23,7 +23,7 @@ const SEQUENCE = [
     name: 'Face What Is',
     accent: '#E8C87A',
     tools: [
-      { num:  5, name: 'Using the LCP Self-Assessment',                to: 'lcp',                     live: true,  description: 'An objective look at your strengths and reactive patterns' },
+      { num:  5, name: 'Understanding your Leadership Circle Profile',                to: 'lcp',                     live: true,  description: 'An objective look at your strengths and reactive patterns' },
       { num:  6, name: 'Decision Making (Cynefin) & Challenge Mapper', to: 'challenge-mapper',        live: true,  description: 'Understand what type of challenge you are facing and the best way to move forward' },
       { num:  7, name: 'Creative Collision',                           to: 'creative-collision',      live: true,  description: 'Get opposing perspectives to make your idea better' },
       { num:  8, name: 'Open Facilitation',                            to: 'facilitate-your-way',     live: true,  description: 'Gather input from a group on any questions that you have' },

@@ -9,6 +9,7 @@ import BioPage from './pages/BioPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 import WhereToStartPage from './pages/WhereToStartPage.jsx';
 import QuizPage from './pages/QuizPage.jsx';
+import ToolkitPage from './pages/ToolkitPage.jsx';
 import ThinkPage from './pages/ThinkPage.jsx';
 import IdentityBoxPage from './tools/IdentityBox.jsx';
 import ThreeMomentsPage from './tools/ThreeMoments.jsx';
@@ -55,6 +56,7 @@ export default function App() {
           <Route path={PATHS.contact} element={<ContactPage />} />
           <Route path={PATHS.whereToStart} element={<WhereToStartPage />} />
           <Route path={PATHS.quiz} element={<QuizPage />} />
+          <Route path={PATHS.toolkit} element={<ToolkitPage />} />
           <Route path={PATHS.identityBox} element={<IdentityBoxPage />} />
           <Route path={PATHS.threeMoments} element={<ThreeMomentsPage />} />
           <Route path={PATHS.lcp} element={<LCPPage />} />

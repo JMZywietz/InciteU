@@ -7,7 +7,7 @@ export default function Header() {
 
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'home-tools', label: 'Tools' },
+    { id: 'toolkit', label: 'Tools' },
     { id: 'think', label: 'Think' },
     { id: 'bio', label: 'About' },
     { id: 'contact', label: 'Contact' },
@@ -35,11 +35,7 @@ export default function Header() {
           <li key={item.id}>
             <a onClick={(e) => {
                  e.preventDefault();
-                 if (item.id === 'home-tools') {
-                   navigate('home', 'tools-anchor');
-                 } else {
-                   navigate(item.id);
-                 }
+                 navigate(item.id);
                }} href="#"
                style={{ color: C.creamMuted, textDecoration: 'none', fontFamily: F.sans, fontSize: 13, letterSpacing: '0.18em', textTransform: 'uppercase', cursor: 'pointer', transition: 'color 0.3s' }}
                onMouseEnter={(e) => { e.target.style.color = C.sage; }}
