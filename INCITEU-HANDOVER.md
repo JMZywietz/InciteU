@@ -1,12 +1,39 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 29, 2026 — Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
+**Last updated:** May 29, 2026 — ToolFeedback component added (commit `4da2739`). Earlier same day: Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-29 — ToolFeedback component (commit `4da2739`)
+
+**New file:** `src/components/ToolFeedback.jsx` — reusable end-of-tool micro-survey component.
+
+**Wired into:** `src/tools/ManyMirrors.jsx` at two points:
+- **Subject** — end of `report` step, inside `!isPublicView` guard (subjects only, not shared-results viewers). Prompts: "Did this tool help?" → thumbs → "What made it useful?" / "What could have made it more useful?"
+- **Evaluator** — end of `eval-done` step. Different prompts: "Was this easy to use?" → thumbs → "What worked well?" / "What could have made it easier?"
+
+**Formspree endpoint:** `mzdwwygz` (separate form from the contact form `xqejlbrk`). Fields sent: `tool` (hidden, e.g. "Many Mirrors"), `role` ("subject" or "evaluator"), `vote` ("up" or "down"), `comment` (optional text, omitted if blank).
+
+**Component API** (`src/components/ToolFeedback.jsx`):
+```jsx
+<ToolFeedback
+  formspreeId="mzdwwygz"   // required — renders null if missing or contains 'REPLACE'
+  toolName="Many Mirrors"  // hidden field for Formspree segmentation
+  role="subject"           // 'subject' | 'evaluator' | any string
+  initialQuestion="Did this tool help?"
+  positivePrompt="What made it useful?"
+  negativePrompt="What could have made it more useful?"
+/>
+```
+All props except `formspreeId` and `toolName` have sensible defaults. Drop the component anywhere — it self-contains its state, handles submission and errors, and shows "Thank you for the feedback." on success. A "Skip" link dismisses without submitting.
+
+**Rolling out to other tools:** add the import + one JSX line at the natural completion point of each tool. The component works on both the site's standard `C.bgDeep` palette and ManyMirrors' sapphire override — the textarea uses `rgba(240,235,219,0.04)` background so it's transparent-friendly on any dark surface.
+
+---
 
 ## 2026-05-29 — Report UI polish + email live + autosave + self-survey + Word doc
 
