@@ -2031,8 +2031,7 @@ inciteu.com`}
         if (report.selfReflection.gaps?.length) { lines.push('<p class="label">Where you differed</p>'); report.selfReflection.gaps.forEach(g => lines.push(`<p>${h(g)}</p>`)); }
       }
       lines.push('</body></html>');
-      const blob = new Blob([lines.join('
-')], { type: 'application/msword' });
+      const blob = new Blob([lines.join('')], { type: 'application/msword' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url;
       a.download = `many-mirrors-report-${code || 'report'}.doc`;
