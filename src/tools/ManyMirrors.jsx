@@ -1926,7 +1926,7 @@ inciteu.com`}
             const ans = (answers[qid] || '').trim();
             return (
               <div key={qid} style={{ background: palette.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 14 }}>
-                <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
+                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
                 <p style={{ fontFamily: F.serif, fontSize: 17, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 12 }}>{qText}</p>
                 {ans ? (
                   <p style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginTop: 0, marginBottom: 12, whiteSpace: 'pre-wrap' }}>{ans}</p>
@@ -2054,10 +2054,15 @@ inciteu.com`}
         )}
 
         <div className="mm-wrap">
-          <div style={{ ...eyebrow, marginBottom: 12 }}>Many Mirrors</div>
-          <h1 style={{ ...heading(48), marginBottom: 14 }}>Your Many Mirrors report</h1>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24, flexWrap: 'wrap' }}>
+            <div style={{ flex: '1 1 300px' }}>
+              <div style={{ ...eyebrow, marginBottom: 12 }}>Many Mirrors</div>
+              <h1 style={{ ...heading(48), marginBottom: 14 }}>Your Many Mirrors report</h1>
+            </div>
+            <div style={{ flexShrink: 0, opacity: 0.75, marginTop: 8 }}><MirrorsArtwork width={200} /></div>
+          </div>
           {(dateStr || completedCount) && (
-            <p style={{ fontFamily: F.sans, fontSize: 13, color: C.creamMuted, marginBottom: 40, fontStyle: 'italic' }}>
+            <p style={{ fontFamily: F.sans, fontSize: 15, color: C.creamMuted, marginBottom: 40, fontStyle: 'italic' }}>
               {dateStr ? `Generated ${dateStr}` : ''}
               {completedCount > 0 ? ` · ${completedCount} evaluator${completedCount === 1 ? '' : 's'}` : ''}
               {categoryList ? ` across ${categoryList}` : ''}
@@ -2068,7 +2073,7 @@ inciteu.com`}
           {report.overview && Array.isArray(report.overview.themes) && report.overview.themes.length > 0 && (
             <section style={{ background: 'rgba(232,217,168,0.09)', border: '1px solid rgba(232,217,168,0.22)', borderRadius: 8, padding: '24px 28px', marginBottom: 48 }}>
               <h2 style={{ ...heading(26), marginBottom: 6, marginTop: 0 }}>Overview</h2>
-              <p style={{ fontFamily: F.serif, fontSize: 14, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 18 }}>
+              <p style={{ fontFamily: F.serif, fontSize: 15, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 18 }}>
                 The headlines, if you read nothing else.
               </p>
               <div style={{ overflow: 'hidden', maxHeight: overviewExpanded ? 'none' : '8.5rem', position: 'relative' }}>
@@ -2084,7 +2089,7 @@ inciteu.com`}
               {report.overview.themes.length > 2 && (
                 <button
                   onClick={() => setOverviewExpanded(e => !e)}
-                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: palette.accent, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 14 }}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: palette.accent, fontFamily: F.sans, fontSize: 13, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 14 }}
                 >
                   {overviewExpanded ? 'Show less ↑' : 'Read more ↓'}
                 </button>
@@ -2101,14 +2106,14 @@ inciteu.com`}
                   <button
                     key={qid}
                     onClick={() => setSelectedQid(selectedQid === qid ? null : qid)}
-                    style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === qid ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === qid ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === qid ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
+                    style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === qid ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === qid ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === qid ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 13, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
                   >
                     Q{i + 1}
                   </button>
                 ))}
                 <button
                   onClick={() => setSelectedQid(null)}
-                  style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === null ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === null ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === null ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 12, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
+                  style={{ padding: '6px 14px', borderRadius: 20, border: `1px solid ${selectedQid === null ? palette.accent : 'rgba(240,235,219,0.25)'}`, background: selectedQid === null ? 'rgba(232,217,168,0.15)' : 'transparent', color: selectedQid === null ? palette.accent : C.creamMuted, fontFamily: F.sans, fontSize: 13, letterSpacing: '0.1em', cursor: 'pointer', textTransform: 'uppercase' }}
                 >
                   Show all
                 </button>
@@ -2120,7 +2125,7 @@ inciteu.com`}
                 const qText = questionTextById(qid);
                 return (
                   <div key={qid} style={{ marginBottom: 40 }}>
-                    <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
+                    <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
                     <p style={{ fontFamily: F.serif, fontSize: 19, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 20, fontStyle: 'italic' }}>{qText}</p>
 
                     {Array.isArray(synth.quotes) && synth.quotes.length > 0 && (
@@ -2131,30 +2136,32 @@ inciteu.com`}
                         ))}
                       </div>
                     )}
-                    {Array.isArray(synth.patterns) && synth.patterns.length > 0 && (
-                      <div style={{ marginBottom: 22 }}>
-                        <div style={{ ...fieldLabel, marginBottom: 12 }}>Patterns</div>
-                        {synth.patterns.map((p, i) => (
-                          <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>{p}</p>
-                        ))}
-                      </div>
-                    )}
-                    {Array.isArray(synth.outliers) && synth.outliers.length > 0 && (
-                      <div style={{ marginBottom: 22 }}>
-                        <div style={{ ...fieldLabel, marginBottom: 12 }}>Outliers</div>
-                        {synth.outliers.map((p, i) => (
-                          <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>{p}</p>
-                        ))}
-                      </div>
-                    )}
-                    {Array.isArray(synth.absences) && synth.absences.length > 0 && (
-                      <div style={{ marginBottom: 22 }}>
-                        <div style={{ ...fieldLabel, marginBottom: 12 }}>Notably absent</div>
-                        {synth.absences.map((p, i) => (
-                          <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>{p}</p>
-                        ))}
-                      </div>
-                    )}
+                    <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 22 }}>
+                      {Array.isArray(synth.patterns) && synth.patterns.length > 0 && (
+                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                          <div style={{ ...fieldLabel, marginBottom: 10 }}>Patterns</div>
+                          {synth.patterns.map((p, i) => (
+                            <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
+                          ))}
+                        </div>
+                      )}
+                      {Array.isArray(synth.outliers) && synth.outliers.length > 0 && (
+                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                          <div style={{ ...fieldLabel, marginBottom: 10 }}>Outliers</div>
+                          {synth.outliers.map((p, i) => (
+                            <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
+                          ))}
+                        </div>
+                      )}
+                      {Array.isArray(synth.absences) && synth.absences.length > 0 && (
+                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                          <div style={{ ...fieldLabel, marginBottom: 10 }}>Notably absent</div>
+                          {synth.absences.map((p, i) => (
+                            <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     {synth.categoryNote && (
                       <p style={{ fontFamily: F.sans, fontSize: 14, color: C.creamMuted, fontStyle: 'italic', lineHeight: 1.7, marginBottom: 18, paddingLeft: 14, borderLeft: `2px solid ${palette.accentMuted}` }}>
                         {synth.categoryNote}
@@ -2362,7 +2369,7 @@ inciteu.com`}
             const ans = (answers[qid] || '').trim();
             return (
               <div key={qid} style={{ background: palette.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 14 }}>
-                <div style={{ ...eyebrow, fontSize: 10, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
+                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
                 <p style={{ fontFamily: F.serif, fontSize: 17, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 12 }}>{qText}</p>
                 {ans ? (
                   <p style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginTop: 0, marginBottom: 12, whiteSpace: 'pre-wrap' }}>{ans}</p>
