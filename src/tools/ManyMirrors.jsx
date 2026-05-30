@@ -4,6 +4,7 @@ import { btn, btnHoverIn, btnHoverOut, eyebrow, heading, fieldLabel, fieldInput 
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { escapeHTML } from '../lib/utils.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================================
 // MANY MIRRORS — a free 360 for yourself
@@ -2211,6 +2212,16 @@ inciteu.com`}
             </div>
           )}
           {reportError && <p style={{ color: '#D88A7A', fontFamily: F.sans, fontSize: 14, marginTop: 18 }}>{reportError}</p>}
+          {!isPublicView && (
+            <ToolFeedback
+              formspreeId="mzdwwygz"
+              toolName="Many Mirrors"
+              role="subject"
+              initialQuestion="Did this tool help?"
+              positivePrompt="What made it useful?"
+              negativePrompt="What could have made it more useful?"
+            />
+          )}
         </div>
 
         {/* Share-results modal */}
@@ -2425,6 +2436,14 @@ inciteu.com`}
             <strong>What we keep, and for how long:</strong> Your responses will be stored for {TTL_DAYS} days and then permanently deleted.
             {' '}{subjFirst} can also delete everything before that.
           </p>
+          <ToolFeedback
+            formspreeId="mzdwwygz"
+            toolName="Many Mirrors"
+            role="evaluator"
+            initialQuestion="Was this easy to use?"
+            positivePrompt="What worked well?"
+            negativePrompt="What could have made it easier?"
+          />
         </div>
       </main>
     );
