@@ -1,12 +1,42 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 29, 2026 — ToolFeedback component added (commit `4da2739`). Earlier same day: Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
+**Last updated:** May 29, 2026 — ToolFeedback rolled out to all tools (commits `321282a`, `b0ea01d`). Earlier same day: ToolFeedback component + Many Mirrors wiring (commit `4da2739`); Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-29 — ToolFeedback rolled out to all tools (commits `321282a`, `b0ea01d`)
+
+ToolFeedback is now live on every tool. Commits `321282a` (9 tools) and `b0ea01d` (PreMortem + LCA).
+
+**Full wiring map:**
+
+| Tool | File | Injection point | Prompts |
+|------|------|-----------------|---------|
+| Three Moments | `ThreeMoments.jsx` | Step 6, after download/email buttons | subject defaults |
+| LCP Debrief | `LCP.jsx` | Results phase, before `</main>` | subject defaults |
+| Culture Change Vision | `Vision.jsx` | Step 8 (download confirmation), before `</main>` | subject defaults |
+| Five Lives | `FiveLives.jsx` | Letter screen, after "Port to next tool" CTA | subject defaults |
+| Smallest Viable Experiment | `SmallestViableExperiment.jsx` | Results screen, after download button | subject defaults |
+| Identity Box | `IdentityBox.jsx` | Step 6, after download/email buttons | subject defaults |
+| Challenge Mapper | `ChallengeMapper.jsx` | ActionPlan component, after download button | subject defaults |
+| Creative Collision | `CreativeCollision.jsx` | PhaseResults component, before `</PhaseShell>` | subject defaults |
+| Open Facilitation (contributor) | `FacilitateYourWay.jsx` | `contribute-done` step | evaluator prompts ("Was this easy to use?") |
+| Many Mirrors (subject) | `ManyMirrors.jsx` | `report` step, `!isPublicView` guard | subject defaults |
+| Many Mirrors (evaluator) | `ManyMirrors.jsx` | `eval-done` step | evaluator prompts |
+| Pre-Mortem | `PreMortem.jsx` | Below "Opens in a new tab" note | subject defaults |
+| Leadership Capacities Analysis | `LeadershipCapacitiesAnalysis.jsx` | Below the embedded `lsa-root` div | subject defaults |
+
+**Imperfect placements (flag for future improvement):**
+- **Pre-Mortem** — the tool opens in a new tab (external Claude artifact). Widget sits on the landing page. Users see it on return, but there's no completion hook. Proper fix requires rebuilding as a native InciteU tool.
+- **LCA** — the tool is a self-contained HTML/CSS/JS app rendered via `dangerouslySetInnerHTML` into `<div ref={rootRef} />`. No React completion state is accessible. Widget appears below the assessment, always visible. Proper fix requires a React rebuild of LCA.
+
+**Skipped intentionally:** Readiness (splash redirect), PurposeSmallMoves (landing), EmotionsAsInformation (landing), FacilitateYourWay facilitator dashboard (no clear completion state), CultureChangeModel (self-contained sub-app with zero-sibling-import invariant).
+
+---
 
 ## 2026-05-29 — ToolFeedback component (commit `4da2739`)
 
