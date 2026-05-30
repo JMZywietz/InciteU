@@ -1,12 +1,40 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 28, 2026 — Many Mirrors 360 tool shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
+**Last updated:** May 29, 2026 — Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-29 — Report UI polish + email live + autosave + self-survey + Word doc
+
+**Email (Resend) fully live.**
+- Domain `inciteu.com` verified in Resend. DNS is at **GoDaddy** (nameservers `ns25/26.domaincontrol.com`) — add Resend DNS records there, not in Vercel.
+- `RESEND_API_KEY` → Vercel → Environment Variables → Production. Without it the build still works; only email sending is skipped.
+- Critical fix: invite emails were fire-and-forget (`sendInviteEmail(...)` not awaited). Vercel froze the function before the Resend fetch completed → `write ETIMEDOUT`. Fixed: `await Promise.allSettled(emailJobs)` in `create.js`; individual `try { await sendInviteEmail(...) } catch` in `[action].js`. **Always await async I/O before returning from a Vercel serverless function.**
+- Dashboard link email: subject receives their dashboard URL on session create (if email provided). `sendDashboardLinkEmail` in `_lib.js`, called in `create.js`.
+
+**Share link: tokenless evaluator support.**
+`?code=X&v=e` (no `&t=`) now accepts submissions. The `responses` handler creates a self-identified evaluator from the typed name. Names are self-reported by design. Frontend guard: no token + blank name → "Please add your name." Autosave prevents data loss on stale-bundle reloads.
+
+**Self-survey.**
+- Second-person phrasing: `RECOMMENDED_QUESTIONS_SELF` map in `ManyMirrors.jsx` (no q5).
+- Q5 dropped from self-survey — you cannot meaningfully identify your own blind spots. Only applies to the recommended set (detected via `isRecommendedQuestionSet()`).
+
+**Autosave for both survey flows.**
+`localStorage` keyed `mm_draft_{code}_{role}_{token|'shared'}`. Saved on every answer change; restored on re-entry; cleared on successful submit.
+
+**Report UI — full visual design pattern in §12.**
+Overview warm-gold collapsible box. Q-chip nav. Quotes first. Parallel colour-coded P/O/A boxes. Alignments/Gaps side-by-side boxes. `MirrorsArtwork` in report header (meta inside flex column to prevent gap). Font floor: ≥13px everywhere.
+
+**Word doc: HTML-as-.doc, client-side, zero new serverless functions.**
+`downloadReportAsWord()` builds an HTML string + triggers `.doc` download via `Blob`. No new npm dep; Word/Google Docs open it fine.
+
+**GitHub PAT needs rotation** — used in plaintext throughout this session. Regenerate at GitHub → Settings → Developer settings → Personal access tokens.
+
+---
 
 ## 2026-05-28 — Many Mirrors shipped + GitHub REST API push path + `[action]` router pattern
 
@@ -896,3 +924,119 @@ Many Mirrors = 3 counted functions (`create`, `[code]`, `[code]/[action]`); `_li
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` (shared Upstash Redis, already set)
 - `ANTHROPIC_API_KEY` (already set)
 - `RESEND_API_KEY` — NEW; required for invite emails. Without it, build and page still work; only email sending is skipped.
+
+
+---
+
+## §12 — Visual design pattern: making text-heavy pages engaging
+
+**Reference implementation:** `src/tools/ManyMirrors.jsx` — `welcome` step (right-column artwork) and `report` step (all patterns). Apply these to any InciteU tool that currently presents a wall of text. No backend changes needed — all inline-style JSX.
+
+---
+
+### 1. SVG artwork alongside headers
+
+Define an inline SVG component at the top of the tool file. Use it twice: full-size on the welcome/landing step (right column of a flex row, ~320px), and smaller on the results/report header (~140px, opacity 0.75).
+
+**Critical:** put the subtitle/meta line *inside* the text column of the flex wrapper, not after the closing `</div>`. If it is outside, the artwork height creates a visible gap between title and date. `marginBottom` for the gap before the next section belongs on the outer flex div.
+
+```jsx
+<div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start',
+              gap:32, flexWrap:'wrap', marginBottom:40 }}>
+  <div style={{ flex:'1 1 300px' }}>
+    <div style={{ ...eyebrow }}>Tool name</div>
+    <h1>Title</h1>
+    <p style={{ marginTop:4, marginBottom:0 }}>Generated May 29…</p>  {/* inside */}
+  </div>
+  <div style={{ flexShrink:0, opacity:0.75 }}><ToolArtwork width={140} /></div>
+</div>
+```
+
+---
+
+### 2. Summary anchor box
+
+The top section of a results page should be a warm-gold tinted box — visually distinct from the content below and clearly readable as "start here."
+
+```jsx
+<section style={{ background:'rgba(232,217,168,0.09)', border:'1px solid rgba(232,217,168,0.22)',
+                  borderRadius:8, padding:'24px 28px', marginBottom:48 }}>
+```
+
+Add a collapsible for long content — `overflow:hidden` + `maxHeight` + toggle button. **Never** use a gradient fade-to-background inside a tinted box: any opaque colour mismatch renders as a visible coloured block. Let `overflow:hidden` clip cleanly; the button is the affordance.
+
+---
+
+### 3. Parallel colour-coded category boxes
+
+Logically parallel sections (Patterns/Outliers/Absences, Alignments/Gaps, Pros/Cons…) should sit side-by-side in a flex container rather than stacking vertically. `flex: '1 1 180px'` wraps on narrow screens.
+
+```jsx
+<div style={{ display:'flex', gap:14, flexWrap:'wrap', marginBottom:22 }}>
+  {data.patterns?.length > 0 && (
+    <div style={{ flex:'1 1 180px', background:'rgba(160,200,235,0.10)',
+                  border:'1px solid rgba(160,200,235,0.28)', borderRadius:6, padding:'14px 18px' }}>
+      <div style={{ ...fieldLabel, marginBottom:10 }}>Patterns</div>
+      {data.patterns.map((p,i) => <p key={i} style={{ fontSize:14, lineHeight:1.7, marginTop:0 }}>{p}</p>)}
+    </div>
+  )}
+  {/* Outliers:   rgba(235,190,130,0.10) / rgba(235,190,130,0.28) */}
+  {/* Absences:   rgba(130,220,190,0.09) / rgba(130,220,190,0.25) */}
+  {/* Alignments: rgba(150,225,175,0.09) / rgba(150,225,175,0.25) */}
+  {/* Gaps/Risk:  rgba(210,155,175,0.09) / rgba(210,155,175,0.25) */}
+</div>
+```
+
+**Colour palette** (all tested on `#142B5C` sapphire):
+
+| Category | bg | border |
+|----------|----|--------|
+| Overview/Quotes | `rgba(232,217,168,0.09)` | `rgba(232,217,168,0.22)` |
+| Patterns | `rgba(160,200,235,0.10)` | `rgba(160,200,235,0.28)` |
+| Outliers | `rgba(235,190,130,0.10)` | `rgba(235,190,130,0.28)` |
+| Absences | `rgba(130,220,190,0.09)` | `rgba(130,220,190,0.25)` |
+| Alignments | `rgba(150,225,175,0.09)` | `rgba(150,225,175,0.25)` |
+| Gaps | `rgba(210,155,175,0.09)` | `rgba(210,155,175,0.25)` |
+
+---
+
+### 4. Pull quotes
+
+```jsx
+{quotes.map((q, i) => (
+  <p key={i} style={{
+    fontFamily: F.serif, fontSize: 17, fontStyle: 'italic',
+    color: i % 2 === 0 ? C.cream : palette.accentMuted,  // alternate
+    lineHeight: 1.35,   // tight within one quote
+    marginBottom: 22,   // generous between quotes
+  }}>&ldquo;{q}&rdquo;</p>
+))}
+```
+
+---
+
+### 5. Font floor
+
+| Element | Size |
+|---------|------|
+| Eyebrow / counter labels | ≥13px |
+| Meta / small text | 14–15px |
+| Body synthesis | 15px |
+| Question text (sans) | 17px |
+| Pull quotes (serif italic) | 17px |
+| Section headings | `heading(26–28)` |
+
+Override `fontSize` when using the `eyebrow` style — it defaults to 11px in `styles.js`.
+
+---
+
+### 6. Upgrade checklist
+
+1. Add an inline SVG artwork component; place alongside the main heading.
+2. Wrap the top summary in the warm-gold anchor box with collapsible.
+3. Replace stacked parallel sections with the flex colour-box pattern.
+4. Style any verbatim quotes as pull quotes with alternating colour.
+5. Check all font sizes — bump anything below 13px.
+6. Sanity-check: the page should read as *sections*, not a continuous scroll of paragraphs.
+
+Living reference: `inciteu.com/tools/self/many-mirrors` with a generated report.
