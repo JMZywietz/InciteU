@@ -4,6 +4,7 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import * as ccStorage from '../lib/ccStorage.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // =============================================================================
 // CREATIVE COLLISION — InciteU team tool
@@ -2579,6 +2580,14 @@ function PhaseResults({ mode, frame, synthesis, decision, collisionState, sessio
           New collision
         </button>
       </div>
+      <ToolFeedback
+        formspreeId="mzdwwygz"
+        toolName="Creative Collision"
+        role="subject"
+        initialQuestion="Did this tool help?"
+        positivePrompt="What made it useful?"
+        negativePrompt="What could have made it more useful?"
+      />
     </PhaseShell>
   );
 }

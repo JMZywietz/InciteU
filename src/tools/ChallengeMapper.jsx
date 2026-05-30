@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { C as baseC, F } from '../theme.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 const C = { ...baseC, creamMuted: 'rgba(240,235,219,0.55)', sageMuted: 'rgba(197,212,155,0.35)', warmAccent: '#E8C87A', alert: '#D4785C' };
 
@@ -201,6 +202,14 @@ function ActionPlan({ challenge, parts, reflection }) {
       <CynefinGrid parts={parts} showNextSteps={true} />
       {reflection && (<div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '16px 20px', marginTop: 32 }}><p style={{ fontFamily: F.sans, fontSize: 12, color: C.sage, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 6 }}>Reflections</p><p style={{ fontFamily: F.sans, fontSize: 14, color: C.creamMuted, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{reflection}</p></div>)}
       <div style={{ marginTop: 32 }}><button onClick={handleDownload} style={primaryBtn} onMouseEnter={e => { e.target.style.background = C.cream; e.target.style.transform = 'translateY(-2px)'; }} onMouseLeave={e => { e.target.style.background = C.sage; e.target.style.transform = 'translateY(0)'; }}>Download Action Plan</button></div>
+      <ToolFeedback
+        formspreeId="mzdwwygz"
+        toolName="Challenge Mapper"
+        role="subject"
+        initialQuestion="Did this tool help?"
+        positivePrompt="What made it useful?"
+        negativePrompt="What could have made it more useful?"
+      />
     </div>
   );
 }

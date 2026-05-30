@@ -5,6 +5,7 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { escapeHTML } from '../lib/utils.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================================
 // IDENTITY BOX
@@ -745,6 +746,14 @@ ${synthesis ? `<div class="ai"><h2 style="margin-top:0;border:none;padding:0;">A
             <button onClick={downloadPDF} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Download as PDF</button>
             <button onClick={emailMyself} style={btn('secondary')}>Email to myself</button>
           </div>
+          <ToolFeedback
+            formspreeId="mzdwwygz"
+            toolName="Identity Box"
+            role="subject"
+            initialQuestion="Did this tool help?"
+            positivePrompt="What made it useful?"
+            negativePrompt="What could have made it more useful?"
+          />
         </div>
       )}
     </main>

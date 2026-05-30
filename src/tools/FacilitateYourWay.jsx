@@ -3,6 +3,7 @@ import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================
 // Facilitate Your Way — multi-contributor session tool
@@ -447,6 +448,14 @@ export default function FacilitateYourWay() {
         <p style={{ fontFamily: F.sans, fontSize: 16, color: 'rgba(240,235,219,0.7)', lineHeight: 1.75, maxWidth: 520 }}>
           Thank you. The facilitator will review responses and share insights with the group.
         </p>
+        <ToolFeedback
+          formspreeId="mzdwwygz"
+          toolName="Open Facilitation"
+          role="evaluator"
+          initialQuestion="Was this easy to use?"
+          positivePrompt="What worked well?"
+          negativePrompt="What could have made it easier?"
+        />
       </div>
     );
   }

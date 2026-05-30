@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================
 // Five Lives — purpose-finding tool
@@ -446,6 +447,14 @@ ${letter ? `<div class="letter-card"><h2>A letter back to you</h2><div class="le
               </button>
             </div>
           )}
+          <ToolFeedback
+            formspreeId="mzdwwygz"
+            toolName="Five Lives"
+            role="subject"
+            initialQuestion="Did this tool help?"
+            positivePrompt="What made it useful?"
+            negativePrompt="What could have made it more useful?"
+          />
         </div>
       </div>
     );

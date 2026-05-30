@@ -4,6 +4,7 @@ import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================================
 // DATA
@@ -395,6 +396,14 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
         <button onClick={() => setPhase('enter-scores')} style={btn('secondary')}>Pick differently</button>
         <button onClick={() => navigate('home')} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Back to all tools</button>
       </div>
+      <ToolFeedback
+        formspreeId="mzdwwygz"
+        toolName="LCP Debrief"
+        role="subject"
+        initialQuestion="Did this tool help?"
+        positivePrompt="What made it useful?"
+        negativePrompt="What could have made it more useful?"
+      />
     </main>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================
 // Smallest Viable Experiment — turns longing into reversible action
@@ -837,6 +838,14 @@ ${scaleSections}
             <button className="sve-btn-secondary" style={s.btnSecondary} onClick={restart}>← Start over</button>
             <button className="sve-btn-primary" style={s.btnPrimary} onClick={downloadHTML}>Download ↓</button>
           </div>
+          <ToolFeedback
+            formspreeId="mzdwwygz"
+            toolName="Smallest Viable Experiment"
+            role="subject"
+            initialQuestion="Did this tool help?"
+            positivePrompt="What made it useful?"
+            negativePrompt="What could have made it more useful?"
+          />
         </div>
       </div>
     );

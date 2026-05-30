@@ -5,6 +5,7 @@ import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { escapeHTML, downloadHTML } from '../lib/utils.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 // ============================================================================
 // DATA
@@ -132,6 +133,14 @@ export default function VisionPage() {
           <button onClick={() => { setStep(0); setAnswers({}); }} style={btn('secondary')}>Start again</button>
           <button onClick={() => navigate('home')} style={btn('primary')} onMouseEnter={btnHoverIn} onMouseLeave={btnHoverOut}>Back to tools</button>
         </div>
+        <ToolFeedback
+          formspreeId="mzdwwygz"
+          toolName="Culture Change Vision"
+          role="subject"
+          initialQuestion="Did this tool help?"
+          positivePrompt="What made it useful?"
+          negativePrompt="What could have made it more useful?"
+        />
       </main>
     );
   }
