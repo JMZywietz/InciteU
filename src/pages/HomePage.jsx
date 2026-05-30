@@ -80,8 +80,8 @@ export default function HomePage() {
           <CategoryCard variant="team" label="Outward" name="Face What Is" tagline="Recognize what's actually in front of you, not what you wish was" Icon={TeamIcon} iconStyle={{ top: -55, right: -55, width: 240, height: 240 }} navigate={navigate}
             toolGroups={[
               { question: 'How do I actually show up?', tools: [
-                { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
                 { name: 'Many Mirrors', description: 'Invite a small group across different areas of your life to reflect what they see — confidential, anonymous, honest', live: true, to: 'many-mirrors' },
+                { name: 'Using the Leadership Circle Profile Self Assessment', description: 'Make sense of your LCP results and what they mean', live: true, to: 'lcp' },
               ]},
               { question: 'What perspectives am I missing?', tools: [
                 { name: 'Creative Collision', description: 'Gather opposing perspectives to make your idea even better', live: true, to: 'creative-collision' },
@@ -91,7 +91,7 @@ export default function HomePage() {
                 { name: 'Decision Making (Cynefin) & Challenge Mapper', description: 'Understand the challenge you face and match your next steps to what works', live: true, to: 'challenge-mapper' },
               ]},
             ]} />
-          <CategoryCard variant="org" label="Forward" name="Lead Well" tagline="Set a direction, inspire others to join you, and keep experimenting and learning" Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
+          <CategoryCard variant="org" label="Onward" name="Lead Well" tagline="Set a direction, inspire others to join you, and keep experimenting and learning" Icon={OrgIcon} iconStyle={{ top: -50, right: -50, width: 230, height: 230 }} navigate={navigate}
             toolGroups={[
               { question: 'Where are we headed?', tools: [
                 { name: 'Culture Change Vision', description: 'Refine or build a compelling chase for change', live: true, to: 'vision' },

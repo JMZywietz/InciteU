@@ -137,7 +137,7 @@ const OUTCOMES = {
   'vision': {
     title: 'Vision',
     page: 'vision',
-    context: "Forward — articulating what you're trying to build.",
+    context: "Onward — articulating what you're trying to build.",
     description: 'Six questions that build a complete culture-change story: burning platform, north star, values, strategy, leadership, behaviours.',
     time: '20–30 min',
     mode: 'Solo or with a leadership team',
@@ -147,7 +147,7 @@ const OUTCOMES = {
   'pre-mortem': {
     title: 'Pre-Mortem',
     page: 'pre-mortem',
-    context: 'Forward — surfacing what could go wrong before it does.',
+    context: 'Onward — surfacing what could go wrong before it does.',
     description: 'Imagine the project failed. Why? Working backwards from imagined failure surfaces the risks you can still do something about.',
     time: '30–45 min',
     mode: 'Solo or with a team',
@@ -155,7 +155,7 @@ const OUTCOMES = {
   'readiness': {
     title: 'Readiness',
     page: 'readiness',
-    context: 'Forward — honest about where you actually stand.',
+    context: 'Onward — honest about where you actually stand.',
     description: 'An 18-statement self-assessment of culture-change readiness. A mirror, not a verdict.',
     time: '5–7 min',
     mode: 'Solo or with a leadership team',

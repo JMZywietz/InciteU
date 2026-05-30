@@ -30,7 +30,7 @@ const SEQUENCE = [
     ],
   },
   {
-    label: 'Forward',
+    label: 'Onward',
     name: 'Lead Well',
     accent: '#8CBAC6',
     tools: [
