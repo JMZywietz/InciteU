@@ -2132,7 +2132,7 @@ inciteu.com`}
                       <div style={{ background: 'rgba(232,217,168,0.11)', border: '1px solid rgba(232,217,168,0.28)', borderRadius: 6, padding: '18px 22px', marginBottom: 22 }}>
                         <div style={{ ...fieldLabel, marginBottom: 12 }}>Selected quotes</div>
                         {synth.quotes.map((q, i) => (
-                          <p key={i} style={{ fontFamily: F.serif, fontSize: 18, fontStyle: 'italic', color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>&ldquo;{q}&rdquo;</p>
+                          <p key={i} style={{ fontFamily: F.serif, fontSize: 22, fontStyle: 'italic', color: C.cream, lineHeight: 1.8, marginBottom: 16 }}>&ldquo;{q}&rdquo;</p>
                         ))}
                       </div>
                     )}
