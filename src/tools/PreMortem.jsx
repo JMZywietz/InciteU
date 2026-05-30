@@ -3,6 +3,7 @@ import { C, F } from '../theme.js';
 import { btn, btnHoverIn, btnHoverOut, eyebrow, heading } from '../styles.js';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 
 const PREMORTEM_URL = 'https://claude.ai/public/artifacts/b6fdfb33-8a4a-4237-b58d-0f24d5cb814e';
 
@@ -68,6 +69,14 @@ export default function PreMortemPage() {
       <p style={{ fontSize: 12, color: C.creamMuted, marginTop: 28, fontStyle: 'italic', maxWidth: 540 }}>
         Opens in a new tab. The tool itself runs as a published Claude artifact.
       </p>
+      <ToolFeedback
+        formspreeId="mzdwwygz"
+        toolName="Pre-Mortem"
+        role="subject"
+        initialQuestion="Did this tool help?"
+        positivePrompt="What made it useful?"
+        negativePrompt="What could have made it more useful?"
+      />
     </main>
   );
 }

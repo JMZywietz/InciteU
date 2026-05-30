@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useAppNavigate } from '../lib/useAppNavigate.js';
 import { synthesize, extractText } from '../lib/synthesize.js';
 import SEO from '../components/SEO.jsx';
+import ToolFeedback from '../components/ToolFeedback.jsx';
 import LSA_SCRIPT from './LCA_runtime.js?raw';
 
 // ============================================================================
@@ -1907,6 +1908,16 @@ export default function LeadershipStanceAssessmentPage() {
       />
       <style>{LSA_CSS}</style>
       <div ref={rootRef} className="lsa-root" />
+      <div style={{ padding: '0 6vw 60px', maxWidth: 860, margin: '0 auto' }}>
+        <ToolFeedback
+          formspreeId="mzdwwygz"
+          toolName="Leadership Capacities Analysis"
+          role="subject"
+          initialQuestion="Did this tool help?"
+          positivePrompt="What made it useful?"
+          negativePrompt="What could have made it more useful?"
+        />
+      </div>
     </>
   );
 }
