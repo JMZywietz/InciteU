@@ -1,12 +1,38 @@
 # InciteU — Handover for Future Sessions
 
-**Last updated:** May 29, 2026 — ToolFeedback rolled out to all tools (commits `321282a`, `b0ea01d`). Earlier same day: ToolFeedback component + Many Mirrors wiring (commit `4da2739`); Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
+**Last updated:** May 30, 2026 — Toolkit page (`/tools`) shipped + header Tools repointed; Forward→Onward category rename; Many Mirrors moved above LCP; Purpose tool shown as 'Many Lives' in nav; LCP renamed 'Understanding your Leadership Circle Profile'; new Identity Box home copy; 'chase'→'case' fix (commits `df05066`, `c256d96`, `f32dfc2`, `c81bfe5`). Earlier (May 29): ToolFeedback rolled out to all tools (commits `321282a`, `b0ea01d`). Earlier same day: ToolFeedback component + Many Mirrors wiring (commit `4da2739`); Report UI + email live + autosave + self-survey + Word doc + §12. Earlier (May 28): Many Mirrors shipped (commit `80024ee`); its 8 API endpoints consolidated into the `[action]` router to fit Vercel's 12-function Hobby cap (repo now at 12/12); primary push path is now the GitHub REST API via token, with Composio as fallback. Earlier (May 23, late evening): Person.image added to JSON-LD + Formspree wired on contact form (commit `650fc8e`). Earlier same day: SEO scan audit, handover updated with web_fetch vs Composio API read-path lesson (commit `0e5ab3a`). Earlier-earlier same day: canonical, theme-color, og dimensions, robots.txt Disallow /api/, sitemap.xml casing fix (commit `48f0e89`).
 **Owner:** Jen Zywietz (jennmay@gmail.com)
 **Repo:** https://github.com/JMZywietz/InciteU
 **Live site:** https://inciteu.vercel.app (custom domain pending → inciteu.com)
 
 ---
 
+
+## 2026-05-30 — Toolkit page (`/tools`) shipped + Onward rename + nav/tool renames
+
+Commits (oldest → newest): `df05066`, `c256d96`, `f32dfc2`, `c81bfe5`.
+
+**New: Toolkit index page.** `src/pages/ToolkitPage.jsx` — flat 3-column grid (Inward / Outward / Onward) listing every tool with an eyebrow + short "what it does" description; live cards `navigate(t.to)` to the tool, not-live cards render dimmed "Coming soon". Uses real theme tokens (`C.bgCardSelf/Team/Org`, `eyebrow`, `heading`). Wired via `PATHS.toolkit = '/tools'` + `STATE_TO_PATH.toolkit` (routes.js) and a `<Route>` in App.jsx. The header **"Tools"** item now opens `/tools` (was `navigate('home','tools-anchor')`; the special-case branch was removed and the navItem id changed `home-tools` → `toolkit`). Build verified green (vite, 79 modules).
+- ⚠️ **Reverses a prior decision.** §9 previously said a "Tools Library" was considered and *rejected* on IA-debt grounds. This page is that index. Treated as a launcher, not a replacement for the homepage's 3-bucket IA. §9 note updated to match.
+- The homepage `#tools-anchor` category section still renders and is now an **orphaned duplicate** (nothing links to it). Open question for Jen: trim to a teaser or drop it.
+
+**Category rename Forward → Onward** (display label only; internal `variant` stays `org`). 5 occurrences: HomePage card, WhereToStartPage `label`, 3× QuizPage `context`. "A Dual Path Forward" in CultureChangeModel intentionally left alone (different word).
+
+**Tool renames (display only — routes/state keys UNCHANGED):**
+- Purpose and Small Moves → **"Many Lives"** on homepage + toolkit **nav labels only**. `PurposeSmallMoves.jsx` keeps its own "Purpose — and the small moves to live it" identity on purpose: the tool is a *paired* practice (Five Lives + Smallest Viable Experiment) and "Many Lives" names only half of it. **Do not "fix" this mismatch — it is intentional** (per-page wording, Jen's call, option a).
+- LCP nav label → **"Understanding your Leadership Circle Profile"** on HomePage, WhereToStartPage, and the LCP page SEO `<title>` (all 3 render states). LCP page h1 ("Working with your circle") left as-is.
+
+**Homepage copy:** fixed typo "compelling **chase** for change" → "**case**"; new Identity Box line ("We all spend energy to make sure others view us in a good light… and the hidden costs it might have"); **Many Mirrors moved above LCP** in the Outward card.
+
+**Wording principle (Jen):** homepage = *what problem the tool solves*; toolkit = *what the tool does*. Same tool may carry different copy per page by design. (Homepage copy is not yet consistently problem-voiced — a future pass could align it.)
+
+**Toolkit eyebrows** (unique, imperative): Look Back · Drop the Mask · Explore The Future · Use Your Emotions · Gather Perspectives · Assess Yourself · Improve Ideas · Poll the Group · Map the Challenge · Circumvent Failure · Set a Direction · Take Stock.
+
+**Process notes for future sessions:**
+- `raw.githubusercontent.com` was serving a **stale** `routes.js`/`App.jsx` this session (missing 6 routes that were actually live). Clone the repo for ground truth; do not trust the raw CDN for routing files.
+- Pushes used `git clone` + `git push` (HTTPS token). First push failed with **GH007 "would publish a private email"** — fixed by committing as `JMZywietz@users.noreply.github.com`. Use that author email for git-CLI pushes. `main` was receiving parallel pushes; rebase-before-push handled it.
+
+---
 
 ## 2026-05-29 — ToolFeedback rolled out to all tools (commits `321282a`, `b0ea01d`)
 
@@ -260,7 +286,7 @@ JMZywietz/InciteU/
 **Homepage category cards** (renamed May 11, 2026 session):
 - **Inward → "Live Well"** (variant=self) — *Who You Are · What Drives You · What Sustains You*
 - **Outward → "Face What Is"** (variant=team) — *Understand Yourself · Understand Others · Understand Reality*; houses the Decision Toolkit
-- **Forward → "Lead Well"** (variant=org) — *Set Direction · Make It Happen · Sustain & Renew*
+- **Onward → "Lead Well"** (variant=org) — *Set Direction · Make It Happen · Sustain & Renew*
 
 CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in addition to the flat `tools` array. Each tool item now supports an optional `description` field rendered in italic serif below the name. The 'Available / Coming soon' badge has been retired; coming-soon tools (where `live: false`) are dimmed in place and show `description: 'Coming soon'`. The homepage uses `toolGroups`.
 
@@ -278,6 +304,7 @@ CategoryCard.jsx supports `toolGroups` (labeled sub-sections within a card) in a
 - ContactPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ContactPage.jsx
 - WhereToStartPage (two-paths landing): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/WhereToStartPage.jsx
 - QuizPage (wizard): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/QuizPage.jsx
+- ToolkitPage (`/tools` index grid): https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ToolkitPage.jsx
 - ThinkPage: https://raw.githubusercontent.com/JMZywietz/InciteU/main/src/pages/ThinkPage.jsx
 
 ### Components
@@ -832,7 +859,7 @@ Both the scrollytelling and Challenge Mapper define these as local extensions: `
 |------|------|-------|----------|
 | Identity Box | `src/tools/IdentityBox.jsx` | `/tools/self/identity-box` | Yes (peel-whispers + optional synthesis) |
 | Three Moments | `src/tools/ThreeMoments.jsx` | `/tools/self/three-moments` | Yes (optional synthesis) |
-| Using the Leadership Circle Profile Self Assessment (LCP) | `src/tools/LCP.jsx` | `/tools/self/lcp` | Yes (synthesis) |
+| Understanding your Leadership Circle Profile (LCP) | `src/tools/LCP.jsx` | `/tools/self/lcp` | Yes (synthesis) |
 | Leadership Capacities Analysis | `src/tools/LeadershipCapacitiesAnalysis.jsx` | `/tools/self/leadership-capacities` | Unknown — fetch the file |
 | Purpose (Five Lives) | `src/tools/FiveLives.jsx` | `/tools/self/five-lives` | Unknown — fetch the file |
 | Smallest Viable Experiment | `src/tools/SmallestViableExperiment.jsx` | `/tools/self/smallest-viable-experiment` | Unknown — fetch the file |
@@ -873,7 +900,7 @@ Status legend: 🟢 Built and live · 🟡 Designed, not built · 🔴 Idea, no 
 - Sustain & Renew: Post-Mortem 🟡
 
 Notes for future Claudes:
-- Every tool fits the existing 3-bucket / 9-sub-bucket IA. There is no "Tools Library" — adding one was considered and rejected (would create IA debt). Place new tools where users would naturally look for them.
+- Every tool fits the existing 3-bucket / 9-sub-bucket IA. **Revisited 2026-05-30:** a flat Toolkit index was shipped at `/tools` (header "Tools" opens it). This reverses the earlier rejection of a "Tools Library" on IA-debt grounds; it is treated as a launcher/index, not a replacement for the homepage IA. Still place new tools in their natural 3-bucket home **and** add them to the toolkit grid (`src/pages/ToolkitPage.jsx`).
 - Open Facilitation is conceptually a flavor of "Surfacing Perspectives" — async, AI-aided. When Surfacing Perspectives gets built, may want to think about how the two relate (anchor vs Wave 2, etc.). Not urgent.
 - The handover doc's older "coming-soon tools" list (immediately above this roadmap) is the SHORTER list of just the *placeholders shown on the homepage*. The roadmap above is Jen's fuller vision.
 
