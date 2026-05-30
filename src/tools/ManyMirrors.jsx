@@ -2054,20 +2054,20 @@ inciteu.com`}
         )}
 
         <div className="mm-wrap">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32, flexWrap: 'wrap', marginBottom: 40 }}>
             <div style={{ flex: '1 1 300px' }}>
               <div style={{ ...eyebrow, marginBottom: 12 }}>Many Mirrors</div>
-              <h1 style={{ ...heading(48), marginBottom: 14 }}>Your Many Mirrors report</h1>
+              <h1 style={{ ...heading(48), marginBottom: 10 }}>Your Many Mirrors report</h1>
+              {(dateStr || completedCount) && (
+                <p style={{ fontFamily: F.sans, fontSize: 15, color: C.creamMuted, marginTop: 4, marginBottom: 0, fontStyle: 'italic' }}>
+                  {dateStr ? `Generated ${dateStr}` : ''}
+                  {completedCount > 0 ? ` · ${completedCount} evaluator${completedCount === 1 ? '' : 's'}` : ''}
+                  {categoryList ? ` across ${categoryList}` : ''}
+                </p>
+              )}
             </div>
-            <div style={{ flexShrink: 0, opacity: 0.75, marginTop: 8 }}><MirrorsArtwork width={200} /></div>
+            <div style={{ flexShrink: 0, opacity: 0.75 }}><MirrorsArtwork width={140} /></div>
           </div>
-          {(dateStr || completedCount) && (
-            <p style={{ fontFamily: F.sans, fontSize: 15, color: C.creamMuted, marginBottom: 40, fontStyle: 'italic' }}>
-              {dateStr ? `Generated ${dateStr}` : ''}
-              {completedCount > 0 ? ` · ${completedCount} evaluator${completedCount === 1 ? '' : 's'}` : ''}
-              {categoryList ? ` across ${categoryList}` : ''}
-            </p>
-          )}
 
           {/* Overview — distinct box, collapsible when long */}
           {report.overview && Array.isArray(report.overview.themes) && report.overview.themes.length > 0 && (
@@ -2082,9 +2082,7 @@ inciteu.com`}
                     {t}
                   </p>
                 ))}
-                {!overviewExpanded && report.overview.themes.length > 2 && (
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3rem', background: 'linear-gradient(transparent, rgba(27,53,98,0.97))', pointerEvents: 'none' }} />
-                )}
+
               </div>
               {report.overview.themes.length > 2 && (
                 <button
@@ -2132,7 +2130,7 @@ inciteu.com`}
                       <div style={{ background: 'rgba(232,217,168,0.11)', border: '1px solid rgba(232,217,168,0.28)', borderRadius: 6, padding: '18px 22px', marginBottom: 22 }}>
                         <div style={{ ...fieldLabel, marginBottom: 12 }}>Selected quotes</div>
                         {synth.quotes.map((q, i) => (
-                          <p key={i} style={{ fontFamily: F.serif, fontSize: 22, fontStyle: 'italic', color: C.cream, lineHeight: 1.8, marginBottom: 16 }}>&ldquo;{q}&rdquo;</p>
+                          <p key={i} style={{ fontFamily: F.serif, fontSize: 17, fontStyle: 'italic', color: i % 2 === 0 ? C.cream : palette.accentMuted, lineHeight: 1.35, marginBottom: 22 }}>&ldquo;{q}&rdquo;</p>
                         ))}
                       </div>
                     )}
