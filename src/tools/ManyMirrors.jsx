@@ -1926,7 +1926,7 @@ inciteu.com`}
             const ans = (answers[qid] || '').trim();
             return (
               <div key={qid} style={{ background: palette.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 14 }}>
-                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
+                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1}</div>
                 <p style={{ fontFamily: F.serif, fontSize: 17, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 12 }}>{qText}</p>
                 {ans ? (
                   <p style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginTop: 0, marginBottom: 12, whiteSpace: 'pre-wrap' }}>{ans}</p>
@@ -2083,7 +2083,7 @@ inciteu.com`}
                   </p>
                 ))}
                 {!overviewExpanded && report.overview.themes.length > 2 && (
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3rem', background: 'linear-gradient(transparent, rgba(20,43,92,0.95))', pointerEvents: 'none' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '3rem', background: 'linear-gradient(transparent, rgba(27,53,98,0.97))', pointerEvents: 'none' }} />
                 )}
               </div>
               {report.overview.themes.length > 2 && (
@@ -2125,20 +2125,20 @@ inciteu.com`}
                 const qText = questionTextById(qid);
                 return (
                   <div key={qid} style={{ marginBottom: 40 }}>
-                    <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
-                    <p style={{ fontFamily: F.serif, fontSize: 19, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 20, fontStyle: 'italic' }}>{qText}</p>
+                    <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1}</div>
+                    <p style={{ fontFamily: F.sans, fontSize: 17, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 20 }}>{qText}</p>
 
                     {Array.isArray(synth.quotes) && synth.quotes.length > 0 && (
-                      <div style={{ background: 'rgba(240,235,219,0.05)', border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 22 }}>
+                      <div style={{ background: 'rgba(232,217,168,0.11)', border: '1px solid rgba(232,217,168,0.28)', borderRadius: 6, padding: '18px 22px', marginBottom: 22 }}>
                         <div style={{ ...fieldLabel, marginBottom: 12 }}>Selected quotes</div>
                         {synth.quotes.map((q, i) => (
-                          <p key={i} style={{ fontFamily: F.serif, fontSize: 15, fontStyle: 'italic', color: C.cream, lineHeight: 1.7, marginBottom: 12 }}>&ldquo;{q}&rdquo;</p>
+                          <p key={i} style={{ fontFamily: F.serif, fontSize: 18, fontStyle: 'italic', color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>&ldquo;{q}&rdquo;</p>
                         ))}
                       </div>
                     )}
                     <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 22 }}>
                       {Array.isArray(synth.patterns) && synth.patterns.length > 0 && (
-                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                        <div style={{ flex: '1 1 180px', background: 'rgba(160,200,235,0.10)', border: '1px solid rgba(160,200,235,0.28)', borderRadius: 6, padding: '14px 18px' }}>
                           <div style={{ ...fieldLabel, marginBottom: 10 }}>Patterns</div>
                           {synth.patterns.map((p, i) => (
                             <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
@@ -2146,7 +2146,7 @@ inciteu.com`}
                         </div>
                       )}
                       {Array.isArray(synth.outliers) && synth.outliers.length > 0 && (
-                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                        <div style={{ flex: '1 1 180px', background: 'rgba(235,190,130,0.10)', border: '1px solid rgba(235,190,130,0.28)', borderRadius: 6, padding: '14px 18px' }}>
                           <div style={{ ...fieldLabel, marginBottom: 10 }}>Outliers</div>
                           {synth.outliers.map((p, i) => (
                             <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
@@ -2154,7 +2154,7 @@ inciteu.com`}
                         </div>
                       )}
                       {Array.isArray(synth.absences) && synth.absences.length > 0 && (
-                        <div style={{ flex: '1 1 180px', background: 'rgba(240,235,219,0.04)', border: `1px solid ${C.line}`, borderRadius: 6, padding: '14px 18px' }}>
+                        <div style={{ flex: '1 1 180px', background: 'rgba(130,220,190,0.09)', border: '1px solid rgba(130,220,190,0.25)', borderRadius: 6, padding: '14px 18px' }}>
                           <div style={{ ...fieldLabel, marginBottom: 10 }}>Notably absent</div>
                           {synth.absences.map((p, i) => (
                             <p key={i} style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginBottom: 10, marginTop: 0 }}>{p}</p>
@@ -2177,25 +2177,27 @@ inciteu.com`}
           {report.selfReflection && (Array.isArray(report.selfReflection.alignments) || Array.isArray(report.selfReflection.gaps)) && (
             <section style={{ marginBottom: 48 }}>
               <h2 style={{ ...heading(28), marginBottom: 8 }}>Your self-survey, alongside what others said</h2>
-              <p style={{ fontFamily: F.serif, fontSize: 15, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 24 }}>
+              <p style={{ fontFamily: F.serif, fontSize: 17, color: C.creamMuted, fontStyle: 'italic', marginTop: 0, marginBottom: 28 }}>
                 Where your view of yourself matches what evaluators saw — and where it doesn't.
               </p>
-              {Array.isArray(report.selfReflection.alignments) && report.selfReflection.alignments.length > 0 && (
-                <div style={{ marginBottom: 28 }}>
-                  <div style={{ ...fieldLabel, marginBottom: 12 }}>Alignments</div>
-                  {report.selfReflection.alignments.map((a, i) => (
-                    <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>{a}</p>
-                  ))}
-                </div>
-              )}
-              {Array.isArray(report.selfReflection.gaps) && report.selfReflection.gaps.length > 0 && (
-                <div style={{ marginBottom: 12 }}>
-                  <div style={{ ...fieldLabel, marginBottom: 12 }}>Gaps</div>
-                  {report.selfReflection.gaps.map((g, i) => (
-                    <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14 }}>{g}</p>
-                  ))}
-                </div>
-              )}
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 8 }}>
+                {Array.isArray(report.selfReflection.alignments) && report.selfReflection.alignments.length > 0 && (
+                  <div style={{ flex: '1 1 220px', background: 'rgba(150,225,175,0.09)', border: '1px solid rgba(150,225,175,0.25)', borderRadius: 6, padding: '18px 22px' }}>
+                    <div style={{ ...fieldLabel, marginBottom: 12 }}>Alignments</div>
+                    {report.selfReflection.alignments.map((a, i) => (
+                      <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14, marginTop: 0 }}>{a}</p>
+                    ))}
+                  </div>
+                )}
+                {Array.isArray(report.selfReflection.gaps) && report.selfReflection.gaps.length > 0 && (
+                  <div style={{ flex: '1 1 220px', background: 'rgba(210,155,175,0.09)', border: '1px solid rgba(210,155,175,0.25)', borderRadius: 6, padding: '18px 22px' }}>
+                    <div style={{ ...fieldLabel, marginBottom: 12 }}>Gaps</div>
+                    {report.selfReflection.gaps.map((g, i) => (
+                      <p key={i} style={{ fontFamily: F.sans, fontSize: 15, color: C.cream, lineHeight: 1.75, marginBottom: 14, marginTop: 0 }}>{g}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
             </section>
           )}
 
@@ -2369,7 +2371,7 @@ inciteu.com`}
             const ans = (answers[qid] || '').trim();
             return (
               <div key={qid} style={{ background: palette.bgCard, border: `1px solid ${C.line}`, borderRadius: 4, padding: '18px 22px', marginBottom: 14 }}>
-                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1} of {orderedIds.length}</div>
+                <div style={{ ...eyebrow, fontSize: 13, marginBottom: 8 }}>Question {displayIdx + 1}</div>
                 <p style={{ fontFamily: F.serif, fontSize: 17, color: C.cream, lineHeight: 1.5, marginTop: 0, marginBottom: 12 }}>{qText}</p>
                 {ans ? (
                   <p style={{ fontFamily: F.sans, fontSize: 14, color: C.cream, lineHeight: 1.7, marginTop: 0, marginBottom: 12, whiteSpace: 'pre-wrap' }}>{ans}</p>
