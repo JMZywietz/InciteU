@@ -222,7 +222,7 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
         <SEO
-          title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+          title="Understanding your Leadership Circle Profile | InciteU"
           description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
           path="/tools/self/lcp"
         />
@@ -279,7 +279,7 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
     return (
       <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
         <SEO
-          title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+          title="Understanding your Leadership Circle Profile | InciteU"
           description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
           path="/tools/self/lcp"
         />
@@ -344,7 +344,7 @@ Write in a warm, conversational, second-person voice ("you"). No coaching jargon
   return (
     <main style={{ animation: 'fadeIn 0.4s ease', minHeight: '80vh', padding: '60px 6vw 80px', maxWidth: 820, margin: '0 auto' }}>
       <SEO
-        title="Leadership Circle Profile Self-Assessment Debrief | InciteU"
+        title="Understanding your Leadership Circle Profile | InciteU"
         description="Make sense of your free LCP self-assessment results. A guided reflection on the diagonal tension between your creative strengths and reactive patterns."
         path="/tools/self/lcp"
       />
